@@ -84,7 +84,12 @@ const currentTopics = ["Upwelling", "Global Conveyor Belt", "Ocean Temperatures"
 
 export default function Home() {
   const [selected, setSelected] = useState<Subject | null>(null);
-  const [currentTopic, setCurrentTopic] = useState(0);
+  const [currentTopic, setCurrentTopic] = useState<number | null>(null);
+
+  const openSubject = (subject: Subject) => {
+    setSelected(subject);
+    if (subject.id === "currents") setCurrentTopic(null);
+  };
 
   useEffect(() => {
     if (!selected) return;
@@ -114,7 +119,7 @@ export default function Home() {
 
           <div className="subject-grid">
             {subjects.filter((subject) => !subject.general).map((subject) => (
-              <button className={`subject-card ${subject.tone}`} key={subject.id} onClick={() => setSelected(subject)}>
+              <button className={`subject-card ${subject.tone}`} key={subject.id} onClick={() => openSubject(subject)}>
                 <span className="card-number">{subject.number}</span>
                 <div className="card-placeholder" aria-hidden="true">
                   <span>{subject.tone === "current" ? "↝" : subject.tone === "sunlight" ? "☼" : subject.tone === "twilight" ? "◐" : "✦"}</span>
@@ -126,7 +131,7 @@ export default function Home() {
             ))}
           </div>
 
-          <button className="general-card" onClick={() => setSelected(subjects[4])}>
+          <button className="general-card" onClick={() => openSubject(subjects[4])}>
             <img src="/assets/ocean-depths-slide.png" alt="Ocean depth zones from the sunlit surface to the midnight zone" />
             <span className="general-overlay" />
             <span className="card-number">05</span>
@@ -136,24 +141,35 @@ export default function Home() {
 
           <footer><span>Pelagic Field Notes</span><span>Five subjects · Four depth zones · One connected ocean</span></footer>
         </section>
+      ) : selected.id === "currents" && currentTopic === null ? (
+        <section className="currents-index" aria-labelledby="currents-title">
+          <button className="back-button" onClick={() => setSelected(null)}><span>←</span> All subjects</button>
+          <div className="currents-heading">
+            <p className="eyebrow">Ocean Currents · Choose a topic</p>
+            <h1 id="currents-title">Follow the<br /><em>moving ocean.</em></h1>
+          </div>
+          <div className="current-card-grid">
+            {currentTopics.map((topic, index) => (
+              <button className={`current-subject-card topic-${index + 1}`} key={topic} onClick={() => setCurrentTopic(index)}>
+                <span className="card-number">{String(index + 1).padStart(2, "0")}</span>
+                <div className="current-card-art" aria-hidden="true"><span>{index === 0 ? "↑" : index === 1 ? "∞" : "°"}</span><small>Study topic</small></div>
+                <div className="card-copy"><span>Ocean currents</span><h2>{topic}</h2><p>Click to reveal this topic.</p></div>
+                <span className="card-arrow">↗</span>
+              </button>
+            ))}
+          </div>
+        </section>
       ) : (
         <section className={`subject-detail ${selected.tone}`} aria-labelledby="detail-title">
-          <button className="back-button" onClick={() => setSelected(null)}><span>←</span> All subjects</button>
+          <button className="back-button" onClick={() => selected.id === "currents" ? setCurrentTopic(null) : setSelected(null)}><span>←</span> {selected.id === "currents" ? "Ocean Currents" : "All subjects"}</button>
           <div className={`detail-copy ${selected.id === "currents" ? "currents-copy" : ""}`}>
             <div className="detail-meta"><span>{selected.number} · Ocean subject</span><span>{selected.depth}</span></div>
             {selected.id === "currents" ? (
               <>
-                <p className="eyebrow">Choose a currents topic</p>
-                <h1 id="detail-title">Ocean Currents</h1>
-                <div className="current-topic-tabs" role="tablist" aria-label="Ocean currents topics">
-                  {currentTopics.map((topic, index) => (
-                    <button key={topic} className={currentTopic === index ? "active" : ""} onClick={() => setCurrentTopic(index)} role="tab" aria-selected={currentTopic === index}>
-                      <span>{String(index + 1).padStart(2, "0")}</span>{topic}
-                    </button>
-                  ))}
-                </div>
+                <p className="eyebrow">Ocean Currents · Topic {Number(currentTopic) + 1}</p>
+                <h1 id="detail-title">{currentTopics[currentTopic as number]}</h1>
                 <div className="current-placeholder" role="tabpanel">
-                  <span>{currentTopics[currentTopic]}</span>
+                  <span>{currentTopics[currentTopic as number]}</span>
                   <strong>ABCDE</strong>
                 </div>
               </>
@@ -167,14 +183,14 @@ export default function Home() {
               </>
             )}
             <div className="subject-switcher" aria-label="Choose another subject">
-              {subjects.map((subject) => <button key={subject.id} className={subject.id === selected.id ? "active" : ""} onClick={() => setSelected(subject)} aria-label={subject.title}>{subject.number}</button>)}
+              {subjects.map((subject) => <button key={subject.id} className={subject.id === selected.id ? "active" : ""} onClick={() => openSubject(subject)} aria-label={subject.title}>{subject.number}</button>)}
             </div>
           </div>
           <div className={`detail-visual ${selected.general ? "has-image" : ""}`}>
             {selected.general ? (
               <img src="/assets/ocean-depths-slide.png" alt="Complete scientific illustration of ocean depth zones" />
             ) : selected.id === "currents" ? (
-              <div className="large-placeholder currents-placeholder"><span>↝</span><p>{currentTopics[currentTopic]}</p><small>ABCDE</small></div>
+              <div className="large-placeholder currents-placeholder"><span>↝</span><p>{currentTopics[currentTopic as number]}</p><small>ABCDE</small></div>
             ) : (
               <div className="large-placeholder"><span>{selected.tone === "current" ? "↝" : selected.tone === "sunlight" ? "☼" : selected.tone === "twilight" ? "◐" : "✦"}</span><p>Animal image placeholder</p><small>{selected.animal}</small></div>
             )}
