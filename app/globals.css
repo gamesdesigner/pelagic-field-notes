@@ -63,9 +63,6 @@ footer { display:flex; justify-content:space-between; padding-top:31px; color:va
 .field-note>span { display:grid; place-items:center; flex:0 0 31px; width:31px; height:31px; border-radius:50%; background:var(--ink); color:var(--paper); }
 .field-note strong { color:var(--coral); font:700 8px/1 Arial,sans-serif; letter-spacing:.19em; text-transform:uppercase; }
 .field-note p { margin:6px 0 0; color:var(--muted); font:12px/1.55 Arial,sans-serif; }
-.subject-switcher { display:flex; gap:8px; margin-top:40px; }
-.subject-switcher button { width:31px; height:31px; border:1px solid var(--line); border-radius:50%; background:transparent; color:var(--muted); cursor:pointer; font:8px/1 Arial,sans-serif; }
-.subject-switcher button.active { border-color:var(--coral); background:var(--coral); color:white; }
 .currents-index { position:relative; z-index:1; min-height:calc(100svh - 82px); padding:120px clamp(24px,6vw,92px) 70px; }
 .currents-heading { width:min(1280px,100%); margin:0 auto 55px; }
 .currents-heading h1 { margin:0; font-size:clamp(52px,6.2vw,88px); line-height:.92; }

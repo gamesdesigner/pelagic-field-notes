@@ -182,9 +182,6 @@ export default function Home() {
                 <aside className="field-note"><span>✦</span><div><strong>Field note</strong><p>{selected.fact}</p></div></aside>
               </>
             )}
-            <div className="subject-switcher" aria-label="Choose another subject">
-              {subjects.map((subject) => <button key={subject.id} className={subject.id === selected.id ? "active" : ""} onClick={() => openSubject(subject)} aria-label={subject.title}>{subject.number}</button>)}
-            </div>
           </div>
           <div className={`detail-visual ${selected.general ? "has-image" : ""}`}>
             {selected.general ? (
