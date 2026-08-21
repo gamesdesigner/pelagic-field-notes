@@ -161,8 +161,7 @@ export default function Home() {
     <main className="site-shell">
       <header className="site-header">
         <button className="brand" onClick={() => setSelected(null)} aria-label="Return to all subjects">
-          <span className="brand-mark">P</span>
-          <span>Pelagic<br />Field Notes</span>
+          <img src="/assets/marine-biology-class-logo.png" alt="Marine Biology Class" />
         </button>
         <p>Ocean Biology Study Guide</p>
         <span className="edition">Student edition · 2026</span>
