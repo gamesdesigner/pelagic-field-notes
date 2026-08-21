@@ -85,6 +85,13 @@ const currentTopics = ["Upwelling", "Global Conveyor Belt", "Ocean Temperatures"
 export default function Home() {
   const [selected, setSelected] = useState<Subject | null>(null);
   const [currentTopic, setCurrentTopic] = useState<number | null>(null);
+  const [windSpeed, setWindSpeed] = useState(25);
+  const [shelf, setShelf] = useState("broad");
+  const [nutrients, setNutrients] = useState(60);
+
+  const shelfFactors: Record<string, number> = { broad: 1.15, steep: 0.8, canyon: 1.4 };
+  const planktonCount = Math.round((800 + windSpeed * nutrients * shelfFactors[shelf] * 75) / 100) * 100;
+  const visiblePlankton = Math.min(60, Math.max(5, Math.round(planktonCount / 3500)));
 
   const openSubject = (subject: Subject) => {
     setSelected(subject);
@@ -204,6 +211,51 @@ export default function Home() {
           <div className={`detail-visual ${selected.general ? "has-image" : ""}`}>
             {selected.general ? (
               <img src="/assets/ocean-depths-slide.png" alt="Complete scientific illustration of ocean depth zones" />
+            ) : selected.id === "currents" && currentTopic === 0 ? (
+              <section className="upwelling-simulator" aria-labelledby="simulator-title">
+                <div className="simulator-heading">
+                  <span>Interactive field model</span>
+                  <h2 id="simulator-title">Build an upwelling event</h2>
+                  <p>Adjust the conditions and watch the estimated phytoplankton population respond.</p>
+                </div>
+
+                <div className="simulator-controls">
+                  <label>
+                    <span>Ocean wind speed <output>{windSpeed} km/h</output></span>
+                    <input type="range" min="5" max="50" step="1" value={windSpeed} onChange={(event) => setWindSpeed(Number(event.target.value))} />
+                  </label>
+                  <label>
+                    <span>Land shelf configuration</span>
+                    <select value={shelf} onChange={(event) => setShelf(event.target.value)}>
+                      <option value="broad">Broad, gentle shelf</option>
+                      <option value="steep">Narrow, steep shelf</option>
+                      <option value="canyon">Shelf with canyon</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Nutrient level <output>{nutrients}%</output></span>
+                    <input type="range" min="10" max="100" step="5" value={nutrients} onChange={(event) => setNutrients(Number(event.target.value))} />
+                  </label>
+                </div>
+
+                <div className={`ocean-model shelf-${shelf}`} aria-hidden="true">
+                  <div className="sun-disc" />
+                  <div className="wind-stream"><span>→</span><span>→</span><span>→</span></div>
+                  <div className="plankton-cloud">
+                    {Array.from({ length: 60 }).map((_, index) => <i className={index < visiblePlankton ? "visible" : ""} key={index} />)}
+                  </div>
+                  <div className="upwelling-plume"><span>↑</span><small>cold, nutrient-rich water</small></div>
+                  <div className="seafloor" />
+                  <div className="coast-land" />
+                </div>
+
+                <div className="plankton-result" aria-live="polite">
+                  <span>Estimated phytoplankton</span>
+                  <strong>{planktonCount.toLocaleString()}</strong>
+                  <small>cells per millilitre</small>
+                </div>
+                <p className="model-note">Educational estimate: stronger upwelling and greater nutrient availability support more phytoplankton.</p>
+              </section>
             ) : selected.id === "currents" ? (
               <div className="large-placeholder currents-placeholder"><span>↝</span><p>{currentTopics[currentTopic as number]}</p><small>{currentTopic === 0 ? "Nutrients rise · life follows" : "ABCDE"}</small></div>
             ) : (
