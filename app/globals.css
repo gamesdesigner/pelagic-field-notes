@@ -190,3 +190,34 @@ body,body * { font-family:"Times New Roman",Times,serif!important; }
   .large-placeholder { width:82%; }
 }
 @media(prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; transition-duration:.01ms!important; } }
+
+/* Comfortable reading sizes across the field guide. */
+.brand { font-size:13px; line-height:1.25; letter-spacing:.08em; }
+.site-header>p,.edition { font-size:12px; letter-spacing:.1em; }
+.eyebrow { font-size:13px; letter-spacing:.1em; }
+.card-number { font-size:13px; letter-spacing:.08em; }
+.card-placeholder small,.current-card-art small { font-size:12px; letter-spacing:.08em; }
+.card-copy>span,.general-copy small { font-size:12px; line-height:1.25; letter-spacing:.08em; }
+.card-copy p { font-size:16px; line-height:1.55; }
+.general-copy em { font-size:18px; }
+.general-arrow { font-size:13px; letter-spacing:.08em; }
+footer { font-size:12px; line-height:1.45; letter-spacing:.06em; }
+.back-button { font-size:14px; letter-spacing:.07em; }
+.detail-meta { font-size:12px; line-height:1.35; letter-spacing:.08em; }
+.scientific { font-size:20px; }
+.animal-description { font-size:20px; line-height:1.65; }
+.field-note strong { font-size:12px; letter-spacing:.08em; }
+.field-note p { font-size:16px; line-height:1.6; }
+.current-placeholder span { font-size:13px; letter-spacing:.08em; }
+.current-article p,.current-article li { font-size:18px; line-height:1.7; }
+.simulator-heading>span { font-size:12px; letter-spacing:.09em; }
+.simulator-heading p { font-size:15px; line-height:1.5; }
+.simulator-controls label>span { font-size:13px; line-height:1.2; letter-spacing:.05em; }
+.surface-flow-arrow small { font-size:11px; line-height:1.25; letter-spacing:.06em; }
+.deep-current-arrow span { font-size:13px; letter-spacing:.08em; }
+.mineral-stream { font-size:14px; }
+.plankton-bloom strong { font-size:11px; line-height:1.05; letter-spacing:.05em; }
+.plankton-result>span { font-size:11px; line-height:1.2; letter-spacing:.07em; }
+.plankton-result small { font-size:11px; letter-spacing:.05em; }
+.visual-label span { font-size:12px; letter-spacing:.08em; }
+.visual-label p { font-size:18px; }
