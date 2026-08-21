@@ -101,6 +101,7 @@ footer { display:flex; justify-content:space-between; padding-top:31px; color:va
 .simulator-controls label>span { display:flex; justify-content:space-between; color:rgba(255,255,255,.84); font:700 9px/1 Arial,sans-serif; letter-spacing:.12em; text-transform:uppercase; }
 .simulator-controls output { color:#c5ffb0; }
 .simulator-controls input[type="range"] { width:100%; accent-color:#b9ef8f; cursor:pointer; }
+.simulator-controls .derived-control input { opacity:.72; cursor:default; }
 .ocean-model { position:absolute; inset:0; overflow:hidden; background:linear-gradient(to bottom,#e8f5f5 0 31.5%,#76c3d5 31.7%,#2f8aa6 53%,#073e62 100%); }
 .sun-disc { position:absolute; z-index:2; top:7%; left:22%; width:54px; height:54px; border-radius:50%; background:#ffe58b; box-shadow:0 0 48px #ffe58b; }
 .horizon-line { position:absolute; z-index:6; top:31.5%; right:0; left:0; height:2px; background:rgba(16,67,84,.75); box-shadow:0 3px 0 rgba(255,255,255,.35); }
@@ -110,8 +111,8 @@ footer { display:flex; justify-content:space-between; padding-top:31px; color:va
 .surface-flow-arrow small { color:#143d51; font:700 7px/1.2 Arial,sans-serif; letter-spacing:.11em; text-transform:uppercase; }
 .coastal-hill { position:absolute; z-index:5; inset:0; background:linear-gradient(145deg,#9eb17c 0 20%,#967b58 21% 52%,#5a4438 53% 100%); transition:clip-path .45s cubic-bezier(.2,.8,.2,1); }
 .coastal-hill::after { content:""; position:absolute; inset:0; opacity:.22; background:repeating-linear-gradient(164deg,transparent 0 18px,rgba(255,255,255,.45) 19px 20px); }
-.deep-current-arrow { position:absolute; z-index:8; left:5%; right:12%; bottom:17%; height:48%; background:#083e78; clip-path:polygon(0 86%,52% 70%,69% 54%,78% 31%,73% 20%,100% 25%,82% 48%,74% 61%,56% 79%,0 100%); filter:drop-shadow(0 0 2px #021e3e); }
-.deep-current-arrow span { position:absolute; left:45%; top:68%; color:white; font:700 9px/1 Arial,sans-serif; letter-spacing:.16em; text-transform:uppercase; transform:rotate(-18deg); }
+.deep-current-arrow { position:absolute; z-index:8; left:4%; right:10%; bottom:16%; height:49%; background:linear-gradient(120deg,#062f62,#0c5ca0); clip-path:polygon(0 84%,57% 66%,72% 50%,82% 28%,74% 24%,100% 5%,91% 39%,84% 32%,77% 57%,62% 75%,0 100%); filter:drop-shadow(0 0 1px #fff) drop-shadow(0 0 3px #021e3e); }
+.deep-current-arrow span { position:absolute; left:43%; top:69%; color:white; font:700 9px/1 Arial,sans-serif; letter-spacing:.16em; text-transform:uppercase; transform:rotate(-14deg); text-shadow:0 1px 2px #021e3e; }
 .mineral-stream { position:absolute; z-index:9; inset:31% 8% 17% 5%; color:#f2fbff; font:700 10px/1 Arial,sans-serif; text-shadow:0 1px 3px #052742; pointer-events:none; }
 .mineral-stream span { position:absolute; opacity:0; animation-name:nutrientDrift; animation-timing-function:linear; animation-iteration-count:infinite; }
 .plankton-bloom { position:absolute; z-index:10; top:35%; left:17%; width:132px; height:58px; transform-origin:center; transition:transform .45s cubic-bezier(.2,.8,.2,1); border:4px double rgba(45,90,31,.82); border-radius:55% 45% 52% 48% / 48% 58% 42% 52%; background:radial-gradient(ellipse at 35% 36%,#cfe470 0 7%,transparent 8%),radial-gradient(ellipse at 66% 61%,#647f2d 0 8%,transparent 9%),radial-gradient(ellipse at 71% 29%,#a4bd4e 0 11%,transparent 12%),linear-gradient(135deg,rgba(152,184,72,.96),rgba(83,122,46,.94)); box-shadow:inset 0 0 0 6px rgba(221,235,133,.22),0 8px 18px rgba(7,52,49,.24); }

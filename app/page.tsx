@@ -82,6 +82,23 @@ const subjects: Subject[] = [
 
 const currentTopics = ["Upwelling", "Global Conveyor Belt", "Ocean Temperatures"];
 
+const upwellingData = [
+  { wind: 5, shelf: 0.5, nutrients: 0.5, plankton: 1200 },
+  { wind: 5, shelf: 1.5, nutrients: 1.2, plankton: 3500 },
+  { wind: 5, shelf: 3.0, nutrients: 3.5, plankton: 8000 },
+  { wind: 10, shelf: 0.5, nutrients: 2.1, plankton: 15000 },
+  { wind: 10, shelf: 1.5, nutrients: 5.8, plankton: 120000 },
+  { wind: 10, shelf: 3.0, nutrients: 14.2, plankton: 950000 },
+  { wind: 15, shelf: 0.5, nutrients: 6.5, plankton: 210000 },
+  { wind: 15, shelf: 1.5, nutrients: 15.0, plankton: 2400000 },
+  { wind: 15, shelf: 3.0, nutrients: 28.5, plankton: 18000000 },
+  { wind: 25, shelf: 0.5, nutrients: 14.0, plankton: 9100000 },
+  { wind: 25, shelf: 1.5, nutrients: 29.8, plankton: 22000000 },
+  { wind: 25, shelf: 3.0, nutrients: 42.0, plankton: 85000000 },
+];
+const windOptions = [5, 10, 15, 25];
+const shelfOptions = [0.5, 1.5, 3.0];
+
 const mineralParticles = Array.from({ length: 36 }, (_, index) => ({
   label: ["Fe", "NO₃⁻", "PO₄³⁻", "SiO₄⁴⁻"][index % 4],
   left: `${7 + ((index * 37) % 78)}%`,
@@ -95,17 +112,18 @@ const mineralParticles = Array.from({ length: 36 }, (_, index) => ({
 export default function Home() {
   const [selected, setSelected] = useState<Subject | null>(null);
   const [currentTopic, setCurrentTopic] = useState<number | null>(null);
-  const [windSpeed, setWindSpeed] = useState(25);
-  const [shelfAngle, setShelfAngle] = useState(32);
-  const [nutrients, setNutrients] = useState(60);
+  const [windSpeed, setWindSpeed] = useState(10);
+  const [shelfAngle, setShelfAngle] = useState(1.5);
 
-  const shelfFactor = 0.72 + shelfAngle / 65;
-  const planktonCount = Math.round((800 + windSpeed * nutrients * shelfFactor * 75) / 100) * 100;
+  const measurement = upwellingData.find((row) => row.wind === windSpeed && row.shelf === shelfAngle) ?? upwellingData[4];
+  const nutrients = measurement.nutrients;
+  const planktonCount = measurement.plankton;
   const planktonStep = Math.floor(planktonCount / 10000);
-  const bloomScale = Math.min(1.12, 0.48 + planktonStep * 0.012);
-  const visibleMinerals = Math.max(3, Math.round((nutrients / 100) * mineralParticles.length));
-  const hillShoulder = Math.max(40, 82 - shelfAngle);
-  const hillTop = Math.max(12, 38 - Math.round(shelfAngle / 3));
+  const bloomScale = Math.min(1.08, 0.48 + Math.log1p(planktonStep) * 0.065);
+  const visibleMinerals = Math.max(2, Math.round((nutrients / 42) * mineralParticles.length));
+  const shelfVisualAngle = 10 + ((shelfAngle - 0.5) / 2.5) * 45;
+  const hillShoulder = Math.max(40, 82 - shelfVisualAngle);
+  const hillTop = Math.max(12, 38 - Math.round(shelfVisualAngle / 3));
 
   const openSubject = (subject: Subject) => {
     setSelected(subject);
@@ -253,16 +271,16 @@ export default function Home() {
                 <div className="simulator-bottom">
                   <div className="simulator-controls">
                     <label>
-                      <span>Ocean wind speed <output>{windSpeed} km/h</output></span>
-                      <input type="range" min="5" max="50" step="1" value={windSpeed} onChange={(event) => setWindSpeed(Number(event.target.value))} />
+                      <span>Ocean wind speed <output>{windSpeed} knots</output></span>
+                      <input type="range" min="0" max={windOptions.length - 1} step="1" value={windOptions.indexOf(windSpeed)} onChange={(event) => setWindSpeed(windOptions[Number(event.target.value)])} />
                     </label>
                     <label>
                       <span>Continental shelf angle <output>{shelfAngle}°</output></span>
-                      <input type="range" min="10" max="55" step="1" value={shelfAngle} onChange={(event) => setShelfAngle(Number(event.target.value))} />
+                      <input type="range" min="0" max={shelfOptions.length - 1} step="1" value={shelfOptions.indexOf(shelfAngle)} onChange={(event) => setShelfAngle(shelfOptions[Number(event.target.value)])} />
                     </label>
-                    <label>
-                      <span>Nutrient level <output>{nutrients}%</output></span>
-                      <input type="range" min="10" max="100" step="5" value={nutrients} onChange={(event) => setNutrients(Number(event.target.value))} />
+                    <label className="derived-control">
+                      <span>Nutrient level <output>{nutrients} µmol/L</output></span>
+                      <input type="range" min="0.5" max="42" step="0.1" value={nutrients} disabled />
                     </label>
                   </div>
                   <div className="plankton-result" aria-live="polite">
