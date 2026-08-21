@@ -23,10 +23,10 @@ const subjects: Subject[] = [
     title: "Ocean Currents",
     short: "The moving pathways that connect every ocean basin.",
     depth: "Global circulation",
-    animal: "Loggerhead sea turtle",
-    scientific: "Caretta caretta",
-    description: "Young loggerheads enter vast current systems soon after hatching. In the North Atlantic, many ride the warm Gulf Stream into a circular route called the North Atlantic gyre, where drifting seaweed offers food and shelter during their first years at sea.",
-    fact: "Earth’s currents act like living highways, carrying heat, nutrients, larvae, and migrating animals around the planet.",
+    animal: "Ocean Currents",
+    scientific: "Three connected systems",
+    description: "ABCDE",
+    fact: "ABCDE",
     tone: "current",
   },
   {
@@ -80,8 +80,11 @@ const subjects: Subject[] = [
   },
 ];
 
+const currentTopics = ["Upwelling", "Global Conveyor Belt", "Ocean Temperatures"];
+
 export default function Home() {
   const [selected, setSelected] = useState<Subject | null>(null);
+  const [currentTopic, setCurrentTopic] = useState(0);
 
   useEffect(() => {
     if (!selected) return;
@@ -136,13 +139,33 @@ export default function Home() {
       ) : (
         <section className={`subject-detail ${selected.tone}`} aria-labelledby="detail-title">
           <button className="back-button" onClick={() => setSelected(null)}><span>←</span> All subjects</button>
-          <div className="detail-copy">
+          <div className={`detail-copy ${selected.id === "currents" ? "currents-copy" : ""}`}>
             <div className="detail-meta"><span>{selected.number} · Ocean subject</span><span>{selected.depth}</span></div>
-            <p className="eyebrow">Featured animal</p>
-            <h1 id="detail-title">{selected.animal}</h1>
-            <p className="scientific">{selected.scientific}</p>
-            <p className="animal-description">{selected.description}</p>
-            <aside className="field-note"><span>✦</span><div><strong>Field note</strong><p>{selected.fact}</p></div></aside>
+            {selected.id === "currents" ? (
+              <>
+                <p className="eyebrow">Choose a currents topic</p>
+                <h1 id="detail-title">Ocean Currents</h1>
+                <div className="current-topic-tabs" role="tablist" aria-label="Ocean currents topics">
+                  {currentTopics.map((topic, index) => (
+                    <button key={topic} className={currentTopic === index ? "active" : ""} onClick={() => setCurrentTopic(index)} role="tab" aria-selected={currentTopic === index}>
+                      <span>{String(index + 1).padStart(2, "0")}</span>{topic}
+                    </button>
+                  ))}
+                </div>
+                <div className="current-placeholder" role="tabpanel">
+                  <span>{currentTopics[currentTopic]}</span>
+                  <strong>ABCDE</strong>
+                </div>
+              </>
+            ) : (
+              <>
+                <p className="eyebrow">Featured animal</p>
+                <h1 id="detail-title">{selected.animal}</h1>
+                <p className="scientific">{selected.scientific}</p>
+                <p className="animal-description">{selected.description}</p>
+                <aside className="field-note"><span>✦</span><div><strong>Field note</strong><p>{selected.fact}</p></div></aside>
+              </>
+            )}
             <div className="subject-switcher" aria-label="Choose another subject">
               {subjects.map((subject) => <button key={subject.id} className={subject.id === selected.id ? "active" : ""} onClick={() => setSelected(subject)} aria-label={subject.title}>{subject.number}</button>)}
             </div>
@@ -150,6 +173,8 @@ export default function Home() {
           <div className={`detail-visual ${selected.general ? "has-image" : ""}`}>
             {selected.general ? (
               <img src="/assets/ocean-depths-slide.png" alt="Complete scientific illustration of ocean depth zones" />
+            ) : selected.id === "currents" ? (
+              <div className="large-placeholder currents-placeholder"><span>↝</span><p>{currentTopics[currentTopic]}</p><small>ABCDE</small></div>
             ) : (
               <div className="large-placeholder"><span>{selected.tone === "current" ? "↝" : selected.tone === "sunlight" ? "☼" : selected.tone === "twilight" ? "◐" : "✦"}</span><p>Animal image placeholder</p><small>{selected.animal}</small></div>
             )}
