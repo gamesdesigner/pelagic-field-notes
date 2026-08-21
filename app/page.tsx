@@ -1,101 +1,162 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
-const chapters = [
-  { eyebrow: "01 · Light & life", title: "The sunlit surface", depth: "0–200 m", target: 0, copy: "Nearly all ocean food webs begin in this bright, restless layer. Phytoplankton turn sunlight and dissolved carbon into living tissue—feeding everything from copepods to blue whales.", note: "Although it is the ocean’s thinnest major zone, the epipelagic produces roughly half of Earth’s oxygen.", label: "Primary production" },
-  { eyebrow: "02 · Dimming blue", title: "Into the twilight", depth: "200–1,000 m", target: 1, copy: "Below the reach of photosynthesis, light fades rapidly. Every evening, countless animals rise toward surface waters to feed, then retreat before sunrise—the planet’s largest daily migration.", note: "Red wavelengths disappear first. Many twilight animals are red or black, making them nearly invisible in blue light.", label: "Diel migration" },
-  { eyebrow: "03 · Form & function", title: "Anatomy of a drifter", depth: "Moon jelly · Aurelia aurita", target: 2, copy: "A moon jelly is more water than animal. Its translucent bell pulses gently, while a network of canals distributes nutrients through a body with no heart, brain, or bones.", note: "The four horseshoe-shaped forms visible through the bell are gonads—the easiest field mark for this widespread species.", label: "Jelly anatomy" },
-  { eyebrow: "04 · Living light", title: "Signals in the dark", depth: "1,000–4,000 m", target: 3, copy: "In the midnight zone, bioluminescence replaces sunlight. Animals make light to hunt, hide, find mates, and confuse predators. A flash can be lure, language, or last defense.", note: "Blue-green light travels farthest through seawater, so most deep-sea bioluminescence glows within this narrow range.", label: "Bioluminescence" },
+type Subject = {
+  id: string;
+  number: string;
+  title: string;
+  short: string;
+  depth: string;
+  animal: string;
+  scientific: string;
+  description: string;
+  fact: string;
+  tone: string;
+  general?: boolean;
+};
+
+const subjects: Subject[] = [
+  {
+    id: "currents",
+    number: "01",
+    title: "Ocean Currents",
+    short: "The moving pathways that connect every ocean basin.",
+    depth: "Global circulation",
+    animal: "Loggerhead sea turtle",
+    scientific: "Caretta caretta",
+    description: "Young loggerheads enter vast current systems soon after hatching. In the North Atlantic, many ride the warm Gulf Stream into a circular route called the North Atlantic gyre, where drifting seaweed offers food and shelter during their first years at sea.",
+    fact: "Earth’s currents act like living highways, carrying heat, nutrients, larvae, and migrating animals around the planet.",
+    tone: "current",
+  },
+  {
+    id: "sunlight",
+    number: "02",
+    title: "Marine Life in Sunlight",
+    short: "A bright, productive world powered by photosynthesis.",
+    depth: "0–200 metres",
+    animal: "Green sea turtle",
+    scientific: "Chelonia mydas",
+    description: "Green sea turtles spend much of their adult lives in shallow coastal waters. Unlike most sea turtles, adults are mainly herbivores, grazing on seagrass and algae. Their feeding helps keep seagrass meadows healthy and productive for many other species.",
+    fact: "The sunlight zone contains most of the ocean’s visible life, even though it makes up only a thin layer of the water column.",
+    tone: "sunlight",
+  },
+  {
+    id: "twilight",
+    number: "03",
+    title: "Marine Life in Twilight",
+    short: "Where sunlight fades and daily migrations begin.",
+    depth: "200–1,000 metres",
+    animal: "Vampire squid",
+    scientific: "Vampyroteuthis infernalis",
+    description: "Despite its dramatic name, the vampire squid is a gentle scavenger. It gathers drifting marine snow with two long, sticky filaments and wraps the particles in mucus before eating them. Its dark red body is nearly invisible in the twilight zone’s blue light.",
+    fact: "Every night, animals from this zone rise toward the surface to feed—the largest migration on Earth by number of animals.",
+    tone: "twilight",
+  },
+  {
+    id: "midnight",
+    number: "04",
+    title: "Marine Life in Midnight",
+    short: "A cold, pressurized realm illuminated by living light.",
+    depth: "1,000–4,000 metres",
+    animal: "Giant siphonophore",
+    scientific: "Praya dubia",
+    description: "A giant siphonophore looks like one animal, but it is actually a colony of specialized individuals called zooids. Some provide propulsion, others capture prey, and others digest food. Together they form a glowing, coordinated body that may stretch longer than a blue whale.",
+    fact: "Bioluminescence is so common here that flashes of blue-green light may be the midnight zone’s main form of communication.",
+    tone: "midnight",
+  },
+  {
+    id: "general",
+    number: "05",
+    title: "The General Ocean",
+    short: "See the complete water column from the surface to the deep.",
+    depth: "0–4,000 metres",
+    animal: "Moon jelly",
+    scientific: "Aurelia aurita",
+    description: "Moon jellies drift through coastal and open waters around the world. Their translucent bells are moved by gentle pulses, while four horseshoe-shaped gonads make them easy to identify. With no brain, heart, or bones, they rely on a simple nerve net to sense their surroundings.",
+    fact: "The ocean is one connected system: energy begins near the bright surface and travels downward as food, waste, and marine snow.",
+    tone: "general",
+    general: true,
+  },
 ];
-
-const questions = [
-  { prompt: "Why is blue-green bioluminescence most common in the deep sea?", choices: ["It requires less oxygen", "It travels farthest in seawater", "It is warmer than red light"], answer: 1, target: 3 },
-  { prompt: "Which structure is the best field mark for a moon jelly?", choices: ["Four visible gonads", "A rigid outer shell", "A single long tentacle"], answer: 0, target: 2 },
-  { prompt: "What powers most food webs in the sunlit zone?", choices: ["Hydrothermal vents", "Marine snow", "Photosynthesis"], answer: 2, target: 0 },
-];
-
-const positions = ["0%", "-23%", "-31%", "-51%"];
 
 export default function Home() {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [active, setActive] = useState(0);
-  const [question, setQuestion] = useState(0);
-  const [selected, setSelected] = useState<number | null>(null);
-  const [answered, setAnswered] = useState(false);
+  const [selected, setSelected] = useState<Subject | null>(null);
 
   useEffect(() => {
-    const root = scrollRef.current;
-    if (!root) return;
-    const observer = new IntersectionObserver((entries) => {
-      const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-      if (visible) setActive(Number((visible.target as HTMLElement).dataset.target));
-    }, { root, threshold: [0.35, 0.55, 0.75] });
-    root.querySelectorAll("[data-target]").forEach((section) => observer.observe(section));
-    return () => observer.disconnect();
-  }, []);
-
-  const goToChapter = (index: number) => {
-    scrollRef.current?.querySelector(`[data-chapter="${index}"]`)?.scrollIntoView({ behavior: "smooth", block: "start" });
-    setActive(chapters[index].target);
-  };
-  const nextQuestion = () => {
-    const next = (question + 1) % questions.length;
-    setQuestion(next); setSelected(null); setAnswered(false); setActive(questions[next].target);
-  };
-  const currentQuestion = questions[question];
+    if (!selected) return;
+    const onKey = (event: KeyboardEvent) => { if (event.key === "Escape") setSelected(null); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [selected]);
 
   return (
-    <main className="study-shell">
-      <section className="study-panel" aria-label="Ocean biology lesson">
-        <header className="topbar">
-          <a className="brand" href="#top" aria-label="Pelagic Field Notes home"><span className="brand-mark">P</span><span>Pelagic<br />Field Notes</span></a>
-          <span className="course-tag">Lesson 04 / 06</span>
-          <button className="sound-button" aria-label="Play lesson audio">◖))</button>
-        </header>
-        <nav className="chapter-rail" aria-label="Lesson chapters">
-          {chapters.map((chapter, index) => <button key={chapter.title} className={active === chapter.target ? "is-active" : ""} onClick={() => goToChapter(index)} aria-label={`Go to ${chapter.title}`}><span>{String(index + 1).padStart(2, "0")}</span></button>)}
-        </nav>
-        <div className="study-scroll" ref={scrollRef} id="top">
-          <div className="lesson-intro">
-            <p className="kicker">Ocean systems · Field lesson</p>
-            <h1>Life between<br /><em>light & darkness</em></h1>
-            <p className="dek">Follow one column of water from the brilliant surface to the midnight zone.</p>
-            <div className="scroll-cue"><span>↓</span> Scroll to descend</div>
+    <main className="site-shell">
+      <header className="site-header">
+        <button className="brand" onClick={() => setSelected(null)} aria-label="Return to all subjects">
+          <span className="brand-mark">P</span>
+          <span>Pelagic<br />Field Notes</span>
+        </button>
+        <p>Ocean Biology Study Guide</p>
+        <span className="edition">Student edition · 2026</span>
+      </header>
+
+      {!selected ? (
+        <section className="subject-index" aria-labelledby="page-title">
+          <div className="hero-copy">
+            <p className="eyebrow">Explore by subject</p>
+            <h1 id="page-title">Choose a path<br /><em>through the ocean.</em></h1>
+            <p className="intro">Study how water moves, then meet one remarkable animal from each layer of the sea.</p>
           </div>
-          {chapters.map((chapter, index) => (
-            <article className="chapter" key={chapter.title} data-target={chapter.target} data-chapter={index}>
-              <div className="chapter-meta"><span>{chapter.eyebrow}</span><span>{chapter.depth}</span></div>
-              <p className="vertical-label">{chapter.label}</p><h2>{chapter.title}</h2>
-              <p className="chapter-copy">{chapter.copy}</p>
-              <aside className="field-note"><span className="note-icon">✦</span><div><strong>Field note</strong><p>{chapter.note}</p></div></aside>
-            </article>
-          ))}
-          <section className="quiz" data-target={currentQuestion.target} aria-labelledby="quiz-title">
-            <div className="quiz-heading"><div><p className="kicker">Knowledge check</p><h2 id="quiz-title">Test your depth</h2></div><span>{question + 1} / {questions.length}</span></div>
-            <p className="quiz-prompt">{currentQuestion.prompt}</p>
-            <div className="choices" role="radiogroup" aria-label="Answer choices">
-              {currentQuestion.choices.map((choice, index) => {
-                const correct = answered && index === currentQuestion.answer;
-                const wrong = answered && selected === index && index !== currentQuestion.answer;
-                return <button key={choice} className={`${selected === index ? "selected" : ""} ${correct ? "correct" : ""} ${wrong ? "wrong" : ""}`} onClick={() => { if (!answered) setSelected(index); }} role="radio" aria-checked={selected === index}><span>{String.fromCharCode(65 + index)}</span>{choice}<i>{correct ? "✓" : wrong ? "×" : ""}</i></button>;
-              })}
+
+          <div className="subject-grid">
+            {subjects.filter((subject) => !subject.general).map((subject) => (
+              <button className={`subject-card ${subject.tone}`} key={subject.id} onClick={() => setSelected(subject)}>
+                <span className="card-number">{subject.number}</span>
+                <div className="card-placeholder" aria-hidden="true">
+                  <span>{subject.tone === "current" ? "↝" : subject.tone === "sunlight" ? "☼" : subject.tone === "twilight" ? "◐" : "✦"}</span>
+                  <small>Image placeholder</small>
+                </div>
+                <div className="card-copy"><span>{subject.depth}</span><h2>{subject.title}</h2><p>{subject.short}</p></div>
+                <span className="card-arrow">↗</span>
+              </button>
+            ))}
+          </div>
+
+          <button className="general-card" onClick={() => setSelected(subjects[4])}>
+            <img src="/assets/ocean-depths-slide.png" alt="Ocean depth zones from the sunlit surface to the midnight zone" />
+            <span className="general-overlay" />
+            <span className="card-number">05</span>
+            <span className="general-copy"><small>Complete field plate · 0–4,000 m</small><strong>The General Ocean</strong><em>See the whole water column</em></span>
+            <span className="general-arrow">Explore <b>→</b></span>
+          </button>
+
+          <footer><span>Pelagic Field Notes</span><span>Five subjects · Four depth zones · One connected ocean</span></footer>
+        </section>
+      ) : (
+        <section className={`subject-detail ${selected.tone}`} aria-labelledby="detail-title">
+          <button className="back-button" onClick={() => setSelected(null)}><span>←</span> All subjects</button>
+          <div className="detail-copy">
+            <div className="detail-meta"><span>{selected.number} · Ocean subject</span><span>{selected.depth}</span></div>
+            <p className="eyebrow">Featured animal</p>
+            <h1 id="detail-title">{selected.animal}</h1>
+            <p className="scientific">{selected.scientific}</p>
+            <p className="animal-description">{selected.description}</p>
+            <aside className="field-note"><span>✦</span><div><strong>Field note</strong><p>{selected.fact}</p></div></aside>
+            <div className="subject-switcher" aria-label="Choose another subject">
+              {subjects.map((subject) => <button key={subject.id} className={subject.id === selected.id ? "active" : ""} onClick={() => setSelected(subject)} aria-label={subject.title}>{subject.number}</button>)}
             </div>
-            {answered && <p className="feedback" aria-live="polite">{selected === currentQuestion.answer ? "Exactly. " : "Not quite. "}{currentQuestion.answer === 1 ? "Blue-green wavelengths are absorbed least by seawater." : currentQuestion.answer === 0 ? "The four gonads show clearly through the translucent bell." : "Phytoplankton use sunlight to form the base of the food web."}</p>}
-            <div className="quiz-actions">
-              {!answered ? <button className="primary-button" disabled={selected === null} onClick={() => setAnswered(true)}>Check answer <span>→</span></button> : <button className="primary-button" onClick={nextQuestion}>Next question <span>→</span></button>}
-              <span className="quiz-label">Observe the slide sheet<br />as you answer</span>
-            </div>
-          </section>
-          <footer><span>Pelagic Field Notes</span><span>Sources: NOAA Ocean Service · MBARI</span></footer>
-        </div>
-      </section>
-      <aside className="slide-frame" aria-label="Ocean depth infographic">
-        <div className="depth-scale" aria-hidden="true"><span>0 m</span><span>200</span><span>1,000</span><span>4,000</span></div>
-        <img src="/assets/ocean-depths-slide.png" alt="A vertical scientific illustration of marine life from the sunlit surface through the twilight and midnight zones" style={{ transform: `translate3d(0, ${positions[active]}, 0)` }} />
-        <div className="slide-caption"><span>PLATE 04</span><p><strong>{chapters.find((chapter) => chapter.target === active)?.title}</strong><br />Ocean water column study</p></div>
-        <div className="coordinates">36.6185° N<br />121.9018° W</div>
-      </aside>
+          </div>
+          <div className={`detail-visual ${selected.general ? "has-image" : ""}`}>
+            {selected.general ? (
+              <img src="/assets/ocean-depths-slide.png" alt="Complete scientific illustration of ocean depth zones" />
+            ) : (
+              <div className="large-placeholder"><span>{selected.tone === "current" ? "↝" : selected.tone === "sunlight" ? "☼" : selected.tone === "twilight" ? "◐" : "✦"}</span><p>Animal image placeholder</p><small>{selected.animal}</small></div>
+            )}
+            <div className="visual-label"><span>Subject {selected.number}</span><p>{selected.title}</p></div>
+          </div>
+        </section>
+      )}
     </main>
   );
 }
