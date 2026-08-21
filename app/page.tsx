@@ -181,7 +181,7 @@ export default function Home() {
           </div>
         </section>
       ) : (
-        <section className={`subject-detail ${selected.tone}`} aria-labelledby="detail-title">
+        <section className={`subject-detail ${selected.tone} ${selected.id === "currents" && currentTopic === 0 ? "upwelling-layout" : ""}`} aria-labelledby="detail-title">
           <button className="back-button" onClick={() => selected.id === "currents" ? setCurrentTopic(null) : setSelected(null)}><span>←</span> {selected.id === "currents" ? "Ocean Currents" : "All subjects"}</button>
           <div className={`detail-copy ${selected.id === "currents" ? "currents-copy" : ""}`}>
             <div className="detail-meta"><span>{selected.number} · Ocean subject</span><span>{selected.depth}</span></div>
