@@ -164,9 +164,12 @@ export default function Home() {
             {subjects.filter((subject) => !subject.general).map((subject) => (
               <button className={`subject-card ${subject.tone}`} key={subject.id} onClick={() => openSubject(subject)}>
                 <span className="card-number">{subject.number}</span>
-                <div className="card-placeholder" aria-hidden="true">
-                  <span>{subject.tone === "current" ? "↝" : subject.tone === "sunlight" ? "☼" : subject.tone === "twilight" ? "◐" : "✦"}</span>
-                  <small>Image placeholder</small>
+                <div className={`card-placeholder ${subject.id === "currents" ? "has-subject-image" : ""}`} aria-hidden="true">
+                  {subject.id === "currents" ? (
+                    <img src="/assets/global-ocean-currents.png" alt="" />
+                  ) : (
+                    <><span>{subject.tone === "sunlight" ? "☼" : subject.tone === "twilight" ? "◐" : "✦"}</span><small>Image placeholder</small></>
+                  )}
                 </div>
                 <div className="card-copy"><span>{subject.depth}</span><h2>{subject.title}</h2><p>{subject.short}</p></div>
                 <span className="card-arrow">↗</span>
@@ -181,8 +184,6 @@ export default function Home() {
             <span className="general-copy"><small>Complete field plate · 0–4,000 m</small><strong>The General Ocean</strong><em>See the whole water column</em></span>
             <span className="general-arrow">Explore <b>→</b></span>
           </button>
-
-          <footer><span>Pelagic Field Notes</span><span>Five subjects · Four depth zones · One connected ocean</span></footer>
         </section>
       ) : selected.id === "currents" && currentTopic === null ? (
         <section className="currents-index" aria-labelledby="currents-title">
