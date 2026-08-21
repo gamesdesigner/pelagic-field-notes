@@ -196,7 +196,9 @@ export default function Home() {
             {currentTopics.map((topic, index) => (
               <button className={`current-subject-card topic-${index + 1}`} key={topic} onClick={() => setCurrentTopic(index)}>
                 <span className="card-number">{String(index + 1).padStart(2, "0")}</span>
-                <div className="current-card-art" aria-hidden="true"><span>{index === 0 ? "↑" : index === 1 ? "∞" : "°"}</span><small>Study topic</small></div>
+                <div className={`current-card-art ${index === 0 ? "has-topic-image" : ""}`} aria-hidden="true">
+                  {index === 0 ? <img src="/assets/upwelling-side-view.png" alt="" /> : <><span>{index === 1 ? "∞" : "°"}</span><small>Study topic</small></>}
+                </div>
                 <div className="card-copy"><span>Ocean currents</span><h2>{topic}</h2><p>Click to reveal this topic.</p></div>
                 <span className="card-arrow">↗</span>
               </button>

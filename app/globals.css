@@ -76,6 +76,9 @@ footer { display:flex; justify-content:space-between; padding-top:31px; color:va
 .current-card-art { display:flex; flex:1; min-height:190px; flex-direction:column; align-items:center; justify-content:center; gap:12px; margin:18px 0; border:1px solid var(--line); color:var(--ink); }
 .current-card-art span { font:60px/1 Georgia,serif; }
 .current-card-art small { color:var(--muted); font:8px/1 Arial,sans-serif; letter-spacing:.18em; text-transform:uppercase; }
+.current-card-art.has-topic-image { display:block; overflow:hidden; }
+.current-card-art.has-topic-image img { width:100%; height:100%; display:block; object-fit:cover; object-position:center; transition:transform .55s cubic-bezier(.2,.8,.2,1); }
+.current-subject-card:hover .current-card-art.has-topic-image img { transform:scale(1.035); }
 .topic-1 .current-card-art { background:linear-gradient(160deg,#dbe8df,#92b6ad); }
 .topic-2 .current-card-art { background:repeating-radial-gradient(ellipse at 30% 110%,#b8d0cc 0 30px,#e7e7d9 32px 49px); }
 .topic-3 .current-card-art { background:linear-gradient(135deg,#2b6380 0 48%,#e7c273 52% 100%); color:white; }
