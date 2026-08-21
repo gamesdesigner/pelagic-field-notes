@@ -100,9 +100,6 @@ const upwellingData = [
   { wind: 45, shelf: 1.5, nutrients: 52.5, plankton: 480000000 },
   { wind: 45, shelf: 3.0, nutrients: 75.0, plankton: 1000000000 },
 ];
-const windOptions = [5, 10, 15, 25, 35, 45];
-const shelfOptions = [0.5, 1.5, 3.0];
-
 const mineralParticles = Array.from({ length: 36 }, (_, index) => ({
   label: ["Fe", "NO₃⁻", "PO₄³⁻", "SiO₄⁴⁻"][index % 4],
   left: `${7 + ((index * 37) % 78)}%`,
@@ -120,8 +117,11 @@ export default function Home() {
   const [shelfAngle, setShelfAngle] = useState(1.5);
   const [nutrients, setNutrients] = useState(5.8);
 
-  const measurement = upwellingData.find((row) => row.wind === windSpeed && row.shelf === shelfAngle) ?? upwellingData[4];
-  const availableShelves = shelfOptions.filter((shelf) => upwellingData.some((row) => row.wind === windSpeed && row.shelf === shelf));
+  const measurement = upwellingData.find((row) => row.wind === windSpeed && row.shelf === shelfAngle) ?? upwellingData.reduce((closest, row) => {
+    const rowDistance = Math.abs(row.wind - windSpeed) / 40 + Math.abs(row.shelf - shelfAngle) / 2.5;
+    const closestDistance = Math.abs(closest.wind - windSpeed) / 40 + Math.abs(closest.shelf - shelfAngle) / 2.5;
+    return rowDistance < closestDistance ? row : closest;
+  });
   const planktonCount = Math.round(measurement.plankton * (nutrients / measurement.nutrients));
   const planktonStep = Math.floor(planktonCount / 10000);
   const bloomScale = Math.min(1.08, 0.48 + Math.log1p(planktonStep) * 0.065);
@@ -135,21 +135,6 @@ export default function Home() {
     if (subject.id === "currents") setCurrentTopic(null);
   };
 
-  const changeWind = (nextWind: number) => {
-    const rows = upwellingData.filter((row) => row.wind === nextWind);
-    const nextShelf = rows.some((row) => row.shelf === shelfAngle) ? shelfAngle : rows[0].shelf;
-    const nextMeasurement = rows.find((row) => row.shelf === nextShelf) ?? rows[0];
-    setWindSpeed(nextWind);
-    setShelfAngle(nextShelf);
-    setNutrients(nextMeasurement.nutrients);
-  };
-
-  const changeShelf = (nextShelf: number) => {
-    const nextMeasurement = upwellingData.find((row) => row.wind === windSpeed && row.shelf === nextShelf);
-    setShelfAngle(nextShelf);
-    if (nextMeasurement) setNutrients(nextMeasurement.nutrients);
-  };
-
   useEffect(() => {
     if (!selected) return;
     const onKey = (event: KeyboardEvent) => { if (event.key === "Escape") setSelected(null); };
@@ -161,7 +146,7 @@ export default function Home() {
     <main className="site-shell">
       <header className="site-header">
         <button className="brand" onClick={() => setSelected(null)} aria-label="Return to all subjects">
-          <img src="/assets/marine-biology-class-logo.png" alt="Marine Biology Class" />
+          <img src="/assets/marine-biology-class-logo-transparent.png" alt="Marine Biology Class" />
         </button>
         <p>Ocean Biology Study Guide</p>
         <span className="edition">Student edition · 2026</span>
@@ -291,11 +276,11 @@ export default function Home() {
                   <div className="simulator-controls">
                     <label>
                       <span>Ocean wind speed <output>{windSpeed} knots</output></span>
-                      <input type="range" min="0" max={windOptions.length - 1} step="1" value={windOptions.indexOf(windSpeed)} onChange={(event) => changeWind(windOptions[Number(event.target.value)])} />
+                      <input type="range" min="5" max="45" step="5" value={windSpeed} onChange={(event) => setWindSpeed(Number(event.target.value))} />
                     </label>
                     <label>
                       <span>Continental shelf angle <output>{shelfAngle}°</output></span>
-                      <input type="range" min="0" max={availableShelves.length - 1} step="1" value={availableShelves.indexOf(shelfAngle)} onChange={(event) => changeShelf(availableShelves[Number(event.target.value)])} />
+                      <input type="range" min="0.5" max="3" step="0.5" value={shelfAngle} onChange={(event) => setShelfAngle(Number(event.target.value))} />
                     </label>
                     <label>
                       <span>Nutrient level <output>{nutrients} µmol/L</output></span>
