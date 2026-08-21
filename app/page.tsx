@@ -86,12 +86,15 @@ export default function Home() {
   const [selected, setSelected] = useState<Subject | null>(null);
   const [currentTopic, setCurrentTopic] = useState<number | null>(null);
   const [windSpeed, setWindSpeed] = useState(25);
-  const [shelf, setShelf] = useState("broad");
+  const [shelfAngle, setShelfAngle] = useState(32);
   const [nutrients, setNutrients] = useState(60);
 
-  const shelfFactors: Record<string, number> = { broad: 1.15, steep: 0.8, canyon: 1.4 };
-  const planktonCount = Math.round((800 + windSpeed * nutrients * shelfFactors[shelf] * 75) / 100) * 100;
+  const shelfFactor = 0.72 + shelfAngle / 65;
+  const planktonCount = Math.round((800 + windSpeed * nutrients * shelfFactor * 75) / 100) * 100;
   const visiblePlankton = Math.min(60, Math.max(5, Math.round(planktonCount / 3500)));
+  const bloomLevel = visiblePlankton > 40 ? "high" : visiblePlankton > 20 ? "medium" : "low";
+  const hillShoulder = Math.max(40, 82 - shelfAngle);
+  const hillTop = Math.max(12, 38 - Math.round(shelfAngle / 3));
 
   const openSubject = (subject: Subject) => {
     setSelected(subject);
@@ -225,12 +228,8 @@ export default function Home() {
                     <input type="range" min="5" max="50" step="1" value={windSpeed} onChange={(event) => setWindSpeed(Number(event.target.value))} />
                   </label>
                   <label>
-                    <span>Land shelf configuration</span>
-                    <select value={shelf} onChange={(event) => setShelf(event.target.value)}>
-                      <option value="broad">Broad, gentle shelf</option>
-                      <option value="steep">Narrow, steep shelf</option>
-                      <option value="canyon">Shelf with canyon</option>
-                    </select>
+                    <span>Continental shelf angle <output>{shelfAngle}°</output></span>
+                    <input type="range" min="10" max="55" step="1" value={shelfAngle} onChange={(event) => setShelfAngle(Number(event.target.value))} />
                   </label>
                   <label>
                     <span>Nutrient level <output>{nutrients}%</output></span>
@@ -238,15 +237,18 @@ export default function Home() {
                   </label>
                 </div>
 
-                <div className={`ocean-model shelf-${shelf}`} aria-hidden="true">
+                <div className="ocean-model" aria-hidden="true">
                   <div className="sun-disc" />
+                  <div className="horizon-line" />
                   <div className="wind-stream"><span>→</span><span>→</span><span>→</span></div>
-                  <div className="plankton-cloud">
-                    {Array.from({ length: 60 }).map((_, index) => <i className={index < visiblePlankton ? "visible" : ""} key={index} />)}
+                  <div className="surface-flow-arrow"><span>←</span><small>warm surface water</small></div>
+                  <div className={`plankton-bloom ${bloomLevel}`}>
+                    {Array.from({ length: 9 }).map((_, index) => <i key={index} />)}
+                    <strong>Plankton bloom</strong>
                   </div>
-                  <div className="upwelling-plume"><span>↑</span><small>cold, nutrient-rich water</small></div>
-                  <div className="seafloor" />
-                  <div className="coast-land" />
+                  <div className="deep-current-arrow"><span>Upwelling</span></div>
+                  <div className="mineral-stream"><span>Fe</span><span>NO<sub>3</sub><sup>−</sup></span><span>PO<sub>4</sub><sup>3−</sup></span><span>SiO<sub>4</sub><sup>4−</sup></span></div>
+                  <div className="coastal-hill" style={{ clipPath: `polygon(26% 100%, 43% 91%, 61% ${hillShoulder}%, 78% 34%, 100% ${hillTop}%, 100% 100%)` }} />
                 </div>
 
                 <div className="plankton-result" aria-live="polite">
