@@ -142,6 +142,8 @@ footer { display:flex; justify-content:space-between; padding-top:31px; color:va
 .large-placeholder small { font:italic 16px/1.3 Georgia,serif; }
 .detail-visual.has-image { display:block; background:#061a2a; }
 .detail-visual.has-image img { width:100%; height:auto; min-height:100%; object-fit:cover; object-position:center top; }
+.detail-visual.has-topic-map { position:sticky; top:0; height:100svh; min-height:0; display:block; background:#061a2a; }
+.detail-visual.has-topic-map img { width:100%; height:100%; display:block; object-fit:cover; object-position:center; }
 .visual-label { position:absolute; right:28px; bottom:26px; left:28px; display:flex; justify-content:space-between; align-items:end; padding-top:16px; border-top:1px solid rgba(255,255,255,.35); color:white; }
 .visual-label span { font:700 8px/1 Arial,sans-serif; letter-spacing:.18em; text-transform:uppercase; }
 .visual-label p { margin:0; font:italic 15px/1 Georgia,serif; }

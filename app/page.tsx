@@ -230,6 +230,25 @@ export default function Home() {
                     </ul>
                     <p>When upwelling occurs, it acts like an ecological elevator, hoisting these concentrated nutrients up into the photic zone. Suddenly exposed to sunlight, microscopic marine plants called <strong>phytoplankton</strong> rapidly consume the nutrients, fueling explosive population growths known as <strong>algal blooms</strong>. These microscopic cells form the foundational base of the marine food web, instantly attracting zooplankton, small baitfish, and massive top-tier predators like whales, sharks, and commercial fish stocks.</p>
                   </article>
+                ) : currentTopic === 1 ? (
+                  <article className="current-article conveyor-article" role="tabpanel">
+                    <h2>A Planet-Wide Current System</h2>
+                    <p>Deep beneath the ocean&apos;s surface lies a massive current system moving more than 20 million tons of water every second (the equivalent of roughly 8,000 Olympic swimming pools). Formally called <strong>thermohaline circulation</strong>, this network is driven entirely by differences in water temperature (&quot;thermo&quot;) and saltiness (&quot;haline&quot;), which dictate seawater density. These forces set off a planet-wide loop that takes roughly 1,000 years to complete a single circuit.</p>
+                    <p>The journey begins in the frigid North Atlantic Ocean near Greenland and Iceland. Intense polar winds chill the surface water, causing it to contract and become denser. Simultaneously, sea ice forms on the surface, leaving salt behind in a process known as <strong>brine rejection</strong>. This remaining unfrozen water becomes extraordinarily salty and cold. Heavy and packed tight, this dense water mass sinks rapidly toward the abyss, creating a downwelling zone known as <strong>North Atlantic Deep Water (NADW)</strong>.</p>
+
+                    <h2>From the Atlantic to the Global Ocean</h2>
+                    <p>Once the NADW hits the ocean floor, it begins a slow, southward crawl along the Atlantic basin. It flows past the equator, enters the South Atlantic, and hooks into the Antarctic Circumpolar Current. In this frozen southern ring, the current picks up additional cold, dense water from the Antarctic shelf, gaining further momentum.</p>
+                    <p>From Antarctica, the deep current splits into two branches moving north into the Indian and Pacific Oceans. As these cold streams travel into warmer climates, they mix with less dense waters. Through a process called <strong>upwelling</strong>, the water warms, decreases in density, and rises back toward the surface. Now in the upper layers of the ocean, the water loops back toward the west and north, driven by winds and equatorial heat. It joins major surface currents like the <strong>Gulf Stream</strong>, carrying tropical heat northward across the Atlantic to replace the water constantly sinking near Greenland.</p>
+
+                    <h2>Climate Regulation and Nutrient Distribution</h2>
+                    <p>The global conveyor belt serves two functions vital to keeping the planet habitable: <strong>climate regulation</strong> and <strong>nutrient distribution</strong>.</p>
+                    <p>First, it acts as a planetary thermostat. By moving massive quantities of warm water from the equator to high latitudes, it moderates global climates. The heat released by the Gulf Stream in the North Atlantic keeps Western Europe relatively mild, preventing places like the United Kingdom from experiencing the brutally sub-zero winters seen at identical latitudes in Canada.</p>
+                    <p>Second, the conveyor belt supports the marine food web. The deep ocean floor acts as a repository for organic matter, rich in nitrates, phosphates, and decayed organisms. When upwelling currents lift this deep water back to the surface, they bring these rich nutrients into the sunlit zone. This sparks massive blooms of phytoplankton—microscopic organisms that serve as the fundamental base for all marine life, from small fish to blue whales.</p>
+
+                    <h2>A Vulnerable Engine</h2>
+                    <p>Today, marine scientists are watching the North Atlantic with growing concern. Human-driven climate change is causing global temperatures to rise, leading to rapid melting of the Greenland Ice Sheet and Arctic sea ice. This melting sends massive torrents of fresh water flooding into the North Atlantic downwelling zone.</p>
+                    <p>Because fresh water lacks salt, it is significantly less dense than salty ocean water. Furthermore, rising temperatures mean the surface water is not cooling down as intensely as it used to. This combination creates a buoyant fresh water cap on the ocean surface. If the surface water is too light to sink, the downwelling engine stalls. Without the heavy sinking water to push the deep current forward, the entire global conveyor belt could slow down or stop completely. A collapse of this system could trigger rapid climate shifts, causing plunging temperatures in Europe, altered global rainfall patterns, and a collapse of marine ecosystems due to starved nutrient cycles.</p>
+                  </article>
                 ) : (
                   <div className="current-placeholder" role="tabpanel">
                     <span>{currentTopics[currentTopic as number]}</span>
@@ -247,9 +266,11 @@ export default function Home() {
               </>
             )}
           </div>
-          <div className={`detail-visual ${selected.general ? "has-image" : ""}`}>
+          <div className={`detail-visual ${selected.general ? "has-image" : ""} ${selected.id === "currents" && currentTopic === 1 ? "has-topic-map" : ""}`}>
             {selected.general ? (
               <img src="/assets/ocean-depths-slide.png" alt="Complete scientific illustration of ocean depth zones" />
+            ) : selected.id === "currents" && currentTopic === 1 ? (
+              <img src="/assets/global-ocean-currents.png" alt="Global ocean circulation map showing warm and cold currents" />
             ) : selected.id === "currents" && currentTopic === 0 ? (
               <section className="upwelling-simulator" aria-labelledby="simulator-title">
                 <div className="simulator-heading">
