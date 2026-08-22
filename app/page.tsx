@@ -16,6 +16,12 @@ type Subject = {
   general?: boolean;
 };
 
+type QuizQuestion = {
+  prompt: string;
+  answer: string;
+  options?: string[];
+};
+
 const subjects: Subject[] = [
   {
     id: "currents",
@@ -82,6 +88,26 @@ const subjects: Subject[] = [
 
 const currentTopics = ["Upwelling", "Global Conveyor Belt", "Ocean Temperatures"];
 
+const upwellingQuiz: QuizQuestion[] = [
+  { prompt: "What causes moving ocean water to deflect as Earth rotates?", answer: "The Coriolis Effect", options: ["The Coriolis Effect", "Marine snow", "Brine rejection", "The thermocline"] },
+  { prompt: "In which direction is moving water deflected in the Northern Hemisphere?", answer: "To the right", options: ["To the right", "To the left", "Straight downward", "Toward the equator"] },
+  { prompt: "What is the net movement of surface water at a 90-degree angle to the wind called?", answer: "Ekman Transport", options: ["Ekman Transport", "Tidal mixing", "Brine rejection", "Downwelling"] },
+  { prompt: "During coastal upwelling, where does warm surface water move?", answer: "Away from the coast", options: ["Away from the coast", "Down the continental shelf", "Toward the seafloor", "Into a river"] },
+  { prompt: "What rises to replace the surface water pushed offshore?", answer: "Cold, nutrient-rich deep water", options: ["Cold, nutrient-rich deep water", "Warm, nutrient-poor water", "Fresh river water", "Melting sea ice"] },
+  { prompt: "What is the sunlit upper layer of the ocean called?", answer: "The photic zone", options: ["The photic zone", "The abyssal zone", "The benthic zone", "The trench zone"] },
+  { prompt: "What name is given to organic material that sinks through the ocean?", answer: "Marine snow", options: ["Marine snow", "Sea foam", "Brine", "Coastal fog"] },
+  { prompt: "What breaks down dead organisms and waste in the deep ocean?", answer: "Deep-sea bacteria", options: ["Deep-sea bacteria", "Ocean winds", "Sunlight", "Coral reefs"] },
+  { prompt: "Nitrates are especially important for making which materials in marine plants?", answer: "Proteins and nucleic acids", options: ["Proteins and nucleic acids", "Salt and sand", "Calcium and shells", "Oxygen bubbles"] },
+  { prompt: "Phosphates are important for which cellular job?", answer: "Energy transfer", options: ["Energy transfer", "Changing tides", "Producing salt", "Deflecting currents"] },
+  { prompt: "Which microscopic organisms use silicates to build glass-like shells?", answer: "Diatoms", options: ["Diatoms", "Jellyfish", "Whales", "Sea turtles"] },
+  { prompt: "What is a rapid increase in phytoplankton called?", answer: "An algal bloom", options: ["An algal bloom", "A spring tide", "A rain shadow", "A brine pool"] },
+  { prompt: "Which organisms form the foundational base of the marine food web?", answer: "Phytoplankton", options: ["Phytoplankton", "Sharks", "Whales", "Seabirds"] },
+  { prompt: "Spell the process in which deep ocean water rises toward the surface.", answer: "upwelling" },
+  { prompt: "Spell the microscopic marine plants that form the base of the food web.", answer: "phytoplankton" },
+];
+
+const normalizeQuizAnswer = (answer: string) => answer.trim().toLowerCase().replace(/[^a-z0-9]/g, "");
+
 const upwellingData = [
   { wind: 5, shelf: 0.5, nutrients: 0.5, plankton: 1200 },
   { wind: 5, shelf: 1.5, nutrients: 1.2, plankton: 3500 },
@@ -116,6 +142,11 @@ export default function Home() {
   const [windSpeed, setWindSpeed] = useState(10);
   const [shelfAngle, setShelfAngle] = useState(1.5);
   const [nutrients, setNutrients] = useState(5.8);
+  const [quizIndex, setQuizIndex] = useState(0);
+  const [quizAnswer, setQuizAnswer] = useState("");
+  const [quizSubmitted, setQuizSubmitted] = useState(false);
+  const [quizWasCorrect, setQuizWasCorrect] = useState(false);
+  const [quizScore, setQuizScore] = useState(0);
 
   const measurement = upwellingData.find((row) => row.wind === windSpeed && row.shelf === shelfAngle) ?? upwellingData.reduce((closest, row) => {
     const rowDistance = Math.abs(row.wind - windSpeed) / 40 + Math.abs(row.shelf - shelfAngle) / 2.5;
@@ -129,6 +160,31 @@ export default function Home() {
   const shelfVisualAngle = 10 + ((shelfAngle - 0.5) / 2.5) * 45;
   const hillShoulder = Math.max(40, 82 - shelfVisualAngle);
   const hillTop = Math.max(12, 38 - Math.round(shelfVisualAngle / 3));
+  const quizComplete = quizIndex >= upwellingQuiz.length;
+  const currentQuizQuestion = upwellingQuiz[Math.min(quizIndex, upwellingQuiz.length - 1)];
+
+  const submitQuizAnswer = () => {
+    if (!quizAnswer || quizSubmitted || quizComplete) return;
+    const isCorrect = normalizeQuizAnswer(quizAnswer) === normalizeQuizAnswer(currentQuizQuestion.answer);
+    setQuizWasCorrect(isCorrect);
+    setQuizSubmitted(true);
+    if (isCorrect) setQuizScore((score) => score + 1);
+  };
+
+  const showNextQuizQuestion = () => {
+    setQuizIndex((index) => index + 1);
+    setQuizAnswer("");
+    setQuizSubmitted(false);
+    setQuizWasCorrect(false);
+  };
+
+  const restartQuiz = () => {
+    setQuizIndex(0);
+    setQuizAnswer("");
+    setQuizSubmitted(false);
+    setQuizWasCorrect(false);
+    setQuizScore(0);
+  };
 
   const openSubject = (subject: Subject) => {
     setSelected(subject);
@@ -272,6 +328,7 @@ export default function Home() {
             ) : selected.id === "currents" && currentTopic === 1 ? (
               <img src="/assets/global-ocean-currents.png" alt="Global ocean circulation map showing warm and cold currents" />
             ) : selected.id === "currents" && currentTopic === 0 ? (
+              <>
               <section className="upwelling-simulator" aria-labelledby="simulator-title">
                 <div className="simulator-heading">
                   <span>Interactive field model</span>
@@ -318,6 +375,81 @@ export default function Home() {
                   </div>
                 </div>
               </section>
+              <section className="upwelling-quiz" aria-labelledby="upwelling-quiz-title">
+                <div className="quiz-shell">
+                  <div className="quiz-header">
+                    <div>
+                      <span>Knowledge check</span>
+                      <h2 id="upwelling-quiz-title">Upwelling quiz</h2>
+                    </div>
+                    <strong>{quizComplete ? "Complete" : `Question ${quizIndex + 1} of ${upwellingQuiz.length}`}</strong>
+                  </div>
+                  <div className="quiz-progress" aria-hidden="true">
+                    <i style={{ width: `${(Math.min(quizIndex + (quizSubmitted ? 1 : 0), upwellingQuiz.length) / upwellingQuiz.length) * 100}%` }} />
+                  </div>
+
+                  {quizComplete ? (
+                    <div className="quiz-finish" aria-live="polite">
+                      <span>Quiz complete</span>
+                      <strong>{quizScore} / {upwellingQuiz.length}</strong>
+                      <p>{quizScore === upwellingQuiz.length ? "Perfect score—you know how an upwelling event works." : "Nice work. Try it again to strengthen the parts you missed."}</p>
+                      <button type="button" onClick={restartQuiz}>Try the quiz again</button>
+                    </div>
+                  ) : (
+                    <div className="quiz-question">
+                      <p className="quiz-kind">{currentQuizQuestion.options ? "Four-choice question" : "Spelling question"}</p>
+                      <h3>{currentQuizQuestion.prompt}</h3>
+
+                      {currentQuizQuestion.options ? (
+                        <div className="quiz-options">
+                          {currentQuizQuestion.options.map((option, index) => (
+                            <button
+                              type="button"
+                              key={option}
+                              disabled={quizSubmitted}
+                              onClick={() => setQuizAnswer(option)}
+                              className={`quiz-option ${quizAnswer === option ? "selected" : ""} ${quizSubmitted && option === currentQuizQuestion.answer ? "correct" : ""} ${quizSubmitted && quizAnswer === option && option !== currentQuizQuestion.answer ? "incorrect" : ""}`}
+                            >
+                              <span>{String.fromCharCode(65 + index)}</span>
+                              {option}
+                            </button>
+                          ))}
+                        </div>
+                      ) : (
+                        <label className="spelling-answer">
+                          <span>Your spelling</span>
+                          <input
+                            type="text"
+                            value={quizAnswer}
+                            disabled={quizSubmitted}
+                            autoComplete="off"
+                            spellCheck="false"
+                            placeholder="Type your answer"
+                            onChange={(event) => setQuizAnswer(event.target.value)}
+                            onKeyDown={(event) => { if (event.key === "Enter") submitQuizAnswer(); }}
+                          />
+                        </label>
+                      )}
+
+                      {quizSubmitted && (
+                        <p className={`quiz-feedback ${quizWasCorrect ? "correct" : "incorrect"}`} aria-live="polite">
+                          {quizWasCorrect ? "Correct!" : <>Not quite. The correct answer is <strong>{currentQuizQuestion.answer}</strong>.</>}
+                        </p>
+                      )}
+
+                      <div className="quiz-actions">
+                        <span>Score: {quizScore} / {quizIndex + (quizSubmitted ? 1 : 0)}</span>
+                        {!quizSubmitted ? (
+                          <button type="button" disabled={!quizAnswer} onClick={submitQuizAnswer}>Check answer</button>
+                        ) : (
+                          <button type="button" onClick={showNextQuizQuestion}>{quizIndex === upwellingQuiz.length - 1 ? "See results" : "Next question →"}</button>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </section>
+              </>
             ) : selected.id === "currents" ? (
               <div className="large-placeholder currents-placeholder"><span>↝</span><p>{currentTopics[currentTopic as number]}</p><small>{currentTopic === 0 ? "Nutrients rise · life follows" : "ABCDE"}</small></div>
             ) : (
