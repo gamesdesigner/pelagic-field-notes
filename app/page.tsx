@@ -108,6 +108,24 @@ const upwellingQuiz: QuizQuestion[] = [
 
 const normalizeQuizAnswer = (answer: string) => answer.trim().toLowerCase().replace(/[^a-z0-9]/g, "");
 
+const spellingDistance = (entered: string, expected: string) => {
+  const rows = Array.from({ length: expected.length + 1 }, (_, index) => index);
+  for (let enteredIndex = 1; enteredIndex <= entered.length; enteredIndex += 1) {
+    let diagonal = rows[0];
+    rows[0] = enteredIndex;
+    for (let expectedIndex = 1; expectedIndex <= expected.length; expectedIndex += 1) {
+      const previousRow = rows[expectedIndex];
+      rows[expectedIndex] = Math.min(
+        rows[expectedIndex] + 1,
+        rows[expectedIndex - 1] + 1,
+        diagonal + (entered[enteredIndex - 1] === expected[expectedIndex - 1] ? 0 : 1),
+      );
+      diagonal = previousRow;
+    }
+  }
+  return rows[expected.length];
+};
+
 const upwellingData = [
   { wind: 5, shelf: 0.5, nutrients: 0.5, plankton: 1200 },
   { wind: 5, shelf: 1.5, nutrients: 1.2, plankton: 3500 },
@@ -165,7 +183,11 @@ export default function Home() {
 
   const submitQuizAnswer = () => {
     if (!quizAnswer || quizSubmitted || quizComplete) return;
-    const isCorrect = normalizeQuizAnswer(quizAnswer) === normalizeQuizAnswer(currentQuizQuestion.answer);
+    const enteredAnswer = normalizeQuizAnswer(quizAnswer);
+    const expectedAnswer = normalizeQuizAnswer(currentQuizQuestion.answer);
+    const isCorrect = currentQuizQuestion.options
+      ? enteredAnswer === expectedAnswer
+      : spellingDistance(enteredAnswer, expectedAnswer) <= 2;
     setQuizWasCorrect(isCorrect);
     setQuizSubmitted(true);
     if (isCorrect) setQuizScore((score) => score + 1);
