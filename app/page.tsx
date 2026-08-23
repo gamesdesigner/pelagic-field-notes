@@ -103,10 +103,15 @@ const upwellingQuiz: QuizQuestion[] = [
   { prompt: "What is a rapid increase in phytoplankton called?", answer: "An algal bloom", options: ["An algal bloom", "A spring tide", "A rain shadow", "A brine pool"] },
   { prompt: "Which organisms form the foundational base of the marine food web?", answer: "Phytoplankton", options: ["Phytoplankton", "Sharks", "Whales", "Seabirds"] },
   { prompt: "Spell the process in which deep ocean water rises toward the surface.", answer: "upwelling" },
-  { prompt: "Spell the microscopic marine plants that form the base of the food web.", answer: "phytoplankton" },
+  { prompt: "Spell the general name for tiny organisms that drift in ocean currents.", answer: "plankton" },
 ];
 
 const normalizeQuizAnswer = (answer: string) => answer.trim().toLowerCase().replace(/[^a-z0-9]/g, "");
+
+const rotateQuizOptions = (options: string[], questionIndex: number) => {
+  const shift = (questionIndex * 3 + 1) % options.length;
+  return [...options.slice(shift), ...options.slice(0, shift)];
+};
 
 const spellingDistance = (entered: string, expected: string) => {
   const rows = Array.from({ length: expected.length + 1 }, (_, index) => index);
@@ -424,7 +429,7 @@ export default function Home() {
 
                       {currentQuizQuestion.options ? (
                         <div className="quiz-options">
-                          {currentQuizQuestion.options.map((option, index) => (
+                          {rotateQuizOptions(currentQuizQuestion.options, quizIndex).map((option, index) => (
                             <button
                               type="button"
                               key={option}
