@@ -155,6 +155,36 @@ footer { display:flex; justify-content:space-between; padding-top:31px; color:va
 .upwelling-layout .current-article h2,.upwelling-layout .current-article p,.upwelling-layout .current-article ul { break-inside:avoid; }
 .upwelling-layout .detail-visual { min-height:calc(100svh - 110px); display:block; overflow:visible; }
 .upwelling-layout .visual-label { display:none; }
+.conveyor-layout { display:block; }
+.conveyor-layout .detail-copy { min-height:auto; padding:110px clamp(35px,7vw,110px) 82px; }
+.conveyor-layout .detail-meta { margin-bottom:55px; }
+.conveyor-layout .detail-copy>h1 { max-width:none; font-size:clamp(58px,7vw,104px); }
+.conveyor-layout .current-article { max-width:1280px; columns:2; column-gap:clamp(42px,6vw,90px); column-rule:1px solid var(--line); }
+.conveyor-layout .current-article h2,.conveyor-layout .current-article p { break-inside:avoid; }
+.conveyor-layout .detail-visual.has-topic-map { position:relative; top:auto; width:100%; height:calc(100svh - 110px); min-height:720px; }
+.conveyor-layout .visual-label { display:none; }
+.conveyor-simulator { position:relative; width:100%; height:100%; overflow:hidden; background:#061a2a; }
+.conveyor-simulator>img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; }
+.conveyor-simulator::after { content:""; position:absolute; inset:45% 0 0; background:linear-gradient(transparent,rgba(1,17,29,.9)); pointer-events:none; }
+.conveyor-temperature-panel { position:absolute; z-index:3; right:clamp(20px,4vw,58px); bottom:clamp(20px,4vw,48px); left:clamp(20px,4vw,58px); display:grid; grid-template-columns:minmax(260px,1.05fr) minmax(390px,1.7fr) minmax(210px,.75fr); gap:clamp(22px,4vw,56px); align-items:center; padding:clamp(20px,3vw,34px); border:1px solid rgba(255,255,255,.32); background:rgba(3,27,43,.91); color:white; backdrop-filter:blur(12px); }
+.conveyor-panel-heading>span { color:#f3b19e; font-size:12px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; }
+.conveyor-panel-heading h2 { margin:7px 0 8px; font-size:clamp(26px,2.7vw,42px); line-height:.98; }
+.conveyor-panel-heading p { margin:0; color:rgba(255,255,255,.72); font-size:15px; line-height:1.4; }
+.conveyor-controls { display:grid; gap:24px; }
+.conveyor-controls label { display:grid; gap:10px; }
+.conveyor-controls label>span { display:flex; justify-content:space-between; gap:15px; color:rgba(255,255,255,.86); font-size:14px; font-weight:700; letter-spacing:.04em; }
+.conveyor-controls output { color:#ffb199; }
+.conveyor-controls input[type="range"] { width:100%; accent-color:#e76f50; cursor:pointer; }
+.conveyor-speed { display:flex; align-items:center; justify-content:flex-end; gap:18px; }
+.conveyor-speed>div:last-child { display:grid; min-width:105px; }
+.conveyor-speed span { color:rgba(255,255,255,.65); font-size:12px; letter-spacing:.08em; text-transform:uppercase; }
+.conveyor-speed strong { margin:3px 0; color:#ffb199; font-size:32px; font-weight:400; }
+.conveyor-speed small { color:white; font-size:14px; }
+.speed-gauge { position:relative; flex:0 0 116px; width:116px; height:116px; border-radius:50%; background:conic-gradient(from 210deg,#b85045 0 28%,#e8bd62 28% 57%,#66a888 57% 79%,transparent 79% 100%); box-shadow:inset 0 0 0 13px rgba(3,27,43,.88); }
+.speed-gauge::before { content:"SLOW"; position:absolute; left:-4px; bottom:8px; color:rgba(255,255,255,.7); font-size:9px; }
+.speed-gauge::after { content:"FAST"; position:absolute; right:-2px; bottom:8px; color:rgba(255,255,255,.7); font-size:9px; }
+.speed-gauge i { position:absolute; z-index:2; left:56px; bottom:56px; width:3px; height:42px; transform:rotate(var(--gauge-rotation)); transform-origin:50% 100%; background:white; border-radius:3px; transition:transform .4s cubic-bezier(.2,.8,.2,1); }
+.speed-gauge b { position:absolute; z-index:3; left:50%; top:50%; width:14px; height:14px; border-radius:50%; background:white; transform:translate(-50%,-50%); }
 .upwelling-quiz { min-height:100svh; display:grid; place-items:center; padding:clamp(54px,8vw,110px) clamp(22px,7vw,100px); color:var(--ink); background:linear-gradient(145deg,#f5f2e9,#e2ebe5); }
 .quiz-shell { width:min(920px,100%); padding:clamp(28px,5vw,64px); border:1px solid var(--line); background:rgba(255,255,255,.68); box-shadow:0 28px 75px rgba(12,48,52,.1); }
 .quiz-header { display:flex; align-items:flex-end; justify-content:space-between; gap:24px; }
@@ -199,6 +229,9 @@ body,body * { font-family:"Times New Roman",Times,serif!important; }
   .detail-visual { min-height:60svh; }
   .detail-copy { min-height:calc(100svh - 110px); }
   .upwelling-layout .current-article { columns:1; }
+  .conveyor-layout .current-article { columns:1; }
+  .conveyor-temperature-panel { grid-template-columns:1fr 1.4fr; }
+  .conveyor-speed { grid-column:1/-1; justify-content:flex-start; }
   .quiz-options { grid-template-columns:1fr; }
 }
 @media(max-width:620px) {
@@ -232,6 +265,12 @@ body,body * { font-family:"Times New Roman",Times,serif!important; }
   .plankton-result>span { grid-column:1/-1; }
   .plankton-result small { margin-left:9px; padding-bottom:3px; }
   .large-placeholder { width:82%; }
+  .conveyor-layout .detail-visual.has-topic-map { height:880px; min-height:880px; }
+  .conveyor-simulator>img { height:50%; object-fit:contain; object-position:center top; }
+  .conveyor-simulator::after { inset:18% 0 0; }
+  .conveyor-temperature-panel { right:16px; bottom:16px; left:16px; grid-template-columns:1fr; gap:22px; }
+  .conveyor-speed { grid-column:auto; justify-content:flex-start; }
+  .conveyor-panel-heading p { font-size:14px; }
   .upwelling-quiz { min-height:calc(100svh - 82px); padding:48px 18px; }
   .quiz-shell { padding:28px 20px; }
   .quiz-header { align-items:flex-start; flex-direction:column; gap:12px; }
