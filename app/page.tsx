@@ -285,8 +285,14 @@ export default function Home() {
             {currentTopics.map((topic, index) => (
               <button className={`current-subject-card topic-${index + 1}`} key={topic} onClick={() => setCurrentTopic(index)}>
                 <span className="card-number">{String(index + 1).padStart(2, "0")}</span>
-                <div className={`current-card-art ${index === 0 ? "has-topic-image" : ""}`} aria-hidden="true">
-                  {index === 0 ? <img src="/assets/upwelling-side-view.png" alt="" /> : <><span>{index === 1 ? "∞" : "°"}</span><small>Study topic</small></>}
+                <div className={`current-card-art ${index < 2 ? "has-topic-image" : ""}`} aria-hidden="true">
+                  {index === 0 ? (
+                    <img src="/assets/upwelling-side-view.png" alt="" />
+                  ) : index === 1 ? (
+                    <img src="/assets/global-conveyor-belt.png?v=2" alt="" />
+                  ) : (
+                    <><span>°</span><small>Study topic</small></>
+                  )}
                 </div>
                 <div className="card-copy"><span>Ocean currents</span><h2>{topic}</h2><p>Click to reveal this topic.</p></div>
                 <span className="card-arrow">↗</span>
@@ -360,7 +366,7 @@ export default function Home() {
               <img src="/assets/ocean-depths-slide.png" alt="Complete scientific illustration of ocean depth zones" />
             ) : selected.id === "currents" && currentTopic === 1 ? (
               <section className="conveyor-simulator" aria-labelledby="conveyor-model-title">
-                <img src="/assets/global-conveyor-belt.png" alt="Global conveyor belt map showing warm surface currents in red and cold currents in blue" />
+                <img src="/assets/global-conveyor-belt.png?v=2" alt="Global conveyor belt map showing warm surface currents in red and cold currents in blue" />
                 <div className="conveyor-temperature-panel">
                   <div className="conveyor-panel-heading">
                     <span>Interactive temperature model</span>
