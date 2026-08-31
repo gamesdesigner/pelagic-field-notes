@@ -1,6 +1,6 @@
 "use client";
 
-import { type CSSProperties, useEffect, useState } from "react";
+import { type CSSProperties, useEffect, useRef, useState } from "react";
 
 type Subject = {
   id: string;
@@ -158,6 +158,97 @@ const mineralParticles = Array.from({ length: 36 }, (_, index) => ({
   drift: `${-34 + ((index * 23) % 69)}px`,
   rise: `-${170 + ((index * 41) % 210)}px`,
 }));
+
+function CoriolisGlobe() {
+  const earthRef = useRef<HTMLDivElement>(null);
+  const motionRef = useRef({ x: 0, y: 0, dragging: false, lastX: 0, lastY: 0 });
+  const pausedRef = useRef(false);
+  const [paused, setPaused] = useState(false);
+
+  const updateEarth = () => {
+    const earth = earthRef.current;
+    if (!earth) return;
+    earth.style.backgroundPosition = `${motionRef.current.x}px calc(50% + ${motionRef.current.y}px)`;
+  };
+
+  const turnEarth = (amount: number) => {
+    motionRef.current.x += amount;
+    updateEarth();
+  };
+
+  useEffect(() => {
+    pausedRef.current = paused;
+  }, [paused]);
+
+  useEffect(() => {
+    let frame = 0;
+    let previousTime = performance.now();
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const animate = (time: number) => {
+      const elapsed = Math.min(40, time - previousTime);
+      previousTime = time;
+      if (!reduceMotion && !pausedRef.current && !motionRef.current.dragging) {
+        motionRef.current.x -= elapsed * 0.018;
+        updateEarth();
+      }
+      frame = requestAnimationFrame(animate);
+    };
+    frame = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
+  return (
+    <section className="coriolis-globe-model" aria-labelledby="coriolis-globe-title">
+      <div className="coriolis-globe-heading">
+        <span>Interactive rotating model</span>
+        <h2 id="coriolis-globe-title">Spin the Earth</h2>
+        <p>Drag the globe to inspect the opposite side. The moving bands represent large-scale atmospheric circulation around the rotating planet.</p>
+      </div>
+
+      <div className="globe-stage">
+        <div className="atmosphere-ring ring-north" aria-hidden="true"><span>➤</span></div>
+        <div className="atmosphere-ring ring-equator" aria-hidden="true"><span>➤</span></div>
+        <div className="atmosphere-ring ring-south" aria-hidden="true"><span>➤</span></div>
+        <div
+          ref={earthRef}
+          className="interactive-earth"
+          role="img"
+          aria-label="A draggable rotating Earth with animated atmospheric current bands"
+          onPointerDown={(event) => {
+            event.currentTarget.setPointerCapture(event.pointerId);
+            motionRef.current.dragging = true;
+            motionRef.current.lastX = event.clientX;
+            motionRef.current.lastY = event.clientY;
+          }}
+          onPointerMove={(event) => {
+            if (!motionRef.current.dragging) return;
+            const deltaX = event.clientX - motionRef.current.lastX;
+            const deltaY = event.clientY - motionRef.current.lastY;
+            motionRef.current.x += deltaX * 1.15;
+            motionRef.current.y = Math.max(-55, Math.min(55, motionRef.current.y + deltaY * 0.45));
+            motionRef.current.lastX = event.clientX;
+            motionRef.current.lastY = event.clientY;
+            updateEarth();
+          }}
+          onPointerUp={(event) => {
+            motionRef.current.dragging = false;
+            event.currentTarget.releasePointerCapture(event.pointerId);
+          }}
+          onPointerCancel={() => { motionRef.current.dragging = false; }}
+          onLostPointerCapture={() => { motionRef.current.dragging = false; }}
+          style={{ backgroundImage: "url('/assets/global-conveyor-belt.png?v=2')" }}
+        />
+      </div>
+
+      <div className="globe-controls">
+        <button type="button" onClick={() => turnEarth(95)} aria-label="Turn Earth west">← Turn west</button>
+        <button type="button" className="globe-pause" aria-pressed={paused} onClick={() => setPaused((value) => !value)}>{paused ? "Resume rotation" : "Pause rotation"}</button>
+        <button type="button" onClick={() => turnEarth(-95)} aria-label="Turn Earth east">Turn east →</button>
+      </div>
+      <p className="globe-instruction">Drag left, right, up, or down to explore.</p>
+    </section>
+  );
+}
 
 export default function Home() {
   const [selected, setSelected] = useState<Subject | null>(null);
@@ -524,6 +615,8 @@ export default function Home() {
                 </div>
               </section>
               </>
+            ) : selected.id === "currents" && currentTopic === 2 ? (
+              <CoriolisGlobe />
             ) : selected.id === "currents" ? (
               <div className="large-placeholder currents-placeholder"><span>↝</span><p>{currentTopics[currentTopic as number]}</p><small>{currentTopic === 0 ? "Nutrients rise · life follows" : "ABCDE"}</small></div>
             ) : (
