@@ -159,21 +159,29 @@ const mineralParticles = Array.from({ length: 36 }, (_, index) => ({
   rise: `-${170 + ((index * 41) % 210)}px`,
 }));
 
+type GlobePoint = [number, number];
+
+// Simplified geographic outlines, projected onto the sphere at runtime.
+// The globe is drawn entirely in code and does not use an image texture.
+const globeContinents: GlobePoint[][] = [
+  [[-168,72],[-150,70],[-140,61],[-128,55],[-123,48],[-117,33],[-106,23],[-96,18],[-86,21],[-81,30],[-75,40],[-65,47],[-60,54],[-72,59],[-84,63],[-98,69],[-120,74],[-145,75]],
+  [[-81,12],[-74,9],[-66,3],[-55,-7],[-49,-18],[-53,-31],[-61,-43],[-69,-54],[-75,-41],[-79,-22],[-81,-5]],
+  [[-54,83],[-28,80],[-19,70],[-30,60],[-46,59],[-60,67],[-66,76]],
+  [[-10,36],[0,44],[18,46],[31,42],[42,36],[51,28],[49,13],[42,-2],[35,-18],[27,-34],[18,-35],[8,-26],[1,-8],[-7,8],[-17,15],[-17,28]],
+  [[-10,36],[-6,48],[4,56],[17,60],[31,69],[52,72],[76,72],[102,77],[132,72],[158,62],[172,52],[151,45],[132,48],[121,39],[112,23],[102,8],[91,7],[78,21],[63,24],[52,31],[42,36],[31,42],[18,46],[4,44]],
+  [[112,-11],[130,-12],[145,-19],[153,-30],[146,-42],[131,-43],[116,-35],[112,-23]],
+  [[166,-34],[178,-37],[174,-46],[166,-47]],
+  [[-180,-69],[-145,-72],[-110,-70],[-75,-74],[-35,-71],[0,-75],[45,-70],[85,-74],[125,-70],[165,-73],[180,-69],[180,-90],[-180,-90]],
+];
+
 function CoriolisGlobe() {
-  const earthRef = useRef<HTMLDivElement>(null);
-  const motionRef = useRef({ x: 0, y: 0, dragging: false, lastX: 0, lastY: 0 });
+  const earthRef = useRef<HTMLCanvasElement>(null);
+  const motionRef = useRef({ longitude: -0.35, tilt: -0.12, dragging: false, lastX: 0, lastY: 0 });
   const pausedRef = useRef(false);
   const [paused, setPaused] = useState(false);
 
-  const updateEarth = () => {
-    const earth = earthRef.current;
-    if (!earth) return;
-    earth.style.backgroundPosition = `${motionRef.current.x}px calc(50% + ${motionRef.current.y}px)`;
-  };
-
   const turnEarth = (amount: number) => {
-    motionRef.current.x += amount;
-    updateEarth();
+    motionRef.current.longitude += amount;
   };
 
   useEffect(() => {
@@ -184,13 +192,114 @@ function CoriolisGlobe() {
     let frame = 0;
     let previousTime = performance.now();
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const canvas = earthRef.current;
+    if (!canvas) return;
+
+    const project = (longitude: number, latitude: number, radius: number, centre: number) => {
+      const lon = longitude * Math.PI / 180 + motionRef.current.longitude;
+      const lat = latitude * Math.PI / 180;
+      const cosLat = Math.cos(lat);
+      const x = cosLat * Math.sin(lon);
+      const y = Math.sin(lat);
+      const z = cosLat * Math.cos(lon);
+      const cosTilt = Math.cos(motionRef.current.tilt);
+      const sinTilt = Math.sin(motionRef.current.tilt);
+      const tiltedY = y * cosTilt - z * sinTilt;
+      const tiltedZ = y * sinTilt + z * cosTilt;
+      return { x: centre + x * radius, y: centre - tiltedY * radius, visible: tiltedZ > 0 };
+    };
+
+    const drawEarth = () => {
+      const bounds = canvas.getBoundingClientRect();
+      const size = Math.max(1, Math.round(Math.min(bounds.width, bounds.height)));
+      const scale = Math.min(window.devicePixelRatio || 1, 2);
+      const pixels = Math.round(size * scale);
+      if (canvas.width !== pixels || canvas.height !== pixels) {
+        canvas.width = pixels;
+        canvas.height = pixels;
+      }
+      const context = canvas.getContext("2d");
+      if (!context) return;
+      context.setTransform(scale, 0, 0, scale, 0, 0);
+      context.clearRect(0, 0, size, size);
+      const centre = size / 2;
+      const radius = size * 0.47;
+
+      context.save();
+      context.beginPath();
+      context.arc(centre, centre, radius, 0, Math.PI * 2);
+      context.clip();
+      const ocean = context.createRadialGradient(centre - radius * .35, centre - radius * .38, radius * .08, centre, centre, radius * 1.1);
+      ocean.addColorStop(0, "#49c7e0");
+      ocean.addColorStop(.38, "#08799e");
+      ocean.addColorStop(.78, "#064467");
+      ocean.addColorStop(1, "#021b32");
+      context.fillStyle = ocean;
+      context.fillRect(0, 0, size, size);
+
+      context.lineWidth = Math.max(1, size * .0018);
+      context.strokeStyle = "rgba(170,235,247,.22)";
+      const drawProjectedLine = (points: GlobePoint[]) => {
+        context.beginPath();
+        let drawing = false;
+        points.forEach(([lon, lat]) => {
+          const point = project(lon, lat, radius, centre);
+          if (!point.visible) { drawing = false; return; }
+          if (!drawing) context.moveTo(point.x, point.y); else context.lineTo(point.x, point.y);
+          drawing = true;
+        });
+        context.stroke();
+      };
+      for (let latitude = -60; latitude <= 60; latitude += 30) {
+        drawProjectedLine(Array.from({ length: 145 }, (_, index) => [-180 + index * 2.5, latitude] as GlobePoint));
+      }
+      for (let longitude = -180; longitude < 180; longitude += 30) {
+        drawProjectedLine(Array.from({ length: 73 }, (_, index) => [longitude, -90 + index * 2.5] as GlobePoint));
+      }
+
+      globeContinents.forEach((continent, continentIndex) => {
+        const visiblePoints = continent.map(([lon, lat]) => project(lon, lat, radius, centre)).filter((point) => point.visible);
+        if (visiblePoints.length < 3) return;
+        const land = context.createLinearGradient(centre - radius, centre - radius, centre + radius, centre + radius);
+        land.addColorStop(0, continentIndex % 2 ? "#9fd56b" : "#b8df79");
+        land.addColorStop(.55, "#4f9b5c");
+        land.addColorStop(1, "#246d51");
+        context.beginPath();
+        visiblePoints.forEach((point, index) => index === 0 ? context.moveTo(point.x, point.y) : context.lineTo(point.x, point.y));
+        context.closePath();
+        context.fillStyle = land;
+        context.fill();
+        context.strokeStyle = "rgba(222,248,189,.45)";
+        context.lineWidth = Math.max(1, size * .0022);
+        context.stroke();
+      });
+
+      const shade = context.createLinearGradient(centre - radius, centre, centre + radius, centre);
+      shade.addColorStop(0, "rgba(255,255,255,.19)");
+      shade.addColorStop(.47, "rgba(255,255,255,0)");
+      shade.addColorStop(.72, "rgba(0,10,27,.2)");
+      shade.addColorStop(1, "rgba(0,4,18,.86)");
+      context.fillStyle = shade;
+      context.fillRect(0, 0, size, size);
+      context.restore();
+
+      context.beginPath();
+      context.arc(centre, centre, radius, 0, Math.PI * 2);
+      context.strokeStyle = "rgba(169,229,255,.78)";
+      context.lineWidth = Math.max(2, size * .0045);
+      context.shadowColor = "rgba(80,202,244,.65)";
+      context.shadowBlur = size * .035;
+      context.stroke();
+      context.shadowBlur = 0;
+    };
+
     const animate = (time: number) => {
       const elapsed = Math.min(40, time - previousTime);
       previousTime = time;
       if (!reduceMotion && !pausedRef.current && !motionRef.current.dragging) {
-        motionRef.current.x -= elapsed * 0.018;
-        updateEarth();
+        motionRef.current.longitude -= elapsed * 0.00011;
       }
+      drawEarth();
       frame = requestAnimationFrame(animate);
     };
     frame = requestAnimationFrame(animate);
@@ -209,11 +318,11 @@ function CoriolisGlobe() {
         <div className="atmosphere-ring ring-north" aria-hidden="true"><span>➤</span></div>
         <div className="atmosphere-ring ring-equator" aria-hidden="true"><span>➤</span></div>
         <div className="atmosphere-ring ring-south" aria-hidden="true"><span>➤</span></div>
-        <div
+        <canvas
           ref={earthRef}
           className="interactive-earth"
           role="img"
-          aria-label="A draggable rotating Earth with animated atmospheric current bands"
+          aria-label="A draggable, code-rendered three-dimensional Earth with animated atmospheric current bands"
           onPointerDown={(event) => {
             event.currentTarget.setPointerCapture(event.pointerId);
             motionRef.current.dragging = true;
@@ -224,11 +333,10 @@ function CoriolisGlobe() {
             if (!motionRef.current.dragging) return;
             const deltaX = event.clientX - motionRef.current.lastX;
             const deltaY = event.clientY - motionRef.current.lastY;
-            motionRef.current.x += deltaX * 1.15;
-            motionRef.current.y = Math.max(-55, Math.min(55, motionRef.current.y + deltaY * 0.45));
+            motionRef.current.longitude += deltaX * 0.009;
+            motionRef.current.tilt = Math.max(-1.05, Math.min(1.05, motionRef.current.tilt - deltaY * 0.007));
             motionRef.current.lastX = event.clientX;
             motionRef.current.lastY = event.clientY;
-            updateEarth();
           }}
           onPointerUp={(event) => {
             motionRef.current.dragging = false;
@@ -236,14 +344,13 @@ function CoriolisGlobe() {
           }}
           onPointerCancel={() => { motionRef.current.dragging = false; }}
           onLostPointerCapture={() => { motionRef.current.dragging = false; }}
-          style={{ backgroundImage: "url('/assets/global-conveyor-belt.png?v=2')" }}
         />
       </div>
 
       <div className="globe-controls">
-        <button type="button" onClick={() => turnEarth(95)} aria-label="Turn Earth west">← Turn west</button>
+        <button type="button" onClick={() => turnEarth(0.55)} aria-label="Turn Earth west">← Turn west</button>
         <button type="button" className="globe-pause" aria-pressed={paused} onClick={() => setPaused((value) => !value)}>{paused ? "Resume rotation" : "Pause rotation"}</button>
-        <button type="button" onClick={() => turnEarth(-95)} aria-label="Turn Earth east">Turn east →</button>
+        <button type="button" onClick={() => turnEarth(-0.55)} aria-label="Turn Earth east">Turn east →</button>
       </div>
       <p className="globe-instruction">Drag left, right, up, or down to explore.</p>
     </section>
