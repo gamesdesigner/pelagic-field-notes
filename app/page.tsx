@@ -86,7 +86,7 @@ const subjects: Subject[] = [
   },
 ];
 
-const currentTopics = ["Upwelling", "Global Conveyor Belt", "Ocean Temperatures"];
+const currentTopics = ["Upwelling", "Global Conveyor Belt", "Coriolis Effect"];
 
 const upwellingQuiz: QuizQuestion[] = [
   { prompt: "What causes moving ocean water to deflect as Earth rotates?", answer: "The Coriolis Effect", options: ["The Coriolis Effect", "Marine snow", "Brine rejection", "The thermocline"] },
@@ -291,7 +291,7 @@ export default function Home() {
                   ) : index === 1 ? (
                     <img src="/assets/global-conveyor-belt.png?v=2" alt="" />
                   ) : (
-                    <><span>°</span><small>Study topic</small></>
+                    <><span>↻</span><small>Study topic</small></>
                   )}
                 </div>
                 <div className="card-copy"><span>Ocean currents</span><h2>{topic}</h2><p>Click to reveal this topic.</p></div>
@@ -301,7 +301,7 @@ export default function Home() {
           </div>
         </section>
       ) : (
-        <section className={`subject-detail ${selected.tone} ${selected.id === "currents" && currentTopic === 0 ? "upwelling-layout" : ""} ${selected.id === "currents" && currentTopic === 1 ? "conveyor-layout" : ""}`} aria-labelledby="detail-title">
+        <section className={`subject-detail ${selected.tone} ${selected.id === "currents" && currentTopic === 0 ? "upwelling-layout" : ""} ${selected.id === "currents" && currentTopic === 1 ? "conveyor-layout" : ""} ${selected.id === "currents" && currentTopic === 2 ? "coriolis-layout" : ""}`} aria-labelledby="detail-title">
           <button className="back-button" onClick={() => selected.id === "currents" ? setCurrentTopic(null) : setSelected(null)}><span>←</span> {selected.id === "currents" ? "Ocean Currents" : "All subjects"}</button>
           <div className={`detail-copy ${selected.id === "currents" ? "currents-copy" : ""}`}>
             <div className="detail-meta"><span>{selected.number} · Ocean subject</span><span>{selected.depth}</span></div>
@@ -345,10 +345,19 @@ export default function Home() {
                     <p>Because fresh water lacks salt, it is significantly less dense than salty ocean water. Furthermore, rising temperatures mean the surface water is not cooling down as intensely as it used to. This combination creates a buoyant fresh water cap on the ocean surface. If the surface water is too light to sink, the downwelling engine stalls. Without the heavy sinking water to push the deep current forward, the entire global conveyor belt could slow down or stop completely. A collapse of this system could trigger rapid climate shifts, causing plunging temperatures in Europe, altered global rainfall patterns, and a collapse of marine ecosystems due to starved nutrient cycles.</p>
                   </article>
                 ) : (
-                  <div className="current-placeholder" role="tabpanel">
-                    <span>{currentTopics[currentTopic as number]}</span>
-                    <strong>ABCDE</strong>
-                  </div>
+                  <article className="current-article coriolis-article" role="tabpanel">
+                    <h2>Section 1: The Coriolis Effect</h2>
+                    <p>The <strong>Coriolis effect</strong> is the apparent deflection of freely moving objects caused entirely by the rotation of the Earth. When winds, ocean currents, airplanes, or projectiles travel long distances across the globe, their paths appear to curve relative to the ground below. This phenomenon occurs because the observer is standing on a rotating planet, which creates the illusion of a sideways force acting on the moving object. In reality, there is no physical force pushing the object sideways; the deflection is a result of looking at a straight path from a spinning frame of reference.</p>
+
+                    <h2>Section 2: Physical Mechanism</h2>
+                    <p>The underlying cause of this effect is the difference in rotational speed at different latitudes on a spherical planet. The Earth completes one full rotation every twenty-four hours on its axis. Because a sphere has the largest circumference at its middle, the ground at the equator must travel much faster than the ground near the poles to finish a rotation in the same amount of time. At the equator, the Earth spins eastward at approximately one thousand miles per hour, whereas at mid-latitudes the speed decreases to roughly seven hundred miles per hour, eventually dropping to zero at the exact poles. When an object or air mass moves away from the equator toward the north or south, its inertia preserves its initial fast eastward momentum. As it enters areas where the ground beneath it moves slower, the object outpaces the Earth&apos;s rotation and moves ahead of the surface, resulting in an eastward curve.</p>
+
+                    <h2>Section 3: Geographic Rules</h2>
+                    <p>The direction of the deflection depends entirely on the hemisphere of the planet. In the <strong>Northern Hemisphere</strong>, freely moving objects always deflect to the <strong>right</strong> of their intended direction of travel. This rightward curve applies whether the object travels north, south, east, or west. In the <strong>Southern Hemisphere</strong>, freely moving objects always deflect to the <strong>left</strong> of their intended direction of travel. The Coriolis effect is exactly zero at the equator because moving strictly east or west along the center of the sphere involves no change in the radius of rotation.</p>
+
+                    <h2>Section 4: Atmospheric and Technical Impacts</h2>
+                    <p>This phenomenon directly dictates the structural behavior of large weather systems, ocean gyres, and long-range navigation. Hurricanes develop around zones of low atmospheric pressure where air converges from all directions. When surrounding air rushes toward the center in the Northern Hemisphere, the rightward deflection forces the wind to spin counterclockwise around the low-pressure system. Conversely, in the Southern Hemisphere, the leftward deflection causes hurricanes to spin clockwise. In addition to weather systems, long-range aerospace and marine navigation must account for this shift. Commercial flight paths and military guidance computer systems use mathematical corrections to offset the Earth&apos;s rotation so that aircraft do not drift hundreds of miles away from their destinations.</p>
+                  </article>
                 )}
               </>
             ) : (
