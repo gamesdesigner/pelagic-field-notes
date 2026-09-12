@@ -214,34 +214,48 @@ function CoriolisGlobe() {
     rimLight.position.set(4, -2, -4);
     scene.add(rimLight);
 
-    type WindArrow = { mesh: THREE.Mesh; latitude: number; radius: number; direction: number; phase: number; speed: number };
+    type WindArrow = { mesh: THREE.Mesh; curve: THREE.CatmullRomCurve3; phase: number; speed: number };
     const windArrows: WindArrow[] = [];
     const windBands = [
-      { latitude: 67, direction: -1, color: 0x78d8ff, speed: 0.34 },
-      { latitude: 38, direction: 1, color: 0xffa07f, speed: 0.52 },
-      { latitude: 15, direction: -1, color: 0x78d8ff, speed: 0.44 },
-      { latitude: -15, direction: -1, color: 0x78d8ff, speed: 0.44 },
-      { latitude: -38, direction: 1, color: 0xffa07f, speed: 0.52 },
-      { latitude: -67, direction: -1, color: 0x78d8ff, speed: 0.34 },
+      { startLatitude: 30, endLatitude: 7, longitudeTravel: -46, color: 0x78d8ff, speed: 0.72 },
+      { startLatitude: -30, endLatitude: -7, longitudeTravel: -46, color: 0x78d8ff, speed: 0.72 },
+      { startLatitude: 30, endLatitude: 58, longitudeTravel: 50, color: 0xffa07f, speed: 0.9 },
+      { startLatitude: -30, endLatitude: -58, longitudeTravel: 50, color: 0xffa07f, speed: 0.9 },
+      { startLatitude: 82, endLatitude: 61, longitudeTravel: -38, color: 0xb5e8ff, speed: 0.58 },
+      { startLatitude: -82, endLatitude: -61, longitudeTravel: -38, color: 0xb5e8ff, speed: 0.58 },
     ];
 
-    windBands.forEach((band) => {
-      const latitude = THREE.MathUtils.degToRad(band.latitude);
-      const orbitRadius = Math.cos(latitude) * 2.28;
-      const height = Math.sin(latitude) * 2.28;
-      const ringGeometry = new THREE.TorusGeometry(orbitRadius, 0.012, 6, 180);
-      const ringMaterial = new THREE.MeshBasicMaterial({ color: band.color, transparent: true, opacity: 0.42 });
-      const ring = new THREE.Mesh(ringGeometry, ringMaterial);
-      ring.rotation.x = Math.PI / 2;
-      ring.position.y = height;
-      world.add(ring);
+    const sphericalPoint = (longitude: number, latitude: number, radius = 2.24) => {
+      const lon = THREE.MathUtils.degToRad(longitude);
+      const lat = THREE.MathUtils.degToRad(latitude);
+      return new THREE.Vector3(
+        radius * Math.cos(lat) * Math.cos(lon),
+        radius * Math.sin(lat),
+        radius * Math.cos(lat) * Math.sin(lon),
+      );
+    };
 
-      for (let arrowIndex = 0; arrowIndex < 5; arrowIndex += 1) {
-        const arrowGeometry = new THREE.ConeGeometry(0.065, 0.2, 10);
-        const arrowMaterial = new THREE.MeshStandardMaterial({ color: band.color, emissive: band.color, emissiveIntensity: 0.7, roughness: 0.45 });
-        const arrow = new THREE.Mesh(arrowGeometry, arrowMaterial);
-        world.add(arrow);
-        windArrows.push({ mesh: arrow, latitude, radius: 2.28, direction: band.direction, phase: arrowIndex / 5 * Math.PI * 2, speed: band.speed });
+    windBands.forEach((band, bandIndex) => {
+      for (let segmentIndex = 0; segmentIndex < 6; segmentIndex += 1) {
+        const startingLongitude = segmentIndex * 60 - 180 + (bandIndex % 2) * 8;
+        const points = Array.from({ length: 25 }, (_, pointIndex) => {
+          const progress = pointIndex / 24;
+          const latitude = THREE.MathUtils.lerp(band.startLatitude, band.endLatitude, progress);
+          const longitude = startingLongitude + band.longitudeTravel * progress;
+          return sphericalPoint(longitude, latitude);
+        });
+        const curve = new THREE.CatmullRomCurve3(points, false, "catmullrom", 0.35);
+        const trackGeometry = new THREE.BufferGeometry().setFromPoints(curve.getPoints(36));
+        const trackMaterial = new THREE.LineBasicMaterial({ color: band.color, transparent: true, opacity: 0.48 });
+        world.add(new THREE.Line(trackGeometry, trackMaterial));
+
+        for (let arrowIndex = 0; arrowIndex < 2; arrowIndex += 1) {
+          const arrowGeometry = new THREE.ConeGeometry(0.06, 0.19, 10);
+          const arrowMaterial = new THREE.MeshStandardMaterial({ color: band.color, emissive: band.color, emissiveIntensity: 0.75, roughness: 0.42 });
+          const arrow = new THREE.Mesh(arrowGeometry, arrowMaterial);
+          world.add(arrow);
+          windArrows.push({ mesh: arrow, curve, phase: arrowIndex * 0.5 + segmentIndex * 0.071, speed: band.speed });
+        }
       }
     });
 
@@ -269,11 +283,9 @@ function CoriolisGlobe() {
       }
       world.rotation.set(motionRef.current.latitude, motionRef.current.longitude, THREE.MathUtils.degToRad(23.4) * 0.18);
       windArrows.forEach((arrow) => {
-        const angle = arrow.phase + time * 0.001 * arrow.speed * arrow.direction;
-        const horizontalRadius = Math.cos(arrow.latitude) * arrow.radius;
-        const y = Math.sin(arrow.latitude) * arrow.radius;
-        arrow.mesh.position.set(Math.cos(angle) * horizontalRadius, y, Math.sin(angle) * horizontalRadius);
-        tangent.set(-Math.sin(angle) * arrow.direction, 0, Math.cos(angle) * arrow.direction).normalize();
+        const progress = (arrow.phase + time * 0.000055 * arrow.speed) % 1;
+        arrow.mesh.position.copy(arrow.curve.getPointAt(progress));
+        tangent.copy(arrow.curve.getTangentAt(progress)).normalize();
         arrow.mesh.quaternion.setFromUnitVectors(arrowUp, tangent);
       });
       renderer.render(scene, camera);
@@ -285,7 +297,7 @@ function CoriolisGlobe() {
       observer.disconnect();
       texture.dispose();
       scene.traverse((object) => {
-        if (!(object instanceof THREE.Mesh)) return;
+        if (!(object instanceof THREE.Mesh) && !(object instanceof THREE.Line)) return;
         object.geometry.dispose();
         const materials = Array.isArray(object.material) ? object.material : [object.material];
         materials.forEach((material) => material.dispose());
@@ -300,7 +312,7 @@ function CoriolisGlobe() {
       <div className="coriolis-globe-heading">
         <span>Interactive rotating model</span>
         <h2 id="coriolis-globe-title">Spin the Earth</h2>
-        <p>Drag the globe to inspect the opposite side. The moving bands represent large-scale atmospheric circulation around the rotating planet.</p>
+        <p>Drag the globe to inspect the opposite side. The arrows show simplified surface wind belts crossing latitude as air moves between pressure zones.</p>
       </div>
 
       <div className="globe-stage">
@@ -308,7 +320,7 @@ function CoriolisGlobe() {
           ref={mountRef}
           className="three-earth-mount"
           role="img"
-          aria-label="A draggable Three.js Earth with six animated global wind belts"
+          aria-label="A draggable Three.js Earth with diagonal trade winds, westerlies, and polar easterlies"
           onPointerDown={(event) => {
             event.currentTarget.setPointerCapture(event.pointerId);
             motionRef.current.dragging = true;
@@ -339,8 +351,9 @@ function CoriolisGlobe() {
         <button type="button" onClick={() => turnEarth(0.55)} aria-label="Turn Earth east">Turn east →</button>
       </div>
       <div className="wind-belt-key" aria-label="Wind belt direction key">
-        <span><i className="warm" /> Westerlies move east</span>
-        <span><i className="cool" /> Trade and polar winds move west</span>
+        <span><i className="cool" /> Trade winds: toward the equator + west</span>
+        <span><i className="warm" /> Westerlies: toward the poles + east</span>
+        <span><i className="polar" /> Polar easterlies: toward 60° + west</span>
       </div>
       <p className="globe-instruction">Drag in any direction to explore · Earth surface: NASA Blue Marble</p>
     </section>
