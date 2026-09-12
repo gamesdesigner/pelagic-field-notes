@@ -1,6 +1,7 @@
 "use client";
 
 import { type CSSProperties, useEffect, useRef, useState } from "react";
+import * as THREE from "three";
 
 type Subject = {
   id: string;
@@ -159,24 +160,9 @@ const mineralParticles = Array.from({ length: 36 }, (_, index) => ({
   rise: `-${170 + ((index * 41) % 210)}px`,
 }));
 
-type GlobePoint = [number, number];
-
-// Simplified geographic outlines, projected onto the sphere at runtime.
-// The globe is drawn entirely in code and does not use an image texture.
-const globeContinents: GlobePoint[][] = [
-  [[-168,72],[-150,70],[-140,61],[-128,55],[-123,48],[-117,33],[-106,23],[-96,18],[-86,21],[-81,30],[-75,40],[-65,47],[-60,54],[-72,59],[-84,63],[-98,69],[-120,74],[-145,75]],
-  [[-81,12],[-74,9],[-66,3],[-55,-7],[-49,-18],[-53,-31],[-61,-43],[-69,-54],[-75,-41],[-79,-22],[-81,-5]],
-  [[-54,83],[-28,80],[-19,70],[-30,60],[-46,59],[-60,67],[-66,76]],
-  [[-10,36],[0,44],[18,46],[31,42],[42,36],[51,28],[49,13],[42,-2],[35,-18],[27,-34],[18,-35],[8,-26],[1,-8],[-7,8],[-17,15],[-17,28]],
-  [[-10,36],[-6,48],[4,56],[17,60],[31,69],[52,72],[76,72],[102,77],[132,72],[158,62],[172,52],[151,45],[132,48],[121,39],[112,23],[102,8],[91,7],[78,21],[63,24],[52,31],[42,36],[31,42],[18,46],[4,44]],
-  [[112,-11],[130,-12],[145,-19],[153,-30],[146,-42],[131,-43],[116,-35],[112,-23]],
-  [[166,-34],[178,-37],[174,-46],[166,-47]],
-  [[-180,-69],[-145,-72],[-110,-70],[-75,-74],[-35,-71],[0,-75],[45,-70],[85,-74],[125,-70],[165,-73],[180,-69],[180,-90],[-180,-90]],
-];
-
 function CoriolisGlobe() {
-  const earthRef = useRef<HTMLCanvasElement>(null);
-  const motionRef = useRef({ longitude: -0.35, tilt: -0.12, dragging: false, lastX: 0, lastY: 0 });
+  const mountRef = useRef<HTMLDivElement>(null);
+  const motionRef = useRef({ longitude: 0.25, latitude: -0.12, dragging: false, lastX: 0, lastY: 0 });
   const pausedRef = useRef(false);
   const [paused, setPaused] = useState(false);
 
@@ -189,121 +175,124 @@ function CoriolisGlobe() {
   }, [paused]);
 
   useEffect(() => {
+    const mount = mountRef.current;
+    if (!mount) return;
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
+    camera.position.set(0, 0, 7.4);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.1;
+    renderer.domElement.setAttribute("aria-hidden", "true");
+    mount.appendChild(renderer.domElement);
+
+    const world = new THREE.Group();
+    scene.add(world);
+
+    const texture = new THREE.TextureLoader().load("/assets/earth-blue-marble.jpg");
+    texture.colorSpace = THREE.SRGBColorSpace;
+    texture.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
+    const earthGeometry = new THREE.SphereGeometry(2, 96, 64);
+    const earthMaterial = new THREE.MeshStandardMaterial({ map: texture, roughness: 0.82, metalness: 0.02 });
+    const earth = new THREE.Mesh(earthGeometry, earthMaterial);
+    earth.rotation.y = -Math.PI / 2;
+    world.add(earth);
+
+    const atmosphereGeometry = new THREE.SphereGeometry(2.07, 64, 48);
+    const atmosphereMaterial = new THREE.MeshBasicMaterial({ color: 0x58c9ff, transparent: true, opacity: 0.11, side: THREE.BackSide });
+    world.add(new THREE.Mesh(atmosphereGeometry, atmosphereMaterial));
+
+    scene.add(new THREE.HemisphereLight(0xaedfff, 0x061525, 1.55));
+    const sunlight = new THREE.DirectionalLight(0xffffff, 2.7);
+    sunlight.position.set(-4, 3, 6);
+    scene.add(sunlight);
+    const rimLight = new THREE.DirectionalLight(0x39bff2, 1.25);
+    rimLight.position.set(4, -2, -4);
+    scene.add(rimLight);
+
+    type WindArrow = { mesh: THREE.Mesh; latitude: number; radius: number; direction: number; phase: number; speed: number };
+    const windArrows: WindArrow[] = [];
+    const windBands = [
+      { latitude: 67, direction: -1, color: 0x78d8ff, speed: 0.34 },
+      { latitude: 38, direction: 1, color: 0xffa07f, speed: 0.52 },
+      { latitude: 15, direction: -1, color: 0x78d8ff, speed: 0.44 },
+      { latitude: -15, direction: -1, color: 0x78d8ff, speed: 0.44 },
+      { latitude: -38, direction: 1, color: 0xffa07f, speed: 0.52 },
+      { latitude: -67, direction: -1, color: 0x78d8ff, speed: 0.34 },
+    ];
+
+    windBands.forEach((band) => {
+      const latitude = THREE.MathUtils.degToRad(band.latitude);
+      const orbitRadius = Math.cos(latitude) * 2.28;
+      const height = Math.sin(latitude) * 2.28;
+      const ringGeometry = new THREE.TorusGeometry(orbitRadius, 0.012, 6, 180);
+      const ringMaterial = new THREE.MeshBasicMaterial({ color: band.color, transparent: true, opacity: 0.42 });
+      const ring = new THREE.Mesh(ringGeometry, ringMaterial);
+      ring.rotation.x = Math.PI / 2;
+      ring.position.y = height;
+      world.add(ring);
+
+      for (let arrowIndex = 0; arrowIndex < 5; arrowIndex += 1) {
+        const arrowGeometry = new THREE.ConeGeometry(0.065, 0.2, 10);
+        const arrowMaterial = new THREE.MeshStandardMaterial({ color: band.color, emissive: band.color, emissiveIntensity: 0.7, roughness: 0.45 });
+        const arrow = new THREE.Mesh(arrowGeometry, arrowMaterial);
+        world.add(arrow);
+        windArrows.push({ mesh: arrow, latitude, radius: 2.28, direction: band.direction, phase: arrowIndex / 5 * Math.PI * 2, speed: band.speed });
+      }
+    });
+
+    const arrowUp = new THREE.Vector3(0, 1, 0);
+    const tangent = new THREE.Vector3();
+    const resize = () => {
+      const width = Math.max(1, mount.clientWidth);
+      const height = Math.max(1, mount.clientHeight);
+      renderer.setSize(width, height, false);
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+    };
+    const observer = new ResizeObserver(resize);
+    observer.observe(mount);
+    resize();
+
     let frame = 0;
     let previousTime = performance.now();
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const canvas = earthRef.current;
-    if (!canvas) return;
-
-    const project = (longitude: number, latitude: number, radius: number, centre: number) => {
-      const lon = longitude * Math.PI / 180 + motionRef.current.longitude;
-      const lat = latitude * Math.PI / 180;
-      const cosLat = Math.cos(lat);
-      const x = cosLat * Math.sin(lon);
-      const y = Math.sin(lat);
-      const z = cosLat * Math.cos(lon);
-      const cosTilt = Math.cos(motionRef.current.tilt);
-      const sinTilt = Math.sin(motionRef.current.tilt);
-      const tiltedY = y * cosTilt - z * sinTilt;
-      const tiltedZ = y * sinTilt + z * cosTilt;
-      return { x: centre + x * radius, y: centre - tiltedY * radius, visible: tiltedZ > 0 };
-    };
-
-    const drawEarth = () => {
-      const bounds = canvas.getBoundingClientRect();
-      const size = Math.max(1, Math.round(Math.min(bounds.width, bounds.height)));
-      const scale = Math.min(window.devicePixelRatio || 1, 2);
-      const pixels = Math.round(size * scale);
-      if (canvas.width !== pixels || canvas.height !== pixels) {
-        canvas.width = pixels;
-        canvas.height = pixels;
-      }
-      const context = canvas.getContext("2d");
-      if (!context) return;
-      context.setTransform(scale, 0, 0, scale, 0, 0);
-      context.clearRect(0, 0, size, size);
-      const centre = size / 2;
-      const radius = size * 0.47;
-
-      context.save();
-      context.beginPath();
-      context.arc(centre, centre, radius, 0, Math.PI * 2);
-      context.clip();
-      const ocean = context.createRadialGradient(centre - radius * .35, centre - radius * .38, radius * .08, centre, centre, radius * 1.1);
-      ocean.addColorStop(0, "#49c7e0");
-      ocean.addColorStop(.38, "#08799e");
-      ocean.addColorStop(.78, "#064467");
-      ocean.addColorStop(1, "#021b32");
-      context.fillStyle = ocean;
-      context.fillRect(0, 0, size, size);
-
-      context.lineWidth = Math.max(1, size * .0018);
-      context.strokeStyle = "rgba(170,235,247,.22)";
-      const drawProjectedLine = (points: GlobePoint[]) => {
-        context.beginPath();
-        let drawing = false;
-        points.forEach(([lon, lat]) => {
-          const point = project(lon, lat, radius, centre);
-          if (!point.visible) { drawing = false; return; }
-          if (!drawing) context.moveTo(point.x, point.y); else context.lineTo(point.x, point.y);
-          drawing = true;
-        });
-        context.stroke();
-      };
-      for (let latitude = -60; latitude <= 60; latitude += 30) {
-        drawProjectedLine(Array.from({ length: 145 }, (_, index) => [-180 + index * 2.5, latitude] as GlobePoint));
-      }
-      for (let longitude = -180; longitude < 180; longitude += 30) {
-        drawProjectedLine(Array.from({ length: 73 }, (_, index) => [longitude, -90 + index * 2.5] as GlobePoint));
-      }
-
-      globeContinents.forEach((continent, continentIndex) => {
-        const visiblePoints = continent.map(([lon, lat]) => project(lon, lat, radius, centre)).filter((point) => point.visible);
-        if (visiblePoints.length < 3) return;
-        const land = context.createLinearGradient(centre - radius, centre - radius, centre + radius, centre + radius);
-        land.addColorStop(0, continentIndex % 2 ? "#9fd56b" : "#b8df79");
-        land.addColorStop(.55, "#4f9b5c");
-        land.addColorStop(1, "#246d51");
-        context.beginPath();
-        visiblePoints.forEach((point, index) => index === 0 ? context.moveTo(point.x, point.y) : context.lineTo(point.x, point.y));
-        context.closePath();
-        context.fillStyle = land;
-        context.fill();
-        context.strokeStyle = "rgba(222,248,189,.45)";
-        context.lineWidth = Math.max(1, size * .0022);
-        context.stroke();
-      });
-
-      const shade = context.createLinearGradient(centre - radius, centre, centre + radius, centre);
-      shade.addColorStop(0, "rgba(255,255,255,.19)");
-      shade.addColorStop(.47, "rgba(255,255,255,0)");
-      shade.addColorStop(.72, "rgba(0,10,27,.2)");
-      shade.addColorStop(1, "rgba(0,4,18,.86)");
-      context.fillStyle = shade;
-      context.fillRect(0, 0, size, size);
-      context.restore();
-
-      context.beginPath();
-      context.arc(centre, centre, radius, 0, Math.PI * 2);
-      context.strokeStyle = "rgba(169,229,255,.78)";
-      context.lineWidth = Math.max(2, size * .0045);
-      context.shadowColor = "rgba(80,202,244,.65)";
-      context.shadowBlur = size * .035;
-      context.stroke();
-      context.shadowBlur = 0;
-    };
-
     const animate = (time: number) => {
       const elapsed = Math.min(40, time - previousTime);
       previousTime = time;
       if (!reduceMotion && !pausedRef.current && !motionRef.current.dragging) {
-        motionRef.current.longitude -= elapsed * 0.00011;
+        motionRef.current.longitude += elapsed * 0.00013;
       }
-      drawEarth();
+      world.rotation.set(motionRef.current.latitude, motionRef.current.longitude, THREE.MathUtils.degToRad(23.4) * 0.18);
+      windArrows.forEach((arrow) => {
+        const angle = arrow.phase + time * 0.001 * arrow.speed * arrow.direction;
+        const horizontalRadius = Math.cos(arrow.latitude) * arrow.radius;
+        const y = Math.sin(arrow.latitude) * arrow.radius;
+        arrow.mesh.position.set(Math.cos(angle) * horizontalRadius, y, Math.sin(angle) * horizontalRadius);
+        tangent.set(-Math.sin(angle) * arrow.direction, 0, Math.cos(angle) * arrow.direction).normalize();
+        arrow.mesh.quaternion.setFromUnitVectors(arrowUp, tangent);
+      });
+      renderer.render(scene, camera);
       frame = requestAnimationFrame(animate);
     };
     frame = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(frame);
+    return () => {
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+      texture.dispose();
+      scene.traverse((object) => {
+        if (!(object instanceof THREE.Mesh)) return;
+        object.geometry.dispose();
+        const materials = Array.isArray(object.material) ? object.material : [object.material];
+        materials.forEach((material) => material.dispose());
+      });
+      renderer.dispose();
+      renderer.domElement.remove();
+    };
   }, []);
 
   return (
@@ -315,14 +304,11 @@ function CoriolisGlobe() {
       </div>
 
       <div className="globe-stage">
-        <div className="atmosphere-ring ring-north" aria-hidden="true"><span>➤</span></div>
-        <div className="atmosphere-ring ring-equator" aria-hidden="true"><span>➤</span></div>
-        <div className="atmosphere-ring ring-south" aria-hidden="true"><span>➤</span></div>
-        <canvas
-          ref={earthRef}
-          className="interactive-earth"
+        <div
+          ref={mountRef}
+          className="three-earth-mount"
           role="img"
-          aria-label="A draggable, code-rendered three-dimensional Earth with animated atmospheric current bands"
+          aria-label="A draggable Three.js Earth with six animated global wind belts"
           onPointerDown={(event) => {
             event.currentTarget.setPointerCapture(event.pointerId);
             motionRef.current.dragging = true;
@@ -333,8 +319,8 @@ function CoriolisGlobe() {
             if (!motionRef.current.dragging) return;
             const deltaX = event.clientX - motionRef.current.lastX;
             const deltaY = event.clientY - motionRef.current.lastY;
-            motionRef.current.longitude += deltaX * 0.009;
-            motionRef.current.tilt = Math.max(-1.05, Math.min(1.05, motionRef.current.tilt - deltaY * 0.007));
+            motionRef.current.longitude += deltaX * 0.007;
+            motionRef.current.latitude = Math.max(-1.2, Math.min(1.2, motionRef.current.latitude + deltaY * 0.006));
             motionRef.current.lastX = event.clientX;
             motionRef.current.lastY = event.clientY;
           }}
@@ -348,11 +334,15 @@ function CoriolisGlobe() {
       </div>
 
       <div className="globe-controls">
-        <button type="button" onClick={() => turnEarth(0.55)} aria-label="Turn Earth west">← Turn west</button>
+        <button type="button" onClick={() => turnEarth(-0.55)} aria-label="Turn Earth west">← Turn west</button>
         <button type="button" className="globe-pause" aria-pressed={paused} onClick={() => setPaused((value) => !value)}>{paused ? "Resume rotation" : "Pause rotation"}</button>
-        <button type="button" onClick={() => turnEarth(-0.55)} aria-label="Turn Earth east">Turn east →</button>
+        <button type="button" onClick={() => turnEarth(0.55)} aria-label="Turn Earth east">Turn east →</button>
       </div>
-      <p className="globe-instruction">Drag left, right, up, or down to explore.</p>
+      <div className="wind-belt-key" aria-label="Wind belt direction key">
+        <span><i className="warm" /> Westerlies move east</span>
+        <span><i className="cool" /> Trade and polar winds move west</span>
+      </div>
+      <p className="globe-instruction">Drag in any direction to explore · Earth surface: NASA Blue Marble</p>
     </section>
   );
 }

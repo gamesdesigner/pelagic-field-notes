@@ -177,18 +177,18 @@ footer { display:flex; justify-content:space-between; padding-top:31px; color:va
 .coriolis-globe-heading h2 { margin:7px 0 8px; font-size:clamp(34px,4vw,58px); line-height:.95; }
 .coriolis-globe-heading p { margin:0; color:rgba(255,255,255,.72); font-size:15px; line-height:1.45; }
 .globe-stage { position:relative; grid-row:1/3; align-self:center; width:min(72vw,710px); aspect-ratio:1; display:grid; place-items:center; perspective:1100px; }
-.interactive-earth { position:relative; z-index:3; display:block; width:72%; height:72%; border-radius:50%; cursor:grab; touch-action:none; user-select:none; filter:drop-shadow(0 26px 34px rgba(0,0,0,.48)); }
-.interactive-earth:active { cursor:grabbing; }
-.atmosphere-ring { position:absolute; z-index:5; width:88%; height:38%; border:4px dashed rgba(137,225,255,.8); border-right-color:rgba(243,118,91,.9); border-radius:50%; pointer-events:none; filter:drop-shadow(0 0 6px rgba(98,207,245,.55)); animation:atmosphereOrbit 9s linear infinite; }
-.atmosphere-ring span { position:absolute; right:5%; top:3%; color:#ff9a81; font-size:24px; transform:rotate(20deg); text-shadow:0 0 8px rgba(255,127,96,.75); }
-.ring-north { top:25%; transform:rotateX(67deg) rotateZ(-9deg); }
-.ring-equator { top:41%; width:94%; transform:rotateX(73deg) rotateZ(4deg); animation-duration:7s; animation-direction:reverse; }
-.ring-south { top:54%; transform:rotateX(67deg) rotateZ(11deg); animation-duration:11s; }
+.three-earth-mount { position:relative; z-index:3; display:block; width:100%; height:100%; cursor:grab; touch-action:none; user-select:none; filter:drop-shadow(0 28px 36px rgba(0,0,0,.48)); }
+.three-earth-mount:active { cursor:grabbing; }
+.three-earth-mount canvas { display:block; width:100%; height:100%; }
 .globe-controls { position:relative; z-index:8; display:flex; align-items:center; justify-content:center; gap:12px; margin-top:-8px; }
 .globe-controls button { min-width:135px; padding:13px 17px; border:1px solid rgba(255,255,255,.45); background:rgba(3,28,44,.72); color:white; font-size:16px; cursor:pointer; backdrop-filter:blur(8px); }
 .globe-controls .globe-pause { background:#e76f50; border-color:#e76f50; }
+.wind-belt-key { position:relative; z-index:8; display:flex; flex-wrap:wrap; justify-content:center; gap:8px 24px; margin-top:15px; color:rgba(255,255,255,.82); font-size:14px; }
+.wind-belt-key span { display:flex; align-items:center; gap:8px; }
+.wind-belt-key i { width:24px; height:3px; border-radius:2px; box-shadow:0 0 8px currentColor; }
+.wind-belt-key .warm { color:#ffa07f; background:#ffa07f; }
+.wind-belt-key .cool { color:#78d8ff; background:#78d8ff; }
 .globe-instruction { position:relative; z-index:8; margin:14px 0 0; color:rgba(255,255,255,.68); font-size:14px; }
-@keyframes atmosphereOrbit { to { rotate:360deg; } }
 .conveyor-simulator { position:relative; width:100%; height:100%; overflow:hidden; background:#061a2a; }
 .conveyor-simulator>img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; }
 .conveyor-simulator::after { content:""; position:absolute; inset:45% 0 0; background:linear-gradient(transparent,rgba(1,17,29,.9)); pointer-events:none; }
@@ -303,7 +303,7 @@ body,body * { font-family:"Times New Roman",Times,serif!important; }
   .coriolis-globe-model { min-height:820px; padding:24px 14px 34px; }
   .coriolis-globe-heading { top:20px; left:18px; width:calc(100% - 36px); }
   .globe-stage { width:min(112vw,600px); margin-top:110px; }
-  .interactive-earth { width:76%; }
+  .three-earth-mount { width:100%; height:100%; }
   .globe-controls { width:100%; flex-wrap:wrap; }
   .globe-controls button { min-width:0; flex:1 1 120px; font-size:14px; }
   .upwelling-quiz { min-height:calc(100svh - 82px); padding:48px 18px; }
@@ -315,7 +315,7 @@ body,body * { font-family:"Times New Roman",Times,serif!important; }
   .quiz-actions { align-items:stretch; flex-direction:column; }
   .quiz-actions button { width:100%; }
 }
-@media(prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; transition-duration:.01ms!important; } .atmosphere-ring { animation:none!important; } }
+@media(prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; transition-duration:.01ms!important; } }
 
 /* Comfortable reading sizes across the field guide. */
 .brand { font-size:13px; line-height:1.25; letter-spacing:.08em; }
