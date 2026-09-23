@@ -113,7 +113,7 @@ const coriolisQuiz: QuizQuestion[] = [
   { prompt: "Which way are moving objects deflected in the Southern Hemisphere?", answer: "To the left", options: ["To the left", "To the right", "Toward the North Pole", "They are not deflected"] },
   { prompt: "Where is the Coriolis effect weakest?", answer: "At the equator", options: ["At the equator", "At the poles", "At 60° latitude", "It is equally strong everywhere"] },
   { prompt: "How do Northern Hemisphere hurricanes usually rotate?", answer: "Counterclockwise", options: ["Counterclockwise", "Clockwise", "East to west only", "They do not rotate"] },
-  { prompt: "Spell the name of the apparent deflection caused by Earth's rotation.", answer: "Coriolis" },
+  { prompt: "Spell the name of the apparent deflection caused by Earth's rotation.", answer: "coriolis" },
 ];
 
 const normalizeQuizAnswer = (answer: string) => answer.trim().toLowerCase().replace(/[^a-z0-9]/g, "");
@@ -448,7 +448,7 @@ function CoriolisQuiz() {
               </div>
             ) : (
               <label className="spelling-answer">
-                <span>Your spelling</span>
+                <span>Your spelling (capitalization does not matter)</span>
                 <input
                   type="text"
                   value={answer}
@@ -561,7 +561,6 @@ export default function Home() {
         <button className="brand" onClick={() => setSelected(null)} aria-label="Return to all subjects">
           <img src="/assets/marine-biology-class-logo-transparent.png" alt="Marine Biology Class" />
         </button>
-        <p>The Global Conveyor Belt</p>
       </header>
 
       {!selected ? (
