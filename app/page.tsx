@@ -561,8 +561,7 @@ export default function Home() {
         <button className="brand" onClick={() => setSelected(null)} aria-label="Return to all subjects">
           <img src="/assets/marine-biology-class-logo-transparent.png" alt="Marine Biology Class" />
         </button>
-        <p>Ocean Biology Study Guide</p>
-        <span className="edition">Student edition · 2026</span>
+        <p>The Global Conveyor Belt</p>
       </header>
 
       {!selected ? (
