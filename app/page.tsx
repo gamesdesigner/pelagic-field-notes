@@ -107,6 +107,15 @@ const upwellingQuiz: QuizQuestion[] = [
   { prompt: "Spell the general name for tiny organisms that drift in ocean currents.", answer: "plankton" },
 ];
 
+const coriolisQuiz: QuizQuestion[] = [
+  { prompt: "What causes the Coriolis effect?", answer: "Earth's rotation", options: ["Earth's rotation", "The Moon's gravity", "Ocean salinity", "Solar heating"] },
+  { prompt: "Which way are moving objects deflected in the Northern Hemisphere?", answer: "To the right", options: ["To the right", "To the left", "Straight upward", "Toward the equator"] },
+  { prompt: "Which way are moving objects deflected in the Southern Hemisphere?", answer: "To the left", options: ["To the left", "To the right", "Toward the North Pole", "They are not deflected"] },
+  { prompt: "Where is the Coriolis effect weakest?", answer: "At the equator", options: ["At the equator", "At the poles", "At 60° latitude", "It is equally strong everywhere"] },
+  { prompt: "How do Northern Hemisphere hurricanes usually rotate?", answer: "Counterclockwise", options: ["Counterclockwise", "Clockwise", "East to west only", "They do not rotate"] },
+  { prompt: "Spell the name of the apparent deflection caused by Earth's rotation.", answer: "Coriolis" },
+];
+
 const normalizeQuizAnswer = (answer: string) => answer.trim().toLowerCase().replace(/[^a-z0-9]/g, "");
 
 const rotateQuizOptions = (options: string[], questionIndex: number) => {
@@ -245,12 +254,12 @@ function CoriolisGlobe() {
           return sphericalPoint(longitude, latitude);
         });
         const curve = new THREE.CatmullRomCurve3(points, false, "catmullrom", 0.35);
-        const trackGeometry = new THREE.BufferGeometry().setFromPoints(curve.getPoints(36));
-        const trackMaterial = new THREE.LineBasicMaterial({ color: band.color, transparent: true, opacity: 0.48 });
-        world.add(new THREE.Line(trackGeometry, trackMaterial));
+        const trackGeometry = new THREE.TubeGeometry(curve, 36, 0.022, 6, false);
+        const trackMaterial = new THREE.MeshBasicMaterial({ color: band.color, transparent: true, opacity: 0.78 });
+        world.add(new THREE.Mesh(trackGeometry, trackMaterial));
 
         for (let arrowIndex = 0; arrowIndex < 2; arrowIndex += 1) {
-          const arrowGeometry = new THREE.ConeGeometry(0.06, 0.19, 10);
+          const arrowGeometry = new THREE.ConeGeometry(0.082, 0.25, 10);
           const arrowMaterial = new THREE.MeshStandardMaterial({ color: band.color, emissive: band.color, emissiveIntensity: 0.75, roughness: 0.42 });
           const arrow = new THREE.Mesh(arrowGeometry, arrowMaterial);
           world.add(arrow);
@@ -356,6 +365,120 @@ function CoriolisGlobe() {
         <span><i className="polar" /> Polar easterlies: toward 60° + west</span>
       </div>
       <p className="globe-instruction">Drag in any direction to explore · Earth surface: NASA Blue Marble</p>
+    </section>
+  );
+}
+
+function CoriolisQuiz() {
+  const [questionIndex, setQuestionIndex] = useState(0);
+  const [answer, setAnswer] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const [wasCorrect, setWasCorrect] = useState(false);
+  const [score, setScore] = useState(0);
+  const complete = questionIndex >= coriolisQuiz.length;
+  const question = coriolisQuiz[Math.min(questionIndex, coriolisQuiz.length - 1)];
+
+  const submitAnswer = () => {
+    if (!answer || submitted || complete) return;
+    const enteredAnswer = normalizeQuizAnswer(answer);
+    const expectedAnswer = normalizeQuizAnswer(question.answer);
+    const isCorrect = question.options
+      ? enteredAnswer === expectedAnswer
+      : spellingDistance(enteredAnswer, expectedAnswer) <= 2;
+    setWasCorrect(isCorrect);
+    setSubmitted(true);
+    if (isCorrect) setScore((value) => value + 1);
+  };
+
+  const nextQuestion = () => {
+    setQuestionIndex((value) => value + 1);
+    setAnswer("");
+    setSubmitted(false);
+    setWasCorrect(false);
+  };
+
+  const restart = () => {
+    setQuestionIndex(0);
+    setAnswer("");
+    setSubmitted(false);
+    setWasCorrect(false);
+    setScore(0);
+  };
+
+  return (
+    <section className="upwelling-quiz coriolis-quiz" aria-labelledby="coriolis-quiz-title">
+      <div className="quiz-shell">
+        <div className="quiz-header">
+          <div>
+            <span>Knowledge check</span>
+            <h2 id="coriolis-quiz-title">Coriolis effect quiz</h2>
+          </div>
+          <strong>{complete ? "Complete" : `Question ${questionIndex + 1} of ${coriolisQuiz.length}`}</strong>
+        </div>
+        <div className="quiz-progress" aria-hidden="true">
+          <i style={{ width: `${(Math.min(questionIndex + (submitted ? 1 : 0), coriolisQuiz.length) / coriolisQuiz.length) * 100}%` }} />
+        </div>
+
+        {complete ? (
+          <div className="quiz-finish" aria-live="polite">
+            <span>Quiz complete</span>
+            <strong>{score} / {coriolisQuiz.length}</strong>
+            <p>{score === coriolisQuiz.length ? "Perfect score—you understand how Earth's rotation changes motion." : "Nice work. Try it again to strengthen the parts you missed."}</p>
+            <button type="button" onClick={restart}>Try the quiz again</button>
+          </div>
+        ) : (
+          <div className="quiz-question">
+            <p className="quiz-kind">{question.options ? "Four-choice question" : "Spell the word"}</p>
+            <h3>{question.prompt}</h3>
+
+            {question.options ? (
+              <div className="quiz-options">
+                {rotateQuizOptions(question.options, questionIndex).map((option, index) => (
+                  <button
+                    type="button"
+                    key={option}
+                    disabled={submitted}
+                    onClick={() => setAnswer(option)}
+                    className={`quiz-option ${answer === option ? "selected" : ""} ${submitted && option === question.answer ? "correct" : ""} ${submitted && answer === option && option !== question.answer ? "incorrect" : ""}`}
+                  >
+                    <span>{String.fromCharCode(65 + index)}</span>
+                    {option}
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <label className="spelling-answer">
+                <span>Your spelling</span>
+                <input
+                  type="text"
+                  value={answer}
+                  disabled={submitted}
+                  autoComplete="off"
+                  spellCheck="false"
+                  placeholder="Type your answer"
+                  onChange={(event) => setAnswer(event.target.value)}
+                  onKeyDown={(event) => { if (event.key === "Enter") submitAnswer(); }}
+                />
+              </label>
+            )}
+
+            {submitted && (
+              <p className={`quiz-feedback ${wasCorrect ? "correct" : "incorrect"}`} aria-live="polite">
+                {wasCorrect ? "Correct!" : <>Not quite. The correct answer is <strong>{question.answer}</strong>.</>}
+              </p>
+            )}
+
+            <div className="quiz-actions">
+              <span>Score: {score} / {questionIndex + (submitted ? 1 : 0)}</span>
+              {!submitted ? (
+                <button type="button" disabled={!answer} onClick={submitAnswer}>Check answer</button>
+              ) : (
+                <button type="button" onClick={nextQuestion}>{questionIndex === coriolisQuiz.length - 1 ? "See results" : "Next question →"}</button>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
     </section>
   );
 }
@@ -726,7 +849,10 @@ export default function Home() {
               </section>
               </>
             ) : selected.id === "currents" && currentTopic === 2 ? (
-              <CoriolisGlobe />
+              <>
+                <CoriolisGlobe />
+                <CoriolisQuiz />
+              </>
             ) : selected.id === "currents" ? (
               <div className="large-placeholder currents-placeholder"><span>↝</span><p>{currentTopics[currentTopic as number]}</p><small>{currentTopic === 0 ? "Nutrients rise · life follows" : "ABCDE"}</small></div>
             ) : (
