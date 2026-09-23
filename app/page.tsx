@@ -87,7 +87,7 @@ const subjects: Subject[] = [
   },
 ];
 
-const currentTopics = ["Upwelling", "Global Conveyor Belt", "Coriolis Effect"];
+const currentTopics = ["Upwelling", "Global Conveyor Belt", "Coriolis Effect", "Wind, Rotation, and the Moving Ocean"];
 
 const upwellingQuiz: QuizQuestion[] = [
   { prompt: "What causes moving ocean water to deflect as Earth rotates?", answer: "The Coriolis Effect", options: ["The Coriolis Effect", "Marine snow", "Brine rejection", "The thermocline"] },
@@ -613,7 +613,7 @@ export default function Home() {
                   ) : index === 1 ? (
                     <img src="/assets/global-conveyor-belt.png?v=2" alt="" />
                   ) : (
-                    <><span>↻</span><small>Study topic</small></>
+                    <><span>{index === 2 ? "↻" : "↝"}</span><small>Study topic</small></>
                   )}
                 </div>
                 <div className="card-copy"><span>Ocean currents</span><h2>{topic}</h2><p>Click to reveal this topic.</p></div>
@@ -623,7 +623,7 @@ export default function Home() {
           </div>
         </section>
       ) : (
-        <section className={`subject-detail ${selected.tone} ${selected.id === "currents" && currentTopic === 0 ? "upwelling-layout" : ""} ${selected.id === "currents" && currentTopic === 1 ? "conveyor-layout" : ""} ${selected.id === "currents" && currentTopic === 2 ? "coriolis-layout" : ""}`} aria-labelledby="detail-title">
+        <section className={`subject-detail ${selected.tone} ${selected.id === "currents" && currentTopic === 0 ? "upwelling-layout" : ""} ${selected.id === "currents" && currentTopic === 1 ? "conveyor-layout" : ""} ${selected.id === "currents" && currentTopic === 2 ? "coriolis-layout" : ""} ${selected.id === "currents" && currentTopic === 3 ? "ekman-layout" : ""}`} aria-labelledby="detail-title">
           <button className="back-button" onClick={() => selected.id === "currents" ? setCurrentTopic(null) : setSelected(null)}><span>←</span> {selected.id === "currents" ? "Ocean Currents" : "All subjects"}</button>
           <div className={`detail-copy ${selected.id === "currents" ? "currents-copy" : ""}`}>
             <div className="detail-meta"><span>{selected.number} · Ocean subject</span><span>{selected.depth}</span></div>
@@ -666,7 +666,7 @@ export default function Home() {
                     <p>Today, marine scientists are watching the North Atlantic with growing concern. Human-driven climate change is causing global temperatures to rise, leading to rapid melting of the Greenland Ice Sheet and Arctic sea ice. This melting sends massive torrents of fresh water flooding into the North Atlantic downwelling zone.</p>
                     <p>Because fresh water lacks salt, it is significantly less dense than salty ocean water. Furthermore, rising temperatures mean the surface water is not cooling down as intensely as it used to. This combination creates a buoyant fresh water cap on the ocean surface. If the surface water is too light to sink, the downwelling engine stalls. Without the heavy sinking water to push the deep current forward, the entire global conveyor belt could slow down or stop completely. A collapse of this system could trigger rapid climate shifts, causing plunging temperatures in Europe, altered global rainfall patterns, and a collapse of marine ecosystems due to starved nutrient cycles.</p>
                   </article>
-                ) : (
+                ) : currentTopic === 2 ? (
                   <article className="current-article coriolis-article" role="tabpanel">
                     <h2>Section 1: The Coriolis Effect</h2>
                     <p>The <strong>Coriolis effect</strong> is the apparent deflection of freely moving objects caused entirely by the rotation of the Earth. When winds, ocean currents, airplanes, or projectiles travel long distances across the globe, their paths appear to curve relative to the ground below. This phenomenon occurs because the observer is standing on a rotating planet, which creates the illusion of a sideways force acting on the moving object. In reality, there is no physical force pushing the object sideways; the deflection is a result of looking at a straight path from a spinning frame of reference.</p>
@@ -679,6 +679,37 @@ export default function Home() {
 
                     <h2>Section 4: Atmospheric and Technical Impacts</h2>
                     <p>This phenomenon directly dictates the structural behavior of large weather systems, ocean gyres, and long-range navigation. Hurricanes develop around zones of low atmospheric pressure where air converges from all directions. When surrounding air rushes toward the center in the Northern Hemisphere, the rightward deflection forces the wind to spin counterclockwise around the low-pressure system. Conversely, in the Southern Hemisphere, the leftward deflection causes hurricanes to spin clockwise. In addition to weather systems, long-range aerospace and marine navigation must account for this shift. Commercial flight paths and military guidance computer systems use mathematical corrections to offset the Earth&apos;s rotation so that aircraft do not drift hundreds of miles away from their destinations.</p>
+                  </article>
+                ) : (
+                  <article className="current-article ekman-article" role="tabpanel">
+                    <h2>Wind at the Surface</h2>
+                    <p>When wind blows across the ocean, the ripples and waves at the surface appear to travel with it. The water itself behaves differently. Wind transfers energy to the uppermost layer through friction, but Earth&apos;s rotation turns that moving water away from the wind&apos;s path. The combined movement of the wind-driven upper ocean is called <strong>Ekman transport</strong>.</p>
+                    <p>When the motion of the entire wind-influenced layer is added together, the net transport is about <strong>90 degrees to the right of the wind in the Northern Hemisphere</strong> and <strong>90 degrees to the left in the Southern Hemisphere</strong>. This sideways transport helps shape ocean circulation, climate, and biological productivity.</p>
+
+                    <h2>Nansen&apos;s Clue and Ekman&apos;s Model</h2>
+                    <p>During the late nineteenth century, Norwegian explorer <strong>Fridtjof Nansen</strong> noticed an important pattern while the research ship <em>Fram</em> was trapped in Arctic ice. The wind pushed the ice pack at an angle rather than directly downwind. Nansen suspected that Earth&apos;s rotation was responsible.</p>
+                    <p>Swedish oceanographer <strong>Vagn Walfrid Ekman</strong> developed the mathematical explanation and published it in 1905. His model showed how wind, friction, and the Coriolis effect create a chain reaction through the upper water column.</p>
+
+                    <h2>Friction Meets Rotation</h2>
+                    <p>The wind first grips the ocean&apos;s surface and transfers kinetic energy to the water. The Coriolis effect then deflects this moving layer—to the right in the Northern Hemisphere and to the left in the Southern Hemisphere. In an idealized deep ocean, the surface current travels roughly 45 degrees away from the wind.</p>
+                    <p>The moving surface layer drags the water beneath it. Each deeper layer receives less energy, moves more slowly, and turns farther from the wind than the layer above. The main pattern is:</p>
+                    <ul>
+                      <li>The surface layer moves fastest and at an angle to the wind.</li>
+                      <li>Each deeper layer moves more slowly because friction dissipates energy.</li>
+                      <li>Each layer is rotated farther by the Coriolis effect.</li>
+                    </ul>
+
+                    <h2>The Ekman Spiral</h2>
+                    <p>If oceanographers draw an arrow for the speed and direction of every layer, the arrows form a turning, shrinking pattern called the <strong>Ekman spiral</strong>. The idealized spiral may extend through roughly the upper 100 meters, although its real depth changes with wind strength, turbulence, stratification, and location.</p>
+                    <p>Individual layers travel in different directions, but their movements combine into one net transport at a right angle to the wind. Ekman transport describes this integrated motion of the full wind-driven layer, not the path of one surface wave or one parcel of water.</p>
+
+                    <h2>Coastal Upwelling</h2>
+                    <p>Along the California coast, a southward wind can drive Northern Hemisphere Ekman transport offshore. As surface water moves away from land, cold, nutrient-rich water rises from below to replace it. This process is called <strong>coastal upwelling</strong>.</p>
+                    <p>The rising water carries nitrates, phosphates, and other nutrients into the sunlit zone. Phytoplankton use these nutrients to grow, supporting food webs that include zooplankton, fish, seabirds, and whales. Upwelling regions occupy only a small portion of the ocean but support some of its most productive fisheries.</p>
+
+                    <h2>Coastal Downwelling</h2>
+                    <p>If the wind reverses, Ekman transport can push surface water toward the coast. Water piles up along the shoreline and is forced downward. This is <strong>coastal downwelling</strong>.</p>
+                    <p>Downwelling does not bring deep nutrients into the sunlit zone, so it usually produces less surface biological growth than upwelling. However, it performs another important job by carrying oxygen-rich surface water into deeper parts of the ocean.</p>
                   </article>
                 )}
               </>
