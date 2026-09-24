@@ -134,6 +134,7 @@ const sunlightCreatures = [
     direction: "ltr",
     speed: "slow",
     speedLabel: "Slow drifter",
+    count: 3,
     depth: 15,
     duration: "28s",
     delay: "-19s",
@@ -146,6 +147,7 @@ const sunlightCreatures = [
     direction: "rtl",
     speed: "fast",
     speedLabel: "Fast swimmer",
+    count: 3,
     depth: 30,
     duration: "10s",
     delay: "-4s",
@@ -158,6 +160,7 @@ const sunlightCreatures = [
     direction: "ltr",
     speed: "slow",
     speedLabel: "Steady swimmer",
+    count: 2,
     depth: 55,
     duration: "22s",
     delay: "-12s",
@@ -170,8 +173,9 @@ const sunlightCreatures = [
     direction: "rtl",
     speed: "slow",
     speedLabel: "Slow drifter",
+    count: 3,
     depth: 95,
-    duration: "30s",
+    duration: "42s",
     delay: "-7s",
     description: "A gelatinous drifter that moves with gentle bell pulses while currents carry it through the water. Its translucent body helps it blend into the bright open ocean.",
   },
@@ -182,6 +186,7 @@ const sunlightCreatures = [
     direction: "ltr",
     speed: "fast",
     speedLabel: "Fast swimmer",
+    count: 3,
     depth: 135,
     duration: "12s",
     delay: "-9s",
@@ -619,20 +624,28 @@ function SunlightZoneLab() {
           <span className="layer-name layer-middle">Light fading</span>
           <span className="layer-name layer-edge">Sunlight-zone edge</span>
 
-          {sunlightCreatures.map((creature) => (
-            <button
-              type="button"
-              key={creature.id}
-              className={`ocean-creature ${creature.id} ${creature.speed} ${creature.direction} ${selectedCreatureId === creature.id ? "selected" : ""}`}
-              style={{ "--creature-y": `${12 + (creature.depth / 200) * 74}%`, "--swim-duration": creature.duration, "--swim-delay": creature.delay } as CSSProperties}
-              aria-label={`${creature.name}, ${creature.speedLabel}, example depth ${creature.depth} metres`}
-              aria-pressed={selectedCreatureId === creature.id}
-              onClick={() => setSelectedCreatureId(creature.id)}
-            >
-              <img className="creature-image" src={creature.image} alt="" />
-              <small>{creature.name}</small>
-            </button>
-          ))}
+          {sunlightCreatures.map((creature) => Array.from({ length: creature.count }, (_, instance) => {
+            const direction = instance % 2 === 0 ? creature.direction : creature.direction === "ltr" ? "rtl" : "ltr";
+            const duration = Number.parseFloat(creature.duration);
+            const delay = Number.parseFloat(creature.delay) - instance * (duration / creature.count);
+            const depthOffset = creature.count === 2 ? (instance === 0 ? -6 : 7) : (instance - 1) * 8;
+            const instanceDepth = Math.max(4, Math.min(185, creature.depth + depthOffset));
+            const scale = 0.78 + (instance % 3) * 0.11;
+            return (
+              <button
+                type="button"
+                key={`${creature.id}-${instance}`}
+                className={`ocean-creature ${creature.id} ${creature.speed} ${direction} ${selectedCreatureId === creature.id ? "selected" : ""}`}
+                style={{ "--creature-y": `${12 + (instanceDepth / 200) * 74}%`, "--swim-duration": creature.duration, "--swim-delay": `${delay}s`, "--creature-scale": `${scale}` } as CSSProperties}
+                aria-label={`${creature.name}, ${creature.speedLabel}, example depth ${instanceDepth} metres`}
+                aria-pressed={selectedCreatureId === creature.id}
+                onClick={() => setSelectedCreatureId(creature.id)}
+              >
+                <span className="creature-art" aria-hidden="true"><img className="creature-image" src={creature.image} alt="" /></span>
+                {instance === 0 && <small>{creature.name}</small>}
+              </button>
+            );
+          }))}
 
           <div className="creature-info" aria-live="polite">
             <span>{selectedCreature.speedLabel} · Example depth {selectedCreature.depth} m</span>

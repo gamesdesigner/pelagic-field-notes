@@ -217,11 +217,19 @@ footer { display:flex; justify-content:space-between; padding-top:31px; color:va
 .ocean-creature:hover .creature-image,.ocean-creature:focus-visible .creature-image,.ocean-creature.selected .creature-image { filter:drop-shadow(0 0 8px #ffdd85) drop-shadow(0 0 16px rgba(255,221,133,.8)); }
 .ocean-creature>small { padding:0; border:0; border-radius:0; background:transparent; color:#fff; font-size:13px; font-weight:700; line-height:1.1; white-space:nowrap; text-shadow:0 2px 5px rgba(0,24,43,.95); }
 .ocean-creature.selected>small { color:#ffdf8e; text-decoration:underline; text-underline-offset:3px; }
-.creature-image { display:block; width:136px; height:78px; object-fit:contain; transition:filter .2s ease; }
-.ocean-creature.rtl .creature-image { transform:scaleX(-1); }
-.ocean-creature.phytoplankton .creature-image { width:82px; height:66px; }
-.ocean-creature.moon-jelly .creature-image { width:86px; height:88px; }
-.ocean-creature.green-turtle .creature-image { width:150px; height:92px; }
+.creature-art { display:grid; place-items:center; width:150px; height:92px; transform:scale(var(--creature-scale)); transition:transform .2s ease; }
+.ocean-creature.rtl .creature-art { transform:scaleX(-1) scale(var(--creature-scale)); }
+.creature-image { display:block; width:136px; height:78px; object-fit:contain; transform-origin:50% 55%; animation:fishStroke 1.15s ease-in-out infinite; transition:filter .2s ease; }
+.ocean-creature.phytoplankton .creature-art { width:94px; height:76px; }
+.ocean-creature.phytoplankton .creature-image { width:82px; height:66px; animation:planktonTurn 5.8s ease-in-out infinite; }
+.ocean-creature.moon-jelly .creature-art { width:96px; height:100px; }
+.ocean-creature.moon-jelly .creature-image { width:86px; height:88px; transform-origin:50% 20%; animation:jellyPulse 3.6s ease-in-out infinite; }
+.ocean-creature.green-turtle .creature-art { width:162px; height:102px; }
+.ocean-creature.green-turtle .creature-image { width:150px; height:92px; transform-origin:55% 50%; animation:turtleStroke 2.1s ease-in-out infinite; }
+@keyframes fishStroke { 0%,100% { transform:skewY(0) scaleX(1); } 25% { transform:skewY(-2deg) scaleX(.965); } 55% { transform:skewY(1.5deg) scaleX(1.015); } 78% { transform:skewY(-1deg) scaleX(.98); } }
+@keyframes turtleStroke { 0%,100% { transform:rotate(0) scaleY(1); } 35% { transform:rotate(-2deg) scaleY(.92); } 68% { transform:rotate(1.5deg) scaleY(1.04); } }
+@keyframes jellyPulse { 0%,100% { transform:scaleY(1) skewX(0); } 40% { transform:scaleY(.82) skewX(2deg); } 65% { transform:scaleY(1.04) skewX(-1deg); } }
+@keyframes planktonTurn { 0%,100% { transform:rotate(-4deg) scale(.98); } 50% { transform:rotate(5deg) scale(1.05); } }
 @keyframes creatureDriftLtr { 0% { left:-20%; transform:translateY(-50%) translateY(0); } 22% { transform:translateY(-50%) translateY(0); } 31% { transform:translateY(-50%) translateY(-13px); } 41% { transform:translateY(-50%) translateY(0); } 65% { transform:translateY(-50%) translateY(0); } 74% { transform:translateY(-50%) translateY(10px); } 84% { transform:translateY(-50%) translateY(0); } 100% { left:112%; transform:translateY(-50%) translateY(0); } }
 @keyframes creatureDriftRtl { 0% { left:112%; transform:translateY(-50%) translateY(0); } 20% { transform:translateY(-50%) translateY(0); } 30% { transform:translateY(-50%) translateY(11px); } 40% { transform:translateY(-50%) translateY(0); } 63% { transform:translateY(-50%) translateY(0); } 73% { transform:translateY(-50%) translateY(-13px); } 83% { transform:translateY(-50%) translateY(0); } 100% { left:-20%; transform:translateY(-50%) translateY(0); } }
 @keyframes creatureSprintLtr { 0% { left:-20%; transform:translateY(-50%) translateY(0); } 26% { transform:translateY(-50%) translateY(0); } 34% { transform:translateY(-50%) translateY(-10px); } 43% { transform:translateY(-50%) translateY(0); } 69% { transform:translateY(-50%) translateY(0); } 77% { transform:translateY(-50%) translateY(8px); } 86% { transform:translateY(-50%) translateY(0); } 100% { left:112%; transform:translateY(-50%) translateY(0); } }
@@ -383,9 +391,13 @@ body,body * { font-family:"Times New Roman",Times,serif!important; }
   .sunlight-lab-heading h2 { font-size:42px; }
   .sunlight-ocean { height:730px; }
   .ocean-creature { width:126px; padding:0; }
+  .creature-art { width:120px; height:74px; }
   .creature-image { width:110px; height:66px; }
+  .ocean-creature.phytoplankton .creature-art { width:76px; height:62px; }
   .ocean-creature.phytoplankton .creature-image { width:68px; height:56px; }
+  .ocean-creature.moon-jelly .creature-art { width:80px; height:82px; }
   .ocean-creature.moon-jelly .creature-image { width:72px; height:74px; }
+  .ocean-creature.green-turtle .creature-art { width:130px; height:84px; }
   .ocean-creature.green-turtle .creature-image { width:122px; height:78px; }
   .ocean-creature>small { font-size:11px; }
   .creature-info { right:14px; bottom:62px; left:14px; width:auto; padding:18px; }
@@ -403,7 +415,7 @@ body,body * { font-family:"Times New Roman",Times,serif!important; }
   .quiz-actions { align-items:stretch; flex-direction:column; }
   .quiz-actions button { width:100%; }
 }
-@media(prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; transition-duration:.01ms!important; } .ocean-creature { animation:none!important; } }
+@media(prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; transition-duration:.01ms!important; } .ocean-creature,.creature-image { animation:none!important; } }
 
 /* Comfortable reading sizes across the field guide. */
 .brand { font-size:13px; line-height:1.25; letter-spacing:.08em; }
