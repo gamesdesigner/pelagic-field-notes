@@ -130,61 +130,51 @@ const sunlightCreatures = [
   {
     id: "phytoplankton",
     name: "Phytoplankton",
-    icon: "✺",
     speed: "slow",
     speedLabel: "Slow drifter",
     depth: 15,
-    x: "20%",
-    duration: "10s",
-    delay: "-3s",
+    duration: "28s",
+    delay: "-19s",
     description: "Microscopic photosynthesizers carried by tides and currents. They capture sunlight near the surface and support much of the marine food web.",
   },
   {
     id: "dolphin",
     name: "Common dolphin",
-    icon: "🐬",
     speed: "fast",
     speedLabel: "Fast swimmer",
     depth: 30,
-    x: "63%",
-    duration: "4.2s",
-    delay: "-1s",
+    duration: "10s",
+    delay: "-4s",
     description: "An energetic social hunter that often feeds on schooling fish and squid. Common dolphins frequently work near the surface and typically dive to about 30 metres while feeding.",
   },
   {
     id: "green-turtle",
     name: "Green sea turtle",
-    icon: "🐢",
     speed: "slow",
     speedLabel: "Steady swimmer",
     depth: 55,
-    x: "37%",
-    duration: "8.5s",
-    delay: "-5s",
+    duration: "22s",
+    delay: "-12s",
     description: "A surface-breathing reptile that often forages in shallow coastal water. Adults mainly graze on seagrasses and algae before surfacing again for air.",
   },
   {
     id: "moon-jelly",
     name: "Moon jelly",
-    icon: "🪼",
     speed: "slow",
     speedLabel: "Slow drifter",
     depth: 95,
-    x: "72%",
-    duration: "11s",
-    delay: "-6s",
+    duration: "30s",
+    delay: "-7s",
     description: "A gelatinous drifter that moves with gentle bell pulses while currents carry it through the water. Its translucent body helps it blend into the bright open ocean.",
   },
   {
     id: "bluefin",
     name: "Pacific bluefin tuna",
-    icon: "🐟",
     speed: "fast",
     speedLabel: "Fast swimmer",
     depth: 135,
-    x: "26%",
-    duration: "3.4s",
-    delay: "-2s",
+    duration: "12s",
+    delay: "-9s",
     description: "A powerful, streamlined predator built for endurance and speed. It can cross the Pacific and can also dive far beneath the sunlight zone during its migrations.",
   },
 ];
@@ -624,12 +614,12 @@ function SunlightZoneLab() {
               type="button"
               key={creature.id}
               className={`ocean-creature ${creature.speed} ${selectedCreatureId === creature.id ? "selected" : ""}`}
-              style={{ "--creature-y": `${12 + (creature.depth / 200) * 74}%`, "--creature-x": creature.x, "--swim-duration": creature.duration, "--swim-delay": creature.delay } as CSSProperties}
+              style={{ "--creature-y": `${12 + (creature.depth / 200) * 74}%`, "--swim-duration": creature.duration, "--swim-delay": creature.delay } as CSSProperties}
               aria-label={`${creature.name}, ${creature.speedLabel}, example depth ${creature.depth} metres`}
               aria-pressed={selectedCreatureId === creature.id}
               onClick={() => setSelectedCreatureId(creature.id)}
             >
-              <span aria-hidden="true">{creature.icon}</span>
+              <span className={`creature-shape ${creature.id}`} aria-hidden="true"><i /><b /><em /></span>
               <small>{creature.name}</small>
             </button>
           ))}
