@@ -117,6 +117,78 @@ const coriolisQuiz: QuizQuestion[] = [
   { prompt: "Spell the name of the apparent deflection caused by Earth's rotation.", answer: "coriolis" },
 ];
 
+const sunlightQuiz: QuizQuestion[] = [
+  { prompt: "About how deep does the sunlight zone extend?", answer: "200 metres", options: ["200 metres", "20 metres", "1,000 metres", "4,000 metres"] },
+  { prompt: "Which organisms use sunlight to form the base of many ocean food webs?", answer: "Phytoplankton", options: ["Phytoplankton", "Dolphins", "Sea turtles", "Tuna"] },
+  { prompt: "Which animal in the model is built for endurance and speed?", answer: "Pacific bluefin tuna", options: ["Pacific bluefin tuna", "Moon jelly", "Phytoplankton", "Green sea turtle"] },
+  { prompt: "Why are plankton called drifters?", answer: "Currents carry them", options: ["Currents carry them", "They live on the seafloor", "They breathe air", "They never move"] },
+  { prompt: "What do adult green sea turtles mainly eat?", answer: "Seagrasses and algae", options: ["Seagrasses and algae", "Tuna", "Coral skeletons", "Deep-sea bacteria"] },
+  { prompt: "Spell the scientific word for the sunlight zone.", answer: "euphotic" },
+];
+
+const sunlightCreatures = [
+  {
+    id: "phytoplankton",
+    name: "Phytoplankton",
+    icon: "✺",
+    speed: "slow",
+    speedLabel: "Slow drifter",
+    depth: 15,
+    x: "20%",
+    duration: "10s",
+    delay: "-3s",
+    description: "Microscopic photosynthesizers carried by tides and currents. They capture sunlight near the surface and support much of the marine food web.",
+  },
+  {
+    id: "dolphin",
+    name: "Common dolphin",
+    icon: "🐬",
+    speed: "fast",
+    speedLabel: "Fast swimmer",
+    depth: 30,
+    x: "63%",
+    duration: "4.2s",
+    delay: "-1s",
+    description: "An energetic social hunter that often feeds on schooling fish and squid. Common dolphins frequently work near the surface and typically dive to about 30 metres while feeding.",
+  },
+  {
+    id: "green-turtle",
+    name: "Green sea turtle",
+    icon: "🐢",
+    speed: "slow",
+    speedLabel: "Steady swimmer",
+    depth: 55,
+    x: "37%",
+    duration: "8.5s",
+    delay: "-5s",
+    description: "A surface-breathing reptile that often forages in shallow coastal water. Adults mainly graze on seagrasses and algae before surfacing again for air.",
+  },
+  {
+    id: "moon-jelly",
+    name: "Moon jelly",
+    icon: "🪼",
+    speed: "slow",
+    speedLabel: "Slow drifter",
+    depth: 95,
+    x: "72%",
+    duration: "11s",
+    delay: "-6s",
+    description: "A gelatinous drifter that moves with gentle bell pulses while currents carry it through the water. Its translucent body helps it blend into the bright open ocean.",
+  },
+  {
+    id: "bluefin",
+    name: "Pacific bluefin tuna",
+    icon: "🐟",
+    speed: "fast",
+    speedLabel: "Fast swimmer",
+    depth: 135,
+    x: "26%",
+    duration: "3.4s",
+    delay: "-2s",
+    description: "A powerful, streamlined predator built for endurance and speed. It can cross the Pacific and can also dive far beneath the sunlight zone during its migrations.",
+  },
+];
+
 const normalizeQuizAnswer = (answer: string) => answer.trim().toLowerCase().replace(/[^a-z0-9]/g, "");
 
 const rotateQuizOptions = (options: string[], questionIndex: number) => {
@@ -484,6 +556,168 @@ function CoriolisQuiz() {
   );
 }
 
+function SunlightZoneLab() {
+  const [selectedCreatureId, setSelectedCreatureId] = useState(sunlightCreatures[0].id);
+  const [questionIndex, setQuestionIndex] = useState(0);
+  const [answer, setAnswer] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const [wasCorrect, setWasCorrect] = useState(false);
+  const [score, setScore] = useState(0);
+  const selectedCreature = sunlightCreatures.find((creature) => creature.id === selectedCreatureId) ?? sunlightCreatures[0];
+  const complete = questionIndex >= sunlightQuiz.length;
+  const question = sunlightQuiz[Math.min(questionIndex, sunlightQuiz.length - 1)];
+
+  const submitAnswer = () => {
+    if (!answer || submitted || complete) return;
+    const enteredAnswer = normalizeQuizAnswer(answer);
+    const expectedAnswer = normalizeQuizAnswer(question.answer);
+    const isCorrect = question.options
+      ? enteredAnswer === expectedAnswer
+      : spellingDistance(enteredAnswer, expectedAnswer) <= 2;
+    setWasCorrect(isCorrect);
+    setSubmitted(true);
+    if (isCorrect) setScore((value) => value + 1);
+  };
+
+  const nextQuestion = () => {
+    setQuestionIndex((value) => value + 1);
+    setAnswer("");
+    setSubmitted(false);
+    setWasCorrect(false);
+  };
+
+  const restart = () => {
+    setQuestionIndex(0);
+    setAnswer("");
+    setSubmitted(false);
+    setWasCorrect(false);
+    setScore(0);
+  };
+
+  return (
+    <>
+      <section className="sunlight-lab" aria-labelledby="sunlight-lab-title">
+        <div className="sunlight-lab-heading">
+          <span>Interactive 2D ocean</span>
+          <h2 id="sunlight-lab-title">Life from 0 to 200 metres</h2>
+          <p>Select a moving creature to learn how it lives in the sunlight zone.</p>
+          <div className="swim-key" aria-label="Creature movement key">
+            <span><i className="slow" /> Slow or drifting</span>
+            <span><i className="fast" /> Fast swimmer</span>
+          </div>
+        </div>
+
+        <div className="sunlight-ocean" role="group" aria-label="A layered side view of the sunlight zone from the surface to 200 metres, with selectable marine animals">
+          <div className="sunlight-sky"><i /></div>
+          <div className="sunlight-rays" aria-hidden="true"><i /><i /><i /></div>
+          {[0, 50, 100, 150, 200].map((depth) => (
+            <div className="depth-line" key={depth} style={{ "--depth-position": `${10 + (depth / 200) * 82}%` } as CSSProperties}>
+              <span>{depth} m</span>
+            </div>
+          ))}
+          <span className="layer-name layer-bright">Bright surface</span>
+          <span className="layer-name layer-middle">Light fading</span>
+          <span className="layer-name layer-edge">Sunlight-zone edge</span>
+
+          {sunlightCreatures.map((creature) => (
+            <button
+              type="button"
+              key={creature.id}
+              className={`ocean-creature ${creature.speed} ${selectedCreatureId === creature.id ? "selected" : ""}`}
+              style={{ "--creature-y": `${12 + (creature.depth / 200) * 74}%`, "--creature-x": creature.x, "--swim-duration": creature.duration, "--swim-delay": creature.delay } as CSSProperties}
+              aria-label={`${creature.name}, ${creature.speedLabel}, example depth ${creature.depth} metres`}
+              aria-pressed={selectedCreatureId === creature.id}
+              onClick={() => setSelectedCreatureId(creature.id)}
+            >
+              <span aria-hidden="true">{creature.icon}</span>
+              <small>{creature.name}</small>
+            </button>
+          ))}
+
+          <div className="creature-info" aria-live="polite">
+            <span>{selectedCreature.speedLabel} · Example depth {selectedCreature.depth} m</span>
+            <h3>{selectedCreature.name}</h3>
+            <p>{selectedCreature.description}</p>
+          </div>
+          <div className="twilight-boundary">Twilight zone begins below 200 m</div>
+        </div>
+      </section>
+
+      <section className="upwelling-quiz sunlight-quiz" aria-labelledby="sunlight-quiz-title">
+        <div className="quiz-shell">
+          <div className="quiz-header">
+            <div>
+              <span>Knowledge check</span>
+              <h2 id="sunlight-quiz-title">Sunlight-zone quiz</h2>
+            </div>
+            <strong>{complete ? "Complete" : `Question ${questionIndex + 1} of ${sunlightQuiz.length}`}</strong>
+          </div>
+          <div className="quiz-progress" aria-hidden="true">
+            <i style={{ width: `${(Math.min(questionIndex + (submitted ? 1 : 0), sunlightQuiz.length) / sunlightQuiz.length) * 100}%` }} />
+          </div>
+
+          {complete ? (
+            <div className="quiz-finish" aria-live="polite">
+              <span>Quiz complete</span>
+              <strong>{score} / {sunlightQuiz.length}</strong>
+              <p>{score === sunlightQuiz.length ? "Perfect score—you know the sunlight zone." : "Nice work. Explore the creatures and try again to improve your score."}</p>
+              <button type="button" onClick={restart}>Try the quiz again</button>
+            </div>
+          ) : (
+            <div className="quiz-question">
+              <p className="quiz-kind">{question.options ? "Four-choice question" : "Spell the word"}</p>
+              <h3>{question.prompt}</h3>
+              {question.options ? (
+                <div className="quiz-options">
+                  {rotateQuizOptions(question.options, questionIndex).map((option, index) => (
+                    <button
+                      type="button"
+                      key={option}
+                      disabled={submitted}
+                      onClick={() => setAnswer(option)}
+                      className={`quiz-option ${answer === option ? "selected" : ""} ${submitted && option === question.answer ? "correct" : ""} ${submitted && answer === option && option !== question.answer ? "incorrect" : ""}`}
+                    >
+                      <span>{String.fromCharCode(65 + index)}</span>
+                      {option}
+                    </button>
+                  ))}
+                </div>
+              ) : (
+                <label className="spelling-answer">
+                  <span>Your spelling (capitalization does not matter)</span>
+                  <input
+                    type="text"
+                    value={answer}
+                    disabled={submitted}
+                    autoComplete="off"
+                    spellCheck="false"
+                    placeholder="Type your answer"
+                    onChange={(event) => setAnswer(event.target.value)}
+                    onKeyDown={(event) => { if (event.key === "Enter") submitAnswer(); }}
+                  />
+                </label>
+              )}
+              {submitted && (
+                <p className={`quiz-feedback ${wasCorrect ? "correct" : "incorrect"}`} aria-live="polite">
+                  {wasCorrect ? "Correct!" : <>Not quite. The correct answer is <strong>{question.answer}</strong>.</>}
+                </p>
+              )}
+              <div className="quiz-actions">
+                <span>Score: {score} / {questionIndex + (submitted ? 1 : 0)}</span>
+                {!submitted ? (
+                  <button type="button" disabled={!answer} onClick={submitAnswer}>Check answer</button>
+                ) : (
+                  <button type="button" onClick={nextQuestion}>{questionIndex === sunlightQuiz.length - 1 ? "See results" : "Next question →"}</button>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+    </>
+  );
+}
+
 export default function Home() {
   const [selected, setSelected] = useState<Subject | null>(null);
   const [currentTopic, setCurrentTopic] = useState<number | null>(null);
@@ -740,6 +974,7 @@ export default function Home() {
                 <p className="eyebrow">Marine Life in Sunlight · Topic {Number(currentTopic) + 1}</p>
                 <h1 id="detail-title">{sunlightTopics[currentTopic as number]}</h1>
                 {currentTopic === 0 ? (
+                  <>
                   <article className="current-article sunlight-article" role="tabpanel">
                     <h2>The Ocean&apos;s Brightest Layer</h2>
                     <p>The sunlight zone, also called the <strong>epipelagic zone</strong>, extends from the surface to roughly 200 metres deep. Enough light reaches this layer for photosynthesis, making it the most productive and familiar part of the open ocean. Its exact depth changes with water clarity, weather, season, and location.</p>
@@ -759,6 +994,8 @@ export default function Home() {
                     <h2>A Productive but Vulnerable Habitat</h2>
                     <p>Sunlit marine ecosystems are affected by warming water, pollution, overfishing, habitat damage, and changes in ocean chemistry. Protecting seagrass meadows, coral reefs, coastal wetlands, and open-ocean food webs helps preserve both marine biodiversity and the benefits people receive from the sea.</p>
                   </article>
+                  <SunlightZoneLab />
+                  </>
                 ) : (
                   <article className="current-article turtle-article" role="tabpanel">
                     <h2>A Reptile of Warm, Shallow Seas</h2>
