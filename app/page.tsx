@@ -118,13 +118,71 @@ const coriolisQuiz: QuizQuestion[] = [
 ];
 
 const sunlightQuiz: QuizQuestion[] = [
-  { prompt: "About how deep does the sunlight zone extend?", answer: "200 metres", options: ["200 metres", "20 metres", "1,000 metres", "4,000 metres"] },
+  { prompt: "Which body part lets a dolphin breathe at the ocean surface?", answer: "Blowhole", options: ["Blowhole", "Dorsal fin", "Gill cover", "Tail fluke"] },
+  { prompt: "What is the hard upper shell of a green sea turtle called?", answer: "Carapace", options: ["Carapace", "Bell", "Rostrum", "Operculum"] },
+  { prompt: "Which part forms the rounded top of a moon jelly?", answer: "Bell", options: ["Bell", "Oral arm", "Tentacle", "Gonad"] },
+  { prompt: "Which fin helps stabilize a bluefin tuna along the top of its body?", answer: "Dorsal fin", options: ["Dorsal fin", "Pectoral fin", "Tail fin", "Gill cover"] },
   { prompt: "Which organisms use sunlight to form the base of many ocean food webs?", answer: "Phytoplankton", options: ["Phytoplankton", "Dolphins", "Sea turtles", "Tuna"] },
-  { prompt: "Which animal in the model is built for endurance and speed?", answer: "Pacific bluefin tuna", options: ["Pacific bluefin tuna", "Moon jelly", "Phytoplankton", "Green sea turtle"] },
-  { prompt: "Why are plankton called drifters?", answer: "Currents carry them", options: ["Currents carry them", "They live on the seafloor", "They breathe air", "They never move"] },
-  { prompt: "What do adult green sea turtles mainly eat?", answer: "Seagrasses and algae", options: ["Seagrasses and algae", "Tuna", "Coral skeletons", "Deep-sea bacteria"] },
-  { prompt: "Spell the scientific word for the sunlight zone.", answer: "euphotic" },
+  { prompt: "Spell the word for a turtle's hard upper shell.", answer: "carapace" },
 ];
+
+type AnatomyPart = { label: string; x: string; y: string };
+type AnatomyEntry = { title: string; note: string; parts: AnatomyPart[] };
+
+const sunlightAnatomy: Record<string, AnatomyEntry> = {
+  phytoplankton: {
+    title: "Diatom and phytoplankton structures",
+    note: "Phytoplankton include many different microscopic organisms. Diatoms are protected by glass-like silica walls, while photosynthetic pigments inside their cells capture sunlight.",
+    parts: [
+      { label: "Silica cell wall", x: "31%", y: "38%" },
+      { label: "Chloroplasts", x: "68%", y: "42%" },
+      { label: "Cell contents", x: "53%", y: "70%" },
+    ],
+  },
+  dolphin: {
+    title: "Common dolphin external anatomy",
+    note: "A dolphin breathes air through its blowhole. Its dorsal fin steadies the body, pectoral flippers steer, and powerful tail flukes drive it forward.",
+    parts: [
+      { label: "Tail flukes", x: "12%", y: "57%" },
+      { label: "Dorsal fin", x: "47%", y: "24%" },
+      { label: "Pectoral flipper", x: "63%", y: "72%" },
+      { label: "Blowhole", x: "73%", y: "31%" },
+      { label: "Rostrum", x: "89%", y: "48%" },
+    ],
+  },
+  "green-turtle": {
+    title: "Green sea turtle external anatomy",
+    note: "The carapace protects the turtle's back. Large front flippers provide thrust, smaller rear flippers help steer, and a hard beak clips seagrass and algae.",
+    parts: [
+      { label: "Rear flipper", x: "18%", y: "60%" },
+      { label: "Carapace", x: "48%", y: "29%" },
+      { label: "Front flipper", x: "58%", y: "75%" },
+      { label: "Eye", x: "81%", y: "35%" },
+      { label: "Beak", x: "90%", y: "45%" },
+    ],
+  },
+  "moon-jelly": {
+    title: "Moon jelly external anatomy",
+    note: "The bell contracts to create a gentle pulse. Fine tentacles detect food, oral arms move captured prey toward the mouth, and four visible gonads form a clover-like pattern.",
+    parts: [
+      { label: "Bell", x: "53%", y: "24%" },
+      { label: "Gonads", x: "55%", y: "40%" },
+      { label: "Oral arms", x: "51%", y: "65%" },
+      { label: "Tentacles", x: "30%", y: "80%" },
+    ],
+  },
+  bluefin: {
+    title: "Pacific bluefin tuna external anatomy",
+    note: "A streamlined body reduces drag. The tail fin supplies thrust, pectoral fins steer, the dorsal fin stabilizes the fish, and water passes over the gills for oxygen.",
+    parts: [
+      { label: "Tail fin", x: "10%", y: "50%" },
+      { label: "Dorsal fin", x: "57%", y: "22%" },
+      { label: "Pectoral fin", x: "67%", y: "65%" },
+      { label: "Gills", x: "79%", y: "50%" },
+      { label: "Eye", x: "88%", y: "42%" },
+    ],
+  },
+};
 
 const sunlightCreatures = [
   {
@@ -569,6 +627,7 @@ function SunlightZoneLab() {
   const [wasCorrect, setWasCorrect] = useState(false);
   const [score, setScore] = useState(0);
   const selectedCreature = sunlightCreatures.find((creature) => creature.id === selectedCreatureId) ?? sunlightCreatures[0];
+  const selectedAnatomy = sunlightAnatomy[selectedCreature.id];
   const complete = questionIndex >= sunlightQuiz.length;
   const question = sunlightQuiz[Math.min(questionIndex, sunlightQuiz.length - 1)];
 
@@ -655,6 +714,46 @@ function SunlightZoneLab() {
           <div className="twilight-boundary">Twilight zone begins below 200 m</div>
         </div>
         <p className="creature-credit">Green sea turtle image: <a href="https://pngimg.com/image/24729" target="_blank" rel="noreferrer">PNGimg</a>, CC BY-NC 4.0. Other creature illustrations were created for this study guide.</p>
+      </section>
+
+      <section className="anatomy-atlas" aria-labelledby="anatomy-atlas-title">
+        <div className="anatomy-heading">
+          <span>Interactive anatomy atlas</span>
+          <h2 id="anatomy-atlas-title">Body parts built for ocean life</h2>
+          <p>Choose a creature, then study the names placed directly on its diagram.</p>
+        </div>
+        <div className="anatomy-tabs" role="group" aria-label="Choose an anatomy diagram">
+          {sunlightCreatures.map((creature) => (
+            <button
+              type="button"
+              key={creature.id}
+              className={selectedCreatureId === creature.id ? "selected" : ""}
+              aria-pressed={selectedCreatureId === creature.id}
+              onClick={() => setSelectedCreatureId(creature.id)}
+            >
+              {creature.name}
+            </button>
+          ))}
+        </div>
+        <div className={`anatomy-board anatomy-${selectedCreature.id}`}>
+          <div className="anatomy-title">
+            <span>Selected specimen</span>
+            <h3>{selectedAnatomy.title}</h3>
+          </div>
+          <div className="anatomy-stage">
+            <img src={selectedCreature.image} alt={`${selectedCreature.name} with labeled external body parts`} />
+            {selectedAnatomy.parts.map((part) => (
+              <span
+                className="anatomy-label"
+                key={part.label}
+                style={{ "--part-x": part.x, "--part-y": part.y } as CSSProperties}
+              >
+                <i aria-hidden="true" />{part.label}
+              </span>
+            ))}
+          </div>
+          <p className="anatomy-note">{selectedAnatomy.note}</p>
+        </div>
       </section>
 
       <section className="upwelling-quiz sunlight-quiz" aria-labelledby="sunlight-quiz-title">

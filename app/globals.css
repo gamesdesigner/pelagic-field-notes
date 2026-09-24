@@ -241,6 +241,24 @@ footer { display:flex; justify-content:space-between; padding-top:31px; color:va
 .twilight-boundary { position:absolute; z-index:7; right:0; bottom:0; left:0; min-height:46px; display:grid; place-items:center; padding:10px 70px 10px 16px; border-top:2px solid rgba(142,198,225,.65); background:#031a31; color:#bce1f1; font-size:14px; font-weight:700; letter-spacing:.1em; text-align:center; text-transform:uppercase; }
 .creature-credit { margin:11px 0 0; color:var(--muted); font-size:12px; line-height:1.4; }
 .creature-credit a { color:inherit; text-underline-offset:2px; }
+.anatomy-atlas { width:100%; max-width:1280px; margin:clamp(66px,9vw,120px) 0 0; }
+.anatomy-heading>span,.anatomy-title>span { color:var(--coral); font-size:13px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; }
+.anatomy-heading h2 { max-width:900px; margin:10px 0 13px; font-size:clamp(42px,5.5vw,76px); font-weight:400; line-height:.98; letter-spacing:-.04em; }
+.anatomy-heading p { max-width:690px; margin:0; color:var(--muted); font-size:18px; line-height:1.5; }
+.anatomy-tabs { display:flex; flex-wrap:wrap; gap:10px; margin:30px 0 18px; }
+.anatomy-tabs button { min-height:48px; padding:11px 17px; border:1px solid var(--line); background:transparent; color:var(--ink); font-size:16px; cursor:pointer; transition:background .2s,border-color .2s,color .2s,transform .2s; }
+.anatomy-tabs button:hover,.anatomy-tabs button:focus-visible { border-color:var(--coral); transform:translateY(-2px); }
+.anatomy-tabs button.selected { border-color:#0b5265; background:#0b5265; color:white; }
+.anatomy-board { display:grid; grid-template-columns:minmax(0,1fr) minmax(240px,.36fr); grid-template-rows:auto 1fr; min-height:680px; overflow:hidden; border:1px solid rgba(10,67,80,.25); background:linear-gradient(145deg,#eef0e5,#dce9e6); box-shadow:0 30px 70px rgba(4,46,65,.13); }
+.anatomy-title { grid-column:1/-1; padding:28px clamp(24px,4vw,52px) 10px; }
+.anatomy-title h3 { margin:7px 0 0; font-size:clamp(30px,4vw,50px); font-weight:400; line-height:1; }
+.anatomy-stage { position:relative; min-height:555px; overflow:hidden; margin:0 0 28px clamp(20px,4vw,52px); background:radial-gradient(circle at 50% 45%,rgba(255,255,255,.95),rgba(212,231,228,.92) 67%,rgba(161,202,201,.75)); border:1px solid rgba(9,78,91,.18); }
+.anatomy-stage::before { content:""; position:absolute; inset:0; opacity:.24; background:linear-gradient(rgba(12,84,96,.16) 1px,transparent 1px),linear-gradient(90deg,rgba(12,84,96,.16) 1px,transparent 1px); background-size:42px 42px; }
+.anatomy-stage>img { position:absolute; top:50%; left:50%; width:68%; height:66%; object-fit:contain; transform:translate(-50%,-50%); filter:drop-shadow(0 18px 18px rgba(6,47,57,.2)); }
+.anatomy-moon-jelly .anatomy-stage>img,.anatomy-phytoplankton .anatomy-stage>img { width:55%; height:66%; }
+.anatomy-label { position:absolute; z-index:2; top:var(--part-y); left:var(--part-x); display:flex; align-items:center; gap:7px; max-width:150px; padding:7px 9px; border:1px solid rgba(255,255,255,.72); background:rgba(3,42,55,.9); color:white; font-size:14px; font-weight:700; line-height:1.12; transform:translate(-50%,-50%); box-shadow:0 5px 14px rgba(5,42,52,.22); pointer-events:none; }
+.anatomy-label i { flex:0 0 8px; width:8px; height:8px; border:2px solid #fff; border-radius:50%; background:#ee7e5e; box-shadow:0 0 0 3px rgba(238,126,94,.22); }
+.anatomy-note { align-self:center; margin:0; padding:35px clamp(25px,4vw,48px); color:#244b53; font-size:20px; line-height:1.65; }
 .sunlight-quiz { width:100%; min-height:auto; margin-top:clamp(56px,8vw,100px); padding:clamp(50px,7vw,85px) clamp(18px,5vw,72px); background:linear-gradient(145deg,#f5f1df,#dcebdd); }
 .sunlight-quiz .quiz-shell { margin:auto; }
 .coriolis-globe-model { position:relative; width:100%; min-height:calc(100svh - 110px); display:grid; grid-template-rows:auto 1fr auto auto; justify-items:center; overflow:hidden; padding:clamp(32px,5vw,68px); color:white; background:radial-gradient(circle at 50% 48%,rgba(38,111,145,.55),transparent 48%); }
@@ -338,6 +356,9 @@ body,body * { font-family:"Times New Roman",Times,serif!important; }
   .sunlight-lab-heading p,.swim-key { grid-column:1; }
   .swim-key { grid-row:auto; justify-content:flex-start; margin-top:8px; }
   .sunlight-ocean { height:820px; }
+  .anatomy-board { grid-template-columns:1fr; }
+  .anatomy-stage { margin-right:clamp(20px,4vw,52px); }
+  .anatomy-note { padding-top:6px; }
   .globe-stage { width:min(90vw,680px); }
   .conveyor-temperature-panel { grid-template-columns:1fr 1.4fr; }
   .conveyor-speed { grid-column:1/-1; justify-content:flex-start; }
@@ -406,6 +427,17 @@ body,body * { font-family:"Times New Roman",Times,serif!important; }
   .layer-name { left:10px; font-size:11px; }
   .depth-line span { right:8px; min-width:52px; font-size:11px; }
   .sunlight-quiz { margin-right:-10px; margin-left:-10px; width:calc(100% + 20px); }
+  .anatomy-heading h2 { font-size:42px; }
+  .anatomy-tabs { display:grid; grid-template-columns:1fr 1fr; }
+  .anatomy-tabs button { padding:10px 8px; font-size:14px; }
+  .anatomy-board { min-height:0; }
+  .anatomy-title { padding:24px 20px 10px; }
+  .anatomy-title h3 { font-size:31px; }
+  .anatomy-stage { min-height:480px; margin:0 12px 20px; }
+  .anatomy-stage>img { width:84%; height:64%; }
+  .anatomy-moon-jelly .anatomy-stage>img,.anatomy-phytoplankton .anatomy-stage>img { width:68%; }
+  .anatomy-label { max-width:112px; padding:6px 7px; font-size:12px; }
+  .anatomy-note { padding:6px 22px 27px; font-size:17px; }
   .upwelling-quiz { min-height:calc(100svh - 82px); padding:48px 18px; }
   .quiz-shell { padding:28px 20px; }
   .quiz-header { align-items:flex-start; flex-direction:column; gap:12px; }
