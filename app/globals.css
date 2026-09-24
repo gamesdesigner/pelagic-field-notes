@@ -209,44 +209,30 @@ footer { display:flex; justify-content:space-between; padding-top:31px; color:va
 .layer-bright { top:14%; }
 .layer-middle { top:48%; }
 .layer-edge { top:84%; }
-.ocean-creature { position:absolute; z-index:5; top:var(--creature-y); left:-18%; display:grid; justify-items:center; gap:5px; width:140px; padding:0; border:0; background:transparent; color:#fff; font-family:inherit; cursor:pointer; transform:translateY(-50%); animation:creatureDrift var(--swim-duration) linear var(--swim-delay) infinite; filter:drop-shadow(0 6px 7px rgba(1,25,45,.42)); }
-.ocean-creature.fast { animation-name:creatureSprint; }
+.ocean-creature { position:absolute; z-index:5; top:var(--creature-y); left:-20%; display:grid; justify-items:center; gap:5px; width:170px; padding:0; border:0; background:transparent; color:#fff; font-family:inherit; cursor:pointer; transform:translateY(-50%); animation:creatureDriftLtr var(--swim-duration) linear var(--swim-delay) infinite; filter:drop-shadow(0 7px 8px rgba(1,25,45,.55)); }
+.ocean-creature.rtl { left:112%; animation-name:creatureDriftRtl; }
+.ocean-creature.fast.ltr { animation-name:creatureSprintLtr; }
+.ocean-creature.fast.rtl { animation-name:creatureSprintRtl; }
 .ocean-creature:hover,.ocean-creature:focus-visible,.ocean-creature.selected { border:0; background:transparent; box-shadow:none; outline:none; }
-.ocean-creature:hover .creature-shape,.ocean-creature:focus-visible .creature-shape,.ocean-creature.selected .creature-shape { filter:drop-shadow(0 0 8px #ffdd85) drop-shadow(0 0 16px rgba(255,221,133,.8)); }
+.ocean-creature:hover .creature-image,.ocean-creature:focus-visible .creature-image,.ocean-creature.selected .creature-image { filter:drop-shadow(0 0 8px #ffdd85) drop-shadow(0 0 16px rgba(255,221,133,.8)); }
 .ocean-creature>small { padding:0; border:0; border-radius:0; background:transparent; color:#fff; font-size:13px; font-weight:700; line-height:1.1; white-space:nowrap; text-shadow:0 2px 5px rgba(0,24,43,.95); }
 .ocean-creature.selected>small { color:#ffdf8e; text-decoration:underline; text-underline-offset:3px; }
-.creature-shape { position:relative; display:block; width:96px; height:52px; transition:filter .2s ease; }
-.creature-shape i,.creature-shape b,.creature-shape em { position:absolute; display:block; }
-.creature-shape.bluefin::before { content:""; position:absolute; left:19px; top:13px; width:65px; height:28px; border-radius:56% 44% 48% 52%; background:linear-gradient(180deg,#9ec9d7 0 44%,#e2e3d2 46% 100%); transform:skewX(-8deg); }
-.creature-shape.bluefin::after { content:""; position:absolute; left:4px; top:9px; width:28px; height:36px; background:#6fa7bd; clip-path:polygon(0 0,100% 50%,0 100%,28% 50%); }
-.creature-shape.bluefin i { right:15px; top:21px; width:4px; height:4px; border-radius:50%; background:#072d46; }
-.creature-shape.bluefin b { left:45px; top:5px; width:22px; height:14px; background:#719fb0; clip-path:polygon(0 100%,50% 0,100% 100%); }
-.creature-shape.bluefin em { left:47px; bottom:4px; width:22px; height:13px; background:#789fab; clip-path:polygon(0 0,55% 100%,100% 0); }
-.creature-shape.dolphin::before { content:""; position:absolute; left:18px; top:14px; width:64px; height:25px; border-radius:65% 42% 55% 45%; background:linear-gradient(180deg,#a9d1dd,#538aa5); transform:skewX(-12deg); }
-.creature-shape.dolphin::after { content:""; position:absolute; left:3px; top:10px; width:29px; height:34px; background:#6da4b9; clip-path:polygon(0 4%,100% 50%,0 96%,30% 50%); }
-.creature-shape.dolphin i { right:4px; top:23px; width:29px; height:7px; border-radius:0 100% 100% 0; background:#7fafc0; transform:rotate(-4deg); }
-.creature-shape.dolphin b { left:48px; top:5px; width:22px; height:16px; background:#7aafc1; clip-path:polygon(0 100%,42% 0,100% 100%); }
-.creature-shape.dolphin em { left:50px; bottom:4px; width:20px; height:15px; background:#5f94aa; clip-path:polygon(0 0,45% 100%,100% 0); transform:rotate(-16deg); }
-.creature-shape.green-turtle::before { content:""; position:absolute; left:25px; top:9px; width:54px; height:36px; border-radius:56% 45% 55% 46%; background:radial-gradient(circle at 45% 45%,#92a95f 0 16%,#718849 17% 34%,#a6b86f 35% 38%,#667d43 39% 100%); }
-.creature-shape.green-turtle::after { content:""; position:absolute; right:8px; top:20px; width:22px; height:15px; border-radius:50%; background:#91a765; }
-.creature-shape.green-turtle i { left:15px; top:3px; width:33px; height:17px; border-radius:100% 0 80% 20%; background:#81975a; transform:rotate(-22deg); }
-.creature-shape.green-turtle b { left:14px; bottom:2px; width:36px; height:17px; border-radius:10% 80% 20% 90%; background:#72894f; transform:rotate(24deg); }
-.creature-shape.green-turtle em { right:21px; bottom:2px; width:30px; height:14px; border-radius:80% 15% 90% 20%; background:#7c9256; transform:rotate(-18deg); }
-.creature-shape.moon-jelly::before { content:""; position:absolute; left:21px; top:2px; width:58px; height:34px; border-radius:55% 55% 12% 12%; background:radial-gradient(circle at 38% 55%,rgba(255,255,255,.55) 0 5px,transparent 6px),radial-gradient(circle at 62% 55%,rgba(255,255,255,.55) 0 5px,transparent 6px),linear-gradient(180deg,rgba(217,230,255,.88),rgba(173,202,230,.48)); box-shadow:inset 0 -5px 0 rgba(220,235,255,.28); }
-.creature-shape.moon-jelly::after { content:""; position:absolute; left:27px; top:33px; width:48px; height:18px; background:repeating-linear-gradient(90deg,transparent 0 6px,rgba(214,228,246,.8) 7px 9px,transparent 10px 14px); clip-path:polygon(0 0,100% 0,92% 100%,80% 28%,68% 100%,55% 24%,43% 100%,30% 25%,18% 100%,8% 30%); }
-.creature-shape.moon-jelly i,.creature-shape.moon-jelly b,.creature-shape.moon-jelly em { display:none; }
-.creature-shape.phytoplankton::before { content:""; position:absolute; left:32px; top:13px; width:18px; height:18px; border-radius:50%; background:#c8e577; box-shadow:20px -7px 0 -3px #96d37e,32px 11px 0 -4px #d5eb87,-7px 18px 0 -5px #a9dc77,14px 24px 0 -5px #d7e67e; }
-.creature-shape.phytoplankton::after { content:""; position:absolute; left:20px; top:5px; width:54px; height:42px; border:2px dotted rgba(224,243,145,.88); border-radius:48%; transform:rotate(-10deg); }
-.creature-shape.phytoplankton i { left:40px; top:2px; width:2px; height:48px; background:rgba(224,243,145,.8); transform:rotate(42deg); }
-.creature-shape.phytoplankton b { left:47px; top:2px; width:2px; height:48px; background:rgba(224,243,145,.65); transform:rotate(-47deg); }
-.creature-shape.phytoplankton em { display:none; }
-@keyframes creatureDrift { 0% { left:-18%; transform:translateY(-50%) translateY(0) rotate(0); } 18% { transform:translateY(-50%) translateY(0) rotate(0); } 27% { transform:translateY(-50%) translateY(-13px) rotate(-2deg); } 37% { transform:translateY(-50%) translateY(0) rotate(0); } 58% { transform:translateY(-50%) translateY(0) rotate(0); } 68% { transform:translateY(-50%) translateY(10px) rotate(2deg); } 78% { transform:translateY(-50%) translateY(0) rotate(0); } 100% { left:112%; transform:translateY(-50%) translateY(0) rotate(0); } }
-@keyframes creatureSprint { 0% { left:-18%; transform:translateY(-50%) translateY(0) rotate(0); } 24% { transform:translateY(-50%) translateY(0) rotate(0); } 32% { transform:translateY(-50%) translateY(-11px) rotate(-2deg); } 42% { transform:translateY(-50%) translateY(0) rotate(0); } 66% { transform:translateY(-50%) translateY(0) rotate(0); } 74% { transform:translateY(-50%) translateY(8px) rotate(2deg); } 84% { transform:translateY(-50%) translateY(0) rotate(0); } 100% { left:112%; transform:translateY(-50%) translateY(0) rotate(0); } }
+.creature-image { display:block; width:136px; height:78px; object-fit:contain; transition:filter .2s ease; }
+.ocean-creature.rtl .creature-image { transform:scaleX(-1); }
+.ocean-creature.phytoplankton .creature-image { width:82px; height:66px; }
+.ocean-creature.moon-jelly .creature-image { width:86px; height:88px; }
+.ocean-creature.green-turtle .creature-image { width:150px; height:92px; }
+@keyframes creatureDriftLtr { 0% { left:-20%; transform:translateY(-50%) translateY(0); } 22% { transform:translateY(-50%) translateY(0); } 31% { transform:translateY(-50%) translateY(-13px); } 41% { transform:translateY(-50%) translateY(0); } 65% { transform:translateY(-50%) translateY(0); } 74% { transform:translateY(-50%) translateY(10px); } 84% { transform:translateY(-50%) translateY(0); } 100% { left:112%; transform:translateY(-50%) translateY(0); } }
+@keyframes creatureDriftRtl { 0% { left:112%; transform:translateY(-50%) translateY(0); } 20% { transform:translateY(-50%) translateY(0); } 30% { transform:translateY(-50%) translateY(11px); } 40% { transform:translateY(-50%) translateY(0); } 63% { transform:translateY(-50%) translateY(0); } 73% { transform:translateY(-50%) translateY(-13px); } 83% { transform:translateY(-50%) translateY(0); } 100% { left:-20%; transform:translateY(-50%) translateY(0); } }
+@keyframes creatureSprintLtr { 0% { left:-20%; transform:translateY(-50%) translateY(0); } 26% { transform:translateY(-50%) translateY(0); } 34% { transform:translateY(-50%) translateY(-10px); } 43% { transform:translateY(-50%) translateY(0); } 69% { transform:translateY(-50%) translateY(0); } 77% { transform:translateY(-50%) translateY(8px); } 86% { transform:translateY(-50%) translateY(0); } 100% { left:112%; transform:translateY(-50%) translateY(0); } }
+@keyframes creatureSprintRtl { 0% { left:112%; transform:translateY(-50%) translateY(0); } 24% { transform:translateY(-50%) translateY(0); } 32% { transform:translateY(-50%) translateY(-9px); } 41% { transform:translateY(-50%) translateY(0); } 67% { transform:translateY(-50%) translateY(0); } 75% { transform:translateY(-50%) translateY(9px); } 84% { transform:translateY(-50%) translateY(0); } 100% { left:-20%; transform:translateY(-50%) translateY(0); } }
 .creature-info { position:absolute; z-index:8; right:clamp(20px,4vw,55px); bottom:76px; width:min(440px,calc(100% - 40px)); padding:clamp(20px,3vw,32px); border:1px solid rgba(255,255,255,.38); background:rgba(2,30,52,.87); color:#fff; box-shadow:0 18px 45px rgba(1,21,38,.32); backdrop-filter:blur(10px); }
 .creature-info>span { color:#ffdb8a; font-size:12px; font-weight:700; letter-spacing:.09em; text-transform:uppercase; }
 .creature-info h3 { margin:7px 0 9px; font-size:clamp(28px,3.4vw,44px); font-weight:400; line-height:1; }
 .creature-info p { margin:0; color:rgba(255,255,255,.85); font-size:16px; line-height:1.52; }
 .twilight-boundary { position:absolute; z-index:7; right:0; bottom:0; left:0; min-height:46px; display:grid; place-items:center; padding:10px 70px 10px 16px; border-top:2px solid rgba(142,198,225,.65); background:#031a31; color:#bce1f1; font-size:14px; font-weight:700; letter-spacing:.1em; text-align:center; text-transform:uppercase; }
+.creature-credit { margin:11px 0 0; color:var(--muted); font-size:12px; line-height:1.4; }
+.creature-credit a { color:inherit; text-underline-offset:2px; }
 .sunlight-quiz { width:100%; min-height:auto; margin-top:clamp(56px,8vw,100px); padding:clamp(50px,7vw,85px) clamp(18px,5vw,72px); background:linear-gradient(145deg,#f5f1df,#dcebdd); }
 .sunlight-quiz .quiz-shell { margin:auto; }
 .coriolis-globe-model { position:relative; width:100%; min-height:calc(100svh - 110px); display:grid; grid-template-rows:auto 1fr auto auto; justify-items:center; overflow:hidden; padding:clamp(32px,5vw,68px); color:white; background:radial-gradient(circle at 50% 48%,rgba(38,111,145,.55),transparent 48%); }
@@ -396,8 +382,11 @@ body,body * { font-family:"Times New Roman",Times,serif!important; }
   .sunlight-lab { margin-top:58px; }
   .sunlight-lab-heading h2 { font-size:42px; }
   .sunlight-ocean { height:730px; }
-  .ocean-creature { min-width:74px; padding:6px; }
-  .ocean-creature>span { font-size:44px; }
+  .ocean-creature { width:126px; padding:0; }
+  .creature-image { width:110px; height:66px; }
+  .ocean-creature.phytoplankton .creature-image { width:68px; height:56px; }
+  .ocean-creature.moon-jelly .creature-image { width:72px; height:74px; }
+  .ocean-creature.green-turtle .creature-image { width:122px; height:78px; }
   .ocean-creature>small { font-size:11px; }
   .creature-info { right:14px; bottom:62px; left:14px; width:auto; padding:18px; }
   .creature-info h3 { font-size:30px; }

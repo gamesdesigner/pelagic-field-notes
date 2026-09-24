@@ -130,6 +130,8 @@ const sunlightCreatures = [
   {
     id: "phytoplankton",
     name: "Phytoplankton",
+    image: "/assets/sunlight-creatures/phytoplankton.png",
+    direction: "ltr",
     speed: "slow",
     speedLabel: "Slow drifter",
     depth: 15,
@@ -140,6 +142,8 @@ const sunlightCreatures = [
   {
     id: "dolphin",
     name: "Common dolphin",
+    image: "/assets/sunlight-creatures/common-dolphin.png",
+    direction: "rtl",
     speed: "fast",
     speedLabel: "Fast swimmer",
     depth: 30,
@@ -150,6 +154,8 @@ const sunlightCreatures = [
   {
     id: "green-turtle",
     name: "Green sea turtle",
+    image: "/assets/sunlight-creatures/green-sea-turtle.png",
+    direction: "ltr",
     speed: "slow",
     speedLabel: "Steady swimmer",
     depth: 55,
@@ -160,6 +166,8 @@ const sunlightCreatures = [
   {
     id: "moon-jelly",
     name: "Moon jelly",
+    image: "/assets/sunlight-creatures/moon-jelly.png",
+    direction: "rtl",
     speed: "slow",
     speedLabel: "Slow drifter",
     depth: 95,
@@ -170,6 +178,8 @@ const sunlightCreatures = [
   {
     id: "bluefin",
     name: "Pacific bluefin tuna",
+    image: "/assets/sunlight-creatures/pacific-bluefin-tuna.png",
+    direction: "ltr",
     speed: "fast",
     speedLabel: "Fast swimmer",
     depth: 135,
@@ -613,13 +623,13 @@ function SunlightZoneLab() {
             <button
               type="button"
               key={creature.id}
-              className={`ocean-creature ${creature.speed} ${selectedCreatureId === creature.id ? "selected" : ""}`}
+              className={`ocean-creature ${creature.id} ${creature.speed} ${creature.direction} ${selectedCreatureId === creature.id ? "selected" : ""}`}
               style={{ "--creature-y": `${12 + (creature.depth / 200) * 74}%`, "--swim-duration": creature.duration, "--swim-delay": creature.delay } as CSSProperties}
               aria-label={`${creature.name}, ${creature.speedLabel}, example depth ${creature.depth} metres`}
               aria-pressed={selectedCreatureId === creature.id}
               onClick={() => setSelectedCreatureId(creature.id)}
             >
-              <span className={`creature-shape ${creature.id}`} aria-hidden="true"><i /><b /><em /></span>
+              <img className="creature-image" src={creature.image} alt="" />
               <small>{creature.name}</small>
             </button>
           ))}
@@ -631,6 +641,7 @@ function SunlightZoneLab() {
           </div>
           <div className="twilight-boundary">Twilight zone begins below 200 m</div>
         </div>
+        <p className="creature-credit">Green sea turtle image: <a href="https://pngimg.com/image/24729" target="_blank" rel="noreferrer">PNGimg</a>, CC BY-NC 4.0. Other creature illustrations were created for this study guide.</p>
       </section>
 
       <section className="upwelling-quiz sunlight-quiz" aria-labelledby="sunlight-quiz-title">
