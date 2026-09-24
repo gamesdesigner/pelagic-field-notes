@@ -88,6 +88,7 @@ const subjects: Subject[] = [
 ];
 
 const currentTopics = ["Upwelling", "Global Conveyor Belt", "Coriolis Effect", "Wind, Rotation, and the Moving Ocean"];
+const sunlightTopics = ["General Marine Life in the Sun", "Green Sea Turtle"];
 
 const upwellingQuiz: QuizQuestion[] = [
   { prompt: "What causes moving ocean water to deflect as Earth rotates?", answer: "The Coriolis Effect", options: ["The Coriolis Effect", "Marine snow", "Brine rejection", "The thermocline"] },
@@ -545,7 +546,7 @@ export default function Home() {
 
   const openSubject = (subject: Subject) => {
     setSelected(subject);
-    if (subject.id === "currents") setCurrentTopic(null);
+    if (subject.id === "currents" || subject.id === "sunlight") setCurrentTopic(null);
   };
 
   useEffect(() => {
@@ -622,9 +623,30 @@ export default function Home() {
             ))}
           </div>
         </section>
+      ) : selected.id === "sunlight" && currentTopic === null ? (
+        <section className="currents-index sunlight-index" aria-labelledby="sunlight-title">
+          <button className="back-button" onClick={() => setSelected(null)}><span>←</span> All subjects</button>
+          <div className="currents-heading">
+            <p className="eyebrow">Marine Life in Sunlight · Choose a topic</p>
+            <h1 id="sunlight-title">Explore the<br /><em>sunlit ocean.</em></h1>
+          </div>
+          <div className="current-card-grid sunlight-card-grid">
+            {sunlightTopics.map((topic, index) => (
+              <button className={`current-subject-card sunlight-topic-${index + 1}`} key={topic} onClick={() => setCurrentTopic(index)}>
+                <span className="card-number">{String(index + 1).padStart(2, "0")}</span>
+                <div className="current-card-art sunlight-topic-art" aria-hidden="true">
+                  <span>{index === 0 ? "☼" : "◡"}</span>
+                  <small>{index === 0 ? "Life powered by sunlight" : "Featured animal"}</small>
+                </div>
+                <div className="card-copy"><span>Sunlight zone</span><h2>{topic}</h2><p>Click to reveal this topic.</p></div>
+                <span className="card-arrow">↗</span>
+              </button>
+            ))}
+          </div>
+        </section>
       ) : (
-        <section className={`subject-detail ${selected.tone} ${selected.id === "currents" && currentTopic === 0 ? "upwelling-layout" : ""} ${selected.id === "currents" && currentTopic === 1 ? "conveyor-layout" : ""} ${selected.id === "currents" && currentTopic === 2 ? "coriolis-layout" : ""} ${selected.id === "currents" && currentTopic === 3 ? "ekman-layout" : ""}`} aria-labelledby="detail-title">
-          <button className="back-button" onClick={() => selected.id === "currents" ? setCurrentTopic(null) : setSelected(null)}><span>←</span> {selected.id === "currents" ? "Ocean Currents" : "All subjects"}</button>
+        <section className={`subject-detail ${selected.tone} ${selected.id === "currents" && currentTopic === 0 ? "upwelling-layout" : ""} ${selected.id === "currents" && currentTopic === 1 ? "conveyor-layout" : ""} ${selected.id === "currents" && currentTopic === 2 ? "coriolis-layout" : ""} ${selected.id === "currents" && currentTopic === 3 ? "ekman-layout" : ""} ${selected.id === "sunlight" ? "sunlight-topic-layout" : ""}`} aria-labelledby="detail-title">
+          <button className="back-button" onClick={() => selected.id === "currents" || selected.id === "sunlight" ? setCurrentTopic(null) : setSelected(null)}><span>←</span> {selected.id === "currents" ? "Ocean Currents" : selected.id === "sunlight" ? "Marine Life in Sunlight" : "All subjects"}</button>
           <div className={`detail-copy ${selected.id === "currents" ? "currents-copy" : ""}`}>
             <div className="detail-meta"><span>{selected.number} · Ocean subject</span><span>{selected.depth}</span></div>
             {selected.id === "currents" ? (
@@ -710,6 +732,53 @@ export default function Home() {
                     <h2>Coastal Downwelling</h2>
                     <p>If the wind reverses, Ekman transport can push surface water toward the coast. Water piles up along the shoreline and is forced downward. This is <strong>coastal downwelling</strong>.</p>
                     <p>Downwelling does not bring deep nutrients into the sunlit zone, so it usually produces less surface biological growth than upwelling. However, it performs another important job by carrying oxygen-rich surface water into deeper parts of the ocean.</p>
+                  </article>
+                )}
+              </>
+            ) : selected.id === "sunlight" ? (
+              <>
+                <p className="eyebrow">Marine Life in Sunlight · Topic {Number(currentTopic) + 1}</p>
+                <h1 id="detail-title">{sunlightTopics[currentTopic as number]}</h1>
+                {currentTopic === 0 ? (
+                  <article className="current-article sunlight-article" role="tabpanel">
+                    <h2>The Ocean&apos;s Brightest Layer</h2>
+                    <p>The sunlight zone, also called the <strong>epipelagic zone</strong>, extends from the surface to roughly 200 metres deep. Enough light reaches this layer for photosynthesis, making it the most productive and familiar part of the open ocean. Its exact depth changes with water clarity, weather, season, and location.</p>
+                    <p>Although this zone is only a thin layer compared with the full depth of the sea, it contains most of the ocean&apos;s photosynthetic life. Warm temperatures, abundant light, and contact with the atmosphere create conditions that support plankton, fish, reptiles, seabirds, and marine mammals.</p>
+
+                    <h2>Photosynthesis Begins the Food Web</h2>
+                    <p>Microscopic organisms called <strong>phytoplankton</strong> use sunlight, carbon dioxide, and nutrients to make food. They form the base of most sunlit-ocean food webs and also release oxygen during photosynthesis.</p>
+                    <p>Zooplankton graze on phytoplankton. Small fish and filter feeders consume the plankton, and larger predators—including tuna, sharks, dolphins, and seabirds—feed higher in the same connected web. In coastal areas, seagrasses, algae, mangroves, and coral-reef organisms add even more habitats and food sources.</p>
+
+                    <h2>Life in Constant Motion</h2>
+                    <p>Sunlit waters are energetic. Waves mix the surface, winds drive currents, and tides move water through coastal habitats. Many animals use these flows to migrate, find food, disperse young, or conserve energy.</p>
+                    <p>Visibility also shapes survival. Some animals use silvery scales or transparent bodies to blend into bright water. Others are dark above and pale below—a pattern called <strong>countershading</strong> that makes them harder to see from either direction.</p>
+
+                    <h2>Daily Visitors from the Deep</h2>
+                    <p>The sunlight zone changes dramatically between day and night. After sunset, enormous numbers of animals rise from deeper water to feed near the surface. Before sunrise, many descend again to hide from visual predators. This daily vertical migration moves carbon and nutrients through the ocean.</p>
+
+                    <h2>A Productive but Vulnerable Habitat</h2>
+                    <p>Sunlit marine ecosystems are affected by warming water, pollution, overfishing, habitat damage, and changes in ocean chemistry. Protecting seagrass meadows, coral reefs, coastal wetlands, and open-ocean food webs helps preserve both marine biodiversity and the benefits people receive from the sea.</p>
+                  </article>
+                ) : (
+                  <article className="current-article turtle-article" role="tabpanel">
+                    <h2>A Reptile of Warm, Shallow Seas</h2>
+                    <p>The <strong>green sea turtle</strong> (<em>Chelonia mydas</em>) lives in tropical and subtropical waters around the world. Adults are often found in sunlit coastal habitats such as seagrass meadows, lagoons, bays, and coral reefs. Their streamlined shells and powerful front flippers allow them to travel efficiently through the water.</p>
+                    <p>Unlike fish, sea turtles breathe air. A green turtle must return to the surface for oxygen, although a resting turtle can remain underwater far longer than an actively swimming one. It also depends on sunlight-warmed water because, like other reptiles, it cannot regulate its body temperature internally in the same way a mammal can.</p>
+
+                    <h2>From Omnivorous Young to Grazing Adults</h2>
+                    <p>Young green turtles eat a mixed diet that may include small animals, algae, and other drifting food. As they mature, many become mainly herbivorous and graze on seagrasses and algae. This dietary shift is unusual among sea turtles.</p>
+                    <p>Regular grazing clips seagrass blades and can encourage fresh growth. Healthy seagrass meadows provide shelter and feeding grounds for fish, crustaceans, and many other organisms, while also trapping sediment and storing carbon. The turtle therefore influences an entire habitat as it feeds.</p>
+
+                    <h2>Long-Distance Navigation</h2>
+                    <p>Green turtles may migrate hundreds or thousands of kilometres between feeding areas and nesting beaches. They use several environmental clues to navigate, including the position of the sun, waves, chemical signals, and Earth&apos;s magnetic field.</p>
+                    <p>A female often returns to the same broad region where she hatched. After crawling onto a sandy beach, she digs a nest above the high-tide line and lays a clutch of eggs. Weeks later, the hatchlings emerge and race toward the brightest open horizon, which under natural conditions leads them toward the sea.</p>
+
+                    <h2>Growing Up Is Dangerous</h2>
+                    <p>Hatchlings face birds, crabs, fish, and other predators. Older turtles must survive storms, sharks, disease, and long migrations. Human activity adds further dangers, including accidental capture in fishing gear, boat strikes, plastic pollution, artificial lighting near nesting beaches, and the loss of seagrass habitat.</p>
+
+                    <h2>Why Green Turtles Matter</h2>
+                    <p>Green turtles connect beaches, reefs, seagrass meadows, and the open ocean during their lives. By grazing, migrating, and transporting nutrients, they help link several parts of the sunlit marine ecosystem.</p>
+                    <p>Protecting nesting beaches, reducing plastic waste, using turtle-safe fishing methods, and conserving coastal feeding grounds all improve their chance of survival. A healthy green turtle population is also a sign that the surrounding coastal ecosystem is functioning well.</p>
                   </article>
                 )}
               </>
