@@ -35,6 +35,10 @@ yarn-error.log*
 .vercel
 
 /dist/
+/dist-netlify/
 /.wrangler/
 /outputs/
 /work/
+
+# Local Netlify folder
+.netlify
