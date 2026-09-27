@@ -196,24 +196,42 @@ footer { display:flex; justify-content:space-between; padding-top:31px; color:va
 .feeding-lab-heading>span { color:var(--coral); font-size:13px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; }
 .feeding-lab-heading h2 { max-width:900px; margin:9px 0 13px; font-size:clamp(44px,5.6vw,76px); font-weight:400; line-height:.98; letter-spacing:-.04em; }
 .feeding-lab-heading p { max-width:760px; margin:0 0 28px; color:var(--muted); font-size:18px; line-height:1.55; }
-.feeding-scene { position:relative; height:clamp(590px,62vw,780px); overflow:hidden; border:1px solid rgba(7,62,77,.3); background:linear-gradient(180deg,rgba(16,133,174,.03),rgba(2,51,75,.28)),url("/assets/turtles/green-turtle-grazing.png") center/cover no-repeat; color:white; box-shadow:0 30px 70px rgba(4,46,65,.2); }
-.feeding-specimen-card,.feeding-temperature-card { position:absolute; z-index:5; top:24px; display:grid; padding:16px 19px; border:1px solid rgba(255,255,255,.38); background:rgba(2,39,55,.78); backdrop-filter:blur(8px); }
+.feeding-scene { position:relative; height:clamp(590px,62vw,780px); overflow:hidden; border:1px solid rgba(7,62,77,.3); background:linear-gradient(180deg,rgba(16,133,174,.03),rgba(2,51,75,.28)),url("/assets/turtles/green-turtle-grazing.png") center/cover no-repeat; color:white; box-shadow:0 30px 70px rgba(4,46,65,.2); transition:filter .55s ease,background-color .55s ease; }
+.feeding-habitat-effect { position:absolute; z-index:1; inset:0; pointer-events:none; transition:background .55s ease,opacity .55s ease; }
+.season-spring .feeding-habitat-effect { background:linear-gradient(180deg,rgba(83,202,179,.1),transparent 45%,rgba(123,190,87,.15)); }
+.season-summer .feeding-habitat-effect { background:linear-gradient(180deg,rgba(255,225,116,.08),transparent 47%,rgba(49,137,72,.08)); }
+.season-autumn .feeding-habitat-effect { background:linear-gradient(180deg,rgba(174,133,72,.16),transparent 45%,rgba(122,91,46,.24)); }
+.season-winter .feeding-habitat-effect { background:linear-gradient(180deg,rgba(76,137,174,.19),rgba(11,69,94,.18)); }
+.food-sea-lettuce .feeding-habitat-effect { background:linear-gradient(180deg,transparent 48%,rgba(57,174,73,.34)); }
+.food-red-algae .feeding-habitat-effect { background:linear-gradient(180deg,transparent 48%,rgba(142,47,72,.34)); }
+.food-juvenile-food .feeding-habitat-effect { background:radial-gradient(circle at 26% 52%,rgba(216,229,237,.28),transparent 16%),linear-gradient(180deg,transparent,rgba(37,94,121,.12)); }
+.food-bare-ground .feeding-habitat-effect { opacity:.92; background:linear-gradient(180deg,transparent 42%,rgba(190,164,112,.18) 48%,rgba(184,155,103,.82) 78%,rgba(155,126,79,.94)); mix-blend-mode:color; }
+.feeding-specimen-card,.feeding-status-card { position:absolute; z-index:5; top:24px; display:grid; padding:16px 19px; border:1px solid rgba(255,255,255,.38); background:rgba(2,39,55,.78); backdrop-filter:blur(8px); }
 .feeding-specimen-card { left:24px; }
-.feeding-temperature-card { right:24px; text-align:right; }
-.feeding-specimen-card span,.feeding-temperature-card span { color:#f6d083; font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; }
-.feeding-specimen-card strong,.feeding-temperature-card strong { margin-top:4px; font-size:25px; font-weight:400; }
-.feeding-specimen-card em,.feeding-temperature-card small { color:rgba(255,255,255,.78); font-size:14px; }
-.feeding-controls { display:grid; grid-template-columns:1fr 1.25fr; gap:26px; padding:clamp(24px,4vw,42px); background:#073b4b; color:white; }
-.temperature-control,.food-control { display:grid; gap:13px; }
-.temperature-control>span,.food-control>span { display:flex; justify-content:space-between; gap:20px; color:#d8edf0; font-size:15px; font-weight:700; letter-spacing:.04em; }
+.feeding-status-card { right:24px; min-width:260px; text-align:right; animation:statusFlash .85s ease-out; }
+.feeding-status-card.feeding { border-color:#a7e273; box-shadow:0 0 0 3px rgba(167,226,115,.3),0 0 32px rgba(167,226,115,.38); }
+.feeding-status-card.searching { border-color:#f3c66d; box-shadow:0 0 0 3px rgba(243,198,109,.28),0 0 32px rgba(243,198,109,.35); }
+.feeding-status-card.caution { border-color:#ef8368; box-shadow:0 0 0 3px rgba(239,131,104,.28),0 0 32px rgba(239,131,104,.35); }
+.feeding-specimen-card span,.feeding-status-card span { color:#f6d083; font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; }
+.feeding-specimen-card strong,.feeding-status-card strong { margin-top:4px; font-size:25px; font-weight:400; }
+.feeding-specimen-card em,.feeding-status-card small { color:rgba(255,255,255,.78); font-size:14px; }
+@keyframes statusFlash { 0% { opacity:.25; transform:scale(.92); filter:brightness(2.4); } 42% { opacity:1; transform:scale(1.035); filter:brightness(1.7); } 100% { transform:scale(1); filter:brightness(1); } }
+.feeding-controls { display:grid; grid-template-columns:.8fr .9fr 1.45fr; gap:26px; align-items:start; padding:clamp(24px,4vw,42px); background:#073b4b; color:white; }
+.temperature-control,.season-control,.food-control { display:grid; gap:13px; }
+.temperature-control>span,.season-control>span,.food-control>span { display:flex; justify-content:space-between; gap:20px; color:#d8edf0; font-size:15px; font-weight:700; letter-spacing:.04em; }
 .temperature-control output { color:#f5ce79; font-size:20px; }
 .temperature-control input { width:100%; accent-color:#f0a35f; cursor:pointer; }
 .temperature-control small { display:flex; align-items:center; justify-content:space-between; color:rgba(255,255,255,.68); font-size:12px; }
 .temperature-control small b { flex:1; height:1px; margin:0 12px; background:linear-gradient(90deg,#69c5e6,#ef9d5e); }
-.food-control>div { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
-.food-control button { min-height:48px; padding:9px 10px; border:1px solid rgba(255,255,255,.35); background:transparent; color:white; font-size:15px; cursor:pointer; }
-.food-control button:hover,.food-control button:focus-visible { border-color:#f5ce79; }
-.food-control button.selected { border-color:#f5ce79; background:#f5ce79; color:#173f45; }
+.season-control>div { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.season-control button { min-height:54px; display:grid; gap:2px; padding:8px; border:1px solid rgba(255,255,255,.35); background:transparent; color:white; text-align:left; cursor:pointer; }
+.season-control button strong { font-size:15px; font-weight:400; }
+.season-control button small { color:rgba(255,255,255,.65); font-size:11px; }
+.food-control>div { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; }
+.food-control button { min-height:48px; padding:9px 10px; border:1px solid rgba(255,255,255,.35); background:transparent; color:white; font-size:14px; cursor:pointer; }
+.food-control button:hover,.food-control button:focus-visible,.season-control button:hover,.season-control button:focus-visible { border-color:#f5ce79; }
+.food-control button.selected,.season-control button.selected { border-color:#f5ce79; background:#f5ce79; color:#173f45; }
+.season-control button.selected small { color:#456069; }
 .feeding-readout { display:grid; grid-template-columns:repeat(3,1fr); border-right:1px solid var(--line); border-bottom:1px solid var(--line); }
 .feeding-readout article { min-height:245px; padding:clamp(24px,3vw,38px); border-left:1px solid var(--line); background:#f4f1e7; }
 .feeding-readout span { color:var(--coral); font-size:12px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; }
@@ -475,10 +493,10 @@ body,body * { font-family:"Times New Roman",Times,serif!important; }
   .turtle-feeding-hero p { font-size:16px; }
   .feeding-lab-heading h2 { font-size:42px; }
   .feeding-scene { height:620px; background-position:58% center; }
-  .feeding-specimen-card,.feeding-temperature-card { top:12px; padding:12px; }
+  .feeding-specimen-card,.feeding-status-card { top:12px; padding:12px; }
   .feeding-specimen-card { left:12px; }
-  .feeding-temperature-card { right:12px; top:110px; }
-  .feeding-specimen-card strong,.feeding-temperature-card strong { font-size:20px; }
+  .feeding-status-card { right:12px; top:110px; min-width:220px; }
+  .feeding-specimen-card strong,.feeding-status-card strong { font-size:20px; }
   .feeding-controls { padding:23px 18px; }
   .food-control>div { grid-template-columns:1fr; }
   .feeding-readout article { padding:25px 21px; }

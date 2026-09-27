@@ -966,54 +966,114 @@ const turtleFoods = [
     method: "Repeated bites crop the flexible leaves into short pieces. Grazing can keep patches young and nutritious.",
   },
   {
-    id: "algae",
-    name: "Marine algae",
-    scientific: "Multiple algal species",
-    meal: "Soft algae growing on rocks and reefs",
-    method: "The turtle uses the sharp edge of its toothless beak to scrape and clip algae from a firm surface.",
+    id: "shoal-grass",
+    name: "Shoal grass",
+    scientific: "Halodule wrightii",
+    meal: "Narrow leaves in shallow coastal meadows",
+    method: "The turtle crops the short leaves close to the sediment, creating repeatedly grazed feeding patches.",
   },
+  {
+    id: "eelgrass",
+    name: "Eelgrass",
+    scientific: "Zostera marina",
+    meal: "Long seagrass blades in cooler coastal habitat",
+    method: "Where their ranges overlap, green turtles can tear tender eelgrass leaves with repeated bites from the edge of the meadow.",
+  },
+  {
+    id: "sea-lettuce",
+    name: "Sea lettuce",
+    scientific: "Ulva species",
+    meal: "Thin sheets of bright green algae",
+    method: "The turtle pinches soft algae between the cutting edges of its beak and pulls pieces away from the rock or sediment.",
+  },
+  {
+    id: "red-algae",
+    name: "Red algae",
+    scientific: "Gracilaria species",
+    meal: "Branching algae from reefs and lagoons",
+    method: "The turtle clips the branching tips with its beak and swallows the soft pieces without chewing them like a mammal.",
+  },
+  {
+    id: "juvenile-food",
+    name: "Jellyfish and small animals",
+    scientific: "Mostly eaten by young turtles",
+    meal: "Jellyfish, small crustaceans, and other soft prey",
+    method: "Young green turtles are more omnivorous than adults. They seize small drifting prey before many later shift toward plants and algae.",
+  },
+  {
+    id: "bare-ground",
+    name: "Bare sand",
+    scientific: "No forage available",
+    meal: "An empty patch between feeding areas",
+    method: "There is nothing to bite here. The turtle must search for another seagrass meadow, algal patch, or suitable feeding ground.",
+  },
+];
+
+const turtleSeasons = [
+  { id: "spring", name: "Spring", note: "Fresh growth", scene: "New seagrass blades and active regrowth" },
+  { id: "summer", name: "Summer", note: "Dense meadow", scene: "Warm water and the fullest meadow cover" },
+  { id: "autumn", name: "Autumn", note: "Thinning meadow", scene: "Older blades and more open feeding patches" },
+  { id: "winter", name: "Winter", note: "Sparse growth", scene: "Cooler water and reduced plant growth" },
 ];
 
 function TurtleFeedingLab() {
   const [temperature, setTemperature] = useState(27);
   const [foodId, setFoodId] = useState(turtleFoods[0].id);
+  const [seasonId, setSeasonId] = useState("summer");
+  const [statusPulse, setStatusPulse] = useState(0);
   const food = turtleFoods.find((item) => item.id === foodId) ?? turtleFoods[0];
-  const activity = temperature < 21 ? 0.42 : temperature < 24 ? 0.68 : temperature <= 29 ? 1 : 0.76;
+  const season = turtleSeasons.find((item) => item.id === seasonId) ?? turtleSeasons[1];
   const activityLabel = temperature < 21 ? "Sluggish in cool water" : temperature < 24 ? "Warming up" : temperature <= 29 ? "Active grazer" : "Slowing in very warm water";
   const diveTime = temperature < 21 ? "Long, low-energy rest" : temperature <= 29 ? "Regular feeding dive" : "More frequent recovery pauses";
+  const noFood = food.id === "bare-ground";
+  const status = noFood ? "Searching — no food" : temperature < 21 ? "Cold — conserving energy" : temperature > 30 ? "Very warm — resting" : "Feeding — active";
+  const statusTone = noFood ? "searching" : temperature < 21 || temperature > 30 ? "caution" : "feeding";
+
+  const changeTemperature = (value: number) => { setTemperature(value); setStatusPulse((pulse) => pulse + 1); };
+  const changeFood = (value: string) => { setFoodId(value); setStatusPulse((pulse) => pulse + 1); };
+  const changeSeason = (value: string) => { setSeasonId(value); setStatusPulse((pulse) => pulse + 1); };
 
   return (
     <section className="turtle-feeding-lab" aria-labelledby="turtle-feeding-title">
       <div className="feeding-lab-heading">
         <span>Interactive feeding event</span>
         <h2 id="turtle-feeding-title">Follow a green turtle&apos;s meal</h2>
-        <p>Change the water temperature and choose its food. The turtle&apos;s movement and field notes respond to your choices.</p>
+        <p>Change the water temperature, season, and feeding ground. The habitat, status light, and field notes respond to your choices.</p>
       </div>
 
-      <div className="feeding-scene" role="img" aria-label="Green sea turtle grazing on a sunlit seagrass meadow">
+      <div className={`feeding-scene season-${season.id} food-${food.id}`} role="img" aria-label={`Green sea turtle in a ${season.name.toLowerCase()} ${food.name.toLowerCase()} habitat`}>
+        <div className="feeding-habitat-effect" aria-hidden="true" />
         <div className="feeding-specimen-card">
           <span>Species</span>
           <strong>Green sea turtle</strong>
           <em>Chelonia mydas</em>
         </div>
-        <div className="feeding-temperature-card">
-          <span>Water temperature</span>
-          <strong>{temperature}°C</strong>
-          <small>{activityLabel}</small>
+        <div key={statusPulse} className={`feeding-status-card ${statusTone}`}>
+          <span>Live turtle status</span>
+          <strong>{status}</strong>
+          <small>{temperature}°C · {season.name}</small>
         </div>
       </div>
 
       <div className="feeding-controls">
         <label className="temperature-control">
           <span>Water temperature <output>{temperature}°C</output></span>
-          <input type="range" min="18" max="32" step="1" value={temperature} onChange={(event) => setTemperature(Number(event.target.value))} />
+          <input type="range" min="18" max="32" step="1" value={temperature} onChange={(event) => changeTemperature(Number(event.target.value))} />
           <small>Cooler 18°C <b /> Warmer 32°C</small>
         </label>
+        <div className="season-control">
+          <span>Choose a season</span>
+          <div>
+            {turtleSeasons.map((item) => (
+              <button type="button" key={item.id} className={seasonId === item.id ? "selected" : ""} aria-pressed={seasonId === item.id} onClick={() => changeSeason(item.id)}><strong>{item.name}</strong><small>{item.note}</small></button>
+            ))}
+          </div>
+        </div>
         <div className="food-control">
           <span>Choose what the turtle eats</span>
           <div>
             {turtleFoods.map((item) => (
-              <button type="button" key={item.id} className={foodId === item.id ? "selected" : ""} aria-pressed={foodId === item.id} onClick={() => setFoodId(item.id)}>{item.name}</button>
+              <button type="button" key={item.id} className={foodId === item.id ? "selected" : ""} aria-pressed={foodId === item.id} onClick={() => changeFood(item.id)}>{item.name}</button>
             ))}
           </div>
         </div>
@@ -1021,8 +1081,8 @@ function TurtleFeedingLab() {
 
       <div className="feeding-readout" aria-live="polite">
         <article><span>Food selected</span><strong>{food.name}</strong><em>{food.scientific}</em><p>{food.meal}</p></article>
-        <article><span>How it eats</span><strong>Beak, bite, and tear</strong><p>{food.method}</p></article>
-        <article><span>Current behavior</span><strong>{activityLabel}</strong><p>{diveTime}. Sea turtles are ectotherms, so the surrounding water affects their body temperature and activity.</p></article>
+        <article><span>How it eats</span><strong>{noFood ? "Search for a new patch" : "Beak, bite, and tear"}</strong><p>{food.method}</p></article>
+        <article><span>Habitat conditions</span><strong>{season.scene}</strong><p>{activityLabel}. {diveTime}. Sea turtles are ectotherms, so the surrounding water affects their body temperature and activity.</p></article>
       </div>
     </section>
   );
