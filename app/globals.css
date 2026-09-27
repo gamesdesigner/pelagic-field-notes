@@ -185,6 +185,15 @@ footer { display:flex; justify-content:space-between; padding-top:31px; color:va
 .sunlight-topic-layout .current-article { max-width:1280px; columns:2; column-gap:clamp(42px,6vw,90px); column-rule:1px solid var(--line); }
 .sunlight-topic-layout .current-article h2,.sunlight-topic-layout .current-article p { break-inside:avoid; }
 .sunlight-topic-layout .detail-visual { display:none; }
+.turtle-feeding-hero { position:relative; width:100%; max-width:1280px; min-height:clamp(480px,55vw,700px); display:flex; align-items:flex-end; overflow:hidden; margin:18px 0 clamp(58px,8vw,100px); background:linear-gradient(90deg,rgba(2,39,56,.82),rgba(2,39,56,.18) 56%,transparent),url("/assets/turtles/green-turtle-grazing.png") center/cover no-repeat; color:white; box-shadow:0 30px 70px rgba(4,46,65,.2); }
+.turtle-feeding-hero::after { content:""; position:absolute; inset:0; background:linear-gradient(0deg,rgba(1,31,45,.74),transparent 55%); pointer-events:none; }
+.turtle-feeding-hero>div { position:relative; z-index:1; width:min(610px,calc(100% - 44px)); margin:clamp(22px,5vw,62px); padding:clamp(20px,3vw,34px); border:1px solid rgba(255,255,255,.38); background:rgba(2,37,52,.76); backdrop-filter:blur(8px); }
+.turtle-feeding-hero span { color:#f7cf78; font-size:13px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; }
+.turtle-feeding-hero h2 { margin:8px 0 12px; font-size:clamp(38px,5vw,70px); font-weight:400; line-height:.96; letter-spacing:-.035em; }
+.turtle-feeding-hero p { margin:0; color:rgba(255,255,255,.9); font-size:19px; line-height:1.55; }
+.turtle-article { margin-top:0; }
+.turtle-quiz { width:100%; min-height:auto; margin-top:clamp(58px,8vw,100px); background:linear-gradient(145deg,#eff2df,#cfe3dc); }
+.turtle-quiz .quiz-shell { margin:auto; }
 .sunlight-lab { width:100%; max-width:1280px; margin:clamp(64px,8vw,110px) 0 0; }
 .sunlight-lab-heading { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:8px 32px; align-items:end; margin-bottom:24px; }
 .sunlight-lab-heading>span { grid-column:1/-1; color:var(--coral); font-size:13px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; }
@@ -352,6 +361,7 @@ body,body * { font-family:"Times New Roman",Times,serif!important; }
   .coriolis-layout .current-article { columns:1; }
   .ekman-layout .current-article { columns:1; }
   .sunlight-topic-layout .current-article { columns:1; }
+  .turtle-feeding-hero { min-height:620px; }
   .sunlight-lab-heading { grid-template-columns:1fr; }
   .sunlight-lab-heading p,.swim-key { grid-column:1; }
   .swim-key { grid-row:auto; justify-content:flex-start; margin-top:8px; }
@@ -427,6 +437,11 @@ body,body * { font-family:"Times New Roman",Times,serif!important; }
   .layer-name { left:10px; font-size:11px; }
   .depth-line span { right:8px; min-width:52px; font-size:11px; }
   .sunlight-quiz { margin-right:-10px; margin-left:-10px; width:calc(100% + 20px); }
+  .turtle-feeding-hero { min-height:560px; margin-top:4px; background-position:58% center; }
+  .turtle-feeding-hero>div { width:calc(100% - 28px); margin:14px; padding:19px; }
+  .turtle-feeding-hero h2 { font-size:39px; }
+  .turtle-feeding-hero p { font-size:16px; }
+  .turtle-quiz { margin-right:-10px; margin-left:-10px; width:calc(100% + 20px); }
   .anatomy-heading h2 { font-size:42px; }
   .anatomy-tabs { display:grid; grid-template-columns:1fr 1fr; }
   .anatomy-tabs button { padding:10px 8px; font-size:14px; }

@@ -126,6 +126,15 @@ const sunlightQuiz: QuizQuestion[] = [
   { prompt: "Spell the word for a turtle's hard upper shell.", answer: "carapace" },
 ];
 
+const turtleQuiz: QuizQuestion[] = [
+  { prompt: "What do most adult green sea turtles mainly eat?", answer: "Seagrasses and algae", options: ["Seagrasses and algae", "Tuna and squid", "Coral skeletons", "Deep-sea bacteria"] },
+  { prompt: "How does a green sea turtle get oxygen?", answer: "It breathes air with lungs", options: ["It breathes air with lungs", "It uses gills", "It absorbs oxygen through its shell", "It gets oxygen from seagrass"] },
+  { prompt: "Which body parts provide most of a green turtle's swimming power?", answer: "Front flippers", options: ["Front flippers", "Carapace scutes", "Rear claws", "Beak"] },
+  { prompt: "Where do female green sea turtles lay their eggs?", answer: "On sandy beaches", options: ["On sandy beaches", "Inside seagrass beds", "On coral reefs", "In the open ocean"] },
+  { prompt: "How can green turtle grazing help a seagrass meadow?", answer: "It encourages fresh growth", options: ["It encourages fresh growth", "It removes all sunlight", "It turns grass into coral", "It makes the water saltier"] },
+  { prompt: "Spell the name of the underwater plant meadow where adult green turtles often feed.", answer: "seagrass" },
+];
+
 type AnatomyPart = { label: string; x: string; y: string };
 type AnatomyEntry = { title: string; note: string; parts: AnatomyPart[] };
 
@@ -831,6 +840,116 @@ function SunlightZoneLab() {
   );
 }
 
+function TurtleQuiz() {
+  const [questionIndex, setQuestionIndex] = useState(0);
+  const [answer, setAnswer] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const [wasCorrect, setWasCorrect] = useState(false);
+  const [score, setScore] = useState(0);
+  const complete = questionIndex >= turtleQuiz.length;
+  const question = turtleQuiz[Math.min(questionIndex, turtleQuiz.length - 1)];
+
+  const submitAnswer = () => {
+    if (!answer || submitted || complete) return;
+    const enteredAnswer = normalizeQuizAnswer(answer);
+    const expectedAnswer = normalizeQuizAnswer(question.answer);
+    const isCorrect = question.options
+      ? enteredAnswer === expectedAnswer
+      : spellingDistance(enteredAnswer, expectedAnswer) <= 2;
+    setWasCorrect(isCorrect);
+    setSubmitted(true);
+    if (isCorrect) setScore((value) => value + 1);
+  };
+
+  const nextQuestion = () => {
+    setQuestionIndex((value) => value + 1);
+    setAnswer("");
+    setSubmitted(false);
+    setWasCorrect(false);
+  };
+
+  const restart = () => {
+    setQuestionIndex(0);
+    setAnswer("");
+    setSubmitted(false);
+    setWasCorrect(false);
+    setScore(0);
+  };
+
+  return (
+    <section className="upwelling-quiz turtle-quiz" aria-labelledby="turtle-quiz-title">
+      <div className="quiz-shell">
+        <div className="quiz-header">
+          <div>
+            <span>Knowledge check</span>
+            <h2 id="turtle-quiz-title">Green sea turtle quiz</h2>
+          </div>
+          <strong>{complete ? "Complete" : `Question ${questionIndex + 1} of ${turtleQuiz.length}`}</strong>
+        </div>
+        <div className="quiz-progress" aria-hidden="true">
+          <i style={{ width: `${(Math.min(questionIndex + (submitted ? 1 : 0), turtleQuiz.length) / turtleQuiz.length) * 100}%` }} />
+        </div>
+        {complete ? (
+          <div className="quiz-finish" aria-live="polite">
+            <span>Quiz complete</span>
+            <strong>{score} / {turtleQuiz.length}</strong>
+            <p>{score === turtleQuiz.length ? "Perfect score—you know the green sea turtle." : "Nice work. Review the feeding meadow and try again to improve your score."}</p>
+            <button type="button" onClick={restart}>Try the quiz again</button>
+          </div>
+        ) : (
+          <div className="quiz-question">
+            <p className="quiz-kind">{question.options ? "Four-choice question" : "Spell the word"}</p>
+            <h3>{question.prompt}</h3>
+            {question.options ? (
+              <div className="quiz-options">
+                {rotateQuizOptions(question.options, questionIndex).map((option, index) => (
+                  <button
+                    type="button"
+                    key={option}
+                    disabled={submitted}
+                    onClick={() => setAnswer(option)}
+                    className={`quiz-option ${answer === option ? "selected" : ""} ${submitted && option === question.answer ? "correct" : ""} ${submitted && answer === option && option !== question.answer ? "incorrect" : ""}`}
+                  >
+                    <span>{String.fromCharCode(65 + index)}</span>
+                    {option}
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <label className="spelling-answer">
+                <span>Your spelling (capitalization does not matter)</span>
+                <input
+                  type="text"
+                  value={answer}
+                  disabled={submitted}
+                  autoComplete="off"
+                  spellCheck="false"
+                  placeholder="Type your answer"
+                  onChange={(event) => setAnswer(event.target.value)}
+                  onKeyDown={(event) => { if (event.key === "Enter") submitAnswer(); }}
+                />
+              </label>
+            )}
+            {submitted && (
+              <p className={`quiz-feedback ${wasCorrect ? "correct" : "incorrect"}`} aria-live="polite">
+                {wasCorrect ? "Correct!" : <>Not quite. The correct answer is <strong>{question.answer}</strong>.</>}
+              </p>
+            )}
+            <div className="quiz-actions">
+              <span>Score: {score} / {questionIndex + (submitted ? 1 : 0)}</span>
+              {!submitted ? (
+                <button type="button" disabled={!answer} onClick={submitAnswer}>Check answer</button>
+              ) : (
+                <button type="button" onClick={nextQuestion}>{questionIndex === turtleQuiz.length - 1 ? "See results" : "Next question →"}</button>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
 export default function Home() {
   const [selected, setSelected] = useState<Subject | null>(null);
   const [currentTopic, setCurrentTopic] = useState<number | null>(null);
@@ -1110,6 +1229,14 @@ export default function Home() {
                   <SunlightZoneLab />
                   </>
                 ) : (
+                  <>
+                  <section className="turtle-feeding-hero" aria-label="Green sea turtle grazing in a sunlit seagrass meadow">
+                    <div>
+                      <span>Feeding habitat</span>
+                      <h2>A living lawn beneath the sea</h2>
+                      <p>Adult green turtles graze through shallow seagrass meadows, clipping blades with their strong beaks and encouraging tender new growth.</p>
+                    </div>
+                  </section>
                   <article className="current-article turtle-article" role="tabpanel">
                     <h2>A Reptile of Warm, Shallow Seas</h2>
                     <p>The <strong>green sea turtle</strong> (<em>Chelonia mydas</em>) lives in tropical and subtropical waters around the world. Adults are often found in sunlit coastal habitats such as seagrass meadows, lagoons, bays, and coral reefs. Their streamlined shells and powerful front flippers allow them to travel efficiently through the water.</p>
@@ -1130,6 +1257,8 @@ export default function Home() {
                     <p>Green turtles connect beaches, reefs, seagrass meadows, and the open ocean during their lives. By grazing, migrating, and transporting nutrients, they help link several parts of the sunlit marine ecosystem.</p>
                     <p>Protecting nesting beaches, reducing plastic waste, using turtle-safe fishing methods, and conserving coastal feeding grounds all improve their chance of survival. A healthy green turtle population is also a sign that the surrounding coastal ecosystem is functioning well.</p>
                   </article>
+                  <TurtleQuiz />
+                  </>
                 )}
               </>
             ) : (
