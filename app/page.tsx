@@ -950,6 +950,93 @@ function TurtleQuiz() {
   );
 }
 
+const turtleFoods = [
+  {
+    id: "turtle-grass",
+    name: "Turtle grass",
+    scientific: "Thalassia testudinum",
+    meal: "Broad seagrass blades",
+    method: "The turtle grips a blade with its beak, tears off the leafy end, and leaves the buried roots able to regrow.",
+  },
+  {
+    id: "manatee-grass",
+    name: "Manatee grass",
+    scientific: "Syringodium filiforme",
+    meal: "Thin, cylindrical seagrass leaves",
+    method: "Repeated bites crop the flexible leaves into short pieces. Grazing can keep patches young and nutritious.",
+  },
+  {
+    id: "algae",
+    name: "Marine algae",
+    scientific: "Multiple algal species",
+    meal: "Soft algae growing on rocks and reefs",
+    method: "The turtle uses the sharp edge of its toothless beak to scrape and clip algae from a firm surface.",
+  },
+];
+
+function TurtleFeedingLab() {
+  const [temperature, setTemperature] = useState(27);
+  const [foodId, setFoodId] = useState(turtleFoods[0].id);
+  const food = turtleFoods.find((item) => item.id === foodId) ?? turtleFoods[0];
+  const activity = temperature < 21 ? 0.42 : temperature < 24 ? 0.68 : temperature <= 29 ? 1 : 0.76;
+  const activityLabel = temperature < 21 ? "Sluggish in cool water" : temperature < 24 ? "Warming up" : temperature <= 29 ? "Active grazer" : "Slowing in very warm water";
+  const diveTime = temperature < 21 ? "Long, low-energy rest" : temperature <= 29 ? "Regular feeding dive" : "More frequent recovery pauses";
+
+  return (
+    <section className="turtle-feeding-lab" aria-labelledby="turtle-feeding-title">
+      <div className="feeding-lab-heading">
+        <span>Interactive feeding event</span>
+        <h2 id="turtle-feeding-title">Follow a green turtle&apos;s meal</h2>
+        <p>Change the water temperature and choose its food. The turtle&apos;s movement and field notes respond to your choices.</p>
+      </div>
+
+      <div className="feeding-scene" style={{ "--grazing-duration": `${15 / activity}s`, "--bite-duration": `${1.7 / activity}s` } as CSSProperties}>
+        <div className="feeding-water-glow" aria-hidden="true" />
+        <div className="feeding-bubbles" aria-hidden="true"><i /><i /><i /><i /><i /></div>
+        <div className="feeding-turtle" aria-label={`Moving green sea turtle eating ${food.name}`}>
+          <img src="/assets/sunlight-creatures/green-sea-turtle.png" alt="Green sea turtle swimming down to graze" />
+          <span className="bite-mark" aria-hidden="true" />
+        </div>
+        <div className={`feeding-grass ${food.id}`} aria-hidden="true">
+          {Array.from({ length: 24 }, (_, index) => <i key={index} style={{ "--blade": index } as CSSProperties} />)}
+        </div>
+        <div className="feeding-specimen-card">
+          <span>Species</span>
+          <strong>Green sea turtle</strong>
+          <em>Chelonia mydas</em>
+        </div>
+        <div className="feeding-temperature-card">
+          <span>Water temperature</span>
+          <strong>{temperature}°C</strong>
+          <small>{activityLabel}</small>
+        </div>
+      </div>
+
+      <div className="feeding-controls">
+        <label className="temperature-control">
+          <span>Water temperature <output>{temperature}°C</output></span>
+          <input type="range" min="18" max="32" step="1" value={temperature} onChange={(event) => setTemperature(Number(event.target.value))} />
+          <small>Cooler 18°C <b /> Warmer 32°C</small>
+        </label>
+        <div className="food-control">
+          <span>Choose what the turtle eats</span>
+          <div>
+            {turtleFoods.map((item) => (
+              <button type="button" key={item.id} className={foodId === item.id ? "selected" : ""} aria-pressed={foodId === item.id} onClick={() => setFoodId(item.id)}>{item.name}</button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="feeding-readout" aria-live="polite">
+        <article><span>Food selected</span><strong>{food.name}</strong><em>{food.scientific}</em><p>{food.meal}</p></article>
+        <article><span>How it eats</span><strong>Beak, bite, and tear</strong><p>{food.method}</p></article>
+        <article><span>Current behavior</span><strong>{activityLabel}</strong><p>{diveTime}. Sea turtles are ectotherms, so the surrounding water affects their body temperature and activity.</p></article>
+      </div>
+    </section>
+  );
+}
+
 export default function Home() {
   const [selected, setSelected] = useState<Subject | null>(null);
   const [currentTopic, setCurrentTopic] = useState<number | null>(null);
@@ -1257,6 +1344,7 @@ export default function Home() {
                     <p>Green turtles connect beaches, reefs, seagrass meadows, and the open ocean during their lives. By grazing, migrating, and transporting nutrients, they help link several parts of the sunlit marine ecosystem.</p>
                     <p>Protecting nesting beaches, reducing plastic waste, using turtle-safe fishing methods, and conserving coastal feeding grounds all improve their chance of survival. A healthy green turtle population is also a sign that the surrounding coastal ecosystem is functioning well.</p>
                   </article>
+                  <TurtleFeedingLab />
                   <TurtleQuiz />
                   </>
                 )}
