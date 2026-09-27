@@ -990,16 +990,7 @@ function TurtleFeedingLab() {
         <p>Change the water temperature and choose its food. The turtle&apos;s movement and field notes respond to your choices.</p>
       </div>
 
-      <div className="feeding-scene" style={{ "--grazing-duration": `${15 / activity}s`, "--bite-duration": `${1.7 / activity}s` } as CSSProperties}>
-        <div className="feeding-water-glow" aria-hidden="true" />
-        <div className="feeding-bubbles" aria-hidden="true"><i /><i /><i /><i /><i /></div>
-        <div className="feeding-turtle" aria-label={`Moving green sea turtle eating ${food.name}`}>
-          <img src="/assets/sunlight-creatures/green-sea-turtle.png" alt="Green sea turtle swimming down to graze" />
-          <span className="bite-mark" aria-hidden="true" />
-        </div>
-        <div className={`feeding-grass ${food.id}`} aria-hidden="true">
-          {Array.from({ length: 24 }, (_, index) => <i key={index} style={{ "--blade": index } as CSSProperties} />)}
-        </div>
+      <div className="feeding-scene" role="img" aria-label="Green sea turtle grazing on a sunlit seagrass meadow">
         <div className="feeding-specimen-card">
           <span>Species</span>
           <strong>Green sea turtle</strong>

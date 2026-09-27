@@ -197,15 +197,6 @@ footer { display:flex; justify-content:space-between; padding-top:31px; color:va
 .feeding-lab-heading h2 { max-width:900px; margin:9px 0 13px; font-size:clamp(44px,5.6vw,76px); font-weight:400; line-height:.98; letter-spacing:-.04em; }
 .feeding-lab-heading p { max-width:760px; margin:0 0 28px; color:var(--muted); font-size:18px; line-height:1.55; }
 .feeding-scene { position:relative; height:clamp(590px,62vw,780px); overflow:hidden; border:1px solid rgba(7,62,77,.3); background:linear-gradient(180deg,rgba(16,133,174,.03),rgba(2,51,75,.28)),url("/assets/turtles/green-turtle-grazing.png") center/cover no-repeat; color:white; box-shadow:0 30px 70px rgba(4,46,65,.2); }
-.feeding-scene::after { content:""; position:absolute; right:0; bottom:0; left:0; height:35%; background:linear-gradient(transparent,rgba(2,35,47,.42)); pointer-events:none; }
-.feeding-water-glow { position:absolute; inset:0; background:linear-gradient(112deg,transparent 8%,rgba(255,255,220,.18) 28%,transparent 44%); animation:feedingLight 7s ease-in-out infinite alternate; }
-.feeding-turtle { position:absolute; z-index:3; top:37%; left:-24%; width:clamp(210px,27vw,390px); animation:turtleGrazingPass var(--grazing-duration) linear infinite; filter:drop-shadow(0 14px 16px rgba(0,31,43,.45)); }
-.feeding-turtle img { display:block; width:100%; transform-origin:76% 68%; animation:turtleBite var(--bite-duration) ease-in-out infinite; }
-.bite-mark { position:absolute; right:3%; bottom:9%; width:18px; height:18px; border:3px solid rgba(255,239,174,.85); border-radius:50%; opacity:0; animation:bitePulse var(--bite-duration) ease-in-out infinite; }
-.feeding-grass { position:absolute; z-index:2; right:0; bottom:0; left:0; height:29%; overflow:hidden; pointer-events:none; }
-.feeding-grass i { position:absolute; bottom:-4%; left:calc((var(--blade) * 4.5%) - 3%); width:clamp(6px,1vw,12px); height:calc(42% + (var(--blade) % 6) * 9%); border-radius:80% 0 70% 0; background:linear-gradient(90deg,#315c2f,#8dbd58); transform:rotate(calc(-12deg + (var(--blade) % 5) * 6deg)); transform-origin:bottom; animation:grassSway calc(2.4s + (var(--blade) % 4) * .35s) ease-in-out infinite alternate; }
-.feeding-grass.manatee-grass i { width:5px; border-radius:70%; background:linear-gradient(90deg,#3f7139,#a8ca67); }
-.feeding-grass.algae i { width:20px; height:calc(24% + (var(--blade) % 5) * 7%); border-radius:60% 45% 55% 30%; background:linear-gradient(90deg,#5a6f27,#bc9f39); }
 .feeding-specimen-card,.feeding-temperature-card { position:absolute; z-index:5; top:24px; display:grid; padding:16px 19px; border:1px solid rgba(255,255,255,.38); background:rgba(2,39,55,.78); backdrop-filter:blur(8px); }
 .feeding-specimen-card { left:24px; }
 .feeding-temperature-card { right:24px; text-align:right; }
@@ -230,11 +221,6 @@ footer { display:flex; justify-content:space-between; padding-top:31px; color:va
 .feeding-readout strong { margin:10px 0 4px; color:var(--ink); font-size:27px; font-weight:400; line-height:1.05; }
 .feeding-readout em { color:#37636a; font-size:15px; }
 .feeding-readout p { margin:15px 0 0; color:var(--muted); font-size:16px; line-height:1.55; }
-@keyframes turtleGrazingPass { 0% { left:-27%; top:34%; transform:rotate(2deg); } 40% { top:46%; transform:rotate(5deg); } 58% { top:52%; transform:rotate(9deg); } 76% { top:45%; transform:rotate(2deg); } 100% { left:105%; top:35%; transform:rotate(-3deg); } }
-@keyframes turtleBite { 0%,100% { transform:rotate(0) translateY(0); } 45% { transform:rotate(5deg) translateY(7px); } 62% { transform:rotate(7deg) translateY(11px); } }
-@keyframes bitePulse { 0%,40%,100% { opacity:0; transform:scale(.5); } 58% { opacity:1; transform:scale(1.15); } 75% { opacity:0; transform:scale(1.6); } }
-@keyframes grassSway { from { transform:rotate(-8deg); } to { transform:rotate(8deg); } }
-@keyframes feedingLight { from { transform:translateX(-5%); opacity:.65; } to { transform:translateX(7%); opacity:1; } }
 .turtle-quiz { width:100%; min-height:auto; margin-top:clamp(58px,8vw,100px); background:linear-gradient(145deg,#eff2df,#cfe3dc); }
 .turtle-quiz .quiz-shell { margin:auto; }
 .sunlight-lab { width:100%; max-width:1280px; margin:clamp(64px,8vw,110px) 0 0; }
@@ -489,7 +475,6 @@ body,body * { font-family:"Times New Roman",Times,serif!important; }
   .turtle-feeding-hero p { font-size:16px; }
   .feeding-lab-heading h2 { font-size:42px; }
   .feeding-scene { height:620px; background-position:58% center; }
-  .feeding-turtle { width:220px; }
   .feeding-specimen-card,.feeding-temperature-card { top:12px; padding:12px; }
   .feeding-specimen-card { left:12px; }
   .feeding-temperature-card { right:12px; top:110px; }
@@ -518,7 +503,7 @@ body,body * { font-family:"Times New Roman",Times,serif!important; }
   .quiz-actions { align-items:stretch; flex-direction:column; }
   .quiz-actions button { width:100%; }
 }
-@media(prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; transition-duration:.01ms!important; } .ocean-creature,.creature-image,.feeding-turtle,.feeding-turtle img,.bite-mark,.feeding-grass i,.feeding-water-glow { animation:none!important; } }
+@media(prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; transition-duration:.01ms!important; } .ocean-creature,.creature-image { animation:none!important; } }
 
 /* Comfortable reading sizes across the field guide. */
 .brand { font-size:13px; line-height:1.25; letter-spacing:.08em; }
