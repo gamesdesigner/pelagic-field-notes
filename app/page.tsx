@@ -1345,6 +1345,13 @@ export default function Home() {
                 <h1 id="detail-title">{sunlightTopics[currentTopic as number]}</h1>
                 {currentTopic === 0 ? (
                   <>
+                  <section className="sunlight-reef-hero" aria-label="Breaking waves above a shallow coral reef in the sunlight zone">
+                    <div>
+                      <span>Sunlight-zone habitat</span>
+                      <h2>Where sunlight meets the living ocean</h2>
+                      <p>Light, waves, and warm shallow water power a reef community filled with producers, grazers, and predators.</p>
+                    </div>
+                  </section>
                   <article className="current-article sunlight-article" role="tabpanel">
                     <h2>The Ocean&apos;s Brightest Layer</h2>
                     <p>The sunlight zone, also called the <strong>epipelagic zone</strong>, extends from the surface to roughly 200 metres deep. Enough light reaches this layer for photosynthesis, making it the most productive and familiar part of the open ocean. Its exact depth changes with water clarity, weather, season, and location.</p>
