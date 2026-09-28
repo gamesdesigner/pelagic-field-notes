@@ -1238,9 +1238,11 @@ export default function Home() {
             {sunlightTopics.map((topic, index) => (
               <button className={`current-subject-card sunlight-topic-${index + 1}`} key={topic} onClick={() => setCurrentTopic(index)}>
                 <span className="card-number">{String(index + 1).padStart(2, "0")}</span>
-                <div className="current-card-art sunlight-topic-art" aria-hidden="true">
-                  <span>{index === 0 ? "☼" : "◡"}</span>
-                  <small>{index === 0 ? "Life powered by sunlight" : "Featured animal"}</small>
+                <div className="current-card-art sunlight-topic-art has-topic-image" aria-hidden="true">
+                  <img
+                    src={index === 0 ? "/assets/sunlight/general-sunlight-reef.png" : "/assets/turtles/green-turtle-grazing.png"}
+                    alt=""
+                  />
                 </div>
                 <div className="card-copy"><span>Sunlight zone</span><h2>{topic}</h2><p>Click to reveal this topic.</p></div>
                 <span className="card-arrow">↗</span>
