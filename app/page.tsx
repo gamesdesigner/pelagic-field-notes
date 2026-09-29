@@ -1587,6 +1587,25 @@ export default function Home() {
           </div>
         </section>
       )}
+
+      <footer className="site-footer">
+        <div className="footer-rule" aria-hidden="true" />
+        <div className="footer-content">
+          <div>
+            <span className="footer-label">Copyright</span>
+            <strong>© 2026 Marine Biology Class</strong>
+            <p>All rights reserved.</p>
+          </div>
+          <div>
+            <span className="footer-label">Created by</span>
+            <strong>By Max Yang</strong>
+          </div>
+          <div>
+            <span className="footer-label">Contact</span>
+            <a href="mailto:anomalocaris.m@gmail.com">anomalocaris.m@gmail.com</a>
+          </div>
+        </div>
+      </footer>
     </main>
   );
 }
