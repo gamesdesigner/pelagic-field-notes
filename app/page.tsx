@@ -1360,11 +1360,11 @@ function TurtleFeedingLab() {
       <div className="feeding-lab-heading">
         <span>Interactive feeding event</span>
         <h2 id="turtle-feeding-title">Follow a green turtle&apos;s meal</h2>
-        <p>Change the water temperature, season, and feeding ground. Each food starts a different 20-second feeding animation; bare sand leaves the turtle completely still.</p>
+        <p>Change the water temperature, season, and feeding ground. The detailed feeding illustration shows the turtle&apos;s shell, scales, beak, flippers, and dense meadow habitat clearly.</p>
       </div>
 
       <div className={`feeding-scene season-${season.id} food-${food.id}`} role="img" aria-label={`Green sea turtle in a ${season.name.toLowerCase()} ${food.name.toLowerCase()} habitat`}>
-        <TurtleFeedingCanvas key={`${food.id}-${season.id}-${statusPulse}`} foodId={food.id} seasonId={season.id} temperature={temperature} noFood={noFood} />
+        <img className="feeding-detailed-art" src="/assets/green-sea-turtle-feeding-detailed.png" alt="Detailed green sea turtle biting seagrass in a dense, sunlit underwater meadow" />
         <div className="feeding-habitat-effect" aria-hidden="true" />
         <div className="feeding-specimen-card">
           <span>Species</span>
@@ -1375,10 +1375,6 @@ function TurtleFeedingLab() {
           <span>Live turtle status</span>
           <strong>{status}</strong>
           <small>{temperature}°C · {season.name}</small>
-        </div>
-        <div className={`feeding-timeline ${noFood ? "still" : ""}`} aria-hidden="true">
-          <span>{noFood ? "Still scene · no food available" : "20-second feeding loop"}</span>
-          <i><b /></i>
         </div>
       </div>
 

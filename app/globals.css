@@ -212,6 +212,7 @@ h1,h2 { font-family:Georgia,"Times New Roman",serif; font-weight:400; letter-spa
 .feeding-lab-heading p { max-width:760px; margin:0 0 28px; color:var(--muted); font-size:18px; line-height:1.55; }
 .feeding-scene { position:relative; height:clamp(590px,62vw,780px); overflow:hidden; border:1px solid rgba(7,62,77,.3); background:linear-gradient(180deg,#65d5df 0%,#1688a7 48%,#07546e 74%,#c5aa72 74.3%,#8a6d43 100%); color:white; box-shadow:0 30px 70px rgba(4,46,65,.2); transition:filter .55s ease,background-color .55s ease; }
 .feeding-animation-canvas { position:absolute; z-index:2; inset:0; display:block; width:100%; height:100%; }
+.feeding-detailed-art { position:absolute; z-index:2; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; }
 .feeding-motion-scene { position:absolute; inset:0; overflow:hidden; }
 .feeding-caustics { position:absolute; z-index:1; inset:0 0 24%; opacity:.32; background:repeating-radial-gradient(ellipse at 50% -15%,transparent 0 42px,rgba(255,255,255,.32) 44px 47px,transparent 49px 86px); background-size:170px 125px; animation:feedingCaustics 20s linear infinite; }
 .feeding-particles { position:absolute; z-index:2; inset:0 0 25%; overflow:hidden; }
