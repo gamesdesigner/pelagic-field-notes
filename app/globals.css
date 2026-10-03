@@ -210,7 +210,33 @@ h1,h2 { font-family:Georgia,"Times New Roman",serif; font-weight:400; letter-spa
 .feeding-lab-heading>span { color:var(--coral); font-size:13px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; }
 .feeding-lab-heading h2 { max-width:900px; margin:9px 0 13px; font-size:clamp(44px,5.6vw,76px); font-weight:400; line-height:.98; letter-spacing:-.04em; }
 .feeding-lab-heading p { max-width:760px; margin:0 0 28px; color:var(--muted); font-size:18px; line-height:1.55; }
-.feeding-scene { position:relative; height:clamp(590px,62vw,780px); overflow:hidden; border:1px solid rgba(7,62,77,.3); background:linear-gradient(180deg,rgba(16,133,174,.03),rgba(2,51,75,.28)),url("/assets/turtles/green-turtle-grazing.png") center/cover no-repeat; color:white; box-shadow:0 30px 70px rgba(4,46,65,.2); transition:filter .55s ease,background-color .55s ease; }
+.feeding-scene { position:relative; height:clamp(590px,62vw,780px); overflow:hidden; border:1px solid rgba(7,62,77,.3); background:linear-gradient(180deg,#65d5df 0%,#1688a7 48%,#07546e 74%,#c5aa72 74.3%,#8a6d43 100%); color:white; box-shadow:0 30px 70px rgba(4,46,65,.2); transition:filter .55s ease,background-color .55s ease; }
+.feeding-motion-scene { position:absolute; inset:0; overflow:hidden; }
+.feeding-caustics { position:absolute; z-index:1; inset:0 0 24%; opacity:.32; background:repeating-radial-gradient(ellipse at 50% -15%,transparent 0 42px,rgba(255,255,255,.32) 44px 47px,transparent 49px 86px); background-size:170px 125px; animation:feedingCaustics 20s linear infinite; }
+.feeding-particles { position:absolute; z-index:2; inset:0 0 25%; overflow:hidden; }
+.feeding-particles i { position:absolute; width:5px; height:5px; border-radius:50%; background:rgba(225,249,238,.62); animation:feedingParticle 8s linear infinite; }
+.feeding-particles i:nth-child(1) { left:6%; top:62%; animation-delay:-1s; }.feeding-particles i:nth-child(2) { left:15%; top:26%; animation-delay:-5s; }.feeding-particles i:nth-child(3) { left:24%; top:74%; animation-delay:-3s; }.feeding-particles i:nth-child(4) { left:34%; top:42%; animation-delay:-7s; }.feeding-particles i:nth-child(5) { left:43%; top:18%; animation-delay:-2s; }.feeding-particles i:nth-child(6) { left:52%; top:66%; animation-delay:-6s; }.feeding-particles i:nth-child(7) { left:61%; top:34%; animation-delay:-4s; }.feeding-particles i:nth-child(8) { left:70%; top:78%; animation-delay:-.5s; }.feeding-particles i:nth-child(9) { left:78%; top:20%; animation-delay:-5.5s; }.feeding-particles i:nth-child(10) { left:86%; top:55%; animation-delay:-2.5s; }.feeding-particles i:nth-child(11) { left:94%; top:36%; animation-delay:-6.5s; }.feeding-particles i:nth-child(12) { left:48%; top:84%; animation-delay:-3.5s; }
+.feeding-turtle { position:absolute; z-index:3; right:12%; bottom:17%; width:clamp(300px,43vw,570px); height:auto; transform-origin:82% 72%; filter:drop-shadow(0 20px 18px rgba(0,35,44,.34)); animation:turtleFeeding20 20s ease-in-out infinite; }
+.feeding-vegetation { position:absolute; z-index:4; right:0; bottom:14%; left:0; height:31%; display:flex; align-items:flex-end; justify-content:space-around; padding:0 2%; transform-origin:bottom; }
+.feeding-vegetation i { display:block; width:18px; height:78%; border-radius:80% 10% 60% 8%; background:linear-gradient(90deg,#1d713c,#67b65c 52%,#2f823e); transform-origin:50% 100%; box-shadow:inset 2px 0 rgba(255,255,255,.16); animation:feedingPlantSway 3.6s ease-in-out infinite alternate; }
+.feeding-vegetation i:nth-child(3n) { height:58%; }.feeding-vegetation i:nth-child(4n) { height:91%; }.feeding-vegetation i:nth-child(5n) { height:68%; }
+.food-manatee-grass .feeding-vegetation i { width:8px; height:85%; border-radius:60% 60% 20% 20%; background:linear-gradient(90deg,#32774b,#75ae5c,#397c48); animation-duration:2.8s; }
+.food-shoal-grass .feeding-vegetation { height:22%; }.food-shoal-grass .feeding-vegetation i { width:6px; height:62%; border-radius:50% 50% 10% 10%; background:#4d9b55; animation-duration:2.35s; }
+.food-eelgrass .feeding-vegetation { height:40%; }.food-eelgrass .feeding-vegetation i { width:12px; height:96%; border-radius:90% 10% 50% 8%; background:linear-gradient(90deg,#276f43,#75a94e,#2f7644); animation-duration:4.4s; }
+.food-sea-lettuce .feeding-vegetation { height:25%; }.food-sea-lettuce .feeding-vegetation i { width:44px; height:62%; border-radius:42% 58% 38% 62%; background:linear-gradient(130deg,#35a84e,#8cd965); clip-path:polygon(48% 100%,24% 78%,8% 58%,27% 38%,12% 16%,45% 5%,72% 17%,91% 41%,74% 63%,88% 82%); animation-duration:3s; }
+.food-red-algae .feeding-vegetation { height:27%; }.food-red-algae .feeding-vegetation i { width:34px; height:70%; border-radius:45%; background:linear-gradient(135deg,#7d234c,#ca5362); clip-path:polygon(44% 100%,41% 67%,15% 47%,36% 44%,23% 12%,48% 38%,60% 4%,63% 39%,91% 20%,69% 56%,91% 70%,61% 66%,57% 100%); animation-duration:3.2s; }
+.food-juvenile-food .feeding-vegetation { z-index:2; top:25%; bottom:auto; height:32%; align-items:center; }.food-juvenile-food .feeding-vegetation i { width:28px; height:28px; border:1px solid rgba(255,255,255,.74); border-radius:52% 48% 55% 45%; background:rgba(209,238,232,.3); box-shadow:0 8px 0 -5px rgba(255,255,255,.7); animation:juvenilePreyDrift 5s ease-in-out infinite alternate; }
+.food-bare-ground .feeding-vegetation { display:none; }
+.food-bare-ground .feeding-turtle { right:15%; bottom:23%; animation:none; transform:rotate(0deg) translate(0,0) scale(.96); }
+.feeding-bite-cloud { position:absolute; z-index:5; right:9%; bottom:22%; width:100px; height:80px; opacity:0; animation:biteCloud20 20s linear infinite; }
+.feeding-bite-cloud i { position:absolute; left:45%; bottom:5%; width:7px; height:7px; border-radius:50%; background:rgba(194,170,112,.75); }
+.feeding-bite-cloud i:nth-child(2) { left:20%; bottom:24%; }.feeding-bite-cloud i:nth-child(3) { left:65%; bottom:36%; }.feeding-bite-cloud i:nth-child(4) { left:33%; bottom:55%; }.feeding-bite-cloud i:nth-child(5) { left:78%; bottom:62%; }.feeding-bite-cloud i:nth-child(6) { left:12%; bottom:70%; }.feeding-bite-cloud i:nth-child(7) { left:53%; bottom:82%; }
+.food-bare-ground .feeding-bite-cloud { display:none; }
+.feeding-timeline { position:absolute; z-index:6; right:24px; bottom:22px; left:24px; display:grid; grid-template-columns:auto minmax(100px,320px); align-items:center; justify-content:end; gap:14px; color:rgba(255,255,255,.88); font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
+.feeding-timeline>i { height:4px; overflow:hidden; background:rgba(255,255,255,.28); }
+.feeding-timeline>i>b { display:block; width:100%; height:100%; background:#f5ce79; transform-origin:left; animation:feedingTimeline20 20s linear infinite; }
+.feeding-timeline.still>i>b { width:0; animation:none; }
+.food-bare-ground .feeding-caustics,.food-bare-ground .feeding-particles i { animation-play-state:paused; }
 .feeding-habitat-effect { position:absolute; z-index:1; inset:0; pointer-events:none; transition:background .55s ease,opacity .55s ease; }
 .season-spring .feeding-habitat-effect { background:linear-gradient(180deg,rgba(83,202,179,.1),transparent 45%,rgba(123,190,87,.15)); }
 .season-summer .feeding-habitat-effect { background:linear-gradient(180deg,rgba(255,225,116,.08),transparent 47%,rgba(49,137,72,.08)); }
@@ -220,6 +246,13 @@ h1,h2 { font-family:Georgia,"Times New Roman",serif; font-weight:400; letter-spa
 .food-red-algae .feeding-habitat-effect { background:linear-gradient(180deg,transparent 48%,rgba(142,47,72,.34)); }
 .food-juvenile-food .feeding-habitat-effect { background:radial-gradient(circle at 26% 52%,rgba(216,229,237,.28),transparent 16%),linear-gradient(180deg,transparent,rgba(37,94,121,.12)); }
 .food-bare-ground .feeding-habitat-effect { opacity:.92; background:linear-gradient(180deg,transparent 42%,rgba(190,164,112,.18) 48%,rgba(184,155,103,.82) 78%,rgba(155,126,79,.94)); mix-blend-mode:color; }
+@keyframes turtleFeeding20 { 0% { transform:translate(-12%,0) rotate(-1deg) scale(.96); } 16% { transform:translate(-3%,2%) rotate(1deg) scale(.98); } 26% { transform:translate(1%,7%) rotate(5deg) scale(1); } 34% { transform:translate(2%,10%) rotate(8deg) scale(1); } 42% { transform:translate(1%,5%) rotate(2deg) scale(1); } 55% { transform:translate(-2%,9%) rotate(7deg) scale(.99); } 63% { transform:translate(-3%,4%) rotate(1deg) scale(.99); } 76% { transform:translate(2%,8%) rotate(6deg) scale(1); } 84% { transform:translate(1%,3%) rotate(0deg) scale(.99); } 100% { transform:translate(-12%,0) rotate(-1deg) scale(.96); } }
+@keyframes feedingPlantSway { from { transform:skewX(-6deg) rotate(-3deg); } to { transform:skewX(8deg) rotate(4deg); } }
+@keyframes juvenilePreyDrift { from { transform:translate(-8px,12px) scale(.8); } to { transform:translate(14px,-18px) scale(1.08); } }
+@keyframes feedingCaustics { from { background-position:0 0; } to { background-position:340px 125px; } }
+@keyframes feedingParticle { 0% { transform:translate(0,60px); opacity:0; } 20% { opacity:.7; } 100% { transform:translate(28px,-160px); opacity:0; } }
+@keyframes biteCloud20 { 0%,22%,38%,52%,67%,82%,100% { opacity:0; transform:translate(0,0) scale(.5); } 28%,58%,73% { opacity:.8; transform:translate(14px,-22px) scale(1); } 34%,64%,79% { opacity:0; transform:translate(30px,-48px) scale(1.35); } }
+@keyframes feedingTimeline20 { from { transform:scaleX(0); } to { transform:scaleX(1); } }
 .feeding-specimen-card,.feeding-status-card { position:absolute; z-index:5; top:24px; display:grid; padding:16px 19px; border:1px solid rgba(255,255,255,.38); background:rgba(2,39,55,.78); backdrop-filter:blur(8px); }
 .feeding-specimen-card { left:24px; }
 .feeding-status-card { right:24px; min-width:260px; text-align:right; animation:statusFlash .85s ease-out; }
@@ -512,6 +545,10 @@ body,body * { font-family:"Times New Roman",Times,serif!important; }
   .turtle-feeding-hero p { font-size:16px; }
   .feeding-lab-heading h2 { font-size:42px; }
   .feeding-scene { height:620px; background-position:58% center; }
+  .feeding-turtle { right:-2%; bottom:20%; width:390px; }
+  .feeding-vegetation { height:27%; }
+  .feeding-timeline { right:12px; bottom:14px; left:12px; grid-template-columns:1fr; gap:7px; }
+  .feeding-timeline>i { width:100%; }
   .feeding-specimen-card,.feeding-status-card { top:12px; padding:12px; }
   .feeding-specimen-card { left:12px; }
   .feeding-status-card { right:12px; top:110px; min-width:220px; }
@@ -540,7 +577,7 @@ body,body * { font-family:"Times New Roman",Times,serif!important; }
   .quiz-actions { align-items:stretch; flex-direction:column; }
   .quiz-actions button { width:100%; }
 }
-@media(prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; transition-duration:.01ms!important; } .ocean-creature,.creature-image { animation:none!important; } }
+@media(prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; transition-duration:.01ms!important; } .ocean-creature,.creature-image,.feeding-turtle,.feeding-caustics,.feeding-particles i,.feeding-vegetation i,.feeding-bite-cloud,.feeding-timeline>i>b { animation:none!important; } }
 
 /* Comfortable reading sizes across the field guide. */
 .brand { font-size:13px; line-height:1.25; letter-spacing:.08em; }

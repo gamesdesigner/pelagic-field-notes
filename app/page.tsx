@@ -1026,7 +1026,7 @@ function TurtleFeedingLab() {
   const activityLabel = temperature < 21 ? "Sluggish in cool water" : temperature < 24 ? "Warming up" : temperature <= 29 ? "Active grazer" : "Slowing in very warm water";
   const diveTime = temperature < 21 ? "Long, low-energy rest" : temperature <= 29 ? "Regular feeding dive" : "More frequent recovery pauses";
   const noFood = food.id === "bare-ground";
-  const status = noFood ? "Searching — no food" : temperature < 21 ? "Cold — conserving energy" : temperature > 30 ? "Very warm — resting" : "Feeding — active";
+  const status = noFood ? "Resting — bare sand" : temperature < 21 ? "Cold — conserving energy" : temperature > 30 ? "Very warm — resting" : "Feeding — active";
   const statusTone = noFood ? "searching" : temperature < 21 || temperature > 30 ? "caution" : "feeding";
 
   const changeTemperature = (value: number) => { setTemperature(value); setStatusPulse((pulse) => pulse + 1); };
@@ -1038,10 +1038,19 @@ function TurtleFeedingLab() {
       <div className="feeding-lab-heading">
         <span>Interactive feeding event</span>
         <h2 id="turtle-feeding-title">Follow a green turtle&apos;s meal</h2>
-        <p>Change the water temperature, season, and feeding ground. The habitat, status light, and field notes respond to your choices.</p>
+        <p>Change the water temperature, season, and feeding ground. Each food starts a different 20-second feeding animation; bare sand leaves the turtle completely still.</p>
       </div>
 
       <div className={`feeding-scene season-${season.id} food-${food.id}`} role="img" aria-label={`Green sea turtle in a ${season.name.toLowerCase()} ${food.name.toLowerCase()} habitat`}>
+        <div key={`${food.id}-${season.id}-${statusPulse}`} className="feeding-motion-scene" aria-hidden="true">
+          <div className="feeding-caustics" />
+          <div className="feeding-particles">{Array.from({ length: 12 }, (_, index) => <i key={index} />)}</div>
+          <div className="feeding-vegetation">
+            {Array.from({ length: 18 }, (_, index) => <i key={index} style={{ animationDelay: `${index * -0.31}s` }} />)}
+          </div>
+          <img className="feeding-turtle" src="/assets/sunlight-creatures/green-sea-turtle.png" alt="" />
+          <div className="feeding-bite-cloud">{Array.from({ length: 7 }, (_, index) => <i key={index} />)}</div>
+        </div>
         <div className="feeding-habitat-effect" aria-hidden="true" />
         <div className="feeding-specimen-card">
           <span>Species</span>
@@ -1052,6 +1061,10 @@ function TurtleFeedingLab() {
           <span>Live turtle status</span>
           <strong>{status}</strong>
           <small>{temperature}°C · {season.name}</small>
+        </div>
+        <div className={`feeding-timeline ${noFood ? "still" : ""}`} aria-hidden="true">
+          <span>{noFood ? "Still scene · no food available" : "20-second feeding loop"}</span>
+          <i><b /></i>
         </div>
       </div>
 
