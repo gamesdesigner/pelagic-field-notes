@@ -1016,6 +1016,328 @@ const turtleSeasons = [
   { id: "winter", name: "Winter", note: "Sparse growth", scene: "Cooler water and reduced plant growth" },
 ];
 
+type TurtleFeedingCanvasProps = {
+  foodId: string;
+  seasonId: string;
+  temperature: number;
+  noFood: boolean;
+};
+
+function TurtleFeedingCanvas({ foodId, seasonId, temperature, noFood }: TurtleFeedingCanvasProps) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const context = canvas.getContext("2d");
+    if (!context) return;
+
+    let width = 1;
+    let height = 1;
+    let frame = 0;
+    let startTime = performance.now();
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const seasonDensity: Record<string, number> = { spring: 0.88, summer: 1, autumn: 0.72, winter: 0.52 };
+    const foodSeed = turtleFoods.findIndex((item) => item.id === foodId) + 1;
+    const random = (index: number) => {
+      const value = Math.sin(index * 91.713 + foodSeed * 17.37) * 43758.5453;
+      return value - Math.floor(value);
+    };
+    const pulse = (time: number, center: number, radius: number) => Math.max(0, 1 - Math.abs(time - center) / radius);
+
+    const resize = () => {
+      const bounds = canvas.getBoundingClientRect();
+      const ratio = Math.min(window.devicePixelRatio || 1, 2);
+      width = Math.max(1, bounds.width);
+      height = Math.max(1, bounds.height);
+      canvas.width = Math.round(width * ratio);
+      canvas.height = Math.round(height * ratio);
+      context.setTransform(ratio, 0, 0, ratio, 0, 0);
+    };
+
+    const roundedPath = (points: Array<[number, number]>) => {
+      context.beginPath();
+      context.moveTo(points[0][0], points[0][1]);
+      for (let index = 1; index < points.length - 1; index += 1) {
+        const current = points[index];
+        const next = points[index + 1];
+        context.quadraticCurveTo(current[0], current[1], (current[0] + next[0]) / 2, (current[1] + next[1]) / 2);
+      }
+      context.quadraticCurveTo(points.at(-1)![0], points.at(-1)![1], points[0][0], points[0][1]);
+      context.closePath();
+    };
+
+    const drawFlipper = (x: number, y: number, length: number, angle: number, far = false) => {
+      context.save();
+      context.translate(x, y);
+      context.rotate(angle);
+      const gradient = context.createLinearGradient(0, 0, length, length * 0.25);
+      gradient.addColorStop(0, far ? "#335f4b" : "#698a5a");
+      gradient.addColorStop(0.5, far ? "#254a3c" : "#456d4d");
+      gradient.addColorStop(1, "#17382f");
+      roundedPath([[0, -12], [length * 0.38, -17], [length, 7], [length * 0.72, 26], [length * 0.2, 15], [0, 8]]);
+      context.fillStyle = gradient;
+      context.fill();
+      context.strokeStyle = far ? "rgba(9,42,35,.65)" : "#173c32";
+      context.lineWidth = 2.2;
+      context.stroke();
+      context.strokeStyle = "rgba(218,224,151,.18)";
+      context.lineWidth = 1;
+      for (let line = 1; line < 5; line += 1) {
+        context.beginPath();
+        context.moveTo(length * line / 6, -9 + line * 2);
+        context.lineTo(length * (line + 1) / 6, 12 + line * 2);
+        context.stroke();
+      }
+      context.restore();
+    };
+
+    const drawPlant = (x: number, floor: number, plantHeight: number, sway: number, index: number, crop: number) => {
+      const croppedHeight = plantHeight * crop;
+      context.save();
+      context.translate(x, floor);
+      const leaf = (offset: number, lean: number, lineWidth: number, color: string) => {
+        context.beginPath();
+        context.moveTo(offset, 2);
+        context.bezierCurveTo(offset + sway * 4, -croppedHeight * 0.3, lean + sway * 11, -croppedHeight * 0.68, lean + sway * 17, -croppedHeight);
+        context.strokeStyle = color;
+        context.lineWidth = lineWidth;
+        context.lineCap = "round";
+        context.stroke();
+      };
+
+      if (foodId === "sea-lettuce") {
+        context.beginPath();
+        context.moveTo(-3, 0);
+        context.bezierCurveTo(-22 + sway * 5, -croppedHeight * .35, 10 + sway * 12, -croppedHeight * .58, -5 + sway * 18, -croppedHeight);
+        context.bezierCurveTo(25 + sway * 12, -croppedHeight * .73, 30 + sway * 4, -croppedHeight * .25, 8, 0);
+        context.fillStyle = index % 3 ? "rgba(77,185,76,.82)" : "rgba(115,214,91,.83)";
+        context.fill();
+      } else if (foodId === "red-algae") {
+        context.strokeStyle = index % 2 ? "#b54862" : "#7f2954";
+        context.lineWidth = 5;
+        context.lineCap = "round";
+        context.beginPath();
+        context.moveTo(0, 0);
+        context.quadraticCurveTo(sway * 8, -croppedHeight * .5, sway * 13, -croppedHeight);
+        context.moveTo(sway * 5, -croppedHeight * .42);
+        context.lineTo(-13 + sway * 10, -croppedHeight * .72);
+        context.moveTo(sway * 8, -croppedHeight * .58);
+        context.lineTo(14 + sway * 12, -croppedHeight * .82);
+        context.stroke();
+      } else {
+        const narrow = foodId === "manatee-grass" || foodId === "shoal-grass";
+        const leaves = narrow ? 4 : 3;
+        for (let blade = 0; blade < leaves; blade += 1) {
+          leaf((blade - 1) * (narrow ? 3 : 6), (blade - 1) * 7, narrow ? 3 : 7, blade % 2 ? "#70aa58" : "#307944");
+        }
+      }
+      context.restore();
+    };
+
+    const drawTurtle = (x: number, y: number, scale: number, time: number, bite: number) => {
+      const swim = noFood ? 0 : Math.sin(time * Math.PI * 8);
+      const headDip = noFood ? 0 : bite * 31;
+      context.save();
+      context.translate(x, y);
+      context.scale(scale, scale);
+
+      drawFlipper(-92, 23, 108, -0.04 - swim * .12, true);
+      drawFlipper(-142, 31, 55, 2.82 + swim * .07, true);
+
+      context.beginPath();
+      context.moveTo(-142, -3);
+      context.lineTo(-177, 4);
+      context.lineTo(-142, 10);
+      context.fillStyle = "#24483a";
+      context.fill();
+
+      const shellGradient = context.createRadialGradient(-45, -38, 8, -35, 0, 154);
+      shellGradient.addColorStop(0, "#c5bc6e");
+      shellGradient.addColorStop(.28, "#7f9157");
+      shellGradient.addColorStop(.68, "#3f6848");
+      shellGradient.addColorStop(1, "#183e36");
+      context.beginPath();
+      context.ellipse(-40, 0, 130, 76, -.06, 0, Math.PI * 2);
+      context.fillStyle = shellGradient;
+      context.fill();
+      context.lineWidth = 5;
+      context.strokeStyle = "#173b32";
+      context.stroke();
+
+      context.strokeStyle = "rgba(28,65,47,.78)";
+      context.lineWidth = 2.2;
+      for (let ring = 0; ring < 11; ring += 1) {
+        const angle = (ring / 11) * Math.PI * 2;
+        context.beginPath();
+        context.ellipse(-40 + Math.cos(angle) * 101, Math.sin(angle) * 57, 25, 15, angle, 0, Math.PI * 2);
+        context.stroke();
+      }
+      const scutes = [[-94, -23, 40, 28], [-43, -31, 42, 31], [10, -24, 40, 29], [-91, 25, 40, 26], [-40, 29, 43, 29], [12, 23, 39, 27]];
+      scutes.forEach(([sx, sy, rx, ry], index) => {
+        context.beginPath();
+        context.ellipse(sx, sy, rx, ry, index % 2 ? .08 : -.08, 0, Math.PI * 2);
+        context.fillStyle = index % 2 ? "rgba(176,170,89,.17)" : "rgba(62,101,67,.16)";
+        context.fill();
+        context.stroke();
+      });
+
+      drawFlipper(-38, 37, 132, .24 + swim * .16, false);
+      drawFlipper(-133, 34, 64, 2.54 - swim * .06, false);
+
+      context.save();
+      context.translate(73, 3);
+      context.rotate(headDip * Math.PI / 780);
+      const skin = context.createLinearGradient(0, -25, 115, 42);
+      skin.addColorStop(0, "#8f995f");
+      skin.addColorStop(.55, "#607a50");
+      skin.addColorStop(1, "#304f3d");
+      roundedPath([[0, -24], [47, -23], [75, -8 + headDip], [46, 27 + headDip], [0, 23]]);
+      context.fillStyle = skin;
+      context.fill();
+      context.strokeStyle = "#193c31";
+      context.lineWidth = 3;
+      context.stroke();
+
+      context.translate(67, headDip * .82);
+      context.beginPath();
+      context.ellipse(24, 0, 46, 35, .08, 0, Math.PI * 2);
+      context.fillStyle = skin;
+      context.fill();
+      context.stroke();
+      context.strokeStyle = "rgba(31,68,50,.72)";
+      context.lineWidth = 1.4;
+      for (let spot = 0; spot < 7; spot += 1) {
+        context.beginPath();
+        context.arc(8 + (spot % 4) * 12, -17 + Math.floor(spot / 4) * 24, 5 + (spot % 2), 0, Math.PI * 2);
+        context.stroke();
+      }
+      context.beginPath();
+      context.arc(39, -10, 6, 0, Math.PI * 2);
+      context.fillStyle = "#091b16";
+      context.fill();
+      context.strokeStyle = "#d4cf83";
+      context.lineWidth = 2;
+      context.stroke();
+
+      const jawOpen = bite * 10 * Math.abs(Math.sin(time * Math.PI * 34));
+      context.beginPath();
+      context.moveTo(52, 4);
+      context.quadraticCurveTo(71, 12 + jawOpen, 43, 24 + jawOpen);
+      context.quadraticCurveTo(18, 20, 5, 15);
+      context.strokeStyle = "#18382f";
+      context.lineWidth = 5;
+      context.stroke();
+      context.restore();
+      context.restore();
+    };
+
+    const draw = (now: number) => {
+      const elapsed = reduceMotion || noFood ? 3600 : now - startTime;
+      const time = (elapsed % 20000) / 20000;
+      const bite = noFood ? 0 : Math.max(pulse(time, .31, .055), pulse(time, .56, .055), pulse(time, .79, .06));
+      const floor = height * .77;
+      context.clearRect(0, 0, width, height);
+
+      const water = context.createLinearGradient(0, 0, 0, height);
+      water.addColorStop(0, "#66dbe3");
+      water.addColorStop(.24, "#1c9eba");
+      water.addColorStop(.72, "#075b79");
+      water.addColorStop(.78, "#af9967");
+      water.addColorStop(1, "#74573b");
+      context.fillStyle = water;
+      context.fillRect(0, 0, width, height);
+
+      context.globalAlpha = .2;
+      context.strokeStyle = "#efffe8";
+      context.lineWidth = 3;
+      for (let ray = 0; ray < 8; ray += 1) {
+        const x = ((ray * 173 + time * 130) % (width + 220)) - 110;
+        context.beginPath();
+        context.moveTo(x, 0);
+        context.bezierCurveTo(x + 90, height * .25, x - 35, height * .5, x + 110, floor);
+        context.stroke();
+      }
+      context.globalAlpha = 1;
+
+      context.fillStyle = "rgba(245,255,232,.52)";
+      for (let particle = 0; particle < 42; particle += 1) {
+        const px = (random(particle) * width + time * (16 + random(particle + 80) * 30)) % width;
+        const py = 38 + random(particle + 20) * (floor - 70);
+        context.beginPath();
+        context.arc(px, py, .7 + random(particle + 40) * 1.7, 0, Math.PI * 2);
+        context.fill();
+      }
+
+      context.fillStyle = "#8a6b43";
+      context.beginPath();
+      context.moveTo(0, floor);
+      for (let hill = 0; hill <= 12; hill += 1) context.lineTo((hill / 12) * width, floor + Math.sin(hill * 1.7) * 8 + random(hill + 150) * 12);
+      context.lineTo(width, height);
+      context.lineTo(0, height);
+      context.fill();
+      context.fillStyle = "rgba(213,188,121,.42)";
+      for (let grain = 0; grain < 130; grain += 1) {
+        context.fillRect(random(grain + 300) * width, floor + random(grain + 500) * (height - floor), 1.5, 1.5);
+      }
+
+      if (foodId === "juvenile-food") {
+        for (let prey = 0; prey < 18; prey += 1) {
+          const px = random(prey + 30) * width;
+          const py = height * (.2 + random(prey + 60) * .45) + Math.sin(time * 10 + prey) * 8;
+          context.beginPath();
+          context.arc(px, py, 8 + random(prey) * 8, Math.PI, 0);
+          context.lineTo(px + 7, py + 14);
+          context.moveTo(px, py);
+          context.lineTo(px - 4, py + 17);
+          context.strokeStyle = "rgba(231,244,236,.7)";
+          context.lineWidth = 2;
+          context.stroke();
+        }
+      } else if (!noFood) {
+        const density = seasonDensity[seasonId] ?? 1;
+        const plantCount = Math.round(96 * density);
+        const turtleX = width * .56;
+        for (let plant = 0; plant < plantCount; plant += 1) {
+          const px = random(plant + 700) * width;
+          const baseHeight = (foodId === "shoal-grass" ? 45 : foodId === "eelgrass" ? 150 : 80) * (.62 + random(plant + 900) * .75) * Math.min(1.25, height / 650);
+          const nearMouth = px > turtleX + 110 && px < turtleX + 245;
+          const bitesPassed = (time > .31 ? 1 : 0) + (time > .56 ? 1 : 0) + (time > .79 ? 1 : 0);
+          const crop = nearMouth ? Math.max(.28, 1 - bitesPassed * .23) : 1;
+          const sway = Math.sin(time * Math.PI * 5 + plant * .72) * (foodId === "eelgrass" ? 1.15 : .7);
+          drawPlant(px, floor + random(plant + 1000) * 13, baseHeight, sway, plant, crop);
+        }
+      }
+
+      const thermalSpeed = Math.max(.72, Math.min(1.12, (temperature - 15) / 12));
+      const turtleX = width * (.52 + (noFood ? 0 : Math.sin(time * Math.PI * 2) * .018));
+      const turtleY = floor - Math.min(118, height * .17);
+      drawTurtle(turtleX, turtleY, Math.min(width / 980, height / 620) * thermalSpeed, time, bite);
+
+      if (bite > .05) {
+        context.fillStyle = `rgba(174,145,90,${bite * .48})`;
+        for (let speck = 0; speck < 18; speck += 1) {
+          const angle = random(speck + 1200) * Math.PI * 2;
+          const distance = bite * (20 + random(speck + 1250) * 70);
+          context.beginPath();
+          context.arc(turtleX + 190 + Math.cos(angle) * distance, turtleY + 38 + Math.sin(angle) * distance * .45, 1 + random(speck + 1300) * 3, 0, Math.PI * 2);
+          context.fill();
+        }
+      }
+
+      if (!reduceMotion) frame = requestAnimationFrame(draw);
+    };
+
+    const observer = new ResizeObserver(() => { resize(); startTime = performance.now(); });
+    observer.observe(canvas);
+    resize();
+    draw(performance.now());
+    return () => { cancelAnimationFrame(frame); observer.disconnect(); };
+  }, [foodId, noFood, seasonId, temperature]);
+
+  return <canvas ref={canvasRef} className="feeding-animation-canvas" aria-hidden="true" />;
+}
+
 function TurtleFeedingLab() {
   const [temperature, setTemperature] = useState(27);
   const [foodId, setFoodId] = useState(turtleFoods[0].id);
@@ -1042,24 +1364,7 @@ function TurtleFeedingLab() {
       </div>
 
       <div className={`feeding-scene season-${season.id} food-${food.id}`} role="img" aria-label={`Green sea turtle in a ${season.name.toLowerCase()} ${food.name.toLowerCase()} habitat`}>
-        <div key={`${food.id}-${season.id}-${statusPulse}`} className="feeding-motion-scene" aria-hidden="true">
-          <div className="feeding-caustics" />
-          <div className="feeding-particles">{Array.from({ length: 12 }, (_, index) => <i key={index} />)}</div>
-          <div className="feeding-vegetation">
-            {Array.from({ length: 48 }, (_, index) => <i key={index} style={{ "--plant-delay": `${index * -0.19}s` } as CSSProperties} />)}
-          </div>
-          <div className="feeding-turtle-rig">
-            <i className="drawn-turtle-tail" />
-            <i className="drawn-turtle-rear-flipper" />
-            <i className="drawn-turtle-far-flipper" />
-            <div className="drawn-turtle-shell"><i /><i /><i /><i /><i /><i /></div>
-            <i className="drawn-turtle-near-flipper" />
-            <i className="drawn-turtle-neck" />
-            <div className="drawn-turtle-head"><i className="drawn-turtle-eye" /><i className="drawn-turtle-jaw" /></div>
-            <span className="turtle-breathing-bubbles"><i /><i /><i /></span>
-          </div>
-          <div className="feeding-bite-cloud">{Array.from({ length: 7 }, (_, index) => <i key={index} />)}</div>
-        </div>
+        <TurtleFeedingCanvas key={`${food.id}-${season.id}-${statusPulse}`} foodId={food.id} seasonId={season.id} temperature={temperature} noFood={noFood} />
         <div className="feeding-habitat-effect" aria-hidden="true" />
         <div className="feeding-specimen-card">
           <span>Species</span>
