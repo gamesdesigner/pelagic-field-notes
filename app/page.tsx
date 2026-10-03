@@ -1046,9 +1046,17 @@ function TurtleFeedingLab() {
           <div className="feeding-caustics" />
           <div className="feeding-particles">{Array.from({ length: 12 }, (_, index) => <i key={index} />)}</div>
           <div className="feeding-vegetation">
-            {Array.from({ length: 18 }, (_, index) => <i key={index} style={{ animationDelay: `${index * -0.31}s` }} />)}
+            {Array.from({ length: 18 }, (_, index) => <i key={index} style={{ "--plant-delay": `${index * -0.31}s` } as CSSProperties} />)}
           </div>
-          <img className="feeding-turtle" src="/assets/sunlight-creatures/green-sea-turtle.png" alt="" />
+          <div className="feeding-turtle-rig">
+            <img className="turtle-part turtle-rear-flipper" src="/assets/sunlight-creatures/green-sea-turtle.png" alt="" />
+            <img className="turtle-part turtle-far-flipper" src="/assets/sunlight-creatures/green-sea-turtle.png" alt="" />
+            <img className="turtle-part turtle-shell" src="/assets/sunlight-creatures/green-sea-turtle.png" alt="" />
+            <img className="turtle-part turtle-near-flipper" src="/assets/sunlight-creatures/green-sea-turtle.png" alt="" />
+            <img className="turtle-part turtle-head" src="/assets/sunlight-creatures/green-sea-turtle.png" alt="" />
+            <i className="turtle-jaw" />
+            <span className="turtle-breathing-bubbles"><i /><i /><i /></span>
+          </div>
           <div className="feeding-bite-cloud">{Array.from({ length: 7 }, (_, index) => <i key={index} />)}</div>
         </div>
         <div className="feeding-habitat-effect" aria-hidden="true" />
