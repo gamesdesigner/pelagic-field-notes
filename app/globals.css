@@ -212,7 +212,19 @@ h1,h2 { font-family:Georgia,"Times New Roman",serif; font-weight:400; letter-spa
 .feeding-lab-heading p { max-width:760px; margin:0 0 28px; color:var(--muted); font-size:18px; line-height:1.55; }
 .feeding-scene { position:relative; height:clamp(590px,62vw,780px); overflow:hidden; border:1px solid rgba(7,62,77,.3); background:linear-gradient(180deg,#65d5df 0%,#1688a7 48%,#07546e 74%,#c5aa72 74.3%,#8a6d43 100%); color:white; box-shadow:0 30px 70px rgba(4,46,65,.2); transition:filter .55s ease,background-color .55s ease; }
 .feeding-animation-canvas { position:absolute; z-index:2; inset:0; display:block; width:100%; height:100%; }
-.feeding-detailed-art { position:absolute; z-index:2; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; }
+.feeding-cinemagraph { position:absolute; z-index:2; inset:0; overflow:hidden; }
+.feeding-detailed-art,.feeding-art-head,.feeding-art-flipper { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; }
+.feeding-detailed-art { z-index:1; }
+.feeding-art-head { z-index:3; clip-path:ellipse(13% 22% at 35% 54%); transform-origin:44% 48%; animation:feedingArtHead20 20s ease-in-out infinite; }
+.feeding-art-flipper { z-index:3; clip-path:ellipse(20% 32% at 59% 71%); transform-origin:51% 54%; animation:feedingArtFlipper20 20s ease-in-out infinite; }
+.feeding-cinemagraph .feeding-caustics { z-index:4; mix-blend-mode:screen; opacity:.18; }
+.feeding-cinemagraph .feeding-particles { z-index:5; }
+.feeding-cinemagraph .feeding-vegetation { z-index:6; bottom:-2%; height:24%; opacity:.82; }
+.feeding-cinemagraph .feeding-bite-cloud { z-index:8; right:auto; bottom:25%; left:26%; }
+.feeding-art-bubbles { position:absolute; z-index:8; top:38%; left:28%; width:90px; height:125px; opacity:0; animation:feedingArtBubbles20 20s linear infinite; }
+.feeding-art-bubbles i { position:absolute; bottom:0; width:10px; height:10px; border:2px solid rgba(239,255,255,.82); border-radius:50%; box-shadow:inset 2px 2px rgba(255,255,255,.2); }
+.feeding-art-bubbles i:nth-child(2) { left:24px; bottom:12px; width:7px; height:7px; }.feeding-art-bubbles i:nth-child(3) { left:44px; bottom:3px; width:5px; height:5px; }.feeding-art-bubbles i:nth-child(4) { left:62px; bottom:20px; width:8px; height:8px; }
+.food-bare-ground .feeding-art-head,.food-bare-ground .feeding-art-flipper,.food-bare-ground .feeding-art-bubbles,.food-bare-ground .feeding-cinemagraph .feeding-caustics,.food-bare-ground .feeding-cinemagraph .feeding-particles i { animation:none; }
 .feeding-motion-scene { position:absolute; inset:0; overflow:hidden; }
 .feeding-caustics { position:absolute; z-index:1; inset:0 0 24%; opacity:.32; background:repeating-radial-gradient(ellipse at 50% -15%,transparent 0 42px,rgba(255,255,255,.32) 44px 47px,transparent 49px 86px); background-size:170px 125px; animation:feedingCaustics 20s linear infinite; }
 .feeding-particles { position:absolute; z-index:2; inset:0 0 25%; overflow:hidden; }
@@ -280,6 +292,9 @@ h1,h2 { font-family:Georgia,"Times New Roman",serif; font-weight:400; letter-spa
 @keyframes feedingParticle { 0% { transform:translate(0,60px); opacity:0; } 20% { opacity:.7; } 100% { transform:translate(28px,-160px); opacity:0; } }
 @keyframes biteCloud20 { 0%,22%,38%,52%,67%,82%,100% { opacity:0; transform:translate(0,0) scale(.5); } 28%,58%,73% { opacity:.8; transform:translate(14px,-22px) scale(1); } 34%,64%,79% { opacity:0; transform:translate(30px,-48px) scale(1.35); } }
 @keyframes feedingTimeline20 { from { transform:scaleX(0); } to { transform:scaleX(1); } }
+@keyframes feedingArtHead20 { 0%,19%,38%,47%,64%,70%,86%,100% { transform:rotate(0deg) translate(0,0); } 24%,52%,75% { transform:rotate(-1.1deg) translate(-.35%,.7%); } 29%,57%,80% { transform:rotate(.65deg) translate(.3%,1%); } 33%,61%,84% { transform:rotate(-.35deg) translate(-.15%,.2%); } }
+@keyframes feedingArtFlipper20 { 0%,100% { transform:rotate(0deg) scaleY(1); } 14% { transform:rotate(-1.2deg) scaleY(.985); } 31% { transform:rotate(.8deg) scaleY(1.01); } 49% { transform:rotate(-.75deg) scaleY(.99); } 67% { transform:rotate(.95deg) scaleY(1.008); } 84% { transform:rotate(-.6deg) scaleY(.994); } }
+@keyframes feedingArtBubbles20 { 0%,7%,18%,45%,100% { opacity:0; transform:translate(0,20px) scale(.7); } 9% { opacity:.9; } 16% { opacity:0; transform:translate(-18px,-105px) scale(1.15); } }
 .feeding-specimen-card,.feeding-status-card { position:absolute; z-index:5; top:24px; display:grid; padding:16px 19px; border:1px solid rgba(255,255,255,.38); background:rgba(2,39,55,.78); backdrop-filter:blur(8px); }
 .feeding-specimen-card { left:24px; }
 .feeding-status-card { right:24px; min-width:260px; text-align:right; animation:statusFlash .85s ease-out; }
@@ -604,7 +619,7 @@ body,body * { font-family:"Times New Roman",Times,serif!important; }
   .quiz-actions { align-items:stretch; flex-direction:column; }
   .quiz-actions button { width:100%; }
 }
-@media(prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; transition-duration:.01ms!important; } .ocean-creature,.creature-image,.feeding-turtle-rig,.feeding-turtle-rig *,.feeding-caustics,.feeding-particles i,.feeding-vegetation i,.feeding-bite-cloud,.feeding-timeline>i>b { animation:none!important; } }
+@media(prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; transition-duration:.01ms!important; } .ocean-creature,.creature-image,.feeding-turtle-rig,.feeding-turtle-rig *,.feeding-art-head,.feeding-art-flipper,.feeding-art-bubbles,.feeding-caustics,.feeding-particles i,.feeding-vegetation i,.feeding-bite-cloud,.feeding-timeline>i>b { animation:none!important; } }
 
 /* Comfortable reading sizes across the field guide. */
 .brand { font-size:13px; line-height:1.25; letter-spacing:.08em; }

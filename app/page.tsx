@@ -1360,11 +1360,22 @@ function TurtleFeedingLab() {
       <div className="feeding-lab-heading">
         <span>Interactive feeding event</span>
         <h2 id="turtle-feeding-title">Follow a green turtle&apos;s meal</h2>
-        <p>Change the water temperature, season, and feeding ground. The detailed feeding illustration shows the turtle&apos;s shell, scales, beak, flippers, and dense meadow habitat clearly.</p>
+        <p>Change the water temperature, season, and feeding ground. The detailed 20-second scene shows the turtle dipping its head to bite while its flipper, meadow, bubbles, light, and feeding sediment move independently.</p>
       </div>
 
       <div className={`feeding-scene season-${season.id} food-${food.id}`} role="img" aria-label={`Green sea turtle in a ${season.name.toLowerCase()} ${food.name.toLowerCase()} habitat`}>
-        <img className="feeding-detailed-art" src="/assets/green-sea-turtle-feeding-detailed.png" alt="Detailed green sea turtle biting seagrass in a dense, sunlit underwater meadow" />
+        <div key={`${food.id}-${season.id}-${statusPulse}`} className="feeding-cinemagraph">
+          <img className="feeding-detailed-art" src="/assets/green-sea-turtle-feeding-detailed.png" alt="Detailed green sea turtle biting seagrass in a dense, sunlit underwater meadow" />
+          <img className="feeding-art-head" src="/assets/green-sea-turtle-feeding-detailed.png" alt="" aria-hidden="true" />
+          <img className="feeding-art-flipper" src="/assets/green-sea-turtle-feeding-detailed.png" alt="" aria-hidden="true" />
+          <div className="feeding-caustics" aria-hidden="true" />
+          <div className="feeding-particles" aria-hidden="true">{Array.from({ length: 12 }, (_, index) => <i key={index} />)}</div>
+          <div className="feeding-vegetation" aria-hidden="true">
+            {Array.from({ length: 48 }, (_, index) => <i key={index} style={{ "--plant-delay": `${index * -0.19}s` } as CSSProperties} />)}
+          </div>
+          <span className="feeding-art-bubbles" aria-hidden="true"><i /><i /><i /><i /></span>
+          <div className="feeding-bite-cloud" aria-hidden="true">{Array.from({ length: 7 }, (_, index) => <i key={index} />)}</div>
+        </div>
         <div className="feeding-habitat-effect" aria-hidden="true" />
         <div className="feeding-specimen-card">
           <span>Species</span>
@@ -1375,6 +1386,10 @@ function TurtleFeedingLab() {
           <span>Live turtle status</span>
           <strong>{status}</strong>
           <small>{temperature}°C · {season.name}</small>
+        </div>
+        <div className={`feeding-timeline ${noFood ? "still" : ""}`} aria-hidden="true">
+          <span>{noFood ? "Still scene · no food available" : "20-second feeding loop"}</span>
+          <i><b /></i>
         </div>
       </div>
 
