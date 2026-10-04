@@ -35,7 +35,7 @@ const subjects: Subject[] = [
     short: "The moving pathways that connect every ocean basin.",
     depth: "Global circulation",
     animal: "Ocean Currents",
-    scientific: "Three connected systems",
+    scientific: "Five connected topics",
     description: "ABCDE",
     fact: "ABCDE",
     tone: "current",
@@ -89,10 +89,9 @@ const subjects: Subject[] = [
     tone: "general",
     general: true,
   },
-  { id: "enso", number: "06", title: "El Niño & La Niña", short: "Discover how Pacific winds and water reshape our climate.", depth: "Ocean & climate · Ages 13+", animal: "ENSO", scientific: "El Niño–Southern Oscillation", description: "", fact: "", tone: "enso" },
 ];
 
-const currentTopics = ["Upwelling", "Global Conveyor Belt", "Coriolis Effect", "Ekman transport"];
+const currentTopics = ["Upwelling", "Global Conveyor Belt", "Coriolis Effect", "Ekman transport", "El Niño & La Niña"];
 const sunlightTopics = ["General Marine Life in the Sun", "Green Sea Turtle"];
 
 const upwellingQuiz: QuizQuestion[] = [
@@ -1509,8 +1508,6 @@ export default function Home() {
                 <div className={`card-placeholder ${subject.id === "currents" ? "has-subject-image" : ""}`} aria-hidden="true">
                   {subject.id === "currents" ? (
                     <img src="/assets/global-ocean-currents.png" alt="" />
-                  ) : subject.id === "enso" ? (
-                    <EnsoCardArt />
                   ) : (
                     <><span>{subject.tone === "sunlight" ? "☼" : subject.tone === "twilight" ? "◐" : "✦"}</span><small>Image placeholder</small></>
                   )}
@@ -1529,8 +1526,8 @@ export default function Home() {
             <span className="general-arrow">Explore <b>→</b></span>
           </button>
         </section>
-      ) : selected.id === "enso" ? (
-        <EnsoUnit onBack={() => setSelected(null)} />
+      ) : selected.id === "currents" && currentTopic === 4 ? (
+        <EnsoUnit onBack={() => setCurrentTopic(null)} />
       ) : selected.id === "currents" && currentTopic === null ? (
         <section className="currents-index" aria-labelledby="currents-title">
           <button className="back-button" onClick={() => setSelected(null)}><span>←</span> All subjects</button>
@@ -1549,6 +1546,8 @@ export default function Home() {
                     <img src="/assets/global-conveyor-belt.png?v=2" alt="" />
                   ) : index === 2 ? (
                     <img src="/assets/coriolis-effect-illustration.png" alt="" />
+                  ) : index === 4 ? (
+                    <EnsoCardArt />
                   ) : (
                     <img src="/assets/ekman-transport-illustration.png" alt="" />
                   )}
