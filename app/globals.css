@@ -183,7 +183,14 @@ h1,h2 { font-family:Georgia,"Times New Roman",serif; font-weight:400; letter-spa
 .ekman-layout .detail-copy>h1 { max-width:1100px; font-size:clamp(58px,7vw,104px); }
 .ekman-layout .current-article { max-width:1280px; columns:2; column-gap:clamp(42px,6vw,90px); column-rule:1px solid var(--line); }
 .ekman-layout .current-article h2,.ekman-layout .current-article p,.ekman-layout .current-article ul { break-inside:avoid; }
-.ekman-layout .detail-visual { display:none; }
+.ekman-layout .detail-visual { display:block; min-height:0; background:#071e2c; }
+.ekman-layout .visual-label { display:none; }
+.topic-illustration { width:100%; margin:0; padding:clamp(24px,4vw,64px); color:#e9f2f2; background:radial-gradient(ellipse at 50% 20%,#204959,#071e2c 80%); }
+.topic-illustration img { display:block; width:100%; max-width:1280px; height:auto; margin:auto; border:1px solid #ffffff24; border-radius:4px; }
+.topic-illustration figcaption { width:min(1280px,100%); margin:24px auto 0; }
+.topic-illustration figcaption>span { color:#f1b295; font-size:12px; letter-spacing:.12em; text-transform:uppercase; }
+.topic-illustration h2 { margin:12px 0; font-size:clamp(30px,3.5vw,48px); }
+.topic-illustration p { max-width:900px; margin:0; color:#b5cbd3; font-size:18px; line-height:1.6; }
 .sunlight-index { background:linear-gradient(145deg,#f1eee5,#e5eddb); }
 .sunlight-topic-art { background:linear-gradient(150deg,#d6e9df,#f4dca8); }
 .sunlight-topic-layout { display:block; }

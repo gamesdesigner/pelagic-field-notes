@@ -1535,13 +1535,15 @@ export default function Home() {
             {currentTopics.map((topic, index) => (
               <button className={`current-subject-card topic-${index + 1}`} key={topic} onClick={() => setCurrentTopic(index)}>
                 <span className="card-number">{String(index + 1).padStart(2, "0")}</span>
-                <div className={`current-card-art ${index < 2 ? "has-topic-image" : ""}`} aria-hidden="true">
+                <div className="current-card-art has-topic-image" aria-hidden="true">
                   {index === 0 ? (
                     <img src="/assets/upwelling-side-view.png" alt="" />
                   ) : index === 1 ? (
                     <img src="/assets/global-conveyor-belt.png?v=2" alt="" />
+                  ) : index === 2 ? (
+                    <img src="/assets/coriolis-effect-illustration.png" alt="" />
                   ) : (
-                    <><span>{index === 2 ? "↻" : "↝"}</span><small>Study topic</small></>
+                    <img src="/assets/ekman-transport-illustration.png" alt="" />
                   )}
                 </div>
                 <div className="card-copy"><span>Ocean currents</span><h2>{topic}</h2><p>Click to reveal this topic.</p></div>
@@ -1872,11 +1874,18 @@ export default function Home() {
               </>
             ) : selected.id === "currents" && currentTopic === 2 ? (
               <>
+                <figure className="topic-illustration">
+                  <img src="/assets/coriolis-effect-illustration.png" alt="Scientific illustration of Earth's rotation and curving ocean currents in the Northern and Southern Hemispheres" />
+                  <figcaption><span>Illustrated field guide</span><h2>Rotation bends the path</h2><p>Moving water deflects to the right of its direction of travel in the Northern Hemisphere and to the left in the Southern Hemisphere.</p></figcaption>
+                </figure>
                 <CoriolisGlobe />
                 <CoriolisQuiz />
               </>
             ) : selected.id === "currents" ? (
-              <div className="large-placeholder currents-placeholder"><span>↝</span><p>{currentTopics[currentTopic as number]}</p><small>{currentTopic === 0 ? "Nutrients rise · life follows" : "ABCDE"}</small></div>
+              <figure className="topic-illustration">
+                <img src="/assets/ekman-transport-illustration.png" alt="Cutaway illustration of wind over the ocean and current directions turning with depth in an Ekman spiral" />
+                <figcaption><span>Northern Hemisphere · idealized model</span><h2>Wind above. Turning water below.</h2><p>Each deeper layer moves more slowly and turns farther to the right. The combined Ekman transport is 90° to the right of the wind in the Northern Hemisphere.</p></figcaption>
+              </figure>
             ) : (
               <div className="large-placeholder"><span>{selected.tone === "current" ? "↝" : selected.tone === "sunlight" ? "☼" : selected.tone === "twilight" ? "◐" : "✦"}</span><p>Animal image placeholder</p><small>{selected.animal}</small></div>
             )}
