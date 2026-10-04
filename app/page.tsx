@@ -4,6 +4,7 @@ import { type CSSProperties, useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import ConveyorBeltLab from "./ConveyorBeltLab";
 import ConveyorBeltQuiz from "./ConveyorBeltQuiz";
+import EkmanCoastalDiagram from "./EkmanCoastalDiagram";
 
 type Subject = {
   id: string;
@@ -1882,10 +1883,13 @@ export default function Home() {
                 <CoriolisQuiz />
               </>
             ) : selected.id === "currents" ? (
+              <>
+              <EkmanCoastalDiagram />
               <figure className="topic-illustration">
                 <img src="/assets/ekman-transport-illustration.png" alt="Cutaway illustration of wind over the ocean and current directions turning with depth in an Ekman spiral" />
                 <figcaption><span>Northern Hemisphere · idealized model</span><h2>Wind above. Turning water below.</h2><p>Each deeper layer moves more slowly and turns farther to the right. The combined Ekman transport is 90° to the right of the wind in the Northern Hemisphere.</p></figcaption>
               </figure>
+              </>
             ) : (
               <div className="large-placeholder"><span>{selected.tone === "current" ? "↝" : selected.tone === "sunlight" ? "☼" : selected.tone === "twilight" ? "◐" : "✦"}</span><p>Animal image placeholder</p><small>{selected.animal}</small></div>
             )}
