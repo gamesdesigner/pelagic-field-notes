@@ -167,7 +167,7 @@ h1,h2 { font-family:Georgia,"Times New Roman",serif; font-weight:400; letter-spa
 .conveyor-layout .detail-copy>h1 { max-width:none; font-size:clamp(58px,7vw,104px); }
 .conveyor-layout .current-article { max-width:1280px; columns:2; column-gap:clamp(42px,6vw,90px); column-rule:1px solid var(--line); }
 .conveyor-layout .current-article h2,.conveyor-layout .current-article p { break-inside:avoid; }
-.conveyor-layout .detail-visual.has-topic-map { position:relative; top:auto; width:100%; height:calc(100svh - 110px); min-height:720px; }
+.conveyor-layout .detail-visual.has-topic-map { position:relative; top:auto; width:100%; height:auto; min-height:0; }
 .conveyor-layout .visual-label { display:none; }
 .coriolis-layout { display:block; }
 .coriolis-layout .detail-copy { min-height:auto; padding:110px clamp(35px,7vw,110px) 82px; }
@@ -425,24 +425,73 @@ h1,h2 { font-family:Georgia,"Times New Roman",serif; font-weight:400; letter-spa
 .wind-belt-key .cool { color:#78d8ff; background:#78d8ff; }
 .wind-belt-key .polar { color:#b5e8ff; background:#b5e8ff; }
 .globe-instruction { position:relative; z-index:8; margin:14px 0 0; color:rgba(255,255,255,.68); font-size:14px; }
-.conveyor-simulator { position:relative; width:100%; height:100%; overflow:hidden; background:#061a2a; }
-.conveyor-simulator>img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; }
-.conveyor-simulator::before { content:"The Global Conveyor Belt"; position:absolute; z-index:2; top:0; right:0; left:0; min-height:clamp(82px,9vw,126px); display:grid; place-items:center; padding:14px 28px; border-bottom:3px double rgba(62,45,28,.62); background:linear-gradient(90deg,#c4ac7c,#ead7a8 16%,#f0dfb6 50%,#ead7a8 84%,#c4ac7c); color:#30271d; font:400 clamp(25px,3.4vw,54px)/1 Georgia,"Times New Roman",serif; letter-spacing:.015em; text-align:center; text-transform:uppercase; box-shadow:0 6px 18px rgba(0,0,0,.3); pointer-events:none; }
-.conveyor-simulator::after { content:""; position:absolute; inset:45% 0 0; background:linear-gradient(transparent,rgba(1,17,29,.9)); pointer-events:none; }
-.conveyor-temperature-panel { position:absolute; z-index:3; right:clamp(20px,4vw,58px); bottom:clamp(20px,4vw,48px); left:clamp(20px,4vw,58px); display:grid; grid-template-columns:minmax(260px,1.05fr) minmax(390px,1.7fr) minmax(210px,.75fr); gap:clamp(22px,4vw,56px); align-items:center; padding:clamp(20px,3vw,34px); border:1px solid rgba(255,255,255,.32); background:rgba(3,27,43,.91); color:white; backdrop-filter:blur(12px); }
+/* The map and route overlays share the same projection and stay uncropped. */
+.conveyor-simulator { position:relative; width:100%; overflow:hidden; padding:clamp(24px,4vw,64px); color:#eef6f5; background:radial-gradient(ellipse at 50% 0,#154453,#071c2a 70%); }
+.belt-heading { display:flex; justify-content:space-between; align-items:end; gap:28px; margin-bottom:30px; }
+.belt-heading .eyebrow { color:#ffa982; display:block; font-size:12px; }
+.belt-heading h2 { margin:12px 0; font-size:clamp(38px,4.8vw,72px); line-height:1; }
+.belt-heading p { margin:0; color:#b6cdd3; font-size:18px; }
+.belt-legend { display:grid; gap:12px; flex-shrink:0; font-size:16px; }
+.belt-legend span { display:flex; align-items:center; gap:10px; }
+.belt-legend i { width:32px; height:4px; border-radius:3px; }
+.belt-legend .surface { background:#ffa06b; box-shadow:0 0 10px #ff8d5555; }
+.belt-legend .deep { background:#7be0ff; box-shadow:0 0 10px #7be0ff55; }
+.belt-toolbar { display:flex; flex-wrap:wrap; justify-content:space-between; gap:16px; padding:15px 0; border-top:1px solid #ffffff26; }
+.belt-layer-controls,.belt-playback { display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
+.belt-toolbar button,.belt-playback select { min-height:40px; padding:9px 15px; border:1px solid #ffffff38; border-radius:3px; background:#153746; color:#e9f3f4; font-size:15px; cursor:pointer; }
+.belt-toolbar button:hover { background:#265060; }
+.belt-layer-controls button[aria-pressed="true"] { border-color:#f3af89; background:#f3af89; color:#132f3b; }
+.belt-playback label { display:flex; align-items:center; gap:10px; padding-left:8px; font-size:15px; color:#b6cdd3; }
+.belt-map-scroll { overflow-x:auto; border:1px solid #7495a455; border-radius:4px; background:#051828; box-shadow:0 20px 65px #0005; }
+.belt-map { display:block; width:100%; min-width:900px; height:auto; aspect-ratio:2/1; }
+.belt-graticule { stroke:#daf5ff; stroke-width:.6; opacity:.14; fill:none; }
+.belt-graticule .belt-equator { stroke-dasharray:5 7; stroke-width:1; opacity:.7; }
+.belt-ocean-labels { fill:#e7f4f7; font-size:16px; letter-spacing:3px; text-anchor:middle; opacity:.7; }
+.belt-ocean-labels text { paint-order:stroke; stroke:#061e31; stroke-width:4px; }
+.belt-stream { transition:opacity .25s; }
+.belt-stream.is-hidden { opacity:.06; }
+.belt-stream.surface { color:#ffa06b; }
+.belt-stream.deep { color:#7be0ff; }
+.belt-route-halo { fill:none; stroke:currentColor; stroke-width:10px; opacity:.5; filter:url(#belt-route-glow); }
+.belt-route { fill:none; stroke:currentColor; stroke-width:2.5px; stroke-linecap:round; opacity:.8; }
+.belt-stream.deep .belt-route { stroke-dasharray:5 4; }
+.belt-moving-arrow { fill:currentColor; stroke:#082335; stroke-width:1.1; paint-order:stroke; }
+.belt-process-markers circle { fill:#082c40; stroke:#a3e5f6; stroke-width:1.5; }
+.belt-process-markers path { fill:none; stroke:#e2faff; stroke-width:2; stroke-linejoin:round; }
+.belt-process-markers text { fill:#f2fbff; font-size:10px; letter-spacing:1px; paint-order:stroke; stroke:#081e30; stroke-width:3px; }
+.belt-focus circle:last-child { fill:none; stroke:#fff4ca; stroke-width:1.5; stroke-dasharray:3 4; }
+.belt-equator-label { fill:#cae1e7; font-size:9px; letter-spacing:1px; }
+.belt-map-caption { display:flex; flex-wrap:wrap; justify-content:space-between; gap:10px; margin:12px 0 28px; color:#9cb7c1; font-size:13px; }
+.belt-stages { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); border:1px solid #ffffff28; }
+.belt-stages button { position:relative; padding:20px; border:0; border-right:1px solid #ffffff28; background:#0a2939; color:#deedf0; text-align:left; cursor:pointer; }
+.belt-stages button:last-child { border-right:0; }
+.belt-stages button[aria-pressed="true"] { background:#184353; box-shadow:inset 0 3px #f3af89; }
+.belt-stages button:hover { background:#204b59; }
+.belt-stages span { color:#ffa982; font-size:12px; letter-spacing:.1em; }
+.belt-stages strong { display:block; margin:10px 0 5px; font-size:21px; font-weight:400; }
+.belt-stages small { color:#a5c1ca; font-size:14px; }
+.belt-stage-note { display:flex; align-items:baseline; gap:24px; min-height:100px; padding:22px 0; }
+.belt-stage-note strong { flex:0 0 210px; color:#f7c3a7; font-size:23px; font-weight:400; }
+.belt-stage-note p { max-width:850px; margin:0; color:#b9ced5; font-size:17px; line-height:1.5; }
+.conveyor-temperature-panel { display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,1.4fr) minmax(220px,.8fr); gap:clamp(24px,4vw,56px); align-items:center; padding:clamp(24px,3vw,42px); border:1px solid #ffffff2d; border-radius:4px; background:#061c2c; color:white; }
 .conveyor-panel-heading>span { color:#f3b19e; font-size:12px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; }
-.conveyor-panel-heading h2 { margin:7px 0 8px; font-size:clamp(26px,2.7vw,42px); line-height:.98; }
-.conveyor-panel-heading p { margin:0; color:rgba(255,255,255,.72); font-size:15px; line-height:1.4; }
+.conveyor-panel-heading h2 { margin:10px 0 12px; font-size:clamp(26px,2.7vw,40px); line-height:1.05; }
+.conveyor-panel-heading p { margin:0; color:#b7cbd3; font-size:16px; line-height:1.5; }
+.conveyor-panel-heading small { display:block; margin-top:12px; color:#94afb9; font-size:13px; }
 .conveyor-controls { display:grid; gap:24px; }
-.conveyor-controls label { display:grid; gap:10px; }
-.conveyor-controls label>span { display:flex; justify-content:space-between; gap:15px; color:rgba(255,255,255,.86); font-size:14px; font-weight:700; letter-spacing:.04em; }
-.conveyor-controls output { color:#ffb199; }
-.conveyor-controls input[type="range"] { width:100%; accent-color:#e76f50; cursor:pointer; }
+.conveyor-controls label { display:grid; gap:12px; }
+.conveyor-controls label>span { display:flex; justify-content:space-between; gap:15px; color:#e0edf0; font-size:16px; }
+.conveyor-controls output { color:#ffc5a3; font-size:21px; }
+.conveyor-controls input[type="range"] { width:100%; accent-color:#eaa381; cursor:pointer; }
+.belt-contrast { display:flex; justify-content:space-between; padding-top:14px; border-top:1px solid #ffffff26; color:#adc5ce; font-size:14px; }
+.belt-contrast strong { color:#edf6f7; font-size:18px; font-weight:400; }
 .conveyor-speed { display:flex; align-items:center; justify-content:flex-end; gap:18px; }
-.conveyor-speed>div:last-child { display:grid; min-width:105px; }
-.conveyor-speed span { color:rgba(255,255,255,.65); font-size:12px; letter-spacing:.08em; text-transform:uppercase; }
-.conveyor-speed strong { margin:3px 0; color:#ffb199; font-size:32px; font-weight:400; }
-.conveyor-speed small { color:white; font-size:14px; }
+.conveyor-speed>div:last-child { display:grid; min-width:100px; gap:4px; }
+.conveyor-speed span { color:#afc5ce; font-size:12px; letter-spacing:.08em; text-transform:uppercase; }
+.conveyor-speed strong { margin:3px 0; color:#ffc5a3; font-size:32px; font-weight:400; }
+.conveyor-speed small { color:#daeaf0; font-size:14px; }
+.belt-science-note { margin:22px 0 0; max-width:1000px; color:#93aeb9; font-size:14px; line-height:1.5; }
+.belt-science-note a { color:#c7dfe6; text-underline-offset:3px; }
 .speed-gauge { position:relative; flex:0 0 116px; width:116px; height:116px; border-radius:50%; background:conic-gradient(from 210deg,#b85045 0 28%,#e8bd62 28% 57%,#66a888 57% 79%,transparent 79% 100%); box-shadow:inset 0 0 0 13px rgba(3,27,43,.88); }
 .speed-gauge::before { content:"SLOW"; position:absolute; left:-4px; bottom:8px; color:rgba(255,255,255,.7); font-size:9px; }
 .speed-gauge::after { content:"FAST"; position:absolute; right:-2px; bottom:8px; color:rgba(255,255,255,.7); font-size:9px; }
@@ -545,11 +594,15 @@ body,body * { font-family:"Times New Roman",Times,serif!important; }
   .plankton-result>span { grid-column:1/-1; }
   .plankton-result small { margin-left:9px; padding-bottom:3px; }
   .large-placeholder { width:82%; }
-  .conveyor-layout .detail-visual.has-topic-map { height:880px; min-height:880px; }
-  .conveyor-simulator>img { height:50%; object-fit:contain; object-position:center top; }
-  .conveyor-simulator::before { min-height:72px; padding:10px 18px; font-size:clamp(20px,6vw,30px); }
-  .conveyor-simulator::after { inset:18% 0 0; }
-  .conveyor-temperature-panel { right:16px; bottom:16px; left:16px; grid-template-columns:1fr; gap:22px; }
+  .conveyor-temperature-panel { grid-template-columns:1fr; gap:28px; padding:24px 20px; }
+  .belt-heading { display:block; }
+  .belt-legend { margin-top:24px; }
+  .belt-stages { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .belt-stages button { border-bottom:1px solid #ffffff28; padding:17px 13px; }
+  .belt-stages strong { font-size:19px; }
+  .belt-stage-note { display:block; min-height:0; }
+  .belt-stage-note p { margin-top:10px; }
+  .belt-map-caption { font-size:12px; }
   .conveyor-speed { grid-column:auto; justify-content:flex-start; }
   .conveyor-panel-heading p { font-size:14px; }
   .coriolis-layout .detail-visual { min-height:820px; }

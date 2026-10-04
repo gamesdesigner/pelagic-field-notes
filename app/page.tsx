@@ -2,6 +2,7 @@
 
 import { type CSSProperties, useEffect, useRef, useState } from "react";
 import * as THREE from "three";
+import ConveyorBeltLab from "./ConveyorBeltLab";
 
 type Subject = {
   id: string;
@@ -1421,8 +1422,6 @@ export default function Home() {
   const [windSpeed, setWindSpeed] = useState(10);
   const [shelfAngle, setShelfAngle] = useState(1.5);
   const [nutrients, setNutrients] = useState(5.8);
-  const [warmWaterTemp, setWarmWaterTemp] = useState(27);
-  const [northAtlanticTemp, setNorthAtlanticTemp] = useState(3);
   const [quizIndex, setQuizIndex] = useState(0);
   const [quizAnswer, setQuizAnswer] = useState("");
   const [quizSubmitted, setQuizSubmitted] = useState(false);
@@ -1441,10 +1440,6 @@ export default function Home() {
   const shelfVisualAngle = 10 + ((shelfAngle - 0.5) / 2.5) * 45;
   const hillShoulder = Math.max(40, 82 - shelfVisualAngle);
   const hillTop = Math.max(12, 38 - Math.round(shelfVisualAngle / 3));
-  const conveyorTemperatureDifference = warmWaterTemp - northAtlanticTemp;
-  const conveyorSpeed = Math.max(8, Math.min(100, Math.round(((conveyorTemperatureDifference - 8) / 26) * 100)));
-  const conveyorStatus = conveyorSpeed >= 70 ? "Fast" : conveyorSpeed >= 40 ? "Steady" : "Slow";
-  const conveyorNeedle = -120 + conveyorSpeed * 2.4;
   const quizComplete = quizIndex >= upwellingQuiz.length;
   const currentQuizQuestion = upwellingQuiz[Math.min(quizIndex, upwellingQuiz.length - 1)];
 
@@ -1750,33 +1745,7 @@ export default function Home() {
             {selected.general ? (
               <img src="/assets/ocean-depths-slide.png" alt="Complete scientific illustration of ocean depth zones" />
             ) : selected.id === "currents" && currentTopic === 1 ? (
-              <section className="conveyor-simulator" aria-labelledby="conveyor-model-title">
-                <img src="/assets/global-conveyor-belt.png?v=2" alt="Global conveyor belt map showing warm surface currents in red and cold currents in blue" />
-                <div className="conveyor-temperature-panel">
-                  <div className="conveyor-panel-heading">
-                    <span>Interactive temperature model</span>
-                    <h2 id="conveyor-model-title">Temperature drives the belt</h2>
-                    <p>A larger temperature difference makes cold North Atlantic water denser, so it sinks more strongly and speeds up the conveyor.</p>
-                  </div>
-                  <div className="conveyor-controls">
-                    <label>
-                      <span>Warm surface water <output>{warmWaterTemp}°C</output></span>
-                      <input type="range" min="20" max="32" step="1" value={warmWaterTemp} onChange={(event) => setWarmWaterTemp(Number(event.target.value))} />
-                    </label>
-                    <label>
-                      <span>North Atlantic water <output>{northAtlanticTemp}°C</output></span>
-                      <input type="range" min="-2" max="12" step="1" value={northAtlanticTemp} onChange={(event) => setNorthAtlanticTemp(Number(event.target.value))} />
-                    </label>
-                  </div>
-                  <div className="conveyor-speed" aria-live="polite">
-                    <div className="speed-gauge" style={{ "--gauge-rotation": `${conveyorNeedle}deg` } as CSSProperties}>
-                      <i />
-                      <b />
-                    </div>
-                    <div><span>Conveyor speed</span><strong>{conveyorStatus}</strong><small>{conveyorSpeed}% strength</small></div>
-                  </div>
-                </div>
-              </section>
+              <ConveyorBeltLab />
             ) : selected.id === "currents" && currentTopic === 0 ? (
               <>
               <section className="upwelling-simulator" aria-labelledby="simulator-title">
