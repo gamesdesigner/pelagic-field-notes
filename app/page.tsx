@@ -3,6 +3,7 @@
 import { type CSSProperties, useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import ConveyorBeltLab from "./ConveyorBeltLab";
+import ConveyorBeltQuiz from "./ConveyorBeltQuiz";
 
 type Subject = {
   id: string;
@@ -1745,7 +1746,7 @@ export default function Home() {
             {selected.general ? (
               <img src="/assets/ocean-depths-slide.png" alt="Complete scientific illustration of ocean depth zones" />
             ) : selected.id === "currents" && currentTopic === 1 ? (
-              <ConveyorBeltLab />
+              <><ConveyorBeltLab /><ConveyorBeltQuiz /></>
             ) : selected.id === "currents" && currentTopic === 0 ? (
               <>
               <section className="upwelling-simulator" aria-labelledby="simulator-title">

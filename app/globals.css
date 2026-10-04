@@ -499,6 +499,10 @@ h1,h2 { font-family:Georgia,"Times New Roman",serif; font-weight:400; letter-spa
 .speed-gauge b { position:absolute; z-index:3; left:50%; top:50%; width:14px; height:14px; border-radius:50%; background:white; transform:translate(-50%,-50%); }
 .upwelling-quiz { min-height:100svh; display:grid; place-items:center; padding:clamp(54px,8vw,110px) clamp(22px,7vw,100px); color:var(--ink); background:linear-gradient(145deg,#f5f2e9,#e2ebe5); }
 .coriolis-quiz { width:100%; background:linear-gradient(145deg,#eef3f3,#dce9ec); }
+.conveyor-quiz { width:100%; background:linear-gradient(145deg,#f5f2e9,#dce9ec); }
+.conveyor-quiz .quiz-feedback p { margin:0; }
+.conveyor-quiz .quiz-feedback p+p { margin-top:10px; }
+.conveyor-quiz .quiz-finish h3 { font-size:24px; font-weight:400; }
 .quiz-shell { width:min(920px,100%); padding:clamp(28px,5vw,64px); border:1px solid var(--line); background:rgba(255,255,255,.68); box-shadow:0 28px 75px rgba(12,48,52,.1); }
 .quiz-header { display:flex; align-items:flex-end; justify-content:space-between; gap:24px; }
 .quiz-header span,.quiz-kind,.quiz-finish>span { color:var(--coral); font-size:13px; font-weight:700; line-height:1; letter-spacing:.1em; text-transform:uppercase; }
