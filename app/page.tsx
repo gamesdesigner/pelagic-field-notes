@@ -1505,9 +1505,11 @@ export default function Home() {
             {subjects.filter((subject) => !subject.general).map((subject) => (
               <button className={`subject-card ${subject.tone}`} key={subject.id} onClick={() => openSubject(subject)}>
                 <span className="card-number">{subject.number}</span>
-                <div className={`card-placeholder ${subject.id === "currents" ? "has-subject-image" : ""}`} aria-hidden="true">
+                <div className={`card-placeholder ${subject.id === "currents" || subject.id === "sunlight" ? "has-subject-image" : ""}`} aria-hidden="true">
                   {subject.id === "currents" ? (
                     <img src="/assets/global-ocean-currents.png" alt="" />
+                  ) : subject.id === "sunlight" ? (
+                    <img src="/assets/sunlight/marine-life-in-sunlight.png" alt="" />
                   ) : (
                     <><span>{subject.tone === "sunlight" ? "☼" : subject.tone === "twilight" ? "◐" : "✦"}</span><small>Image placeholder</small></>
                   )}
@@ -1571,7 +1573,7 @@ export default function Home() {
                 <span className="card-number">{String(index + 1).padStart(2, "0")}</span>
                 <div className="current-card-art sunlight-topic-art has-topic-image" aria-hidden="true">
                   <img
-                    src={index === 0 ? "/assets/sunlight/general-sunlight-reef.png" : "/assets/turtles/green-turtle-grazing.png"}
+                    src={index === 0 ? "/assets/sunlight/marine-life-in-sunlight.png" : "/assets/turtles/green-turtle-grazing.png"}
                     alt=""
                   />
                 </div>
