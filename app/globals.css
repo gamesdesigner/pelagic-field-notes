@@ -1,5 +1,57 @@
 @import "tailwindcss";
 
+.enso-card-art { width:100%; height:100%; min-height:230px; display:block; }
+.subject-card.enso .card-placeholder { background:#0a2c40; border-color:#0a2c40; overflow:hidden; }
+.enso-unit { position:relative; }
+.enso-lesson { width:min(1280px,100%); margin:0 auto; padding:80px clamp(24px,6vw,80px) 65px; }
+.enso-lesson .back-button { position:static; margin-bottom:48px; }
+.enso-lesson h1 { font-size:clamp(50px,7vw,94px); margin:0 0 24px; line-height:1; }
+.enso-lesson h1 em { color:var(--coral); }
+.enso-deck { max-width:820px; font-size:23px; line-height:1.5; color:var(--muted); }
+.enso-learning-goal { display:flex; gap:24px; padding:24px 0; margin:35px 0 45px; border-block:1px solid var(--line); line-height:1.6; font-size:17px; }
+.enso-learning-goal strong { flex-shrink:0; color:var(--coral); }
+.enso-lesson-grid { display:grid; grid-template-columns:1fr 1fr; gap:32px 64px; }
+.enso-lesson h2 { font-size:30px; margin:0 0 18px; }
+.enso-lesson-grid p, .enso-takeaway p { font-size:18px; line-height:1.75; margin:0 0 18px; }
+.enso-takeaway { margin:38px 0 28px; padding:28px; background:#e3e8df; border-left:3px solid var(--coral); }
+.enso-takeaway h2 { font-size:27px; }
+.enso-takeaway p { margin:0; }
+.enso-sources { font-size:14px; color:var(--muted); line-height:1.8; }
+.enso-sources a { text-decoration:underline; text-underline-offset:3px; }
+.enso-lab { background:#071e2c; color:#e9f2f2; padding:55px clamp(20px,5vw,64px); }
+.enso-lab-inner { max-width:1280px; margin:auto; }
+.enso-kicker { color:#f1b295; font-size:12px; letter-spacing:.12em; text-transform:uppercase; margin:0 0 14px; }
+.enso-lab-heading { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px; }
+.enso-lab-heading h2 { font-size:clamp(34px,4vw,52px); margin:0; }
+.enso-phase-controls { display:flex; gap:8px; }
+.enso-phase-controls button, .enso-playback button, .enso-playback select { padding:11px 18px; border:1px solid #65818d; border-radius:4px; background:#143849; color:#edf3ee; cursor:pointer; font:inherit; }
+.enso-phase-controls button[aria-pressed="true"] { color:#122d3c; background:#f2b392; border-color:#f2b392; }
+.enso-lab.nina .enso-phase-controls button[aria-pressed="true"] { background:#8bd6e4; border-color:#8bd6e4; }
+.enso-lab-intro { margin:18px 0 25px; font-size:18px; color:#b5cbd3; line-height:1.6; }
+.enso-playback { display:flex; align-items:center; flex-wrap:wrap; gap:16px 24px; margin-bottom:24px; font-size:15px; }
+.enso-playback select { padding:10px; margin-left:8px; }
+.enso-playback label { display:flex; align-items:center; gap:8px; }
+.enso-playback input { accent-color:#f2b392; width:17px; height:17px; }
+.enso-svg-wrap { border:1px solid #ffffff29; border-radius:8px; overflow-x:auto; background:#0c2a3b; }
+.enso-svg-wrap:focus-visible { outline:2px solid #f2b392; outline-offset:4px; }
+.enso-svg-wrap svg { width:100%; min-width:740px; display:block; }
+.enso-svg-region { fill:#b5cbd3; font-size:18px; }
+.enso-svg-title { fill:#e9f2f2; font-size:34px; }
+.enso-svg-label { fill:#edf4ee; font-size:21px; }
+.enso-water-label { fill:#122e3c; }
+.enso-svg-small { fill:#b5cbd3; font-size:16px; }
+.enso-legend { display:flex; flex-wrap:wrap; gap:14px 28px; margin:24px 0; color:#c7dbe1; font-size:15px; }
+.enso-legend span { display:flex; align-items:center; gap:10px; }
+.enso-legend i { width:24px; height:3px; display:inline-block; }
+.enso-legend .wind { background:#f0ead0; }.enso-legend .warm { background:#ffbc88; }.enso-legend .cold { background:#7cdeed; }
+.enso-phase-readout { border-left:3px solid #f2b392; padding:6px 24px; }
+.enso-lab.nina .enso-phase-readout { border-color:#8bd6e4; }
+.enso-phase-readout h3 { font-size:25px; margin:0 0 12px; }
+.enso-phase-readout p { font-size:18px; line-height:1.6; color:#c7dbe1; margin:0; max-width:960px; }
+.enso-model-note { color:#95b8c6; margin:24px 0 0; line-height:1.65; font-size:14px; max-width:1080px; }
+.enso-scroll-hint { display:none; }
+@media(max-width:760px) { .enso-lesson { padding-top:42px; }.enso-lesson-grid { grid-template-columns:1fr; gap:25px; }.enso-learning-goal { flex-direction:column; gap:8px; }.enso-deck { font-size:21px; }.enso-scroll-hint { display:block; font-size:13px; color:#b5cbd3; }.enso-lab { padding-top:36px; }.enso-takeaway { padding:22px; } }
+
 :root { --paper:#f1eee5; --ink:#153c42; --muted:#668084; --coral:#e76f50; --line:rgba(21,60,66,.16); }
 * { box-sizing:border-box; }
 html,body { margin:0; min-height:100%; background:var(--paper); }

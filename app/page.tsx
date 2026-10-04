@@ -5,6 +5,7 @@ import * as THREE from "three";
 import ConveyorBeltLab from "./ConveyorBeltLab";
 import ConveyorBeltQuiz from "./ConveyorBeltQuiz";
 import EkmanCoastalDiagram from "./EkmanCoastalDiagram";
+import EnsoUnit, { EnsoCardArt } from "./EnsoUnit";
 
 type Subject = {
   id: string;
@@ -88,6 +89,7 @@ const subjects: Subject[] = [
     tone: "general",
     general: true,
   },
+  { id: "enso", number: "06", title: "El Niño & La Niña", short: "Discover how Pacific winds and water reshape our climate.", depth: "Ocean & climate · Ages 13+", animal: "ENSO", scientific: "El Niño–Southern Oscillation", description: "", fact: "", tone: "enso" },
 ];
 
 const currentTopics = ["Upwelling", "Global Conveyor Belt", "Coriolis Effect", "Ekman transport"];
@@ -1507,6 +1509,8 @@ export default function Home() {
                 <div className={`card-placeholder ${subject.id === "currents" ? "has-subject-image" : ""}`} aria-hidden="true">
                   {subject.id === "currents" ? (
                     <img src="/assets/global-ocean-currents.png" alt="" />
+                  ) : subject.id === "enso" ? (
+                    <EnsoCardArt />
                   ) : (
                     <><span>{subject.tone === "sunlight" ? "☼" : subject.tone === "twilight" ? "◐" : "✦"}</span><small>Image placeholder</small></>
                   )}
@@ -1525,6 +1529,8 @@ export default function Home() {
             <span className="general-arrow">Explore <b>→</b></span>
           </button>
         </section>
+      ) : selected.id === "enso" ? (
+        <EnsoUnit onBack={() => setSelected(null)} />
       ) : selected.id === "currents" && currentTopic === null ? (
         <section className="currents-index" aria-labelledby="currents-title">
           <button className="back-button" onClick={() => setSelected(null)}><span>←</span> All subjects</button>
