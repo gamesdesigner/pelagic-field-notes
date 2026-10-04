@@ -1360,22 +1360,11 @@ function TurtleFeedingLab() {
       <div className="feeding-lab-heading">
         <span>Interactive feeding event</span>
         <h2 id="turtle-feeding-title">Follow a green turtle&apos;s meal</h2>
-        <p>Change the water temperature, season, and feeding ground. The detailed 20-second scene shows the turtle dipping its head to bite while its flipper, meadow, bubbles, light, and feeding sediment move independently.</p>
+        <p>Change the water temperature, season, and feeding ground. Every part of this 20-second illustration is drawn and animated from scratch: the turtle, plants, water, sand, bubbles, light, bites, and sediment.</p>
       </div>
 
       <div className={`feeding-scene season-${season.id} food-${food.id}`} role="img" aria-label={`Green sea turtle in a ${season.name.toLowerCase()} ${food.name.toLowerCase()} habitat`}>
-        <div key={`${food.id}-${season.id}-${statusPulse}`} className="feeding-cinemagraph">
-          <img className="feeding-detailed-art" src="/assets/green-sea-turtle-feeding-detailed.png" alt="Detailed green sea turtle biting seagrass in a dense, sunlit underwater meadow" />
-          <img className="feeding-art-head" src="/assets/green-sea-turtle-feeding-detailed.png" alt="" aria-hidden="true" />
-          <img className="feeding-art-flipper" src="/assets/green-sea-turtle-feeding-detailed.png" alt="" aria-hidden="true" />
-          <div className="feeding-caustics" aria-hidden="true" />
-          <div className="feeding-particles" aria-hidden="true">{Array.from({ length: 12 }, (_, index) => <i key={index} />)}</div>
-          <div className="feeding-vegetation" aria-hidden="true">
-            {Array.from({ length: 48 }, (_, index) => <i key={index} style={{ "--plant-delay": `${index * -0.19}s` } as CSSProperties} />)}
-          </div>
-          <span className="feeding-art-bubbles" aria-hidden="true"><i /><i /><i /><i /></span>
-          <div className="feeding-bite-cloud" aria-hidden="true">{Array.from({ length: 7 }, (_, index) => <i key={index} />)}</div>
-        </div>
+        <TurtleFeedingCanvas key={`${food.id}-${season.id}-${statusPulse}`} foodId={food.id} seasonId={season.id} temperature={temperature} noFood={noFood} />
         <div className="feeding-habitat-effect" aria-hidden="true" />
         <div className="feeding-specimen-card">
           <span>Species</span>
