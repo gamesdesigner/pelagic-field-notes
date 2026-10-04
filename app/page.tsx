@@ -89,7 +89,7 @@ const subjects: Subject[] = [
   },
 ];
 
-const currentTopics = ["Upwelling", "Global Conveyor Belt", "Coriolis Effect", "Wind, Rotation, and the Moving Ocean"];
+const currentTopics = ["Upwelling", "Global Conveyor Belt", "Coriolis Effect", "Ekman transport"];
 const sunlightTopics = ["General Marine Life in the Sun", "Green Sea Turtle"];
 
 const upwellingQuiz: QuizQuestion[] = [
