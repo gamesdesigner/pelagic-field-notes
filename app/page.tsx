@@ -7,6 +7,7 @@ import ConveyorBeltQuiz from "./ConveyorBeltQuiz";
 import EkmanCoastalDiagram from "./EkmanCoastalDiagram";
 import EnsoUnit, { EnsoCardArt } from "./EnsoUnit";
 import TurtleFeedingScene from "./TurtleFeedingScene";
+import GreatWhiteSharkLesson, { GreatWhiteSharkArt } from "./GreatWhiteSharkLesson";
 
 type Subject = {
   id: string;
@@ -93,7 +94,7 @@ const subjects: Subject[] = [
 ];
 
 const currentTopics = ["Upwelling", "Global Conveyor Belt", "Coriolis Effect", "Ekman transport", "El Niño & La Niña"];
-const sunlightTopics = ["General Marine Life in the Sun", "Green Sea Turtle"];
+const sunlightTopics = ["General Marine Life in the Sun", "Green Sea Turtle", "Great White Shark"];
 
 const upwellingQuiz: QuizQuestion[] = [
   { prompt: "What causes moving ocean water to deflect as Earth rotates?", answer: "The Coriolis Effect", options: ["The Coriolis Effect", "Marine snow", "Brine rejection", "The thermocline"] },
@@ -1254,10 +1255,10 @@ export default function Home() {
               <button className={`current-subject-card sunlight-topic-${index + 1}`} key={topic} onClick={() => setCurrentTopic(index)}>
                 <span className="card-number">{String(index + 1).padStart(2, "0")}</span>
                 <div className="current-card-art sunlight-topic-art has-topic-image" aria-hidden="true">
-                  <img
+                  {index === 2 ? <GreatWhiteSharkArt /> : <img
                     src={index === 0 ? "/assets/sunlight/marine-life-in-sunlight.png" : "/assets/turtles/green-turtle-grazing.png"}
                     alt=""
-                  />
+                  />}
                 </div>
                 <div className="card-copy"><span>Sunlight zone</span><h2>{topic}</h2><p>Click to reveal this topic.</p></div>
                 <span className="card-arrow">↗</span>
@@ -1360,7 +1361,7 @@ export default function Home() {
               <>
                 <p className="eyebrow">Marine Life in Sunlight · Topic {Number(currentTopic) + 1}</p>
                 <h1 id="detail-title">{sunlightTopics[currentTopic as number]}</h1>
-                {currentTopic === 0 ? (
+                {currentTopic === 2 ? <GreatWhiteSharkLesson /> : currentTopic === 0 ? (
                   <>
                   <section className="sunlight-reef-hero" aria-label="Breaking waves above a shallow coral reef in the sunlight zone">
                     <div>
