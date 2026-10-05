@@ -7,8 +7,8 @@ import ConveyorBeltQuiz from "./ConveyorBeltQuiz";
 import EkmanCoastalDiagram from "./EkmanCoastalDiagram";
 import EnsoUnit, { EnsoCardArt } from "./EnsoUnit";
 import TurtleFeedingScene from "./TurtleFeedingScene";
-import GreatWhiteSharkLesson, { GreatWhiteSharkArt } from "./GreatWhiteSharkLesson";
-import CommonCuttlefishLesson, { CommonCuttlefishArt } from "./CommonCuttlefishLesson";
+import GreatWhiteSharkLesson from "./GreatWhiteSharkLesson";
+import CommonCuttlefishLesson from "./CommonCuttlefishLesson";
 
 type Subject = {
   id: string;
@@ -1256,10 +1256,10 @@ export default function Home() {
               <button className={`current-subject-card sunlight-topic-${index + 1}`} key={topic} onClick={() => setCurrentTopic(index)}>
                 <span className="card-number">{String(index + 1).padStart(2, "0")}</span>
                 <div className="current-card-art sunlight-topic-art has-topic-image" aria-hidden="true">
-                  {index === 3 ? <CommonCuttlefishArt /> : index === 2 ? <GreatWhiteSharkArt /> : <img
-                    src={index === 0 ? "/assets/sunlight/marine-life-in-sunlight.png" : "/assets/turtles/green-turtle-grazing.png"}
+                  <img
+                    src={index === 3 ? "/assets/sunlight/common-cuttlefish.png" : index === 2 ? "/assets/sunlight/great-white-shark.png" : index === 0 ? "/assets/sunlight/marine-life-in-sunlight.png" : "/assets/turtles/green-turtle-grazing.png"}
                     alt=""
-                  />}
+                  />
                 </div>
                 <div className="card-copy"><span>Sunlight zone</span><h2>{topic}</h2><p>Click to reveal this topic.</p></div>
                 <span className="card-arrow">↗</span>

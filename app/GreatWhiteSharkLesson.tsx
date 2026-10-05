@@ -28,7 +28,7 @@ export function GreatWhiteSharkArt() {
 export default function GreatWhiteSharkLesson() {
   return <>
     <figure className="great-white-hero" aria-label="Illustration of a great white shark swimming through sunlit water">
-      <GreatWhiteSharkArt />
+      <img className="sunlight-animal-hero-image" src="/assets/sunlight/great-white-shark.png" alt="Great white shark with a gray back and white underside swimming beneath sunbeams in blue coastal water" />
       <figcaption><span>Featured predator</span><strong>Great White Shark</strong><em>Carcharodon carcharias</em></figcaption>
     </figure>
     <article className="current-article shark-article" aria-label="Great White Shark lesson">

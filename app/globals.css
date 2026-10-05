@@ -257,6 +257,7 @@ h1,h2 { font-family:Georgia,"Times New Roman",serif; font-weight:400; letter-spa
 .sunlight-topic-3 .current-card-art { background:#164e65; }
 .great-white-hero { position:relative; max-width:1280px; margin:18px 0 64px; background:#164e65; overflow:hidden; }
 .great-white-hero>.great-white-art,.cuttlefish-hero>.cuttlefish-art { height:auto; }
+.sunlight-animal-hero-image { display:block; width:100%; height:auto; }
 .great-white-hero figcaption { position:absolute; left:5%; bottom:7%; display:grid; gap:8px; padding:18px 24px; background:#082e49e6; border:1px solid #ffffff60; color:#f4f1e7; }
 .great-white-hero figcaption span { color:#f7cf78; font-size:12px; letter-spacing:.1em; text-transform:uppercase; }
 .great-white-hero figcaption strong { font-size:clamp(24px,3vw,42px); font-weight:400; }
