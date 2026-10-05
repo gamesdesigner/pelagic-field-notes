@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import EnsoQuiz from "./EnsoQuiz";
 
 export function EnsoCardArt() {
   return <svg viewBox="0 0 360 250" className="enso-card-art" aria-hidden="true">
@@ -131,5 +132,6 @@ export default function EnsoUnit({ onBack }: { onBack: () => void }) {
       <p className="enso-sources">Explore the science: <a href="https://oceanservice.noaa.gov/facts/ninonina.html" target="_blank" rel="noreferrer">NOAA’s ENSO overview</a> · <a href="https://www.noaa.gov/jetstream/tropical/enso" target="_blank" rel="noreferrer">Ocean–atmosphere connections</a> · <a href="https://pmel.noaa.gov/elnino/lanina-faq/" target="_blank" rel="noreferrer">La Niña questions</a> · <a href="https://www.noaa.gov/jetstream/enso_impacts" target="_blank" rel="noreferrer">Weather effects</a></p>
     </div>
     <EnsoAnimation />
+    <EnsoQuiz />
   </section>;
 }

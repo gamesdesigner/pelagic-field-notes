@@ -568,6 +568,10 @@ h1,h2 { font-family:Georgia,"Times New Roman",serif; font-weight:400; letter-spa
 .upwelling-quiz { min-height:100svh; display:grid; place-items:center; padding:clamp(54px,8vw,110px) clamp(22px,7vw,100px); color:var(--ink); background:linear-gradient(145deg,#f5f2e9,#e2ebe5); }
 .coriolis-quiz { width:100%; background:linear-gradient(145deg,#eef3f3,#dce9ec); }
 .conveyor-quiz { width:100%; background:linear-gradient(145deg,#f5f2e9,#dce9ec); }
+.enso-quiz { padding:clamp(32px,6vw,80px) clamp(16px,5vw,64px); background:linear-gradient(145deg,#f5f2e9,#dce9ec); }
+.enso-quiz .quiz-shell { margin:auto; }
+.enso-quiz .quiz-feedback p { margin:0; line-height:1.5; }
+.enso-quiz .quiz-feedback p+p { margin-top:10px; }
 .conveyor-quiz .quiz-feedback p { margin:0; }
 .conveyor-quiz .quiz-feedback p+p { margin-top:10px; }
 .conveyor-quiz .quiz-finish h3 { font-size:24px; font-weight:400; }
