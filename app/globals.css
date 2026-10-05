@@ -271,6 +271,13 @@ h1,h2 { font-family:Georgia,"Times New Roman",serif; font-weight:400; letter-spa
 .feeding-lab-heading p { max-width:760px; margin:0 0 28px; color:var(--muted); font-size:18px; line-height:1.55; }
 .feeding-scene { position:relative; height:clamp(590px,62vw,780px); overflow:hidden; border:1px solid rgba(7,62,77,.3); background:linear-gradient(180deg,#65d5df 0%,#1688a7 48%,#07546e 74%,#c5aa72 74.3%,#8a6d43 100%); color:white; box-shadow:0 30px 70px rgba(4,46,65,.2); transition:filter .55s ease,background-color .55s ease; }
 .feeding-animation-canvas { position:absolute; z-index:2; inset:0; display:block; width:100%; height:100%; }
+.feeding-3d-fallback { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+.feeding-frame-preview { position:absolute; z-index:3; inset:0; width:100%; height:100%; object-fit:contain; }
+.feeding-scrubber { position:absolute; z-index:7; right:24px; bottom:110px; display:grid; gap:8px; width:190px; padding:12px; background:#073344d9; font-size:13px; }.feeding-scrubber input { width:100%; accent-color:#d4d78d; }
+@media(max-width:620px){.feeding-scrubber{right:12px;bottom:185px;width:150px;}}
+.feeding-stage-control { position:absolute; z-index:7; left:24px; bottom:65px; display:flex; align-items:center; gap:18px; padding:12px 16px; background:rgba(2,39,55,.8); border:1px solid #ffffff50; font-size:16px; }
+.feeding-stage-control button { border:1px solid #c4ddd4; background:#174d5c; color:#fff; padding:8px 12px; cursor:pointer; border-radius:3px; }
+@media(max-width:620px) { .feeding-stage-control { left:12px; right:12px; bottom:72px; flex-wrap:wrap; gap:8px; font-size:14px; }.feeding-specimen-card { display:none; } }
 .feeding-cinemagraph { position:absolute; z-index:2; inset:0; overflow:hidden; }
 .feeding-detailed-art,.feeding-art-head,.feeding-art-flipper { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; }
 .feeding-detailed-art { z-index:1; }
