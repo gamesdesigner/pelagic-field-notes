@@ -181,6 +181,7 @@ export default function TurtleFeedingScene({ foodId, seasonId, temperature, noFo
     let elapsed=0, previous=performance.now(), frame=0, visible=true, lastStage="", lastRender=0, dirty=true;
     const smooth=(a:number,b:number,value:number)=>{const t=THREE.MathUtils.clamp((value-a)/(b-a),0,1);return t*t*(3-2*t);};
     const activity=THREE.MathUtils.clamp((temperature-17)/10,.3,1.15);
+    const motion=temperature<10?.05:1;
     const foraging=!noFood && temperature>=21 && temperature<=30;
     const biteCenters=[6.6,10.6,14.6];
     const mouthWorld=new THREE.Vector3();
@@ -201,9 +202,9 @@ export default function TurtleFeedingScene({ foodId, seasonId, temperature, noFo
         bits=Math.max(bits,smooth(center+.15,center+.3,t)*(1-smooth(center+.6,center+1.15,t)));
       });
       if(!foraging){lower=0;settled=0;open=0;pull=0;held=0;bits=0;}
-      turtle.position.set(-.35*Math.cos(t*Math.PI/10)-pull*.1,1.52-settled*.23+Math.sin(t*Math.PI/10)*.04,0);
+      turtle.position.set(-.35*Math.cos(t*Math.PI/10)*motion-pull*.1,1.52-settled*.23+Math.sin(t*Math.PI/10)*.04*motion,0);
       turtle.rotation.z=-.06-settled*.08-lower*.08+pull*.035;
-      turtle.rotation.y=Math.sin(t*Math.PI/10)*.035;
+      turtle.rotation.y=Math.sin(t*Math.PI/10)*.035*motion;
       neck.rotation.z=-lower*.3+pull*.12;
       neck.position.x=1.32+lower*.05-pull*.09;
       jaw.rotation.z=-open*.3;
@@ -211,9 +212,9 @@ export default function TurtleFeedingScene({ foodId, seasonId, temperature, noFo
       heldFood.visible=held>.1 && !noFood && foodId!=="juvenile-food";
       heldFood.scale.setScalar(Math.max(.05,held));heldFood.rotation.z=-pull*.45;
       flippers.forEach(({rig,front,side},i)=>{
-        const swim=Math.sin(t*Math.PI*.6*activity+(i%2)*.35);
+        const swim=Math.sin(t*Math.PI*.6*activity+(i%2)*.35)*motion;
         rig.rotation.x=side*(front?.38+swim*.3*(1-settled*.8):.1+swim*.08);
-        rig.rotation.y=side*(front?-.3+swim*.18*(1-settled*.7):.24+Math.sin(t*1.1)*.08);
+        rig.rotation.y=side*(front?-.3+swim*.18*(1-settled*.7):.24+Math.sin(t*1.1)*.08*motion);
         rig.rotation.z=front?-.12+settled*.13:0;
       });
       const cropped=foraging?biteCenters.reduce((value,center)=>value+smooth(center+.02,center+.26,t),0):0;
@@ -226,7 +227,7 @@ export default function TurtleFeedingScene({ foodId, seasonId, temperature, noFo
       if(prey[0]){prey[0].position.set(2.65,.6,0).lerp(mouthWorld,held);prey[0].scale.setScalar(Math.max(.02,1-smooth(6.9,7.4,t))*.13);if(t>17)prey[0].scale.setScalar(smooth(17,20,t)*.13);}
       particles.rotation.y=Math.sin(t*Math.PI/10)*.025;
       lightRibbons.forEach((beam,i)=>{beam.position.x=(i-4)*2+Math.sin(t*Math.PI/10+i)*.16;});
-      const label=noFood?"Resting over bare sand":!foraging?temperature<21?"Resting in cool water":"Resting in very warm water":foodId==="juvenile-food"?"Tracking drifting prey":!playback.current?"Paused":t<4.8?"Approach & settle":open>.1?"Open beak & grip":pull>.1?"Pull & swallow":lower>.2?"Lower head to the meadow":t>16?"Lift & glide":"Rest between bites";
+      const label=temperature<10?"Cold-stunning risk — feeding stopped":noFood?"Resting over bare sand":!foraging?temperature<21?"Resting in cool water":"Resting in very warm water":foodId==="juvenile-food"?"Tracking drifting prey":!playback.current?"Paused":t<4.8?"Approach & settle":open>.1?"Open beak & grip":pull>.1?"Pull & swallow":lower>.2?"Lower head to the meadow":t>16?"Lift & glide":"Rest between bites";
       if(lastStage!==label){if(stage.current)stage.current.textContent=label;element.dataset.feedingStage=label;lastStage=label;}
       element.dataset.loopTime=t.toFixed(2);
       if(timeline.current)timeline.current.style.transform=`scaleX(${t/20})`;

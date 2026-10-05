@@ -387,6 +387,8 @@ h1,h2 { font-family:Georgia,"Times New Roman",serif; font-weight:400; letter-spa
 .food-control button:hover,.food-control button:focus-visible,.season-control button:hover,.season-control button:focus-visible { border-color:#f5ce79; }
 .food-control button.selected,.season-control button.selected { border-color:#f5ce79; background:#f5ce79; color:#173f45; }
 .season-control button.selected small { color:#456069; }
+.feeding-season-note { margin:0; padding:24px clamp(24px,3vw,38px); border:1px solid var(--line); background:#f4f1e7; color:var(--muted); font-size:15px; line-height:1.6; }
+.feeding-season-note a { color:#37636a; text-decoration:underline; }
 .feeding-readout { display:grid; grid-template-columns:repeat(3,1fr); border-right:1px solid var(--line); border-bottom:1px solid var(--line); }
 .feeding-readout article { min-height:245px; padding:clamp(24px,3vw,38px); border-left:1px solid var(--line); background:#f4f1e7; }
 .feeding-readout span { color:var(--coral); font-size:12px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; }

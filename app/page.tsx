@@ -1015,10 +1015,10 @@ const turtleFoods = [
 ];
 
 const turtleSeasons = [
-  { id: "spring", name: "Spring", note: "Fresh growth", scene: "New seagrass blades and active regrowth" },
-  { id: "summer", name: "Summer", note: "Dense meadow", scene: "Warm water and the fullest meadow cover" },
-  { id: "autumn", name: "Autumn", note: "Thinning meadow", scene: "Older blades and more open feeding patches" },
-  { id: "winter", name: "Winter", note: "Sparse growth", scene: "Cooler water and reduced plant growth" },
+  { id: "spring", name: "Spring", note: "Fresh growth · 15–24°C", scene: "New seagrass blades and active regrowth", min: 15, max: 24, temperature: 20 },
+  { id: "summer", name: "Summer", note: "Dense meadow · 24–32°C", scene: "Warm water and the fullest meadow cover", min: 24, max: 32, temperature: 27 },
+  { id: "autumn", name: "Autumn", note: "Thinning meadow · 10–23°C", scene: "Older blades and more open feeding patches", min: 10, max: 23, temperature: 18 },
+  { id: "winter", name: "Winter", note: "Sparse growth · 0–10°C", scene: "Cold water and reduced plant growth", min: 0, max: 10, temperature: 5 },
 ];
 
 function TurtleFeedingLab() {
@@ -1028,15 +1028,21 @@ function TurtleFeedingLab() {
   const [statusPulse, setStatusPulse] = useState(0);
   const food = turtleFoods.find((item) => item.id === foodId) ?? turtleFoods[0];
   const season = turtleSeasons.find((item) => item.id === seasonId) ?? turtleSeasons[1];
-  const activityLabel = temperature < 21 ? "Sluggish in cool water" : temperature < 24 ? "Warming up" : temperature <= 29 ? "Active grazer" : "Slowing in very warm water";
-  const diveTime = temperature < 21 ? "Long, low-energy rest" : temperature <= 29 ? "Regular feeding dive" : "More frequent recovery pauses";
+  const activityLabel = temperature < 10 ? "Dangerously cold water" : temperature < 21 ? "Sluggish in cool water" : temperature < 24 ? "Warming up" : temperature <= 29 ? "Active grazer" : "Slowing in very warm water";
+  const diveTime = temperature < 10 ? "Cold-stunning risk — feeding stops" : temperature < 21 ? "Long, low-energy rest" : temperature <= 29 ? "Regular feeding dive" : "More frequent recovery pauses";
   const noFood = food.id === "bare-ground";
-  const status = noFood ? "Resting — bare sand" : temperature < 21 ? "Cold — conserving energy" : temperature > 30 ? "Very warm — resting" : "Feeding — active";
-  const statusTone = noFood ? "searching" : temperature < 21 || temperature > 30 ? "caution" : "feeding";
+  const status = temperature < 10 ? "Cold-stunning risk — inactive" : noFood ? "Resting — bare sand" : temperature < 21 ? "Cold — conserving energy" : temperature > 30 ? "Very warm — resting" : "Feeding — active";
+  const statusTone = temperature < 10 ? "caution" : noFood ? "searching" : temperature < 21 || temperature > 30 ? "caution" : "feeding";
 
   const changeTemperature = (value: number) => { setTemperature(value); setStatusPulse((pulse) => pulse + 1); };
   const changeFood = (value: string) => { setFoodId(value); setStatusPulse((pulse) => pulse + 1); };
-  const changeSeason = (value: string) => { setSeasonId(value); setStatusPulse((pulse) => pulse + 1); };
+  const changeSeason = (value: string) => {
+    const nextSeason = turtleSeasons.find((item) => item.id === value);
+    if (!nextSeason) return;
+    setSeasonId(value);
+    setTemperature(nextSeason.temperature);
+    setStatusPulse((pulse) => pulse + 1);
+  };
 
   return (
     <section className="turtle-feeding-lab" aria-labelledby="turtle-feeding-title">
@@ -1064,8 +1070,8 @@ function TurtleFeedingLab() {
       <div className="feeding-controls">
         <label className="temperature-control">
           <span>Water temperature <output>{temperature}°C</output></span>
-          <input type="range" min="18" max="32" step="1" value={temperature} onChange={(event) => changeTemperature(Number(event.target.value))} />
-          <small>Cooler 18°C <b /> Warmer 32°C</small>
+          <input type="range" aria-label="Water temperature" min={season.min} max={season.max} step="1" value={temperature} onChange={(event) => changeTemperature(Number(event.target.value))} />
+          <small>Cooler {season.min}°C <b /> Warmer {season.max}°C</small>
         </label>
         <div className="season-control">
           <span>Choose a season</span>
@@ -1085,6 +1091,7 @@ function TurtleFeedingLab() {
         </div>
       </div>
 
+      <p className="feeding-season-note">Selecting a season sets its example water temperature; use the slider to explore that season&apos;s range. These illustrate a coast with strong seasonal cooling. Actual temperatures depend on location. Below 10°C, sea turtles can become dangerously weak and inactive through <a href="https://www.fisheries.noaa.gov/national/marine-life-distress/cold-stunning-and-sea-turtles-frequently-asked-questions" target="_blank" rel="noreferrer">cold-stunning</a>.</p>
       <div className="feeding-readout" aria-live="polite">
         <article><span>Food selected</span><strong>{food.name}</strong><em>{food.scientific}</em><p>{food.meal}</p></article>
         <article><span>How it eats</span><strong>{noFood ? "Search for a new patch" : "Beak, bite, and tear"}</strong><p>{food.method}</p></article>
