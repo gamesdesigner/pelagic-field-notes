@@ -1,4 +1,6 @@
 import { useId } from "react";
+import SharkSwimmingLab from "./SharkSwimmingLab";
+import SharkQuiz from "./SharkQuiz";
 
 export function GreatWhiteSharkArt() {
   const id = useId();
@@ -51,5 +53,7 @@ export default function GreatWhiteSharkLesson() {
       <p>Great white sharks face threats from accidental capture in fishing gear, illegal hunting, pollution, and declining prey populations. Because they reproduce slowly and produce relatively few young, their populations can take many years to recover.</p>
       <p>Studying great white sharks helps marine biologists understand migration, predator behavior, ocean food webs, and the overall health of marine ecosystems.</p>
     </article>
+    <SharkSwimmingLab />
+    <SharkQuiz />
   </>;
 }
