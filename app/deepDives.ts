@@ -1,6 +1,20 @@
+import { expandedSections } from "./deepDiveExtensions";
+
 export type LessonId = "upwelling" | "conveyor" | "coriolis" | "ekman" | "enso" | "sunlight" | "turtle" | "shark" | "cuttlefish" | "twilight" | "midnight" | "general";
+export type DeepDiveSection = { heading: string; paragraphs: string[]; sources?: string[] };
 type DeepDive = { title: string; deck: string; abstract: string; sections: {heading: string; paragraphs: string[]; sources?: string[]}[]; terms: {word: string; definition: string}[]; question: string };
 export const readingSources: Record<string, {label: string; url: string}> = {
+  coastalChem:{label:"NOAA NCCOS · Coastal chemistry interactions",url:"https://coastalscience.noaa.gov/science-areas/climate-change/coastal-ocean-acidification/"},
+  overturningEnergy:{label:"Rahmstorf · Ocean circulation and climate research",url:"https://www.whoi.edu/fileserver.do?id=289584&p=279389&pt=2"},
+  rossby:{label:"NOAA · Oceanic Rossby waves",url:"https://oceanservice.noaa.gov/facts/rossby-wave.html"},
+  kelvin:{label:"NOAA · Kelvin waves",url:"https://oceanservice.noaa.gov/facts/kelvin-waves.html"},
+  ensoSpring:{label:"NOAA · Research on the spring predictability barrier",url:"https://repository.library.noaa.gov/view/noaa/40128"},
+  turtleEarlyHabitat:{label:"NOAA · Green turtle life-stage habitats",url:"https://www.fisheries.noaa.gov/s3/2023-07/DraftGreenTurtleCH-BiologicalReport-June2023.pdf"},
+  turtleSexResearch:{label:"NOAA · Green turtle sex-ratio research",url:"https://www.fisheries.noaa.gov/news/rising-temperatures-turning-major-sea-turtle-population-female"},
+  sharkWarm:{label:"Monterey Bay Aquarium · White shark physiology",url:"https://www.montereybayaquarium.org/animals-the-ocean/animals-a-to-z/white-shark"},
+  midwaterRespiration:{label:"MBARI · Measuring respiration in midwater",url:"https://www.mbari.org/technology/midwater-respirometer-system-2/"},
+  deepOxygen:{label:"MBARI · Oxygen and deep-sea respiration",url:"https://www.mbari.org/news/increasing-carbon-dioxide-and-decreasing-oxygen-in-the-oceans-will-make-it-harder-for-deep-sea-animals-to-breathe/"},
+  ventFood:{label:"MBARI · Chemosynthetic deep-sea communities",url:"https://www.mbari.org/news/deep-sea-vent-animals-not-as-isolated-as-they-seem/"},
   turtleNavigation:{label:"Green turtle navigation experiment",url:"https://pubmed.ncbi.nlm.nih.gov/22046329/"},
   turtleSex:{label:"NOAA · Temperature-dependent sex determination",url:"https://oceanservice.noaa.gov/facts/temperature-dependent.html"},
   cuttlebone:{label:"Cuttlebone mechanics · PNAS research",url:"https://pmc.ncbi.nlm.nih.gov/articles/PMC7519314/"},
@@ -424,3 +438,12 @@ general: {
  question:"Design a water-column study that tests whether a surface bloom changes food availability at depth. What would you measure, at which depths, and over what sequence of observations?"
 },
 };
+
+// Keep the introductory mechanisms, add the extended science, then finish with synthesis.
+for (const lessonId of Object.keys(deepDives) as LessonId[]) {
+  const original = deepDives[lessonId].sections;
+  deepDives[lessonId].sections = [...original.slice(0, 5), ...expandedSections[lessonId], ...original.slice(5)].map((section, index) => ({
+    ...section,
+    heading: `${index + 1}. ${section.heading.replace(/^\d+\.\s*/, "")}`,
+  }));
+}

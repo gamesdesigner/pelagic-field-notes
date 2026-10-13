@@ -8,7 +8,8 @@ export default function LessonReading({ lessonId, children }: { lessonId: Lesson
   const root = useRef<HTMLDivElement>(null);
   const id = useId();
   const lesson = deepDives[lessonId];
-  const words = [lesson.abstract, ...lesson.sections.flatMap(section => section.paragraphs)].join(" ").split(/\s+/).length;
+  const bodyWords = lesson.sections.flatMap(section => section.paragraphs).join(" ").split(/\s+/).length;
+  const words = bodyWords + lesson.abstract.split(/\s+/).length;
   function selectLevel(next: 1 | 2) {
     if (next === level) return;
     const returnToArticle = (root.current?.getBoundingClientRect().top ?? 0) < 0;
@@ -23,7 +24,7 @@ export default function LessonReading({ lessonId, children }: { lessonId: Lesson
     <div id={`${id}-short`} hidden={level !== 1}>{children}</div>
     <div id={`${id}-deep`} hidden={level !== 2}>
       {level === 2 && <article className="deep-dive-article" aria-labelledby={`${id}-title`}>
-        <header><p className="deep-dive-eyebrow">Level 2 · High-school science · {Math.ceil(words / 180)} minute read</p><h2 id={`${id}-title`}>{lesson.title}</h2><p className="deep-dive-deck">{lesson.deck}</p></header>
+        <header><p className="deep-dive-eyebrow">Level 2 · High-school science · {bodyWords.toLocaleString("en-US")} words · {Math.ceil(words / 180)} minute read</p><h2 id={`${id}-title`}>{lesson.title}</h2><p className="deep-dive-deck">{lesson.deck}</p></header>
         <section className="deep-dive-abstract" aria-labelledby={`${id}-abstract`}><h3 id={`${id}-abstract`}>Abstract</h3><p>{lesson.abstract}</p></section>
         <nav className="deep-dive-contents" aria-label="In this article"><strong>In this article</strong><ol>{lesson.sections.map((section, index) => <li key={section.heading}><a href={`#${id}-section-${index}`}>{section.heading}</a></li>)}</ol></nav>
         {lesson.sections.map((section, index) => <section className="deep-dive-section" key={section.heading} aria-labelledby={`${id}-section-${index}`}><h3 id={`${id}-section-${index}`}>{section.heading}</h3>{section.paragraphs.map((paragraph, p) => <p key={p}>{paragraph}</p>)}{section.sources && <p className="deep-dive-citation">Explore the evidence: {section.sources.map((key, s) => <span key={key}>{s > 0 ? " · " : ""}<a href={readingSources[key].url} target="_blank" rel="noreferrer">{readingSources[key].label}</a></span>)}</p>}</section>)}
