@@ -9,6 +9,7 @@ import EnsoUnit, { EnsoCardArt } from "./EnsoUnit";
 import TurtleFeedingScene from "./TurtleFeedingScene";
 import GreatWhiteSharkLesson from "./GreatWhiteSharkLesson";
 import CommonCuttlefishLesson from "./CommonCuttlefishLesson";
+import LessonReading from "./LessonReading";
 
 type Subject = {
   id: string;
@@ -1277,7 +1278,7 @@ export default function Home() {
                 <p className="eyebrow">Ocean Currents · Topic {Number(currentTopic) + 1}</p>
                 <h1 id="detail-title">{currentTopics[currentTopic as number]}</h1>
                 {currentTopic === 0 ? (
-                  <article className="current-article" role="tabpanel">
+                  <LessonReading key="upwelling" lessonId="upwelling"><article className="current-article">
                     <h2>The Physics of Moving Water</h2>
                     <p>In the open ocean, wind does not simply push water in a straight line. Because Earth rotates on its axis, moving objects are deflected across the globe. This phenomenon is known as the <strong>Coriolis Effect</strong>. In the Northern Hemisphere, water is deflected to the <strong>right</strong> of the wind&apos;s direction; in the Southern Hemisphere, it is deflected to the <strong>left</strong>.</p>
                     <p>When strong coastal winds blow parallel to a coastline, the Coriolis Effect—combined with friction between layers of water—creates a net movement of surface water away from the coast at a 90-degree angle. This structural bulk movement of water is called <strong>Ekman Transport</strong>. As the warm, sunlit surface water is systematically stripped away and pushed offshore, it leaves behind a physical void. To fill this space, dense, cold water from the deep ocean is drawn upward toward the sunlit surface layer. This process is called <strong>ocean upwelling</strong>.</p>
@@ -1291,9 +1292,9 @@ export default function Home() {
                       <li><strong>Silicates (SiO<sub>4</sub><sup>4−</sup>):</strong> Crucial for microscopic organisms like <strong>diatoms</strong>, which use silica to construct glass-like protective shells.</li>
                     </ul>
                     <p>When upwelling occurs, it acts like an ecological elevator, hoisting these concentrated nutrients up into the photic zone. Suddenly exposed to sunlight, microscopic marine plants called <strong>phytoplankton</strong> rapidly consume the nutrients, fueling explosive population growths known as <strong>algal blooms</strong>. These microscopic cells form the foundational base of the marine food web, instantly attracting zooplankton, small baitfish, and massive top-tier predators like whales, sharks, and commercial fish stocks.</p>
-                  </article>
+                  </article></LessonReading>
                 ) : currentTopic === 1 ? (
-                  <article className="current-article conveyor-article" role="tabpanel">
+                  <LessonReading key="conveyor" lessonId="conveyor"><article className="current-article conveyor-article">
                     <h2>A Planet-Wide Current System</h2>
                     <p>Deep beneath the ocean&apos;s surface lies a massive current system moving more than 20 million tons of water every second (the equivalent of roughly 8,000 Olympic swimming pools). Formally called <strong>thermohaline circulation</strong>, this network is driven entirely by differences in water temperature (&quot;thermo&quot;) and saltiness (&quot;haline&quot;), which dictate seawater density. These forces set off a planet-wide loop that takes roughly 1,000 years to complete a single circuit.</p>
                     <p>The journey begins in the frigid North Atlantic Ocean near Greenland and Iceland. Intense polar winds chill the surface water, causing it to contract and become denser. Simultaneously, sea ice forms on the surface, leaving salt behind in a process known as <strong>brine rejection</strong>. This remaining unfrozen water becomes extraordinarily salty and cold. Heavy and packed tight, this dense water mass sinks rapidly toward the abyss, creating a downwelling zone known as <strong>North Atlantic Deep Water (NADW)</strong>.</p>
@@ -1310,9 +1311,9 @@ export default function Home() {
                     <h2>A Vulnerable Engine</h2>
                     <p>Today, marine scientists are watching the North Atlantic with growing concern. Human-driven climate change is causing global temperatures to rise, leading to rapid melting of the Greenland Ice Sheet and Arctic sea ice. This melting sends massive torrents of fresh water flooding into the North Atlantic downwelling zone.</p>
                     <p>Because fresh water lacks salt, it is significantly less dense than salty ocean water. Furthermore, rising temperatures mean the surface water is not cooling down as intensely as it used to. This combination creates a buoyant fresh water cap on the ocean surface. If the surface water is too light to sink, the downwelling engine stalls. Without the heavy sinking water to push the deep current forward, the entire global conveyor belt could slow down or stop completely. A collapse of this system could trigger rapid climate shifts, causing plunging temperatures in Europe, altered global rainfall patterns, and a collapse of marine ecosystems due to starved nutrient cycles.</p>
-                  </article>
+                  </article></LessonReading>
                 ) : currentTopic === 2 ? (
-                  <article className="current-article coriolis-article" role="tabpanel">
+                  <LessonReading key="coriolis" lessonId="coriolis"><article className="current-article coriolis-article">
                     <h2>Section 1: The Coriolis Effect</h2>
                     <p>The <strong>Coriolis effect</strong> is the apparent deflection of freely moving objects caused entirely by the rotation of the Earth. When winds, ocean currents, airplanes, or projectiles travel long distances across the globe, their paths appear to curve relative to the ground below. This phenomenon occurs because the observer is standing on a rotating planet, which creates the illusion of a sideways force acting on the moving object. In reality, there is no physical force pushing the object sideways; the deflection is a result of looking at a straight path from a spinning frame of reference.</p>
 
@@ -1324,9 +1325,9 @@ export default function Home() {
 
                     <h2>Section 4: Atmospheric and Technical Impacts</h2>
                     <p>This phenomenon directly dictates the structural behavior of large weather systems, ocean gyres, and long-range navigation. Hurricanes develop around zones of low atmospheric pressure where air converges from all directions. When surrounding air rushes toward the center in the Northern Hemisphere, the rightward deflection forces the wind to spin counterclockwise around the low-pressure system. Conversely, in the Southern Hemisphere, the leftward deflection causes hurricanes to spin clockwise. In addition to weather systems, long-range aerospace and marine navigation must account for this shift. Commercial flight paths and military guidance computer systems use mathematical corrections to offset the Earth&apos;s rotation so that aircraft do not drift hundreds of miles away from their destinations.</p>
-                  </article>
+                  </article></LessonReading>
                 ) : (
-                  <article className="current-article ekman-article" role="tabpanel">
+                  <LessonReading key="ekman" lessonId="ekman"><article className="current-article ekman-article">
                     <h2>Wind at the Surface</h2>
                     <p>When wind blows across the ocean, the ripples and waves at the surface appear to travel with it. The water itself behaves differently. Wind transfers energy to the uppermost layer through friction, but Earth&apos;s rotation turns that moving water away from the wind&apos;s path. The combined movement of the wind-driven upper ocean is called <strong>Ekman transport</strong>.</p>
                     <p>When the motion of the entire wind-influenced layer is added together, the net transport is about <strong>90 degrees to the right of the wind in the Northern Hemisphere</strong> and <strong>90 degrees to the left in the Southern Hemisphere</strong>. This sideways transport helps shape ocean circulation, climate, and biological productivity.</p>
@@ -1355,7 +1356,7 @@ export default function Home() {
                     <h2>Coastal Downwelling</h2>
                     <p>If the wind reverses, Ekman transport can push surface water toward the coast. Water piles up along the shoreline and is forced downward. This is <strong>coastal downwelling</strong>.</p>
                     <p>Downwelling does not bring deep nutrients into the sunlit zone, so it usually produces less surface biological growth than upwelling. However, it performs another important job by carrying oxygen-rich surface water into deeper parts of the ocean.</p>
-                  </article>
+                  </article></LessonReading>
                 )}
               </>
             ) : selected.id === "sunlight" ? (
@@ -1371,7 +1372,7 @@ export default function Home() {
                       <p>Light, waves, and warm shallow water power a reef community filled with producers, grazers, and predators.</p>
                     </div>
                   </section>
-                  <article className="current-article sunlight-article" role="tabpanel">
+                  <LessonReading key="sunlight" lessonId="sunlight"><article className="current-article sunlight-article">
                     <h2>The Ocean&apos;s Brightest Layer</h2>
                     <p>The sunlight zone, also called the <strong>epipelagic zone</strong>, extends from the surface to roughly 200 metres deep. Enough light reaches this layer for photosynthesis, making it the most productive and familiar part of the open ocean. Its exact depth changes with water clarity, weather, season, and location.</p>
                     <p>Although this zone is only a thin layer compared with the full depth of the sea, it contains most of the ocean&apos;s photosynthetic life. Warm temperatures, abundant light, and contact with the atmosphere create conditions that support plankton, fish, reptiles, seabirds, and marine mammals.</p>
@@ -1389,7 +1390,7 @@ export default function Home() {
 
                     <h2>A Productive but Vulnerable Habitat</h2>
                     <p>Sunlit marine ecosystems are affected by warming water, pollution, overfishing, habitat damage, and changes in ocean chemistry. Protecting seagrass meadows, coral reefs, coastal wetlands, and open-ocean food webs helps preserve both marine biodiversity and the benefits people receive from the sea.</p>
-                  </article>
+                  </article></LessonReading>
                   <SunlightZoneLab />
                   </>
                 ) : (
@@ -1401,7 +1402,7 @@ export default function Home() {
                       <p>Adult green turtles graze through shallow seagrass meadows, clipping blades with their strong beaks and encouraging tender new growth.</p>
                     </div>
                   </section>
-                  <article className="current-article turtle-article" role="tabpanel">
+                  <LessonReading key="turtle" lessonId="turtle"><article className="current-article turtle-article">
                     <h2>A Reptile of Warm, Shallow Seas</h2>
                     <p>The <strong>green sea turtle</strong> (<em>Chelonia mydas</em>) lives in tropical and subtropical waters around the world. Adults are often found in sunlit coastal habitats such as seagrass meadows, lagoons, bays, and coral reefs. Their streamlined shells and powerful front flippers allow them to travel efficiently through the water.</p>
                     <p>Unlike fish, sea turtles breathe air. A green turtle must return to the surface for oxygen, although a resting turtle can remain underwater far longer than an actively swimming one. It also depends on sunlight-warmed water because, like other reptiles, it cannot regulate its body temperature internally in the same way a mammal can.</p>
@@ -1420,7 +1421,7 @@ export default function Home() {
                     <h2>Why Green Turtles Matter</h2>
                     <p>Green turtles connect beaches, reefs, seagrass meadows, and the open ocean during their lives. By grazing, migrating, and transporting nutrients, they help link several parts of the sunlit marine ecosystem.</p>
                     <p>Protecting nesting beaches, reducing plastic waste, using turtle-safe fishing methods, and conserving coastal feeding grounds all improve their chance of survival. A healthy green turtle population is also a sign that the surrounding coastal ecosystem is functioning well.</p>
-                  </article>
+                  </article></LessonReading>
                   <TurtleFeedingLab />
                   <TurtleQuiz />
                   </>
@@ -1431,8 +1432,10 @@ export default function Home() {
                 <p className="eyebrow">Featured animal</p>
                 <h1 id="detail-title">{selected.animal}</h1>
                 <p className="scientific">{selected.scientific}</p>
+                <LessonReading key={selected.id} lessonId={selected.id as "twilight" | "midnight" | "general"}>
                 <p className="animal-description">{selected.description}</p>
                 <aside className="field-note"><span>✦</span><div><strong>Field note</strong><p>{selected.fact}</p></div></aside>
+                </LessonReading>
               </>
             )}
           </div>

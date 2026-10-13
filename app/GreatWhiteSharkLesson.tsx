@@ -1,3 +1,4 @@
+import LessonReading from "./LessonReading";
 import { useId } from "react";
 import SharkSwimmingLab from "./SharkSwimmingLab";
 import SharkQuiz from "./SharkQuiz";
@@ -33,6 +34,7 @@ export default function GreatWhiteSharkLesson() {
       <img className="sunlight-animal-hero-image" src="/assets/sunlight/great-white-shark.png" alt="Great white shark with a gray back and white underside swimming beneath sunbeams in blue coastal water" />
       <figcaption><span>Featured predator</span><strong>Great White Shark</strong><em>Carcharodon carcharias</em></figcaption>
     </figure>
+    <LessonReading lessonId="shark">
     <article className="current-article shark-article" aria-label="Great White Shark lesson">
       <p>The great white shark (<em>Carcharodon carcharias</em>) is one of the largest predatory fish in the ocean. It can grow more than 6 meters (20 feet) long, although most are smaller. Great white sharks live in coastal and offshore waters around the world, especially in cool and temperate regions.</p>
       <p>Great white sharks are powerful hunters. Their bodies are shaped for fast swimming, with strong tails and large fins that help them move efficiently through the water. They also have several rows of sharp, triangular teeth designed for gripping and cutting prey.</p>
@@ -53,6 +55,7 @@ export default function GreatWhiteSharkLesson() {
       <p>Great white sharks face threats from accidental capture in fishing gear, illegal hunting, pollution, and declining prey populations. Because they reproduce slowly and produce relatively few young, their populations can take many years to recover.</p>
       <p>Studying great white sharks helps marine biologists understand migration, predator behavior, ocean food webs, and the overall health of marine ecosystems.</p>
     </article>
+    </LessonReading>
     <SharkSwimmingLab />
     <SharkQuiz />
   </>;

@@ -1,3 +1,4 @@
+import LessonReading from "./LessonReading";
 import { useId } from "react";
 
 export function CommonCuttlefishArt() {
@@ -35,6 +36,7 @@ export default function CommonCuttlefishLesson() {
       <img className="sunlight-animal-hero-image" src="/assets/sunlight/common-cuttlefish.png" alt="Common cuttlefish with mottled brown camouflage and a W-shaped pupil hovering above a sandy seabed" />
       <figcaption><span>Featured cephalopod</span><strong>Common Cuttlefish</strong><em>Sepia officinalis</em></figcaption>
     </figure>
+    <LessonReading lessonId="cuttlefish">
     <article className="current-article cuttlefish-article" aria-label="Common Cuttlefish lesson">
       <p>The common cuttlefish (<em>Sepia officinalis</em>) is a marine animal related to squids and octopuses. It belongs to a group of animals called <strong>cephalopods</strong>, which are known for their intelligence, complex behavior, and ability to change color. Common cuttlefish are found mainly in the eastern Atlantic Ocean and the Mediterranean Sea, where they live in coastal waters and on sandy or muddy sea floors.</p>
       <p>Cuttlefish have eight arms and two longer feeding tentacles. Inside their bodies is a hard, lightweight structure called a <strong>cuttlebone</strong>. The cuttlebone contains many tiny chambers filled with gas and liquid. By adjusting these chambers, the cuttlefish can control its buoyancy and move up or down in the water.</p>
@@ -59,5 +61,6 @@ export default function CommonCuttlefishLesson() {
       <p>At the same time, cuttlefish are eaten by larger fish, sharks, dolphins, seals, and seabirds. Their camouflage, speed, and ability to release a cloud of ink help them escape predators.</p>
       <p>Studying common cuttlefish helps marine biologists understand animal intelligence, camouflage, predator-prey relationships, communication, and adaptation to life in the ocean.</p>
     </article>
+    </LessonReading>
   </>;
 }

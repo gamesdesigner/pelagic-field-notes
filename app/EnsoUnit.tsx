@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import EnsoQuiz from "./EnsoQuiz";
+import LessonReading from "./LessonReading";
 
 export function EnsoCardArt() {
   return <svg viewBox="0 0 360 250" className="enso-card-art" aria-hidden="true">
@@ -121,6 +122,7 @@ export default function EnsoUnit({ onBack }: { onBack: () => void }) {
       <p className="eyebrow">Ocean Currents · Topic 05 · Ages 13+</p>
       <h1 id="enso-unit-title">El Niño <em>&</em> La Niña</h1>
       <p className="enso-deck">Small changes across a huge ocean can reshape weather around the world. Meet the Pacific’s warm and cool climate phases.</p>
+      <LessonReading lessonId="enso">
       <div className="enso-learning-goal"><strong>Your goal</strong><span>Explain how winds, water temperature and upwelling work together, then use the animation below to compare both phases.</span></div>
       <div className="enso-lesson-grid">
         <article><h2>First, meet the usual Pacific</h2><p>Near the equator, <strong>trade winds</strong> usually blow from east to west: from the Americas toward Indonesia. They push warm surface water westward. In the eastern Pacific, cooler water rises from below to replace it. This is <strong>upwelling</strong>, which brings nutrients that help tiny drifting organisms grow.</p><p>Above the warm western ocean, moist air rises, cools and forms rain clouds. The ocean and atmosphere act as a connected system. Its changing pattern is called <strong>ENSO</strong>, short for El Niño–Southern Oscillation. ENSO has warm, cool and neutral phases.</p></article>
@@ -130,6 +132,7 @@ export default function EnsoUnit({ onBack }: { onBack: () => void }) {
       </div>
       <aside className="enso-takeaway"><h2>A cycle with no fixed schedule</h2><p>Events often last around 9–12 months, and some persist for years. They recur irregularly, roughly every 2–7 years, with neutral conditions in between. Scientists monitor ocean temperatures and winds with satellites, buoys and models to help predict what may come next.</p></aside>
       <p className="enso-sources">Explore the science: <a href="https://oceanservice.noaa.gov/facts/ninonina.html" target="_blank" rel="noreferrer">NOAA’s ENSO overview</a> · <a href="https://www.noaa.gov/jetstream/tropical/enso" target="_blank" rel="noreferrer">Ocean–atmosphere connections</a> · <a href="https://pmel.noaa.gov/elnino/lanina-faq/" target="_blank" rel="noreferrer">La Niña questions</a> · <a href="https://www.noaa.gov/jetstream/enso_impacts" target="_blank" rel="noreferrer">Weather effects</a></p>
+      </LessonReading>
     </div>
     <EnsoAnimation />
     <EnsoQuiz />
