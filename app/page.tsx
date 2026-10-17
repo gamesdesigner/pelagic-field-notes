@@ -13,8 +13,8 @@ import LessonReading from "./LessonReading";
 import { useAccount } from "./AccountGate";
 import StudentAccounts from "./StudentAccounts";
 import AccountSettings from "./AccountSettings";
-import {MyLearning,QuizSave,useQuizAttempt} from "./LearningProgress";
-import {upwellingQuestions,coriolisQuestions,sunlightQuestions,turtleQuestions} from "../shared/learning-content.mjs";
+import {MyLearning} from "./LearningProgress";
+import LessonQuiz from "./LessonQuiz";
 
 type Subject = {
   id: string;
@@ -28,12 +28,6 @@ type Subject = {
   fact: string;
   tone: string;
   general?: boolean;
-};
-
-type QuizQuestion = {
-  prompt: string;
-  answer: string;
-  options?: string[];
 };
 
 const subjects: Subject[] = [
@@ -102,14 +96,6 @@ const subjects: Subject[] = [
 
 const currentTopics = ["Upwelling", "Global Conveyor Belt", "Coriolis Effect", "Ekman transport", "El Niño & La Niña"];
 const sunlightTopics = ["General Marine Life in the Sun", "Green Sea Turtle", "Great White Shark", "Common Cuttlefish"];
-
-const upwellingQuiz = upwellingQuestions;
-
-const coriolisQuiz = coriolisQuestions;
-
-const sunlightQuiz = sunlightQuestions;
-
-const turtleQuiz = turtleQuestions;
 
 type AnatomyPart = { label: string; x: string; y: string };
 type AnatomyEntry = { title: string; note: string; parts: AnatomyPart[] };
@@ -236,31 +222,6 @@ const sunlightCreatures = [
     description: "A powerful, streamlined predator built for endurance and speed. It can cross the Pacific and can also dive far beneath the sunlight zone during its migrations.",
   },
 ];
-
-const normalizeQuizAnswer = (answer: string) => answer.trim().toLowerCase().replace(/[^a-z0-9]/g, "");
-
-const rotateQuizOptions = (options: string[], questionIndex: number) => {
-  const shift = (questionIndex * 3 + 1) % options.length;
-  return [...options.slice(shift), ...options.slice(0, shift)];
-};
-
-const spellingDistance = (entered: string, expected: string) => {
-  const rows = Array.from({ length: expected.length + 1 }, (_, index) => index);
-  for (let enteredIndex = 1; enteredIndex <= entered.length; enteredIndex += 1) {
-    let diagonal = rows[0];
-    rows[0] = enteredIndex;
-    for (let expectedIndex = 1; expectedIndex <= expected.length; expectedIndex += 1) {
-      const previousRow = rows[expectedIndex];
-      rows[expectedIndex] = Math.min(
-        rows[expectedIndex] + 1,
-        rows[expectedIndex - 1] + 1,
-        diagonal + (entered[enteredIndex - 1] === expected[expectedIndex - 1] ? 0 : 1),
-      );
-      diagonal = previousRow;
-    }
-  }
-  return rows[expected.length];
-};
 
 const upwellingData = [
   { wind: 5, shelf: 0.5, nutrients: 0.5, plankton: 1200 },
@@ -491,163 +452,13 @@ function CoriolisGlobe() {
 }
 
 function CoriolisQuiz() {
-  const attempt=useQuizAttempt();
-  const [questionIndex, setQuestionIndex] = useState(0);
-  const [answer, setAnswer] = useState("");
-  const [submitted, setSubmitted] = useState(false);
-  const [wasCorrect, setWasCorrect] = useState(false);
-  const [score, setScore] = useState(0);
-  const complete = questionIndex >= coriolisQuiz.length;
-  const question = coriolisQuiz[Math.min(questionIndex, coriolisQuiz.length - 1)];
-
-  const submitAnswer = () => {
-    if (!answer || submitted || complete) return;
-    const enteredAnswer = normalizeQuizAnswer(answer);
-    const expectedAnswer = normalizeQuizAnswer(question.answer);
-    const isCorrect = question.options
-      ? enteredAnswer === expectedAnswer
-      : spellingDistance(enteredAnswer, expectedAnswer) <= 2;
-    setWasCorrect(isCorrect);
-    attempt.record(questionIndex,answer);
-    setSubmitted(true);
-    if (isCorrect) setScore((value) => value + 1);
-  };
-
-  const nextQuestion = () => {
-    setQuestionIndex((value) => value + 1);
-    setAnswer("");
-    setSubmitted(false);
-    setWasCorrect(false);
-  };
-
-  const restart = () => {
-    attempt.restart();
-    setQuestionIndex(0);
-    setAnswer("");
-    setSubmitted(false);
-    setWasCorrect(false);
-    setScore(0);
-  };
-
-  return (
-    <section className="upwelling-quiz coriolis-quiz" aria-labelledby="coriolis-quiz-title">
-      <div className="quiz-shell"><QuizSave lessonId="coriolis" answers={attempt.answers} attemptId={attempt.attemptId}/>
-        <div className="quiz-header">
-          <div>
-            <span>Knowledge check</span>
-            <h2 id="coriolis-quiz-title">Coriolis effect quiz</h2>
-          </div>
-          <strong>{complete ? "Complete" : `Question ${questionIndex + 1} of ${coriolisQuiz.length}`}</strong>
-        </div>
-        <div className="quiz-progress" aria-hidden="true">
-          <i style={{ width: `${(Math.min(questionIndex + (submitted ? 1 : 0), coriolisQuiz.length) / coriolisQuiz.length) * 100}%` }} />
-        </div>
-
-        {complete ? (
-          <div className="quiz-finish" aria-live="polite">
-            <span>Quiz complete</span>
-            <strong>{score} / {coriolisQuiz.length}</strong>
-            <p>{score === coriolisQuiz.length ? "Perfect score—you understand how Earth's rotation changes motion." : "Nice work. Try it again to strengthen the parts you missed."}</p>
-            <button type="button" onClick={restart}>Try the quiz again</button>
-          </div>
-        ) : (
-          <div className="quiz-question">
-            <p className="quiz-kind">{question.options ? "Four-choice question" : "Spell the word"}</p>
-            <h3>{question.prompt}</h3>
-
-            {question.options ? (
-              <div className="quiz-options">
-                {rotateQuizOptions(question.options, questionIndex).map((option, index) => (
-                  <button
-                    type="button"
-                    key={option}
-                    disabled={submitted}
-                    onClick={() => setAnswer(option)}
-                    className={`quiz-option ${answer === option ? "selected" : ""} ${submitted && option === question.answer ? "correct" : ""} ${submitted && answer === option && option !== question.answer ? "incorrect" : ""}`}
-                  >
-                    <span>{String.fromCharCode(65 + index)}</span>
-                    {option}
-                  </button>
-                ))}
-              </div>
-            ) : (
-              <label className="spelling-answer">
-                <span>Your spelling (capitalization does not matter)</span>
-                <input
-                  type="text"
-                  value={answer}
-                  disabled={submitted}
-                  autoComplete="off"
-                  spellCheck="false"
-                  placeholder="Type your answer"
-                  onChange={(event) => setAnswer(event.target.value)}
-                  onKeyDown={(event) => { if (event.key === "Enter") submitAnswer(); }}
-                />
-              </label>
-            )}
-
-            {submitted && (
-              <p className={`quiz-feedback ${wasCorrect ? "correct" : "incorrect"}`} aria-live="polite">
-                {wasCorrect ? "Correct!" : <>Not quite. The correct answer is <strong>{question.answer}</strong>.</>}
-              </p>
-            )}
-
-            <div className="quiz-actions">
-              <span>Score: {score} / {questionIndex + (submitted ? 1 : 0)}</span>
-              {!submitted ? (
-                <button type="button" disabled={!answer} onClick={submitAnswer}>Check answer</button>
-              ) : (
-                <button type="button" onClick={nextQuestion}>{questionIndex === coriolisQuiz.length - 1 ? "See results" : "Next question →"}</button>
-              )}
-            </div>
-          </div>
-        )}
-      </div>
-    </section>
-  );
+  return <LessonQuiz lessonId="coriolis" title="Coriolis effect quiz" className="upwelling-quiz coriolis-quiz"/>;
 }
 
 function SunlightZoneLab() {
-  const attempt=useQuizAttempt();
   const [selectedCreatureId, setSelectedCreatureId] = useState(sunlightCreatures[0].id);
-  const [questionIndex, setQuestionIndex] = useState(0);
-  const [answer, setAnswer] = useState("");
-  const [submitted, setSubmitted] = useState(false);
-  const [wasCorrect, setWasCorrect] = useState(false);
-  const [score, setScore] = useState(0);
   const selectedCreature = sunlightCreatures.find((creature) => creature.id === selectedCreatureId) ?? sunlightCreatures[0];
   const selectedAnatomy = sunlightAnatomy[selectedCreature.id];
-  const complete = questionIndex >= sunlightQuiz.length;
-  const question = sunlightQuiz[Math.min(questionIndex, sunlightQuiz.length - 1)];
-
-  const submitAnswer = () => {
-    if (!answer || submitted || complete) return;
-    const enteredAnswer = normalizeQuizAnswer(answer);
-    const expectedAnswer = normalizeQuizAnswer(question.answer);
-    const isCorrect = question.options
-      ? enteredAnswer === expectedAnswer
-      : spellingDistance(enteredAnswer, expectedAnswer) <= 2;
-    setWasCorrect(isCorrect);
-    attempt.record(questionIndex,answer);
-    setSubmitted(true);
-    if (isCorrect) setScore((value) => value + 1);
-  };
-
-  const nextQuestion = () => {
-    setQuestionIndex((value) => value + 1);
-    setAnswer("");
-    setSubmitted(false);
-    setWasCorrect(false);
-  };
-
-  const restart = () => {
-    attempt.restart();
-    setQuestionIndex(0);
-    setAnswer("");
-    setSubmitted(false);
-    setWasCorrect(false);
-    setScore(0);
-  };
 
   return (
     <>
@@ -747,192 +558,13 @@ function SunlightZoneLab() {
         </div>
       </section>
 
-      <section className="upwelling-quiz sunlight-quiz" aria-labelledby="sunlight-quiz-title">
-        <div className="quiz-shell"><QuizSave lessonId="sunlight" answers={attempt.answers} attemptId={attempt.attemptId}/>
-          <div className="quiz-header">
-            <div>
-              <span>Knowledge check</span>
-              <h2 id="sunlight-quiz-title">Sunlight-zone quiz</h2>
-            </div>
-            <strong>{complete ? "Complete" : `Question ${questionIndex + 1} of ${sunlightQuiz.length}`}</strong>
-          </div>
-          <div className="quiz-progress" aria-hidden="true">
-            <i style={{ width: `${(Math.min(questionIndex + (submitted ? 1 : 0), sunlightQuiz.length) / sunlightQuiz.length) * 100}%` }} />
-          </div>
-
-          {complete ? (
-            <div className="quiz-finish" aria-live="polite">
-              <span>Quiz complete</span>
-              <strong>{score} / {sunlightQuiz.length}</strong>
-              <p>{score === sunlightQuiz.length ? "Perfect score—you know the sunlight zone." : "Nice work. Explore the creatures and try again to improve your score."}</p>
-              <button type="button" onClick={restart}>Try the quiz again</button>
-            </div>
-          ) : (
-            <div className="quiz-question">
-              <p className="quiz-kind">{question.options ? "Four-choice question" : "Spell the word"}</p>
-              <h3>{question.prompt}</h3>
-              {question.options ? (
-                <div className="quiz-options">
-                  {rotateQuizOptions(question.options, questionIndex).map((option, index) => (
-                    <button
-                      type="button"
-                      key={option}
-                      disabled={submitted}
-                      onClick={() => setAnswer(option)}
-                      className={`quiz-option ${answer === option ? "selected" : ""} ${submitted && option === question.answer ? "correct" : ""} ${submitted && answer === option && option !== question.answer ? "incorrect" : ""}`}
-                    >
-                      <span>{String.fromCharCode(65 + index)}</span>
-                      {option}
-                    </button>
-                  ))}
-                </div>
-              ) : (
-                <label className="spelling-answer">
-                  <span>Your spelling (capitalization does not matter)</span>
-                  <input
-                    type="text"
-                    value={answer}
-                    disabled={submitted}
-                    autoComplete="off"
-                    spellCheck="false"
-                    placeholder="Type your answer"
-                    onChange={(event) => setAnswer(event.target.value)}
-                    onKeyDown={(event) => { if (event.key === "Enter") submitAnswer(); }}
-                  />
-                </label>
-              )}
-              {submitted && (
-                <p className={`quiz-feedback ${wasCorrect ? "correct" : "incorrect"}`} aria-live="polite">
-                  {wasCorrect ? "Correct!" : <>Not quite. The correct answer is <strong>{question.answer}</strong>.</>}
-                </p>
-              )}
-              <div className="quiz-actions">
-                <span>Score: {score} / {questionIndex + (submitted ? 1 : 0)}</span>
-                {!submitted ? (
-                  <button type="button" disabled={!answer} onClick={submitAnswer}>Check answer</button>
-                ) : (
-                  <button type="button" onClick={nextQuestion}>{questionIndex === sunlightQuiz.length - 1 ? "See results" : "Next question →"}</button>
-                )}
-              </div>
-            </div>
-          )}
-        </div>
-      </section>
+      <LessonQuiz lessonId="sunlight" title="Sunlight-zone quiz" className="upwelling-quiz sunlight-quiz"/>
     </>
   );
 }
 
 function TurtleQuiz() {
-  const attempt=useQuizAttempt();
-  const [questionIndex, setQuestionIndex] = useState(0);
-  const [answer, setAnswer] = useState("");
-  const [submitted, setSubmitted] = useState(false);
-  const [wasCorrect, setWasCorrect] = useState(false);
-  const [score, setScore] = useState(0);
-  const complete = questionIndex >= turtleQuiz.length;
-  const question = turtleQuiz[Math.min(questionIndex, turtleQuiz.length - 1)];
-
-  const submitAnswer = () => {
-    if (!answer || submitted || complete) return;
-    const enteredAnswer = normalizeQuizAnswer(answer);
-    const expectedAnswer = normalizeQuizAnswer(question.answer);
-    const isCorrect = question.options
-      ? enteredAnswer === expectedAnswer
-      : spellingDistance(enteredAnswer, expectedAnswer) <= 2;
-    setWasCorrect(isCorrect);
-    attempt.record(questionIndex,answer);
-    setSubmitted(true);
-    if (isCorrect) setScore((value) => value + 1);
-  };
-
-  const nextQuestion = () => {
-    setQuestionIndex((value) => value + 1);
-    setAnswer("");
-    setSubmitted(false);
-    setWasCorrect(false);
-  };
-
-  const restart = () => {
-    attempt.restart();
-    setQuestionIndex(0);
-    setAnswer("");
-    setSubmitted(false);
-    setWasCorrect(false);
-    setScore(0);
-  };
-
-  return (
-    <section className="upwelling-quiz turtle-quiz" aria-labelledby="turtle-quiz-title">
-      <div className="quiz-shell"><QuizSave lessonId="turtle" answers={attempt.answers} attemptId={attempt.attemptId}/>
-        <div className="quiz-header">
-          <div>
-            <span>Knowledge check</span>
-            <h2 id="turtle-quiz-title">Green sea turtle quiz</h2>
-          </div>
-          <strong>{complete ? "Complete" : `Question ${questionIndex + 1} of ${turtleQuiz.length}`}</strong>
-        </div>
-        <div className="quiz-progress" aria-hidden="true">
-          <i style={{ width: `${(Math.min(questionIndex + (submitted ? 1 : 0), turtleQuiz.length) / turtleQuiz.length) * 100}%` }} />
-        </div>
-        {complete ? (
-          <div className="quiz-finish" aria-live="polite">
-            <span>Quiz complete</span>
-            <strong>{score} / {turtleQuiz.length}</strong>
-            <p>{score === turtleQuiz.length ? "Perfect score—you know the green sea turtle." : "Nice work. Review the feeding meadow and try again to improve your score."}</p>
-            <button type="button" onClick={restart}>Try the quiz again</button>
-          </div>
-        ) : (
-          <div className="quiz-question">
-            <p className="quiz-kind">{question.options ? "Four-choice question" : "Spell the word"}</p>
-            <h3>{question.prompt}</h3>
-            {question.options ? (
-              <div className="quiz-options">
-                {rotateQuizOptions(question.options, questionIndex).map((option, index) => (
-                  <button
-                    type="button"
-                    key={option}
-                    disabled={submitted}
-                    onClick={() => setAnswer(option)}
-                    className={`quiz-option ${answer === option ? "selected" : ""} ${submitted && option === question.answer ? "correct" : ""} ${submitted && answer === option && option !== question.answer ? "incorrect" : ""}`}
-                  >
-                    <span>{String.fromCharCode(65 + index)}</span>
-                    {option}
-                  </button>
-                ))}
-              </div>
-            ) : (
-              <label className="spelling-answer">
-                <span>Your spelling (capitalization does not matter)</span>
-                <input
-                  type="text"
-                  value={answer}
-                  disabled={submitted}
-                  autoComplete="off"
-                  spellCheck="false"
-                  placeholder="Type your answer"
-                  onChange={(event) => setAnswer(event.target.value)}
-                  onKeyDown={(event) => { if (event.key === "Enter") submitAnswer(); }}
-                />
-              </label>
-            )}
-            {submitted && (
-              <p className={`quiz-feedback ${wasCorrect ? "correct" : "incorrect"}`} aria-live="polite">
-                {wasCorrect ? "Correct!" : <>Not quite. The correct answer is <strong>{question.answer}</strong>.</>}
-              </p>
-            )}
-            <div className="quiz-actions">
-              <span>Score: {score} / {questionIndex + (submitted ? 1 : 0)}</span>
-              {!submitted ? (
-                <button type="button" disabled={!answer} onClick={submitAnswer}>Check answer</button>
-              ) : (
-                <button type="button" onClick={nextQuestion}>{questionIndex === turtleQuiz.length - 1 ? "See results" : "Next question →"}</button>
-              )}
-            </div>
-          </div>
-        )}
-      </div>
-    </section>
-  );
+  return <LessonQuiz lessonId="turtle" title="Green sea turtle quiz" className="upwelling-quiz turtle-quiz"/>;
 }
 
 const turtleFoods = [
@@ -1082,7 +714,6 @@ function TurtleFeedingLab() {
 }
 
 export default function Home() {
-  const upwellingAttempt=useQuizAttempt();
   const account = useAccount();
   const [accountSettings,setAccountSettings]=useState(false);
   const [myLearning,setMyLearning]=useState(false);
@@ -1092,12 +723,6 @@ export default function Home() {
   const [windSpeed, setWindSpeed] = useState(10);
   const [shelfAngle, setShelfAngle] = useState(1.5);
   const [nutrients, setNutrients] = useState(5.8);
-  const [quizIndex, setQuizIndex] = useState(0);
-  const [quizAnswer, setQuizAnswer] = useState("");
-  const [quizSubmitted, setQuizSubmitted] = useState(false);
-  const [quizWasCorrect, setQuizWasCorrect] = useState(false);
-  const [quizScore, setQuizScore] = useState(0);
-
   const measurement = upwellingData.find((row) => row.wind === windSpeed && row.shelf === shelfAngle) ?? upwellingData.reduce((closest, row) => {
     const rowDistance = Math.abs(row.wind - windSpeed) / 40 + Math.abs(row.shelf - shelfAngle) / 2.5;
     const closestDistance = Math.abs(closest.wind - windSpeed) / 40 + Math.abs(closest.shelf - shelfAngle) / 2.5;
@@ -1110,38 +735,6 @@ export default function Home() {
   const shelfVisualAngle = 10 + ((shelfAngle - 0.5) / 2.5) * 45;
   const hillShoulder = Math.max(40, 82 - shelfVisualAngle);
   const hillTop = Math.max(12, 38 - Math.round(shelfVisualAngle / 3));
-  const quizComplete = quizIndex >= upwellingQuiz.length;
-  const currentQuizQuestion = upwellingQuiz[Math.min(quizIndex, upwellingQuiz.length - 1)];
-
-  const submitQuizAnswer = () => {
-    if (!quizAnswer || quizSubmitted || quizComplete) return;
-    const enteredAnswer = normalizeQuizAnswer(quizAnswer);
-    const expectedAnswer = normalizeQuizAnswer(currentQuizQuestion.answer);
-    const isCorrect = currentQuizQuestion.options
-      ? enteredAnswer === expectedAnswer
-      : spellingDistance(enteredAnswer, expectedAnswer) <= 2;
-    setQuizWasCorrect(isCorrect);
-    upwellingAttempt.record(quizIndex,quizAnswer);
-    setQuizSubmitted(true);
-    if (isCorrect) setQuizScore((score) => score + 1);
-  };
-
-  const showNextQuizQuestion = () => {
-    setQuizIndex((index) => index + 1);
-    setQuizAnswer("");
-    setQuizSubmitted(false);
-    setQuizWasCorrect(false);
-  };
-
-  const restartQuiz = () => {
-    upwellingAttempt.restart();
-    setQuizIndex(0);
-    setQuizAnswer("");
-    setQuizSubmitted(false);
-    setQuizWasCorrect(false);
-    setQuizScore(0);
-  };
-
   const openSubject = (subject: Subject) => {
     setSelected(subject);
     if (subject.id === "currents" || subject.id === "sunlight") setCurrentTopic(null);
@@ -1477,80 +1070,7 @@ export default function Home() {
                   </div>
                 </div>
               </section>
-              <section className="upwelling-quiz" aria-labelledby="upwelling-quiz-title">
-                <div className="quiz-shell"><QuizSave lessonId="upwelling" answers={upwellingAttempt.answers} attemptId={upwellingAttempt.attemptId}/>
-                  <div className="quiz-header">
-                    <div>
-                      <span>Knowledge check</span>
-                      <h2 id="upwelling-quiz-title">Upwelling quiz</h2>
-                    </div>
-                    <strong>{quizComplete ? "Complete" : `Question ${quizIndex + 1} of ${upwellingQuiz.length}`}</strong>
-                  </div>
-                  <div className="quiz-progress" aria-hidden="true">
-                    <i style={{ width: `${(Math.min(quizIndex + (quizSubmitted ? 1 : 0), upwellingQuiz.length) / upwellingQuiz.length) * 100}%` }} />
-                  </div>
-
-                  {quizComplete ? (
-                    <div className="quiz-finish" aria-live="polite">
-                      <span>Quiz complete</span>
-                      <strong>{quizScore} / {upwellingQuiz.length}</strong>
-                      <p>{quizScore === upwellingQuiz.length ? "Perfect score—you know how an upwelling event works." : "Nice work. Try it again to strengthen the parts you missed."}</p>
-                      <button type="button" onClick={restartQuiz}>Try the quiz again</button>
-                    </div>
-                  ) : (
-                    <div className="quiz-question">
-                      <p className="quiz-kind">{currentQuizQuestion.options ? "Four-choice question" : "Spelling question"}</p>
-                      <h3>{currentQuizQuestion.prompt}</h3>
-
-                      {currentQuizQuestion.options ? (
-                        <div className="quiz-options">
-                          {rotateQuizOptions(currentQuizQuestion.options, quizIndex).map((option, index) => (
-                            <button
-                              type="button"
-                              key={option}
-                              disabled={quizSubmitted}
-                              onClick={() => setQuizAnswer(option)}
-                              className={`quiz-option ${quizAnswer === option ? "selected" : ""} ${quizSubmitted && option === currentQuizQuestion.answer ? "correct" : ""} ${quizSubmitted && quizAnswer === option && option !== currentQuizQuestion.answer ? "incorrect" : ""}`}
-                            >
-                              <span>{String.fromCharCode(65 + index)}</span>
-                              {option}
-                            </button>
-                          ))}
-                        </div>
-                      ) : (
-                        <label className="spelling-answer">
-                          <span>Your spelling</span>
-                          <input
-                            type="text"
-                            value={quizAnswer}
-                            disabled={quizSubmitted}
-                            autoComplete="off"
-                            spellCheck="false"
-                            placeholder="Type your answer"
-                            onChange={(event) => setQuizAnswer(event.target.value)}
-                            onKeyDown={(event) => { if (event.key === "Enter") submitQuizAnswer(); }}
-                          />
-                        </label>
-                      )}
-
-                      {quizSubmitted && (
-                        <p className={`quiz-feedback ${quizWasCorrect ? "correct" : "incorrect"}`} aria-live="polite">
-                          {quizWasCorrect ? "Correct!" : <>Not quite. The correct answer is <strong>{currentQuizQuestion.answer}</strong>.</>}
-                        </p>
-                      )}
-
-                      <div className="quiz-actions">
-                        <span>Score: {quizScore} / {quizIndex + (quizSubmitted ? 1 : 0)}</span>
-                        {!quizSubmitted ? (
-                          <button type="button" disabled={!quizAnswer} onClick={submitQuizAnswer}>Check answer</button>
-                        ) : (
-                          <button type="button" onClick={showNextQuizQuestion}>{quizIndex === upwellingQuiz.length - 1 ? "See results" : "Next question →"}</button>
-                        )}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </section>
+              <LessonQuiz lessonId="upwelling" title="Upwelling quiz"/>
               </>
             ) : selected.id === "currents" && currentTopic === 2 ? (
               <>

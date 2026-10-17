@@ -91,3 +91,55 @@ test('live private Vercel storage preserves learning and owner reports across fr
  const {vercelAccountStore}=await import('../server/accounts/vercel-store.mjs');const store=vercelAccountStore({prefix:'marine-accounts/learning-integration/'+randomUUID()+'/'});
  try{await verifyPersistentLearning(store);}finally{for(const key of await store.list(''))await store.remove(key);}
 });
+
+test('every quiz resumes checked feedback and an unchecked selection across fresh handlers',async()=>{
+ const {progress,student,store,other}=await setup();
+ for(const [lessonId,questions] of Object.entries(quizBank)){
+  const attemptId=randomUUID();const correct=answers(lessonId);
+  const checked={attemptId,revision:1,index:0,selection:correct[0],submitted:true,answers:[correct[0]]};
+  assert.equal((await progress(post('/api/progress',{action:'quiz-draft',lessonId,state:checked,previousAttemptId:null},student))).status,200);
+  const state={...checked,revision:2,index:1,submitted:false,selection:questions[1].options?.[0]||'partly typed'};
+  assert.equal((await progress(post('/api/progress',{action:'quiz-draft',lessonId,state,previousAttemptId:null},student))).status,200);
+  const saved=(await (await createLearningHandler({store})(get('/api/progress',student))).json()).progress;
+  const {updatedAt,...restored}=saved.quizSessions[lessonId];assert.deepEqual(restored,state);assert.ok(updatedAt);assert.equal(saved.quizzes[lessonId],undefined);
+ }
+ const privateData=(await (await progress(get('/api/progress',other))).json()).progress;assert.equal(privateData.quizSessions,undefined);
+});
+test('finishing a draft saves exactly one graded score; retaking preserves best and rejects stale tabs',async()=>{
+ const {progress,student,store}=await setup();const lessonId='shark';const attemptId=randomUUID();
+ const send=state=>progress(post('/api/progress',{action:'quiz-draft',lessonId,state,previousAttemptId:null},student));
+ const draft={attemptId,revision:1,index:0,selection:answers(lessonId)[0],submitted:false,answers:[]};
+ assert.equal((await send(draft)).status,200);
+ const completed={attemptId,revision:3,index:7,selection:'',submitted:false,answers:answers(lessonId)};
+ const requests=await Promise.all([send(completed),send(completed)]);assert.ok(requests.every(r=>r.status===200));
+ let saved=(await (await createLearningHandler({store})(get('/api/progress',student))).json()).progress;
+ assert.equal(saved.quizzes.shark.attempts,1);assert.equal(saved.quizzes.shark.latestScore,7);assert.equal(saved.quizSessions.shark.index,7);
+ // Delayed old writes cannot reopen a finished quiz or inflate the result.
+ assert.equal((await send({...draft,revision:2})).status,200);
+ assert.equal((await send({...draft,revision:4})).status,409);
+ const nextId=randomUUID();const next={...draft,attemptId:nextId,revision:1};
+ assert.equal((await progress(post('/api/progress',{action:'quiz-draft',lessonId,state:next,previousAttemptId:attemptId},student))).status,200);
+ assert.equal((await send(completed)).status,409);
+ const final={...completed,attemptId:nextId,revision:2,answers:answers(lessonId).map((answer,i)=>i<5?answer:'wrong answer')};
+ assert.equal((await progress(post('/api/progress',{action:'quiz-draft',lessonId,state:final,previousAttemptId:attemptId},student))).status,200);
+ saved=(await (await progress(get('/api/progress',student))).json()).progress;
+ assert.equal(saved.quizzes.shark.attempts,2);assert.equal(saved.quizzes.shark.latestScore,5);assert.equal(saved.quizzes.shark.bestScore,7);
+});
+test('invalid cursors, answer rewrites and malformed draft requests cannot corrupt saved progress',async()=>{
+ const {progress,student}=await setup();const state={attemptId:randomUUID(),revision:1,index:0,selection:answers('enso')[0],submitted:true,answers:[answers('enso')[0]]};
+ const postDraft=state=>progress(post('/api/progress',{action:'quiz-draft',lessonId:'enso',state,previousAttemptId:null},student));
+ assert.equal((await postDraft(state)).status,200);
+ for(const invalid of [{...state,index:2},{...state,index:8},{...state,revision:0},{...state,revision:1.5},{...state,answers:[]},{...state,selection:'x'.repeat(513)},{...state,submitted:'yes'},{...state,answers:[null]}])assert.equal((await postDraft(invalid)).status,400);
+ assert.equal((await postDraft({...state,revision:2,selection:'rewritten',answers:['rewritten']})).status,409);
+ const saved=(await (await progress(get('/api/progress',student))).json()).progress;assert.deepEqual(saved.quizSessions.enso.answers,state.answers);assert.equal(saved.quizzes.enso,undefined);
+});
+test('refresh recovery chooses pending local edits only for the same or explicitly restarted attempt',async()=>{
+ const {restoreQuizSession,quizPasses}=await import('../shared/quiz-attempts.mjs');
+ const state={attemptId:randomUUID(),revision:1,index:0,selection:'a',submitted:false,answers:[]};
+ const cached={state:{...state,revision:2,selection:'b'},previousAttemptId:null};
+ assert.equal(restoreQuizSession(state,cached,7),cached);
+ assert.equal(restoreQuizSession({...state,revision:3},cached,7),null);
+ assert.equal(restoreQuizSession({...state,attemptId:randomUUID()},cached,7),null);
+ assert.equal(restoreQuizSession(state,{...cached,state:{...state,attemptId:randomUUID()},previousAttemptId:state.attemptId},7).previousAttemptId,state.attemptId);
+ for(const [score,total,pass] of [[7,10,true],[6,10,false],[5,7,true],[4,7,false],[10,15,false],[11,15,true],[0,0,false]])assert.equal(quizPasses(score,total),pass);
+});

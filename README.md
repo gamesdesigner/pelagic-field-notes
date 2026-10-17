@@ -2,32 +2,17 @@
 
 Interactive ocean-science lessons, animations, quizzes, and two reading levels.
 
-## Vercel migration
+## Current host: Netlify
 
-The user requested migration from Netlify to Vercel on October 17, 2026.
-Project `marinebiology-learn` is created in team `projects-9420`:
-https://vercel.com/projects-9420/marinebiology-learn
-
-Live website: **https://marinebiology-learn.vercel.app**.
-The account-learning progress update and MaxYang sign-in fix are live and verified. Existing
-sites remain available as previous hosts. Netlify is still serving older source
-because account credits block new builds. The temporary current-content mirror
-is https://marinebiology-learn.isuxyang.chatgpt.site, with separate account storage.
-
-Deployment `dpl_6kfCsfA4tSXa5QvBAeubr96xuzUz` reached READY from code commit
-`d90615f70915b817fe4d9b4767a65033654ef281`. Live checks passed for short-password
-signup, 30-day sessions, owner sign-in, removed owner signup, current-password
-verification, saved new credentials, renamed-student management and session
-revocation. The welcome page and images load with no browser errors. Only disposable test records
-were removed. Existing host accounts have not been copied into the Vercel store.
-
-Deploy through the connected Vercel API using Git source
-`gamesdesigner/pelagic-field-notes`, branch `main`, production target, and the
-project/team IDs in AGENTS.md. GitHub integration is not installed, so pushes alone
-do not yet trigger automatic Vercel deployments. Verify READY and the live API.
+The latest user instructions require **Netlify only**, using existing project
+`c1ad4709-306e-4a2e-8695-baf83990d8d2` at https://marinebiology-learn.netlify.app.
+Historical Vercel and Sites notes below do not authorize deploying to those hosts.
+Never edit, deploy, rename, or manage the old ChatGPT-hosted site.
 
 Canonical source: https://github.com/gamesdesigner/pelagic-field-notes (`main`).
-Read `AGENTS.md` before deployment. Never copy private handoff files into source.
+Read `AGENTS.md` before deployment. Keep private credentials outside source.
+Netlify has previously blocked new deployments because account credits were
+exceeded. Check deployment status before describing an update as published.
 
 ## Development and verification
 
@@ -35,18 +20,39 @@ Use Node 24 and the pnpm lockfile:
 
 ```sh
 pnpm install --frozen-lockfile
-pnpm dev
+pnpm run dev:netlify
 pnpm test
-pnpm run typecheck:vercel
-pnpm run build:vercel
+pnpm run typecheck:netlify
+pnpm run build:netlify
 ```
 
-`vite.vercel.config.ts` builds the React entry `src/main.tsx` into `dist-vercel/`.
-Lessons live in `app/`. Local accounts use disposable process memory and reset
-when the Vite server restarts. Production deploys the source and `api/` functions
-together; uploading only the static build would break sign-in.
+`vite.netlify.config.ts` builds the React entry into `dist-netlify/`. Lessons live
+in `app/`. Local preview accounts use disposable process memory and reset when
+Vite restarts. Deploy source and `netlify/functions/` together: the auth, students,
+and progress functions use the existing private Netlify Blob account store.
+A static-only upload would break sign-in and progress saves.
 
-## Persistent accounts on Vercel
+## Resuming quizzes and completing articles
+
+All eight quizzes automatically save their question, selected/typed answer and
+checked answers to the signed-in account. Reopen the same lesson after leaving or
+refreshing to continue. An immediate browser recovery copy protects the last edit
+while it syncs. Save failures are visible and retryable. In-progress quizzes also
+appear in learner and owner progress reports.
+
+Checking the final answer automatically finishes and saves one graded attempt.
+The results include an answer review, latest/best scores and attempt counts.
+At least 70% correct earns a small checkmark and confetti flourish, with reduced
+motion respected. A completed result restores without replaying the animation or
+counting another attempt. An explicit retake starts a new attempt and preserves
+the best score. The **✓ Check** button on each article saves article completion
+separately from quiz completion.
+
+Server grading, account isolation, revision ordering, immutable checked answers,
+conditional writes and retry IDs prevent stale tabs and retries from overwriting
+newer progress or inflating scores. Existing records require no migration.
+
+## Historical Vercel account implementation
 
 Vercel Functions `api/auth.js` and `api/students.js` use shared handlers in
 `server/accounts/`. Private Vercel Blob holds JSON account records; no Neon or
@@ -143,10 +149,9 @@ The existing owner display name remains **Max Yang**. Normal Sign in also accept
 is reserved against new signups/renames; existing distinct accounts take precedence.
 No owner password was reset for this fix.
 
-## Retained rollback configuration
+## Retained historical configuration
 
-Legacy Netlify configuration and adapters remain for rollback, but Netlify is no
-longer the deployment target. Its project ID is `c1ad4709-306e-4a2e-8695-baf83990d8d2`.
-The previously rejected broad-scope Netlify secret action remains unapproved.
-Temporary Sites source and Worker/D1 configuration are isolated in `../sites-hosted/`.
-Do not run Sites source helpers in this canonical Git checkout or delete existing hosts.
+Vercel adapters remain in source for historical compatibility. They are not the
+deployment target. Do not use Sites source helpers, publish a Sites update, or
+manage the old `*.chatgpt.site` website. The previously rejected broad-scope
+Netlify secret action remains unapproved.
