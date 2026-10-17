@@ -5,7 +5,7 @@ import * as THREE from "three";
 import ConveyorBeltLab from "./ConveyorBeltLab";
 import ConveyorBeltQuiz from "./ConveyorBeltQuiz";
 import EkmanCoastalDiagram from "./EkmanCoastalDiagram";
-import EnsoUnit, { EnsoCardArt } from "./EnsoUnit";
+import EnsoUnit from "./EnsoUnit";
 import TurtleFeedingScene from "./TurtleFeedingScene";
 import GreatWhiteSharkLesson from "./GreatWhiteSharkLesson";
 import CommonCuttlefishLesson from "./CommonCuttlefishLesson";
@@ -770,7 +770,7 @@ export default function Home() {
                 <span className="card-number">{subject.number}</span>
                 <div className={`card-placeholder ${subject.id === "currents" || subject.id === "sunlight" ? "has-subject-image" : ""}`} aria-hidden="true">
                   {subject.id === "currents" ? (
-                    <img src="/assets/global-ocean-currents.png" alt="" />
+                    <img src="/assets/field-guide-v2/ocean-surface-currents.webp" alt="" />
                   ) : subject.id === "sunlight" ? (
                     <img src="/assets/sunlight/marine-life-in-sunlight.png" alt="" />
                   ) : (
@@ -800,6 +800,10 @@ export default function Home() {
             <p className="eyebrow">Ocean Currents · Choose a topic</p>
             <h1 id="currents-title">Follow the<br /><em>moving ocean.</em></h1>
           </div>
+          <figure className="field-guide-overview currents-overview">
+            <img src="/assets/field-guide-v2/ocean-surface-currents.webp" width="1536" height="1024" alt="Illustrated world map of surface currents, with clockwise northern subtropical gyres, counterclockwise southern subtropical gyres, and an eastward current around Antarctica." decoding="async"/>
+            <figcaption><span>Surface circulation · Illustrated atlas</span><h2>Water on the move.</h2><p>Coral and teal trace warmer and cooler surface pathways. These broad loops are simplified; explore each lesson below to learn what drives them.</p></figcaption>
+          </figure>
           <div className="current-card-grid">
             {currentTopics.map((topic, index) => (
               <button className={`current-subject-card topic-${index + 1}`} key={topic} onClick={() => setCurrentTopic(index)}>
@@ -808,11 +812,11 @@ export default function Home() {
                   {index === 0 ? (
                     <img src="/assets/upwelling-side-view.png" alt="" />
                   ) : index === 1 ? (
-                    <img src="/assets/global-conveyor-belt.png?v=2" alt="" />
+                    <img src="/assets/field-guide-v2/global-conveyor-belt.webp" alt="" />
                   ) : index === 2 ? (
                     <img src="/assets/coriolis-effect-illustration.png" alt="" />
                   ) : index === 4 ? (
-                    <EnsoCardArt />
+                    <img src="/assets/field-guide-v2/el-nino-pacific.webp" alt="" />
                   ) : (
                     <img src="/assets/ekman-transport-illustration.png" alt="" />
                   )}
@@ -1021,7 +1025,13 @@ export default function Home() {
             {selected.general ? (
               <img src="/assets/ocean-depths-slide.png" alt="Complete scientific illustration of ocean depth zones" />
             ) : selected.id === "currents" && currentTopic === 1 ? (
-              <><ConveyorBeltLab /><ConveyorBeltQuiz /></>
+              <>
+                <figure className="field-guide-overview conveyor-overview">
+                  <img src="/assets/field-guide-v2/global-conveyor-belt.webp" width="1536" height="1024" alt="Conceptual world map of overturning circulation: coral upper-ocean water flows toward the North Atlantic, while blue deep water moves south and branches into the Indian and Pacific oceans." loading="lazy" decoding="async"/>
+                  <figcaption><span>Surface to deep sea · Illustrated atlas</span><h2>One ocean, connected at depth.</h2><p>Coral shows the upper-ocean return; blue shows deeper pathways. This simplified illustration introduces the circulation. Use the moving map below to follow its stages.</p></figcaption>
+                </figure>
+                <ConveyorBeltLab /><ConveyorBeltQuiz />
+              </>
             ) : selected.id === "currents" && currentTopic === 0 ? (
               <>
               <section className="upwelling-simulator" aria-labelledby="simulator-title">
