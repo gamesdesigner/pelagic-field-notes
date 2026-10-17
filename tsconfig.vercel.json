@@ -1,0 +1,6 @@
+{
+  "extends":"./tsconfig.json",
+  "compilerOptions":{"incremental":false},
+  "include":["src/main.tsx","vite.vercel.config.ts","api/*.js","server/accounts/*.mjs"],
+  "exclude":["node_modules","dist-vercel","dist-netlify","worker","db"]
+}

@@ -1,49 +1,85 @@
 # Marine Biology Class
 
-Interactive ocean-science lessons, animal animations, quizzes, and two reading levels.
+Interactive ocean-science lessons, animations, quizzes, and two reading levels.
 
-## Production
+## Vercel migration
 
-- Website: https://marinebiology-learn.netlify.app
-- Hosting for this canonical checkout: **Netlify**. A temporary Sites mirror is maintained separately in `../sites-hosted/`.
-- Netlify project ID: `c1ad4709-306e-4a2e-8695-baf83990d8d2`.
-- GitHub: https://github.com/gamesdesigner/pelagic-field-notes (branch `main`).
+The user requested migration from Netlify to Vercel on October 17, 2026.
+Project `marinebiology-learn` is created in team `projects-9420`:
+https://vercel.com/projects-9420/marinebiology-learn
 
-The existing Netlify project was renamed to `marinebiology-learn` on October 17, 2026, as requested. `127.0.0.1:5173` is only the local development preview; the public address is the Netlify URL above.
+Migration is pending database provisioning and a verified deployment. Existing
+sites remain available during migration. Netlify is still serving older source
+because account credits block new builds. The temporary current-content mirror
+is https://marinebiology-learn.isuxyang.chatgpt.site, with separate account storage.
 
-## Development and build
+Canonical source: https://github.com/gamesdesigner/pelagic-field-notes (`main`).
+Read `AGENTS.md` before deployment. Never copy private handoff files into source.
 
-Install dependencies using the existing lockfile, then run the Vite configuration used by Netlify:
+## Development and verification
+
+Use Node 24 and the pnpm lockfile:
 
 ```sh
-pnpm run dev:netlify
-pnpm run build:netlify
-pnpm run test:accounts
-pnpm run typecheck:netlify
+pnpm install --frozen-lockfile
+pnpm dev
+pnpm test
+pnpm run typecheck:vercel
+pnpm run build:vercel
 ```
 
-`netlify.toml` defines the build and SPA fallback. Build output goes to `dist-netlify/`. The React entry point is `src/netlify-main.tsx`; lesson source is in `app/`.
+`vite.vercel.config.ts` builds the React entry `src/main.tsx` into `dist-vercel/`.
+Lessons live in `app/`. Local accounts use disposable process memory and reset
+when the Vite server restarts. Production deploys the source and `api/` functions
+together; uploading only the static build would break sign-in.
 
-The normal publishing path is a commit pushed to the connected GitHub `main` branch. Verify that its Netlify deployment reaches `ready`. If Netlify rejects a deployment because of account credits, report that limitation; do not purchase credits or change billing without authorization.
+## Persistent accounts on Vercel
 
-## Accounts and cuttlefish discovery
+Vercel Functions `api/auth.js` and `api/students.js` use shared handlers in
+`server/accounts/`. The Postgres adapter uses parameterized queries and atomic
+conditional writes to protect concurrent signup, singleton ownership, and
+session revocation. No process-memory fallback exists on production endpoints.
 
-The welcome page uses the existing logo and offers sign-up and sign-in. Registration requires a username and any non-empty password (up to 128 characters); email is optional. Accounts use a Netlify Function (`netlify/functions/auth.mjs`) and the private `marine-biology-private-accounts` Netlify Blobs store. Passwords are salted and hashed with scrypt. Random sessions use HttpOnly, SameSite cookies, Secure on HTTPS, with seven-day expiry. The server validates inputs, checks the request origin, and limits login/registration attempts. Optional emails stay in the private account record and are not returned to the browser. Email verification and password recovery are not implemented.
+Connect a Neon Postgres database using Vercel Storage. Set the private production
+`DATABASE_URL` (or `POSTGRES_URL`) and execute the bounded, idempotent migration:
 
-The Vite development server uses the same handler with disposable server-memory records. Local preview accounts disappear when the development server restarts; production uses persistent Netlify Blobs. Do not publish only `dist-netlify/` as a static ZIP: the account function must also be deployed through the connected Netlify build. Lesson assets remain public resources; the welcome gate is not a paywall or confidential-content authorization layer.
+```sh
+pnpm run db:migrate:vercel
+```
 
-The Common Cuttlefish lesson includes six interactive anatomy markers, generated teaching illustrations, chromatophore/iridophore/leucophore explanations, papillae texture controls, animated pigment expansion, and a seven-question, five-option quiz. Generated illustrations and their prompt set are in `public/assets/cuttlefish/`. The diagrams are simplified artistic teaching models rather than microscopy.
+The command reads an ignored `.env.vercel.local` if present, or process environment.
+It creates `marine_account_records` from `migrations/postgres/001_account_records.sql`.
+Never expose database URLs through VITE_ variables, commit them, or print them in logs.
+Use separate databases for production and preview. Preserve previous-host databases;
+account records are not automatically transferred by a hosting change.
 
-## Owner setup and student accounts
+Registration requires a username and any nonempty password up to 128 characters;
+email is optional. Passwords use salted scrypt hashes. Seven-day sessions use
+HttpOnly, SameSite cookies and Secure on HTTPS. APIs check origins, input sizes,
+and attempt limits. Email verification and password recovery are not implemented.
+Lesson assets are public; the welcome gate does not make lesson content confidential.
 
-Owner signup requires the private `MARINE_OWNER_SETUP_CODE` server environment variable. The welcome page offers **Owner signup** only while that code is configured and the private store has no owner. Register a new account or use an existing student's username and password, then supply the setup code. The server atomically claims a single owner record; regular signup cannot assign an owner role. After setup, use the normal Sign in button. Concurrent claims can create a regular student account for the losing request, but cannot grant it owner access.
+## Owner setup and student management
 
-For local development the code is loaded from ignored `.env.local`. The private handoff file `../OWNER_SETUP_PRIVATE.txt` contains the code and instructions; it must never be committed or copied into `public/`. Local ownership and accounts reset when the development server restarts. Do not create a default owner, hard-code an invitation in client code, or automatically promote the first public signup.
+Configure private production `MARINE_OWNER_SETUP_CODE`. Owner signup appears only
+when this is configured and the database has no owner. The account must supply
+its password and that setup code. The singleton owner is claimed atomically;
+ordinary signup cannot grant ownership. After claiming ownership use normal Sign in.
+Keep the Vercel owner code in a private handoff file outside the repository.
+Never create a default owner or automatically promote the first public signup.
+Local `.env.local` is ignored and local ownership resets with the server.
 
-For Netlify, configure `MARINE_OWNER_SETUP_CODE` as a **production** server environment variable before deploying. Function-only scope was refused by the current plan. A broader-scope retry was rejected by automatic approval review; production setup remains unconfigured pending the user's explicit approval. No broader scope, billing, or plan changes were made. Production uses the existing persistent private Netlify Blobs store. The owner code is never exposed by either account API or the built client.
+Owners can search students by username prefix, view optional emails and join dates,
+and pause/reactivate accounts in pages of 50. Server checks owner status on every
+request. Pausing permanently revokes previous sessions even after reactivation;
+a fresh sign-in is required. The app rechecks sessions every minute while visible
+and when returning to the tab. Passwords and setup codes are never listed.
+Account deletion, password reset, and lesson editing are not included.
 
-Owners have a **Student accounts** button. The panel shows usernames, optional email, join date, and active/paused status. Search matches the start of a username, with 50 accounts per page. Owners can pause and reactivate accounts; these APIs verify owner status server-side on every request. Pausing increments a session version, permanently invalidating earlier sessions even after reactivation. The app rechecks sessions every minute while visible and when returning to the tab. A reactivated student must sign in again. Owner accounts cannot be modified through this panel. Student passwords and setup codes are never listed. Account deletion, password reset, and lesson editing are not provided by this panel.
+## Retained rollback configuration
 
-## Temporary second host
-
-On October 17, 2026, the user authorized updating the ChatGPT-hosted site for now at https://marinebiology-learn.isuxyang.chatgpt.site. Its separate source checkout is `../sites-hosted/`; use the Sites skill and its AGENTS.md there. This checkout keeps the Netlify build and GitHub origin. Account databases and owner setup codes are separate. Keep both websites; do not delete either one. Read `AGENTS.md` before making changes.
+Legacy Netlify configuration and adapters remain for rollback, but Netlify is no
+longer the deployment target. Its project ID is `c1ad4709-306e-4a2e-8695-baf83990d8d2`.
+The previously rejected broad-scope Netlify secret action remains unapproved.
+Temporary Sites source and Worker/D1 configuration are isolated in `../sites-hosted/`.
+Do not run Sites source helpers in this canonical Git checkout or delete existing hosts.
