@@ -1,4 +1,5 @@
 import {readSessionUser,response,findAccount,normalizeUsername,validUsername} from './auth-core.mjs';
+import {readLearning,learningSummary} from './learning-core.mjs';
 const studentView=user=>({username:user.username,email:user.email||'',created:user.created,status:user.disabled?'paused':'active'});
 export function createStudentHandler({store,now=()=>Date.now()}){return async req=>{
  try{
@@ -7,9 +8,11 @@ export function createStudentHandler({store,now=()=>Date.now()}){return async re
   if(req.method==='GET'){
    const url=new URL(req.url);const search=normalizeUsername(url.searchParams.get('search')||'');const after=normalizeUsername(url.searchParams.get('after')||'');
    if(!/^[a-z0-9_ ]{0,24}$/.test(search)||!/^[a-z0-9_ ]{0,24}$/.test(after))return response({error:'Search by the start of a username.'},400);
+   const target=url.searchParams.get('student');
+   if(target!==null){const student=await findAccount(store,target);if(!student||student.key===account.key)return response({error:'Student account was not found.'},404);return response({student:studentView(student.value),progress:await readLearning(store,student.key)});}
    const keys=(await store.list('users/')).filter(key=>key!==account.key);
-   const rows=(await Promise.all(keys.map(key=>store.read(key)))).filter(Boolean).map(row=>row.value).filter(user=>normalizeUsername(user.username).startsWith(search)&&normalizeUsername(user.username)>after).sort((a,b)=>normalizeUsername(a.username)<normalizeUsername(b.username)?-1:1);
-   return response({students:rows.slice(0,50).map(studentView),nextCursor:rows.length>50?normalizeUsername(rows[49].username):null});
+   const rows=(await Promise.all(keys.map(async key=>{const row=await store.read(key);return row?{...row.value,accountKey:key}:null;}))).filter(Boolean).filter(user=>normalizeUsername(user.username).startsWith(search)&&normalizeUsername(user.username)>after).sort((a,b)=>normalizeUsername(a.username)<normalizeUsername(b.username)?-1:1);
+   return response({students:await Promise.all(rows.slice(0,50).map(async user=>({...studentView(user),learning:learningSummary(await readLearning(store,user.accountKey))}))),nextCursor:rows.length>50?normalizeUsername(rows[49].username):null});
   }
   if(req.method!=='POST')return response({error:'Method not allowed.'},405);
   if(req.headers.get('origin')!==new URL(req.url).origin)return response({error:'Please use the form on this website.'},403);

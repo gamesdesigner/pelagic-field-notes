@@ -24,6 +24,18 @@ export async function findAccount(store,name){
  const row=await store.read(key);
  return row&&normalizeUsername(row.value.username)===normalized?{...row,key}:null;
 }
+// A compact owner spelling (MaxYang) signs in to the same spaced name.
+// Exact registered names take precedence; aliases never grant a role themselves.
+export async function findSignInAccount(store,name){
+ const exact=await findAccount(store,name);if(exact)return exact;
+ const input=normalizeUsername(name);const owner=await store.read('settings/owner');if(!owner)return null;
+ const key=owner.value.accountKey||'users/'+normalizeUsername(owner.value.username);const row=await store.read(key);if(!row)return null;
+ const display=normalizeUsername(row.value.username);
+ if(!display.includes(' ')||input!==display.replaceAll(' ',''))return null;
+ const reserved=await store.read('names/'+input);const legacy=await store.read('users/'+input);
+ if((reserved&&reserved.value.accountKey!==key)||(legacy&&key!=='users/'+input))return null;
+ return {...row,key};
+}
 export async function isOwner(store,key,record){const owner=await store.read('settings/owner');return !!owner&&(owner.value.accountKey?owner.value.accountKey===key:normalizeUsername(owner.value.username)===normalizeUsername(record.username));}
 export async function readSessionUser(req,store,now=()=>Date.now()){
  const token=cookieValue(req);if(!token||!/^[a-f0-9]{64}$/.test(token))return null;
@@ -36,7 +48,10 @@ export async function readSessionUser(req,store,now=()=>Date.now()){
 // Names are reserved permanently to the stable account key. An old username can
 // never be used to take over a renamed account or its earlier sessions.
 export async function reserveName(store,name,key){
- const normalized=normalizeUsername(name);const legacy=await store.read('users/'+normalized);
+ const normalized=normalizeUsername(name);
+ const owner=await store.read('settings/owner');
+ if(owner){const ownerKey=owner.value.accountKey||'users/'+normalizeUsername(owner.value.username);if(ownerKey!==key){const ownerAccount=await store.read(ownerKey);const ownerName=normalizeUsername(ownerAccount?.value.username);if(ownerName.includes(' ')&&normalized===ownerName.replaceAll(' ',''))return false;}}
+ const legacy=await store.read('users/'+normalized);
  if(legacy&&key!=='users/'+normalized)return false;
  const alias=await store.read('names/'+normalized);
  if(alias)return alias.value.accountKey===key;
@@ -88,7 +103,7 @@ export function createAuthHandler({store,now=()=>Date.now(),clientIP=()=> 'local
    }
    if(!validUsername(body.username))return response({error:'Use 3–24 letters, numbers, underscores, or spaces between words.'},400);
    if(!validPassword(body.password))return response({error:'Enter a password (up to 128 characters).'},400);
-   const normalized=normalizeUsername(body.username);const found=await findAccount(store,normalized);
+   const normalized=normalizeUsername(body.username);const found=await findSignInAccount(store,normalized);
    if(body.action==='sign-up'){
     const email=typeof body.email==='string'?body.email.trim():'';
     if(email.length>254||(email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)))return response({error:'Enter a valid email or leave it blank.'},400);

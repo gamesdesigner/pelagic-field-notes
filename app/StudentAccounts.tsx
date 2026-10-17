@@ -2,7 +2,9 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { useAccount } from './AccountGate';
 
-type Student = {username:string; email:string; created:number; status:'active'|'paused'};
+import {LearningReport,type LearningData} from './LearningProgress';
+
+type Student = {username:string; email:string; created:number; status:'active'|'paused';learning?:{completed:number;started:number;quizCount:number;totalLessons:number}};
 
 export default function StudentAccounts({onClose}:{onClose:()=>void}) {
   const account=useAccount();
@@ -12,6 +14,7 @@ export default function StudentAccounts({onClose}:{onClose:()=>void}) {
   const [next,setNext]=useState<string|null>(null);const [refresh,setRefresh]=useState(0);
   const [loading,setLoading]=useState(true);const [error,setError]=useState('');
   const [busy,setBusy]=useState('');const [confirm,setConfirm]=useState('');const [notice,setNotice]=useState('');
+  const [viewStudent,setViewStudent]=useState('');const [report,setReport]=useState<LearningData|null>(null);const [reportError,setReportError]=useState('');const [reportLoading,setReportLoading]=useState(false);const [reportRefresh,setReportRefresh]=useState(0);
   const isOwner=account?.user.role==='owner';
   useEffect(()=>{
     if(!isOwner)return;
@@ -20,9 +23,14 @@ export default function StudentAccounts({onClose}:{onClose:()=>void}) {
     fetch('/api/students?'+query,{signal:controller.signal}).then(async r=>{const data=await r.json();if(!r.ok)throw Error(data.error||'Could not load student accounts.');if(!controller.signal.aborted){setStudents(data.students);setNext(data.nextCursor);}}).catch(e=>{if(!controller.signal.aborted)setError(e instanceof Error?e.message:'Could not load student accounts.');}).finally(()=>{if(!controller.signal.aborted)setLoading(false);});
     return()=>controller.abort();
   },[isOwner,search,cursor,refresh]);
+  useEffect(()=>{
+    if(!isOwner||!viewStudent)return;const controller=new AbortController();setReportLoading(true);setReport(null);setReportError('');
+    fetch('/api/students?'+new URLSearchParams({student:viewStudent}),{signal:controller.signal}).then(async r=>{const data=await r.json();if(!r.ok)throw Error(data.error||'Could not load this student’s progress.');if(!controller.signal.aborted)setReport(data.progress);}).catch(e=>{if(!controller.signal.aborted)setReportError(e.message);}).finally(()=>{if(!controller.signal.aborted)setReportLoading(false);});
+    return()=>controller.abort();
+  },[isOwner,viewStudent,reportRefresh]);
   async function change(student:Student,action:'pause'|'activate') {
     if(busy)return;setBusy(student.username);setError('');setNotice('');
-    try {const r=await fetch('/api/students',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:student.username,action})});const data=await r.json();if(!r.ok)throw Error(data.error||'Could not update this account.');setStudents(rows=>rows.map(row=>row.username===student.username?data.student:row));setConfirm('');setNotice(`${student.username} is now ${action==='pause'?'paused':'active'}.`);}
+    try {const r=await fetch('/api/students',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:student.username,action})});const data=await r.json();if(!r.ok)throw Error(data.error||'Could not update this account.');setStudents(rows=>rows.map(row=>row.username===student.username?{...row,...data.student}:row));setConfirm('');setNotice(`${student.username} is now ${action==='pause'?'paused':'active'}.`);}
     catch(e){setError(e instanceof Error?e.message:'Could not update this account.');}finally{setBusy('');}
   }
   function find(event:FormEvent) {event.preventDefault();setSearch(input.trim().toLowerCase());setCursor('');setHistory([]);setRefresh(value=>value+1);setNotice('');}
@@ -35,7 +43,7 @@ export default function StudentAccounts({onClose}:{onClose:()=>void}) {
       <div className="student-toolbar"><span>{loading?'Loading accounts…':`${students.length} student${students.length===1?'':'s'} on this page`}</span><button onClick={()=>setRefresh(v=>v+1)} disabled={loading||!!busy}>Refresh</button></div>
       {error&&<p className="account-form-error" role="alert">{error}</p>}{notice&&<p className="student-notice" role="status">{notice}</p>}
       {!loading&&!error&&students.length===0&&<div className="student-empty"><h2>{search?'No matching students yet.':'Your students will appear here.'}</h2><p>{search?'Try a different username prefix.':'Students can create an account using the regular Sign up button.'}</p></div>}
-      {!loading&&!error&&<ul className="student-list">{students.map(student=><li key={student.username}><div className="student-identity"><h2>{student.username}</h2><p>{student.email||'No email provided'}</p><p>Joined {new Date(student.created).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'})}</p></div><span className={`student-status ${student.status}`}>{student.status==='active'?'Active':'Paused'}</span><div className="student-actions">{confirm===student.username?<><p>Pause {student.username}? They will be signed out at their next session check and cannot sign in until reactivated.</p><div><button className="student-pause" disabled={!!busy} onClick={()=>change(student,'pause')}>{busy?'Saving…':'Confirm pause'}</button><button disabled={!!busy} onClick={()=>setConfirm('')}>Cancel</button></div></>:<button disabled={!!busy} onClick={()=>student.status==='active'?setConfirm(student.username):change(student,'activate')}>{busy===student.username?'Saving…':student.status==='active'?'Pause account':'Reactivate account'}</button>}</div></li>)}</ul>}
+      {!loading&&!error&&<ul className="student-list">{students.map(student=><li key={student.username}><div className="student-identity"><h2>{student.username}</h2><p>{student.email||'No email provided'}</p><p>Joined {new Date(student.created).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'})}</p><p className="student-learning-summary">{student.learning?.completed||0} / {student.learning?.totalLessons||12} lessons complete · {student.learning?.quizCount||0} quizzes attempted</p><button type="button" className="student-view-progress" aria-expanded={viewStudent===student.username} onClick={()=>setViewStudent(current=>current===student.username?'':student.username)}>View learning progress</button></div><span className={`student-status ${student.status}`}>{student.status==='active'?'Active':'Paused'}</span><div className="student-actions">{confirm===student.username?<><p>Pause {student.username}? They will be signed out at their next session check and cannot sign in until reactivated.</p><div><button className="student-pause" disabled={!!busy} onClick={()=>change(student,'pause')}>{busy?'Saving…':'Confirm pause'}</button><button disabled={!!busy} onClick={()=>setConfirm('')}>Cancel</button></div></>:<button disabled={!!busy} onClick={()=>student.status==='active'?setConfirm(student.username):change(student,'activate')}>{busy===student.username?'Saving…':student.status==='active'?'Pause account':'Reactivate account'}</button>}</div>{viewStudent===student.username&&<section className="student-learning-panel" aria-label={`Learning progress for ${student.username}`}><header><h2>{student.username}’s learning progress</h2><button type="button" disabled={reportLoading} onClick={()=>setReportRefresh(value=>value+1)}>Refresh progress</button></header>{reportLoading?<p role="status">Loading learning progress…</p>:reportError?<p role="alert">{reportError}</p>:report&&<LearningReport data={report}/>}</section>}</li>)}</ul>}
       <nav className="student-pages" aria-label="Student account pages"><button disabled={!history.length||loading||!!busy} onClick={()=>{setCursor(history.at(-1)||'');setHistory(value=>value.slice(0,-1));}}>Previous</button><button disabled={!next||loading||!!busy} onClick={()=>{setHistory(value=>[...value,cursor]);setCursor(next||'');}}>Next</button></nav>
       <p className="student-access-note">Pausing preserves the student’s account and ends their sessions. Reactivating lets them sign in again. Passwords are never shown here.</p>
     </section>

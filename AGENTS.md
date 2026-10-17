@@ -10,7 +10,7 @@ This supersedes the older Netlify-only deployment target.
 - Vercel team: `team_H46xn7eMAifKIkbtBxahAwMU` (`projects-9420`).
 - Vercel project: `prj_p8H4QykqouyJu8leR4eIJbaITawL` (`marinebiology-learn`).
 - Build: `pnpm run build:vercel`; output: `dist-vercel`; config: `vercel.json`.
-- React entry: `src/main.tsx`; API: `api/auth.js`, `api/students.js`.
+- React entry: `src/main.tsx`; API: `api/auth.js`, `api/students.js`, `api/progress.js`.
 - Validate with `pnpm test` and `pnpm run typecheck:vercel`.
 - Production accounts use private Vercel Blob store `store_5P506RkyxPFpB47z`.
   Vercel injects `BLOB_READ_WRITE_TOKEN`; keep it server-only. Reads must bypass
@@ -23,6 +23,10 @@ This supersedes the older Netlify-only deployment target.
   ETag conditions and server-side ownership. Sign-in sessions last 30 days.
 - Never run owner provisioning on deploy or overwrite an owner's password without
   an explicit administrative setup/reset request.
+- Learning records must remain bound to the stable account key. Validate quiz
+  answers server-side with the shared question bank; never trust a posted score.
+  Student learning reports are owner-only. Preserve progress during renames and
+  deployments. Both MaxYang and Max Yang sign in to the same existing owner.
 - A deployment is complete only after Vercel reports READY and public browser/API
   checks pass. Obtain the actual assigned URL; do not invent a subdomain.
 - Vercel URL: https://marinebiology-learn.vercel.app. Production deployment

@@ -109,6 +109,40 @@ The Vercel Blob account store persists across deployments. Cookies retain sign-i
 for 30 days; signing out ends that session without deleting the account. No password
 is stored in browser localStorage. Local development remains disposable memory.
 
+## Quiz scores and lesson progress
+
+`api/progress.js` uses the private Vercel account store and the authenticated
+account's stable key. Learning records live under a hash of that key, so changing
+a username preserves results. No progress is keyed only by browser localStorage.
+Students can read or change only their own learning record; the owner can view
+students through authenticated `/api/students?student=<username>` reports.
+
+All 12 lessons record started/completed status, visit dates, and the last reading
+level. Learners explicitly use **Mark lesson complete** after the reading. The
+preferred reading level is restored next time they open that lesson. **My progress**
+in the lesson header shows the complete account report.
+
+All eight existing quizzes save after every question in an attempt has been
+answered. The server grades submitted answers using `shared/learning-content.mjs`,
+the same question bank used by the UI; client-supplied scores are ignored. Saved
+records contain latest/best score, question total, attempt count and last-attempt
+date. Retaking a quiz preserves the best score. Retry identifiers deduplicate
+recent requests (last 100 per quiz), and conditional writes merge simultaneous
+saves from different tabs. Save failures are shown with a Retry button.
+Unfinished attempts are not resumed after a reload. Tracking begins with new
+activity; quiz results from before persistence existed cannot be reconstructed.
+
+Student accounts shows each student's completed-lesson and quiz counts. **View
+learning progress** expands all lesson statuses and quiz results. Paused/revoked
+sessions cannot save progress or read private reports. Scores and progress survive
+renames and new deployments. Tests cover isolation, server-side grading, retries,
+concurrent writes, owner authorization, renamed accounts and real private storage.
+
+The existing owner display name remains **Max Yang**. Normal Sign in also accepts
+**MaxYang**, ignoring capitalization, with the same password. Compact owner spelling
+is reserved against new signups/renames; existing distinct accounts take precedence.
+No owner password was reset for this fix.
+
 ## Retained rollback configuration
 
 Legacy Netlify configuration and adapters remain for rollback, but Netlify is no

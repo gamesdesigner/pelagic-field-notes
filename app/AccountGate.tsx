@@ -1,6 +1,8 @@
 "use client";
 import {createContext,useContext,useEffect,useRef,useState,type ReactNode,type FormEvent} from 'react';
 
+import {LearningProvider} from './LearningProgress';
+
 type Account={username:string;role?:'owner'};
 type AccountUpdate={currentPassword:string;newUsername?:string;newPassword?:string};
 const AccountContext=createContext<{user:Account;signOut:()=>Promise<void>;updateAccount:(change:AccountUpdate)=>Promise<void>}|null>(null);
@@ -28,7 +30,7 @@ export default function AccountGate({children}:{children:ReactNode}){
   event.preventDefault();if(busy)return;requestVersion.current++;setBusy(true);setError('');const data=new FormData(event.currentTarget);
   try{const r=await fetch('/api/auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:mode,username:data.get('username'),password:data.get('password'),...(mode==='sign-up'?{email:data.get('email')}: {})})});const result=await r.json();if(!r.ok)throw Error(result.error||'Please try again.');formRef.current?.reset();setUser(result.user);setVisible(false);}catch(e){setError(e instanceof Error?e.message:'Accounts are temporarily unavailable. Please try again shortly.');}finally{setBusy(false);}
  }
- if(user)return <AccountContext.Provider value={{user,signOut,updateAccount}}>{error&&<p className="account-global-error" role="alert">{error}</p>}{children}</AccountContext.Provider>;
+ if(user)return <AccountContext.Provider value={{user,signOut,updateAccount}}>{error&&<p className="account-global-error" role="alert">{error}</p>}<LearningProvider identity={user.username}>{children}</LearningProvider></AccountContext.Provider>;
  return <main className="account-landing">
   <header className="account-landing-header"><span className="landing-edition">A living ocean field guide</span><img src="/assets/marine-biology-class-logo-transparent.png" alt="Marine Biology Class"/><span className="landing-age">For curious minds, ages 13+</span></header>
   <div className="account-landing-grid">

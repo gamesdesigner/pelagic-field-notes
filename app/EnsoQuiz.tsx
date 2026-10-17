@@ -2,52 +2,12 @@
 
 import { useRef, useState } from "react";
 
-const questions = [
-  {
-    prompt: "Where does El Niño develop?",
-    options: ["In the Arctic Ocean", "In the northern Atlantic Ocean", "In the central and eastern tropical Pacific Ocean", "Only in the Mediterranean Sea", "Only in the Southern Ocean"],
-    answer: 2,
-    explanation: "El Niño is the warm phase of ENSO in the tropical Pacific.",
-  },
-  {
-    prompt: "What usually happens to the trade winds during El Niño?",
-    options: ["They always blow twice as strongly", "They weaken", "They stop everywhere on Earth", "They turn into ocean tides", "They blow only from north to south"],
-    answer: 1,
-    explanation: "Weaker trade winds help warm surface water spread eastward.",
-  },
-  {
-    prompt: "During El Niño, where does warm surface water spread?",
-    options: ["Toward the Arctic", "Only deeper into the ocean", "Away from the equator toward Antarctica", "Eastward toward the Americas", "Only westward toward Indonesia"],
-    answer: 3,
-    explanation: "The warm pool spreads toward the central and eastern Pacific.",
-  },
-  {
-    prompt: "Why can weaker upwelling during El Niño reduce food for marine life?",
-    options: ["Fewer nutrients reach the surface from deep water", "All sunlight disappears", "The ocean loses all its salt", "Fish can no longer breathe any oxygen", "Seawater turns into freshwater"],
-    answer: 0,
-    explanation: "Less nutrient-rich deep water reaches the surface, which can reduce phytoplankton growth and affect the food web.",
-  },
-  {
-    prompt: "Which combination best describes La Niña?",
-    options: ["Weaker trade winds and warmer eastern Pacific water", "No trade winds and no currents", "Stronger trade winds and warmer eastern Pacific water", "Weaker trade winds and warmer water everywhere", "Stronger trade winds and cooler central and eastern Pacific water"],
-    answer: 4,
-    explanation: "Stronger winds push warm water west and strengthen eastern upwelling during La Niña.",
-  },
-  {
-    prompt: "What does it mean when scientists say El Niño favors wetter winters in the southern United States?",
-    options: ["Every day will have heavy rain", "Every place on Earth will become wetter", "It increases the chance of wetter conditions, but does not determine every storm", "Only ocean temperatures change; weather cannot change", "The exact same storms happen during every El Niño"],
-    answer: 2,
-    explanation: "ENSO changes weather probabilities. Local effects still depend on the season, event strength and other weather influences.",
-  },
-  {
-    prompt: "Which statement about the ENSO cycle is correct?",
-    options: ["El Niño starts on the same date every year", "Warm, cool and neutral phases occur on an irregular schedule", "La Niña always starts immediately after El Niño", "Each phase lasts exactly seven days", "El Niño and La Niña happen only once a century"],
-    answer: 1,
-    explanation: "ENSO has no fixed timetable. Events commonly recur about every 2–7 years and can last many months or longer.",
-  },
-];
+import {ensoQuestions as questions} from "../shared/learning-content.mjs";
+
+import {QuizSave,useQuizAttempt} from "./LearningProgress";
 
 export default function EnsoQuiz() {
+  const attempt=useQuizAttempt();
   const [index, setIndex] = useState(0);
   const [answer, setAnswer] = useState<number | null>(null);
   const [submitted, setSubmitted] = useState(false);
@@ -60,6 +20,7 @@ export default function EnsoQuiz() {
 
   function checkAnswer() {
     if (answer === null || checked.current || complete) return;
+    attempt.record(index,questions[index].options[answer]);
     checked.current = true;
     setSubmitted(true);
     if (correct) setScore(value => value + 1);
@@ -70,12 +31,12 @@ export default function EnsoQuiz() {
     setAnswer(null);
     setSubmitted(false);
     checked.current = false;
-    if (restart) setScore(0);
+    if (restart) {setScore(0);attempt.restart();}
     title.current?.focus();
   }
 
   return <section className="enso-quiz" aria-labelledby="enso-quiz-title">
-    <div className="quiz-shell">
+    <div className="quiz-shell"><QuizSave lessonId="enso" answers={attempt.answers} attemptId={attempt.attemptId}/>
       <div className="quiz-header">
         <div><span>Knowledge check · 7 questions · 5 choices</span><h2 id="enso-quiz-title" ref={title} tabIndex={-1}>El Niño &amp; La Niña quiz</h2></div>
         <strong>{complete ? "Complete" : `Question ${index + 1} of ${questions.length}`}</strong>

@@ -2,52 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const questions = [
-  {
-    prompt: "Which two properties of seawater give thermohaline circulation its name?",
-    options: ["Wave height and tides", "Temperature and salinity", "Sunlight and oxygen", "Wind speed and rainfall"],
-    answer: "Temperature and salinity",
-    explanation: "Thermo means temperature and haline refers to salt. Both affect seawater density, which helps drive deep-ocean circulation.",
-  },
-  {
-    prompt: "Why does cold, salty water sink in the North Atlantic?",
-    options: ["It contains more sunlight", "It is pushed down by fish", "It is less dense than warmer water", "It is denser than the water around it"],
-    answer: "It is denser than the water around it",
-    explanation: "Cooling and high salinity can make surface water dense enough to sink and feed the deep Atlantic current.",
-  },
-  {
-    prompt: "Where does an important sinking region of the global conveyor belt form?",
-    options: ["The North Atlantic near Greenland and Iceland", "The middle of the Sahara Desert", "The Amazon River", "The equatorial Pacific coastline"],
-    answer: "The North Atlantic near Greenland and Iceland",
-    explanation: "The lesson's sinking marker highlights the North Atlantic, where surface water loses heat and dense water moves into deeper layers.",
-  },
-  {
-    prompt: "After deep water moves south through the Atlantic, which two ocean basins receive major branches of the conveyor pathway?",
-    options: ["The Mediterranean and Caribbean seas", "The Arctic and Mediterranean", "The Indian and Pacific oceans", "Only the Atlantic Ocean"],
-    answer: "The Indian and Pacific oceans",
-    explanation: "Deep water exchanges with the Southern Ocean and branches toward the Indian and Pacific basins in the schematic conveyor pathway.",
-  },
-  {
-    prompt: "What helps deep water return toward the ocean surface?",
-    options: ["The ocean floor becoming dry", "Mixing and wind-driven upwelling", "The Moon turning water into ice", "All deep currents stopping"],
-    answer: "Mixing and wind-driven upwelling",
-    explanation: "Mixing and upwelling bring deep water back toward the upper ocean across broad regions, helping connect the deep and surface pathways.",
-  },
-  {
-    prompt: "About how long can a parcel of water take to complete a journey around the global conveyor belt?",
-    options: ["One day", "One month", "Ten years", "1,000 years"],
-    answer: "1,000 years",
-    explanation: "A complete journey can take roughly 1,000 years. The map speeds up the animation so you can see the movement.",
-  },
-  {
-    prompt: "How can fresh water from melting ice affect sinking in the North Atlantic?",
-    options: ["It can lower surface-water density and weaken sinking", "It always makes seawater saltier", "It instantly stops every ocean current", "It makes surface water denser than before"],
-    answer: "It can lower surface-water density and weaken sinking",
-    explanation: "Fresh water lowers salinity and can make surface water less dense. This can weaken the sinking that helps sustain Atlantic overturning.",
-  },
-];
+import {conveyorQuestions as questions} from "../shared/learning-content.mjs";
+
+import {QuizSave,useQuizAttempt} from "./LearningProgress";
 
 export default function ConveyorBeltQuiz() {
+  const attempt=useQuizAttempt();
   const [index, setIndex] = useState(0);
   const [answer, setAnswer] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -65,6 +25,7 @@ export default function ConveyorBeltQuiz() {
 
   const checkAnswer = () => {
     if (!answer || submitted || complete) return;
+    attempt.record(index,answer);
     setSubmitted(true);
     if (correct) setScore((value) => value + 1);
   };
@@ -74,6 +35,7 @@ export default function ConveyorBeltQuiz() {
     setSubmitted(false);
   };
   const restart = () => {
+    attempt.restart();
     setIndex(0);
     setAnswer("");
     setSubmitted(false);
@@ -82,7 +44,7 @@ export default function ConveyorBeltQuiz() {
 
   return (
     <section className="upwelling-quiz conveyor-quiz" aria-labelledby="conveyor-quiz-title">
-      <div className="quiz-shell">
+      <div className="quiz-shell"><QuizSave lessonId="conveyor" answers={attempt.answers} attemptId={attempt.attemptId}/>
         <div className="quiz-header">
           <div><span>Knowledge check · 7 questions</span><h2 id="conveyor-quiz-title">Global conveyor belt quiz</h2></div>
           <strong>{complete ? "Complete" : `Question ${index + 1} of ${questions.length}`}</strong>

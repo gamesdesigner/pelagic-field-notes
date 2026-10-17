@@ -13,6 +13,8 @@ import LessonReading from "./LessonReading";
 import { useAccount } from "./AccountGate";
 import StudentAccounts from "./StudentAccounts";
 import AccountSettings from "./AccountSettings";
+import {MyLearning,QuizSave,useQuizAttempt} from "./LearningProgress";
+import {upwellingQuestions,coriolisQuestions,sunlightQuestions,turtleQuestions} from "../shared/learning-content.mjs";
 
 type Subject = {
   id: string;
@@ -101,50 +103,13 @@ const subjects: Subject[] = [
 const currentTopics = ["Upwelling", "Global Conveyor Belt", "Coriolis Effect", "Ekman transport", "El Niño & La Niña"];
 const sunlightTopics = ["General Marine Life in the Sun", "Green Sea Turtle", "Great White Shark", "Common Cuttlefish"];
 
-const upwellingQuiz: QuizQuestion[] = [
-  { prompt: "What causes moving ocean water to deflect as Earth rotates?", answer: "The Coriolis Effect", options: ["The Coriolis Effect", "Marine snow", "Brine rejection", "The thermocline"] },
-  { prompt: "In which direction is moving water deflected in the Northern Hemisphere?", answer: "To the right", options: ["To the right", "To the left", "Straight downward", "Toward the equator"] },
-  { prompt: "What is the net movement of surface water at a 90-degree angle to the wind called?", answer: "Ekman Transport", options: ["Ekman Transport", "Tidal mixing", "Brine rejection", "Downwelling"] },
-  { prompt: "During coastal upwelling, where does warm surface water move?", answer: "Away from the coast", options: ["Away from the coast", "Down the continental shelf", "Toward the seafloor", "Into a river"] },
-  { prompt: "What rises to replace the surface water pushed offshore?", answer: "Cold, nutrient-rich deep water", options: ["Cold, nutrient-rich deep water", "Warm, nutrient-poor water", "Fresh river water", "Melting sea ice"] },
-  { prompt: "What is the sunlit upper layer of the ocean called?", answer: "The photic zone", options: ["The photic zone", "The abyssal zone", "The benthic zone", "The trench zone"] },
-  { prompt: "What name is given to organic material that sinks through the ocean?", answer: "Marine snow", options: ["Marine snow", "Sea foam", "Brine", "Coastal fog"] },
-  { prompt: "What breaks down dead organisms and waste in the deep ocean?", answer: "Deep-sea bacteria", options: ["Deep-sea bacteria", "Ocean winds", "Sunlight", "Coral reefs"] },
-  { prompt: "Nitrates are especially important for making which materials in marine plants?", answer: "Proteins and nucleic acids", options: ["Proteins and nucleic acids", "Salt and sand", "Calcium and shells", "Oxygen bubbles"] },
-  { prompt: "Phosphates are important for which cellular job?", answer: "Energy transfer", options: ["Energy transfer", "Changing tides", "Producing salt", "Deflecting currents"] },
-  { prompt: "Which microscopic organisms use silicates to build glass-like shells?", answer: "Diatoms", options: ["Diatoms", "Jellyfish", "Whales", "Sea turtles"] },
-  { prompt: "What is a rapid increase in phytoplankton called?", answer: "An algal bloom", options: ["An algal bloom", "A spring tide", "A rain shadow", "A brine pool"] },
-  { prompt: "Which organisms form the foundational base of the marine food web?", answer: "Phytoplankton", options: ["Phytoplankton", "Sharks", "Whales", "Seabirds"] },
-  { prompt: "Spell the process in which deep ocean water rises toward the surface.", answer: "upwelling" },
-  { prompt: "Spell the general name for tiny organisms that drift in ocean currents.", answer: "plankton" },
-];
+const upwellingQuiz = upwellingQuestions;
 
-const coriolisQuiz: QuizQuestion[] = [
-  { prompt: "What causes the Coriolis effect?", answer: "Earth's rotation", options: ["Earth's rotation", "The Moon's gravity", "Ocean salinity", "Solar heating"] },
-  { prompt: "Which way are moving objects deflected in the Northern Hemisphere?", answer: "To the right", options: ["To the right", "To the left", "Straight upward", "Toward the equator"] },
-  { prompt: "Which way are moving objects deflected in the Southern Hemisphere?", answer: "To the left", options: ["To the left", "To the right", "Toward the North Pole", "They are not deflected"] },
-  { prompt: "Where is the Coriolis effect weakest?", answer: "At the equator", options: ["At the equator", "At the poles", "At 60° latitude", "It is equally strong everywhere"] },
-  { prompt: "How do Northern Hemisphere hurricanes usually rotate?", answer: "Counterclockwise", options: ["Counterclockwise", "Clockwise", "East to west only", "They do not rotate"] },
-  { prompt: "Spell the name of the apparent deflection caused by Earth's rotation.", answer: "coriolis" },
-];
+const coriolisQuiz = coriolisQuestions;
 
-const sunlightQuiz: QuizQuestion[] = [
-  { prompt: "Which body part lets a dolphin breathe at the ocean surface?", answer: "Blowhole", options: ["Blowhole", "Dorsal fin", "Gill cover", "Tail fluke"] },
-  { prompt: "What is the hard upper shell of a green sea turtle called?", answer: "Carapace", options: ["Carapace", "Bell", "Rostrum", "Operculum"] },
-  { prompt: "Which part forms the rounded top of a moon jelly?", answer: "Bell", options: ["Bell", "Oral arm", "Tentacle", "Gonad"] },
-  { prompt: "Which fin helps stabilize a bluefin tuna along the top of its body?", answer: "Dorsal fin", options: ["Dorsal fin", "Pectoral fin", "Tail fin", "Gill cover"] },
-  { prompt: "Which organisms use sunlight to form the base of many ocean food webs?", answer: "Phytoplankton", options: ["Phytoplankton", "Dolphins", "Sea turtles", "Tuna"] },
-  { prompt: "Spell the word for a turtle's hard upper shell.", answer: "carapace" },
-];
+const sunlightQuiz = sunlightQuestions;
 
-const turtleQuiz: QuizQuestion[] = [
-  { prompt: "What do most adult green sea turtles mainly eat?", answer: "Seagrasses and algae", options: ["Seagrasses and algae", "Tuna and squid", "Coral skeletons", "Deep-sea bacteria"] },
-  { prompt: "How does a green sea turtle get oxygen?", answer: "It breathes air with lungs", options: ["It breathes air with lungs", "It uses gills", "It absorbs oxygen through its shell", "It gets oxygen from seagrass"] },
-  { prompt: "Which body parts provide most of a green turtle's swimming power?", answer: "Front flippers", options: ["Front flippers", "Carapace scutes", "Rear claws", "Beak"] },
-  { prompt: "Where do female green sea turtles lay their eggs?", answer: "On sandy beaches", options: ["On sandy beaches", "Inside seagrass beds", "On coral reefs", "In the open ocean"] },
-  { prompt: "How can green turtle grazing help a seagrass meadow?", answer: "It encourages fresh growth", options: ["It encourages fresh growth", "It removes all sunlight", "It turns grass into coral", "It makes the water saltier"] },
-  { prompt: "Spell the name of the underwater plant meadow where adult green turtles often feed.", answer: "seagrass" },
-];
+const turtleQuiz = turtleQuestions;
 
 type AnatomyPart = { label: string; x: string; y: string };
 type AnatomyEntry = { title: string; note: string; parts: AnatomyPart[] };
@@ -526,6 +491,7 @@ function CoriolisGlobe() {
 }
 
 function CoriolisQuiz() {
+  const attempt=useQuizAttempt();
   const [questionIndex, setQuestionIndex] = useState(0);
   const [answer, setAnswer] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -542,6 +508,7 @@ function CoriolisQuiz() {
       ? enteredAnswer === expectedAnswer
       : spellingDistance(enteredAnswer, expectedAnswer) <= 2;
     setWasCorrect(isCorrect);
+    attempt.record(questionIndex,answer);
     setSubmitted(true);
     if (isCorrect) setScore((value) => value + 1);
   };
@@ -554,6 +521,7 @@ function CoriolisQuiz() {
   };
 
   const restart = () => {
+    attempt.restart();
     setQuestionIndex(0);
     setAnswer("");
     setSubmitted(false);
@@ -563,7 +531,7 @@ function CoriolisQuiz() {
 
   return (
     <section className="upwelling-quiz coriolis-quiz" aria-labelledby="coriolis-quiz-title">
-      <div className="quiz-shell">
+      <div className="quiz-shell"><QuizSave lessonId="coriolis" answers={attempt.answers} attemptId={attempt.attemptId}/>
         <div className="quiz-header">
           <div>
             <span>Knowledge check</span>
@@ -640,6 +608,7 @@ function CoriolisQuiz() {
 }
 
 function SunlightZoneLab() {
+  const attempt=useQuizAttempt();
   const [selectedCreatureId, setSelectedCreatureId] = useState(sunlightCreatures[0].id);
   const [questionIndex, setQuestionIndex] = useState(0);
   const [answer, setAnswer] = useState("");
@@ -659,6 +628,7 @@ function SunlightZoneLab() {
       ? enteredAnswer === expectedAnswer
       : spellingDistance(enteredAnswer, expectedAnswer) <= 2;
     setWasCorrect(isCorrect);
+    attempt.record(questionIndex,answer);
     setSubmitted(true);
     if (isCorrect) setScore((value) => value + 1);
   };
@@ -671,6 +641,7 @@ function SunlightZoneLab() {
   };
 
   const restart = () => {
+    attempt.restart();
     setQuestionIndex(0);
     setAnswer("");
     setSubmitted(false);
@@ -777,7 +748,7 @@ function SunlightZoneLab() {
       </section>
 
       <section className="upwelling-quiz sunlight-quiz" aria-labelledby="sunlight-quiz-title">
-        <div className="quiz-shell">
+        <div className="quiz-shell"><QuizSave lessonId="sunlight" answers={attempt.answers} attemptId={attempt.attemptId}/>
           <div className="quiz-header">
             <div>
               <span>Knowledge check</span>
@@ -852,6 +823,7 @@ function SunlightZoneLab() {
 }
 
 function TurtleQuiz() {
+  const attempt=useQuizAttempt();
   const [questionIndex, setQuestionIndex] = useState(0);
   const [answer, setAnswer] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -868,6 +840,7 @@ function TurtleQuiz() {
       ? enteredAnswer === expectedAnswer
       : spellingDistance(enteredAnswer, expectedAnswer) <= 2;
     setWasCorrect(isCorrect);
+    attempt.record(questionIndex,answer);
     setSubmitted(true);
     if (isCorrect) setScore((value) => value + 1);
   };
@@ -880,6 +853,7 @@ function TurtleQuiz() {
   };
 
   const restart = () => {
+    attempt.restart();
     setQuestionIndex(0);
     setAnswer("");
     setSubmitted(false);
@@ -889,7 +863,7 @@ function TurtleQuiz() {
 
   return (
     <section className="upwelling-quiz turtle-quiz" aria-labelledby="turtle-quiz-title">
-      <div className="quiz-shell">
+      <div className="quiz-shell"><QuizSave lessonId="turtle" answers={attempt.answers} attemptId={attempt.attemptId}/>
         <div className="quiz-header">
           <div>
             <span>Knowledge check</span>
@@ -1108,8 +1082,10 @@ function TurtleFeedingLab() {
 }
 
 export default function Home() {
+  const upwellingAttempt=useQuizAttempt();
   const account = useAccount();
   const [accountSettings,setAccountSettings]=useState(false);
+  const [myLearning,setMyLearning]=useState(false);
   const [studentPanel, setStudentPanel] = useState(false);
   const [selected, setSelected] = useState<Subject | null>(null);
   const [currentTopic, setCurrentTopic] = useState<number | null>(null);
@@ -1145,6 +1121,7 @@ export default function Home() {
       ? enteredAnswer === expectedAnswer
       : spellingDistance(enteredAnswer, expectedAnswer) <= 2;
     setQuizWasCorrect(isCorrect);
+    upwellingAttempt.record(quizIndex,quizAnswer);
     setQuizSubmitted(true);
     if (isCorrect) setQuizScore((score) => score + 1);
   };
@@ -1157,6 +1134,7 @@ export default function Home() {
   };
 
   const restartQuiz = () => {
+    upwellingAttempt.restart();
     setQuizIndex(0);
     setQuizAnswer("");
     setQuizSubmitted(false);
@@ -1177,12 +1155,12 @@ export default function Home() {
   }, [selected]);
 
   return (
-    accountSettings ? <main className="site-shell"><AccountSettings onClose={()=>setAccountSettings(false)}/></main> : studentPanel && account?.user.role === 'owner' ? <StudentAccounts onClose={()=>setStudentPanel(false)} /> : <main className="site-shell">
+    myLearning ? <main className="site-shell"><MyLearning onClose={()=>setMyLearning(false)}/></main> : accountSettings ? <main className="site-shell"><AccountSettings onClose={()=>setAccountSettings(false)}/></main> : studentPanel && account?.user.role === 'owner' ? <StudentAccounts onClose={()=>setStudentPanel(false)} /> : <main className="site-shell">
       <header className="site-header">
         <button className="brand" onClick={() => setSelected(null)} aria-label="Return to all subjects">
           <img src="/assets/marine-biology-class-logo-transparent.png" alt="Marine Biology Class" />
         </button>
-        {account && <div className="account-header-tools"><span>{account.user.username}</span>{account.user.role==='owner'&&<><span className="owner-badge">Owner</span><button type="button" onClick={()=>setStudentPanel(true)}>Student accounts</button></>}<button type="button" onClick={()=>setAccountSettings(true)}>Account settings</button><button type="button" onClick={account.signOut}>Sign out</button></div>}
+        {account && <div className="account-header-tools"><span>{account.user.username}</span>{account.user.role==='owner'&&<><span className="owner-badge">Owner</span><button type="button" onClick={()=>setStudentPanel(true)}>Student accounts</button></>}<button type="button" onClick={()=>setMyLearning(true)}>My progress</button><button type="button" onClick={()=>setAccountSettings(true)}>Account settings</button><button type="button" onClick={account.signOut}>Sign out</button></div>}
       </header>
 
       {!selected ? (
@@ -1500,7 +1478,7 @@ export default function Home() {
                 </div>
               </section>
               <section className="upwelling-quiz" aria-labelledby="upwelling-quiz-title">
-                <div className="quiz-shell">
+                <div className="quiz-shell"><QuizSave lessonId="upwelling" answers={upwellingAttempt.answers} attemptId={upwellingAttempt.attemptId}/>
                   <div className="quiz-header">
                     <div>
                       <span>Knowledge check</span>
