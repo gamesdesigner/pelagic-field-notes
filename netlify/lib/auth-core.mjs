@@ -4,17 +4,34 @@ const scrypt = promisify(scryptCallback);
 const SESSION_AGE = 60 * 60 * 24 * 7;
 const digest = value => createHash('sha256').update(value).digest('hex');
 const derive = (password, salt) => scrypt(password, salt, 64, { N: 32768, r: 8, p: 1, maxmem: 64 * 1024 * 1024 });
-const publicUser = user => ({ username: user.username });
+const publicUser = (user, owner) => ({ username: user.username, ...(owner ? { role: 'owner' } : {}) });
 const cookieValue = req => (req.headers.get('cookie') || '').split(';').map(s => s.trim()).find(s => s.startsWith('mb_session='))?.slice(11);
 const sessionCookie = (req, value, age) => `mb_session=${value}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${age}${new URL(req.url).protocol === 'https:' ? '; Secure' : ''}`;
-function response(data, status = 200, cookie) {
+export function response(data, status = 200, cookie) {
   const headers = { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' };
   if (cookie) headers['Set-Cookie'] = cookie;
   return new Response(JSON.stringify(data), { status, headers });
 }
 
+// Resolve role and access from server records on every request, never from the client.
+export async function readSessionUser(req, store, now = () => Date.now()) {
+  const token = cookieValue(req);
+  if (!token || !/^[a-f0-9]{64}$/.test(token)) return null;
+  const key = 'sessions/' + digest(token);
+  const session = await store.read(key);
+  if (!session) return null;
+  const user = await store.read('users/' + session.value.username);
+  if (session.value.expires <= now() || !user || user.value.disabled ||
+      (user.value.sessionVersion || 0) !== (session.value.sessionVersion || 0)) {
+    await store.remove(key);
+    return null;
+  }
+  const owner = await store.read('settings/owner');
+  return { user: publicUser(user.value, owner?.value.username === user.value.username), record: user.value };
+}
+
 // The store exposes conditional writes so concurrent sign-ups cannot claim one name.
-export function createAuthHandler({ store, now = () => Date.now(), clientIP = () => 'local' }) {
+export function createAuthHandler({ store, now = () => Date.now(), clientIP = () => 'local', ownerSignupCode = '' }) {
   async function rateLimit(req) {
     const key = 'limits/' + digest(clientIP(req));
     for (let attempt = 0; attempt < 8; attempt++) {
@@ -28,20 +45,18 @@ export function createAuthHandler({ store, now = () => Date.now(), clientIP = ()
   }
   async function startSession(req, user) {
     const token = randomBytes(32).toString('hex');
-    await store.write('sessions/' + digest(token), { username: user.username, expires: now() + SESSION_AGE * 1000 });
-    return response({ user: publicUser(user) }, 200, sessionCookie(req, token, SESSION_AGE));
+    if (!await store.write('sessions/' + digest(token), { username: user.username, sessionVersion: user.sessionVersion || 0, expires: now() + SESSION_AGE * 1000 })) throw Error('Session could not be saved');
+    const owner = await store.read('settings/owner');
+    return response({ user: publicUser(user, owner?.value.username === user.username) }, 200, sessionCookie(req, token, SESSION_AGE));
   }
   return async function handler(req) {
     try {
       const token = cookieValue(req);
       const sessionKey = token && /^[a-f0-9]{64}$/.test(token) ? 'sessions/' + digest(token) : null;
       if (req.method === 'GET') {
-        const session = sessionKey && await store.read(sessionKey);
-        if (!session || session.value.expires <= now()) {
-          if (session) await store.remove(sessionKey);
-          return response({ user: null }, 200, token ? sessionCookie(req, '', 0) : undefined);
-        }
-        return response({ user: { username: session.value.username } });
+        const current = await readSessionUser(req, store, now);
+        const owner = await store.read('settings/owner');
+        return response({ user: current?.user || null, ownerSignupAvailable: !!ownerSignupCode && !owner }, 200, !current && token ? sessionCookie(req, '', 0) : undefined);
       }
       if (req.method !== 'POST') return response({ error: 'Method not allowed.' }, 405);
       if (req.headers.get('origin') !== new URL(req.url).origin) return response({ error: 'Please use the form on this website.' }, 403);
@@ -56,20 +71,38 @@ export function createAuthHandler({ store, now = () => Date.now(), clientIP = ()
         if (sessionKey) await store.remove(sessionKey);
         return response({ user: null }, 200, sessionCookie(req, '', 0));
       }
-      if (!['sign-in', 'sign-up'].includes(body.action)) return response({ error: 'Unknown account action.' }, 400);
+      if (!['sign-in', 'sign-up', 'owner-sign-up'].includes(body.action)) return response({ error: 'Unknown account action.' }, 400);
       if (!await rateLimit(req)) return response({ error: 'Too many attempts. Please try again in 15 minutes.' }, 429);
+      const claimingOwner = body.action === 'owner-sign-up';
+      if (claimingOwner) {
+        if (!ownerSignupCode) return response({ error: 'Owner signup is not configured yet.' }, 503);
+        const code = typeof body.setupCode === 'string' ? body.setupCode.trim() : '';
+        if (!timingSafeEqual(Buffer.from(digest(code), 'hex'), Buffer.from(digest(ownerSignupCode), 'hex'))) return response({ error: 'The owner setup code is incorrect.' }, 403);
+        if (await store.read('settings/owner')) return response({ error: 'An owner has already been set up. Please sign in.' }, 409);
+      }
       const username = typeof body.username === 'string' ? body.username.trim().toLowerCase() : '';
       const password = typeof body.password === 'string' ? body.password : '';
       if (!/^[a-z0-9_]{3,24}$/.test(username)) return response({ error: 'Use 3–24 letters, numbers, or underscores for your username.' }, 400);
       if (password.length === 0 || password.length > 128) return response({ error: 'Enter a password (up to 128 characters).' }, 400);
       const key = 'users/' + username;
-      if (body.action === 'sign-up') {
+      if (body.action === 'sign-up' || claimingOwner) {
         const email = typeof body.email === 'string' ? body.email.trim() : '';
         if (email.length > 254 || (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))) return response({ error: 'Enter a valid email or leave it blank.' }, 400);
-        const salt = randomBytes(16).toString('hex');
-        const hash = (await derive(password, salt)).toString('hex');
-        const user = { username, salt, hash, ...(email ? { email } : {}), created: now(), passwordVersion: 1 };
-        if (!await store.write(key, user)) return response({ error: 'That username is already in use. Please choose another.' }, 409);
+        const existing = await store.read(key);
+        let user;
+        if (claimingOwner && existing) {
+          const actual = await derive(password, existing.value.salt);
+          const expected = Buffer.from(existing.value.hash, 'hex');
+          if (actual.length !== expected.length || !timingSafeEqual(actual, expected) || existing.value.disabled) return response({ error: 'Username or password is incorrect.' }, 401);
+          user = existing.value;
+        } else {
+          if (existing) return response({ error: 'That username is already in use. Please choose another.' }, 409);
+          const salt = randomBytes(16).toString('hex');
+          const hash = (await derive(password, salt)).toString('hex');
+          user = { username, salt, hash, ...(email ? { email } : {}), created: now(), passwordVersion: 1 };
+          if (!await store.write(key, user)) return response({ error: 'That username is already in use. Please choose another.' }, 409);
+        }
+        if (claimingOwner && !await store.write('settings/owner', { username, created: now() })) return response({ error: 'An owner has already been set up. Your account can still sign in as a student.' }, 409);
         return await startSession(req, user);
       }
       const found = await store.read(key);
@@ -78,6 +111,7 @@ export function createAuthHandler({ store, now = () => Date.now(), clientIP = ()
       const expected = found ? Buffer.from(found.value.hash, 'hex') : Buffer.alloc(64);
       const valid = expected.length === actual.length && timingSafeEqual(actual, expected);
       if (!found || !valid) return response({ error: 'Username or password is incorrect.' }, 401);
+      if (found.value.disabled) return response({ error: 'This account is paused. Please contact the website owner.' }, 403);
       return await startSession(req, found.value);
     } catch {
       // Never log account forms, credentials, session tokens, or storage responses.
@@ -97,5 +131,6 @@ export function createMemoryStore() {
       entries.set(key, { value: structuredClone(value), etag: String(++revision) }); return true;
     },
     async remove(key) { entries.delete(key); },
+    async list(prefix) { return Array.from(entries.keys()).filter(key => key.startsWith(prefix)).sort(); },
   };
 }

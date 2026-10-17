@@ -10,7 +10,7 @@
     "build": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vinext build",
     "build:netlify": "vite build --config vite.netlify.config.ts",
     "dev:netlify": "vite --config vite.netlify.config.ts",
-    "test:accounts": "node --test tests/accounts.test.mjs",
+    "test:accounts": "node --test tests/accounts.test.mjs tests/owner-accounts.test.mjs",
     "typecheck:netlify": "tsc -p tsconfig.netlify.json",
     "start": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vinext start",
     "test": "npm run build && node --test tests/rendered-html.test.mjs",

@@ -11,6 +11,7 @@ import GreatWhiteSharkLesson from "./GreatWhiteSharkLesson";
 import CommonCuttlefishLesson from "./CommonCuttlefishLesson";
 import LessonReading from "./LessonReading";
 import { useAccount } from "./AccountGate";
+import StudentAccounts from "./StudentAccounts";
 
 type Subject = {
   id: string;
@@ -1107,6 +1108,7 @@ function TurtleFeedingLab() {
 
 export default function Home() {
   const account = useAccount();
+  const [studentPanel, setStudentPanel] = useState(false);
   const [selected, setSelected] = useState<Subject | null>(null);
   const [currentTopic, setCurrentTopic] = useState<number | null>(null);
   const [windSpeed, setWindSpeed] = useState(10);
@@ -1173,12 +1175,12 @@ export default function Home() {
   }, [selected]);
 
   return (
-    <main className="site-shell">
+    studentPanel && account?.user.role === 'owner' ? <StudentAccounts onClose={()=>setStudentPanel(false)} /> : <main className="site-shell">
       <header className="site-header">
         <button className="brand" onClick={() => setSelected(null)} aria-label="Return to all subjects">
           <img src="/assets/marine-biology-class-logo-transparent.png" alt="Marine Biology Class" />
         </button>
-        {account && <div className="account-header-tools"><span>{account.user.username}</span><button type="button" onClick={account.signOut}>Sign out</button></div>}
+        {account && <div className="account-header-tools"><span>{account.user.username}</span>{account.user.role==='owner'&&<><span className="owner-badge">Owner</span><button type="button" onClick={()=>setStudentPanel(true)}>Student accounts</button></>}<button type="button" onClick={account.signOut}>Sign out</button></div>}
       </header>
 
       {!selected ? (

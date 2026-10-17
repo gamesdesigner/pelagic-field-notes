@@ -34,6 +34,16 @@ The Vite development server uses the same handler with disposable server-memory 
 
 The Common Cuttlefish lesson includes six interactive anatomy markers, generated teaching illustrations, chromatophore/iridophore/leucophore explanations, papillae texture controls, animated pigment expansion, and a seven-question, five-option quiz. Generated illustrations and their prompt set are in `public/assets/cuttlefish/`. The diagrams are simplified artistic teaching models rather than microscopy.
 
+## Owner setup and student accounts
+
+Owner signup requires the private `MARINE_OWNER_SETUP_CODE` server environment variable. The welcome page offers **Owner signup** only while that code is configured and the private store has no owner. Register a new account or use an existing student's username and password, then supply the setup code. The server atomically claims a single owner record; regular signup cannot assign an owner role. After setup, use the normal Sign in button. Concurrent claims can create a regular student account for the losing request, but cannot grant it owner access.
+
+For local development the code is loaded from ignored `.env.local`. The private handoff file `../OWNER_SETUP_PRIVATE.txt` contains the code and instructions; it must never be committed or copied into `public/`. Local ownership and accounts reset when the development server restarts. Do not create a default owner, hard-code an invitation in client code, or automatically promote the first public signup.
+
+For Netlify, configure `MARINE_OWNER_SETUP_CODE` as a **production** server environment variable before deploying. Function-only scope was refused by the current plan. A broader-scope retry was rejected by automatic approval review; production setup remains unconfigured pending the user's explicit approval. No broader scope, billing, or plan changes were made. Production uses the existing persistent private Netlify Blobs store. The owner code is never exposed by either account API or the built client.
+
+Owners have a **Student accounts** button. The panel shows usernames, optional email, join date, and active/paused status. Search matches the start of a username, with 50 accounts per page. Owners can pause and reactivate accounts; these APIs verify owner status server-side on every request. Pausing increments a session version, permanently invalidating earlier sessions even after reactivation. The app rechecks sessions every minute while visible and when returning to the tab. A reactivated student must sign in again. Owner accounts cannot be modified through this panel. Student passwords and setup codes are never listed. Account deletion, password reset, and lesson editing are not provided by this panel.
+
 ## Retired host
 
 The ChatGPT-hosted website is retired for this project. Do not edit or deploy it. The `.openai/hosting.json` and Vinext/Worker files are legacy configuration, not the production publishing path. Read `AGENTS.md` before making changes.
