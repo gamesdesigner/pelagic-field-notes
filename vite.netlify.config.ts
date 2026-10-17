@@ -1,8 +1,9 @@
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
+import { localAccounts } from "./netlify/lib/dev-auth.mjs";
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), localAccounts()],
   publicDir: "public",
   build: {
     outDir: "dist-netlify",

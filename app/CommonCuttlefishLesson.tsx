@@ -1,3 +1,5 @@
+import CuttlefishLab from "./CuttlefishLab";
+import CuttlefishQuiz from "./CuttlefishQuiz";
 import LessonReading from "./LessonReading";
 import { useId } from "react";
 
@@ -62,5 +64,7 @@ export default function CommonCuttlefishLesson() {
       <p>Studying common cuttlefish helps marine biologists understand animal intelligence, camouflage, predator-prey relationships, communication, and adaptation to life in the ocean.</p>
     </article>
     </LessonReading>
+    <CuttlefishLab />
+    <CuttlefishQuiz />
   </>;
 }

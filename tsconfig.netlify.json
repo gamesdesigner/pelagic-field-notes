@@ -1,0 +1,6 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": { "incremental": false },
+  "include": ["src/netlify-main.tsx", "vite.netlify.config.ts"],
+  "exclude": ["node_modules", "dist-netlify", "worker", "db"]
+}

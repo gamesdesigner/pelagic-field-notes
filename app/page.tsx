@@ -10,6 +10,7 @@ import TurtleFeedingScene from "./TurtleFeedingScene";
 import GreatWhiteSharkLesson from "./GreatWhiteSharkLesson";
 import CommonCuttlefishLesson from "./CommonCuttlefishLesson";
 import LessonReading from "./LessonReading";
+import { useAccount } from "./AccountGate";
 
 type Subject = {
   id: string;
@@ -1105,6 +1106,7 @@ function TurtleFeedingLab() {
 }
 
 export default function Home() {
+  const account = useAccount();
   const [selected, setSelected] = useState<Subject | null>(null);
   const [currentTopic, setCurrentTopic] = useState<number | null>(null);
   const [windSpeed, setWindSpeed] = useState(10);
@@ -1176,6 +1178,7 @@ export default function Home() {
         <button className="brand" onClick={() => setSelected(null)} aria-label="Return to all subjects">
           <img src="/assets/marine-biology-class-logo-transparent.png" alt="Marine Biology Class" />
         </button>
+        {account && <div className="account-header-tools"><span>{account.user.username}</span><button type="button" onClick={account.signOut}>Sign out</button></div>}
       </header>
 
       {!selected ? (
