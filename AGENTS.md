@@ -1,6 +1,6 @@
 # Ocean Biology: Netlify only
 
-The user explicitly switched all future work to the existing Netlify website on October 16, 2026. Do not work on or publish the old ChatGPT-hosted website again.
+This canonical checkout targets Netlify. On October 17, 2026, the user authorized the existing ChatGPT-hosted website as a temporary second host. Work on that Site only in the separate `../sites-hosted/` checkout using its AGENTS.md and the Sites skill. Never run Sites source helpers in this canonical GitHub checkout.
 
 ## Source and deployment
 
@@ -14,8 +14,8 @@ The user explicitly switched all future work to the existing Netlify website on 
 - Verify the corresponding Netlify deployment reaches `ready` before reporting publication.
 - Obtain the current public URL from the Netlify project; do not infer it from the legacy Sites manifest.
 
-## Retired hosting
+## Separate temporary Sites mirror
 
-Do not call Sites synchronization, save, deploy, domain, or access tools. Do not run `site-workflow.mjs`. The `.openai/hosting.json` file is legacy configuration. Historical ChatGPT-hosted URLs and publishing instructions do not override the user's Netlify-only instruction.
+Use Netlify tools and builds from this checkout. The `.openai/hosting.json` here is legacy information; Sites operations belong to the separate mirror. Retain both hosts for now, as explicitly requested. The Sites mirror uses the existing Site project and its own Worker/D1 account storage.
 
 Preserve unrelated local changes in the older checkout at `/Users/leima/Documents/Codex/2026-08-20/layout-for-an-ocean-biology-study`; it is not the active working directory.

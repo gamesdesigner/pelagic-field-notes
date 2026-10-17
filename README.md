@@ -5,7 +5,7 @@ Interactive ocean-science lessons, animal animations, quizzes, and two reading l
 ## Production
 
 - Website: https://marinebiology-learn.netlify.app
-- Hosting: **Netlify only**.
+- Hosting for this canonical checkout: **Netlify**. A temporary Sites mirror is maintained separately in `../sites-hosted/`.
 - Netlify project ID: `c1ad4709-306e-4a2e-8695-baf83990d8d2`.
 - GitHub: https://github.com/gamesdesigner/pelagic-field-notes (branch `main`).
 
@@ -44,6 +44,6 @@ For Netlify, configure `MARINE_OWNER_SETUP_CODE` as a **production** server envi
 
 Owners have a **Student accounts** button. The panel shows usernames, optional email, join date, and active/paused status. Search matches the start of a username, with 50 accounts per page. Owners can pause and reactivate accounts; these APIs verify owner status server-side on every request. Pausing increments a session version, permanently invalidating earlier sessions even after reactivation. The app rechecks sessions every minute while visible and when returning to the tab. A reactivated student must sign in again. Owner accounts cannot be modified through this panel. Student passwords and setup codes are never listed. Account deletion, password reset, and lesson editing are not provided by this panel.
 
-## Retired host
+## Temporary second host
 
-The ChatGPT-hosted website is retired for this project. Do not edit or deploy it. The `.openai/hosting.json` and Vinext/Worker files are legacy configuration, not the production publishing path. Read `AGENTS.md` before making changes.
+On October 17, 2026, the user authorized updating the ChatGPT-hosted site for now at https://marinebiology-learn.isuxyang.chatgpt.site. Its separate source checkout is `../sites-hosted/`; use the Sites skill and its AGENTS.md there. This checkout keeps the Netlify build and GitHub origin. Account databases and owner setup codes are separate. Keep both websites; do not delete either one. Read `AGENTS.md` before making changes.
