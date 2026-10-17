@@ -9,16 +9,16 @@ Project `marinebiology-learn` is created in team `projects-9420`:
 https://vercel.com/projects-9420/marinebiology-learn
 
 Live website: **https://marinebiology-learn.vercel.app**.
-The private Vercel Blob account backend is live. The account-settings and welcome
-redesign update is undergoing deployment verification. Existing
+The account-settings and illustrated welcome update is live and verified. Existing
 sites remain available as previous hosts. Netlify is still serving older source
 because account credits block new builds. The temporary current-content mirror
 is https://marinebiology-learn.isuxyang.chatgpt.site, with separate account storage.
 
-Deployment `dpl_9hT2kpdmB1GCE8vQFtcEfzUw1vza` reached READY from code commit
-`ac4c9b143b641fc95cbb4fd4bb93d70e0b3c83ed`. Live checks passed for short-password
-signup, persistent sessions, sign-in/out, owner access, student
-authorization, request origins, and lesson images. Only disposable test records
+Deployment `dpl_9r3F3p9qyVkeqFPyvUbvSBXxCQg5` reached READY from code commit
+`7da26f473ddea784a6974212328bb860c3a42118`. Live checks passed for short-password
+signup, 30-day sessions, owner sign-in, removed owner signup, current-password
+verification, saved new credentials, renamed-student management and session
+revocation. The welcome page and images load with no browser errors. Only disposable test records
 were removed. Existing host accounts have not been copied into the Vercel store.
 
 Deploy through the connected Vercel API using Git source
