@@ -9,13 +9,13 @@ Project `marinebiology-learn` is created in team `projects-9420`:
 https://vercel.com/projects-9420/marinebiology-learn
 
 Live website: **https://marinebiology-learn.vercel.app**.
-The account-settings and illustrated welcome update is live and verified. Existing
+The account-learning progress update and MaxYang sign-in fix are live and verified. Existing
 sites remain available as previous hosts. Netlify is still serving older source
 because account credits block new builds. The temporary current-content mirror
 is https://marinebiology-learn.isuxyang.chatgpt.site, with separate account storage.
 
-Deployment `dpl_9r3F3p9qyVkeqFPyvUbvSBXxCQg5` reached READY from code commit
-`7da26f473ddea784a6974212328bb860c3a42118`. Live checks passed for short-password
+Deployment `dpl_6kfCsfA4tSXa5QvBAeubr96xuzUz` reached READY from code commit
+`d90615f70915b817fe4d9b4767a65033654ef281`. Live checks passed for short-password
 signup, 30-day sessions, owner sign-in, removed owner signup, current-password
 verification, saved new credentials, renamed-student management and session
 revocation. The welcome page and images load with no browser errors. Only disposable test records

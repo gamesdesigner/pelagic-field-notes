@@ -30,9 +30,10 @@ This supersedes the older Netlify-only deployment target.
 - A deployment is complete only after Vercel reports READY and public browser/API
   checks pass. Obtain the actual assigned URL; do not invent a subdomain.
 - Vercel URL: https://marinebiology-learn.vercel.app. Production deployment
-  `dpl_9r3F3p9qyVkeqFPyvUbvSBXxCQg5` is READY from code commit `7da26f4`;
+  `dpl_6kfCsfA4tSXa5QvBAeubr96xuzUz` is READY from code commit `d90615f`;
   live owner login, persistent sessions, credential changes, student controls,
-  removed owner signup and the illustrated welcome are verified.
+  removed owner signup, the illustrated welcome, MaxYang sign-in, saved learning
+  records and owner learning reports are verified.
 - Git-source deployments work through the Vercel API with
   `{type: "github", org: "gamesdesigner", repo: "pelagic-field-notes", ref: "main"}`.
   The GitHub integration is not installed; pushes alone do not auto-deploy.
