@@ -5,6 +5,7 @@ import {randomUUID} from 'node:crypto';
 import {BlobPreconditionFailedError} from '@vercel/blob';
 import {vercelAccountStore} from '../server/accounts/vercel-store.mjs';
 import {createAuthHandler} from '../server/accounts/auth-core.mjs';
+import {provisionOwner} from '../server/accounts/provision-owner.mjs';
 import {createStudentHandler} from '../server/accounts/student-core.mjs';
 import authEndpoint from '../api/auth.js';
 import studentsEndpoint from '../api/students.js';
@@ -50,12 +51,13 @@ async function exerciseStore(store){
 }
 
 async function exerciseAccounts(store){
- const auth=createAuthHandler({store,ownerSignupCode:code});const students=createStudentHandler({store});
- const claims=await Promise.all(['owner_first','owner_second'].map(username=>auth(post('/api/auth',{action:'owner-sign-up',username,password:'a',setupCode:code}))));
- assert.deepEqual(claims.map(row=>row.status).sort(),[200,409]);const claimed=claims.find(row=>row.status===200);const owner=cookie(claimed);
+ const auth=createAuthHandler({store});const students=createStudentHandler({store});
+ await provisionOwner({store,username:'Test Owner',password:'test-owner-password'});
+ const claimed=await auth(post('/api/auth',{action:'sign-in',username:'Test Owner',password:'test-owner-password'}));
+ assert.equal(claimed.status,200);const owner=cookie(claimed);
  const signup=await auth(post('/api/auth',{action:'sign-up',username:'student_reader',password:'a',email:'student@example.com'}));
  assert.equal(signup.status,200);const old=cookie(signup);
- const freshAuth=createAuthHandler({store,ownerSignupCode:code});
+ const freshAuth=createAuthHandler({store});
  assert.equal((await (await freshAuth(get('/api/auth',owner))).json()).user.role,'owner');
  assert.equal((await students(get('/api/students',old))).status,403);
  const list=await (await students(get('/api/students',owner))).json();
@@ -67,6 +69,8 @@ async function exerciseAccounts(store){
  const login=await freshAuth(post('/api/auth',{action:'sign-in',username:'student_reader',password:'a'}));
  assert.equal(login.status,200);
  assert.equal((await (await freshAuth(get('/api/auth',cookie(login)))).json()).user.username,'student_reader');
+ const changed=await freshAuth(post('/api/auth',{action:'update-account',currentPassword:'a',newUsername:'Ocean Reader',newPassword:'b'},cookie(login)));
+ assert.equal(changed.status,200);assert.equal((await (await freshAuth(get('/api/auth',cookie(login)))).json()).user,null);
  await freshAuth(post('/api/auth',{action:'sign-out'},cookie(login)));
  assert.equal((await (await freshAuth(get('/api/auth',cookie(login)))).json()).user,null);
 }

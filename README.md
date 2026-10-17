@@ -9,14 +9,15 @@ Project `marinebiology-learn` is created in team `projects-9420`:
 https://vercel.com/projects-9420/marinebiology-learn
 
 Live website: **https://marinebiology-learn.vercel.app**.
-The production deployment and private Vercel Blob account backend are verified. Existing
+The private Vercel Blob account backend is live. The account-settings and welcome
+redesign update is undergoing deployment verification. Existing
 sites remain available as previous hosts. Netlify is still serving older source
 because account credits block new builds. The temporary current-content mirror
 is https://marinebiology-learn.isuxyang.chatgpt.site, with separate account storage.
 
 Deployment `dpl_9hT2kpdmB1GCE8vQFtcEfzUw1vza` reached READY from code commit
 `ac4c9b143b641fc95cbb4fd4bb93d70e0b3c83ed`. Live checks passed for short-password
-signup, persistent sessions, sign-in/out, owner setup availability, student
+signup, persistent sessions, sign-in/out, owner access, student
 authorization, request origins, and lesson images. Only disposable test records
 were removed. Existing host accounts have not been copied into the Vercel store.
 
@@ -71,27 +72,42 @@ The test uses a random isolated namespace and removes its records afterward.
 Previous hosts have separate account records, which are not automatically moved.
 
 Registration requires a username and any nonempty password up to 128 characters;
-email is optional. Passwords use salted scrypt hashes. Seven-day sessions use
+email is optional. Passwords use salted scrypt hashes. Thirty-day sessions use
 HttpOnly, SameSite cookies and Secure on HTTPS. APIs check origins, input sizes,
 and attempt limits. Email verification and password recovery are not implemented.
 Lesson assets are public; the welcome gate does not make lesson content confidential.
 
-## Owner setup and student management
+## Account settings and owner access
 
-Configure private production `MARINE_OWNER_SETUP_CODE`. Owner signup appears only
-when this is configured and the database has no owner. The account must supply
-its password and that setup code. The singleton owner is claimed atomically;
-ordinary signup cannot grant ownership. After claiming ownership use normal Sign in.
-Keep the Vercel owner code in a private handoff file outside the repository.
-Never create a default owner or automatically promote the first public signup.
-Local `.env.local` is ignored and local ownership resets with the server.
+Public owner signup has been removed from the interface and API. The owner account
+is configured administratively in private Vercel storage; it signs in using the
+regular Sign in form. The user requested the owner name **Max Yang**. Never put an
+owner password, hash, or invitation code in client code, documentation, or Git.
+`server/accounts/provision-owner.mjs` is an administrative helper, never an API.
+Run provisioning only after an explicit owner setup/reset instruction; deployment
+must never reset an existing owner's changed credentials. The earlier setup-code
+variable is unused. Private handoff instructions are outside the repository.
 
-Owners can search students by username prefix, view optional emails and join dates,
-and pause/reactivate accounts in pages of 50. Server checks owner status on every
-request. Pausing permanently revokes previous sessions even after reactivation;
-a fresh sign-in is required. The app rechecks sessions every minute while visible
-and when returning to the tab. Passwords and setup codes are never listed.
-Account deletion, password reset, and lesson editing are not included.
+**Account settings** lets every signed-in user change a username or password after
+entering the current password. New passwords are confirmed in the UI; any nonempty
+password up to 128 characters is accepted. Usernames support 3–24 ASCII letters,
+numbers, underscores, and single spaces between words; sign-in ignores case.
+Display capitalization is preserved. Changes revoke all earlier sessions and issue
+a new cookie for the current browser. Stable account keys preserve ownership and
+student records across renames. Historical names remain reserved to prevent takeovers.
+Legacy accounts and sessions are read compatibly; no data reset is required.
+
+Owners can search students by the start of their current username, view optional
+emails/join dates, and pause/reactivate accounts, with 50 accounts per page. APIs
+check ownership on every request. Pausing permanently revokes previous sessions,
+including after reactivation. The client rechecks sign-in each visible minute and
+when returning to a tab. Passwords never appear in student management.
+
+The illustrated signup/sign-in page keeps the existing logo and ocean palette,
+adds turtle, cuttlefish, and ocean-current lesson previews, and explains the site.
+The Vercel Blob account store persists across deployments. Cookies retain sign-in
+for 30 days; signing out ends that session without deleting the account. No password
+is stored in browser localStorage. Local development remains disposable memory.
 
 ## Retained rollback configuration
 

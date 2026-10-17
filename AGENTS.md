@@ -16,7 +16,13 @@ This supersedes the older Netlify-only deployment target.
   Vercel injects `BLOB_READ_WRITE_TOKEN`; keep it server-only. Reads must bypass
   caches and updates must preserve ETag conditions. Never use Neon or fall back
   to process memory in production. No SQL migration is required.
-- `MARINE_OWNER_SETUP_CODE` is a private server environment variable. No VITE_ prefix.
+- Public owner signup is removed. The Max Yang owner is configured in private
+  account storage by explicit user request. Never put credentials in source/client
+  code. `MARINE_OWNER_SETUP_CODE` is unused; never re-enable public owner signup.
+- Account/settings changes must preserve stable account keys, legacy sessions,
+  ETag conditions and server-side ownership. Sign-in sessions last 30 days.
+- Never run owner provisioning on deploy or overwrite an owner's password without
+  an explicit administrative setup/reset request.
 - A deployment is complete only after Vercel reports READY and public browser/API
   checks pass. Obtain the actual assigned URL; do not invent a subdomain.
 - Vercel URL: https://marinebiology-learn.vercel.app. Production deployment
@@ -26,7 +32,9 @@ This supersedes the older Netlify-only deployment target.
   `{type: "github", org: "gamesdesigner", repo: "pelagic-field-notes", ref: "main"}`.
   The GitHub integration is not installed; pushes alone do not auto-deploy.
 - Vercel owner setup handoff: `../VERCEL_OWNER_SETUP_PRIVATE.txt` (private, outside Git).
-  Do not claim the production owner while testing.
+  The user explicitly requested this owner configuration; it is now set. Test
+  credential changes with disposable student accounts, never mutate the real
+  owner credentials during QA.
 
 ## Existing hosts
 

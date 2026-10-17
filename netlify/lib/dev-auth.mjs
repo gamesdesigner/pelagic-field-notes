@@ -1,8 +1,8 @@
 import { createAuthHandler, createMemoryStore } from './auth-core.mjs';
 import { createStudentHandler } from './student-core.mjs';
-export function localAccounts({ ownerSignupCode = '' } = {}) {
+export function localAccounts(_options = {}) {
   const store = createMemoryStore();
-  const routes = { '/api/auth': createAuthHandler({store,clientIP:()=> 'local-preview',ownerSignupCode}), '/api/students': createStudentHandler({store}) };
+  const routes = { '/api/auth': createAuthHandler({store,clientIP:()=> 'local-preview'}), '/api/students': createStudentHandler({store}) };
   return {
     name:'local-account-preview',
     configureServer(server) {
