@@ -19,8 +19,14 @@ This supersedes the older Netlify-only deployment target.
 - `MARINE_OWNER_SETUP_CODE` is a private server environment variable. No VITE_ prefix.
 - A deployment is complete only after Vercel reports READY and public browser/API
   checks pass. Obtain the actual assigned URL; do not invent a subdomain.
-- Vercel URL: https://marinebiology-learn.vercel.app. Initial build is READY;
-  the private Blob backend update awaits final deployment verification.
+- Vercel URL: https://marinebiology-learn.vercel.app. Production deployment
+  `dpl_9hT2kpdmB1GCE8vQFtcEfzUw1vza` is READY from code commit `ac4c9b1`;
+  live signup, sessions, owner availability and assets are verified.
+- Git-source deployments work through the Vercel API with
+  `{type: "github", org: "gamesdesigner", repo: "pelagic-field-notes", ref: "main"}`.
+  The GitHub integration is not installed; pushes alone do not auto-deploy.
+- Vercel owner setup handoff: `../VERCEL_OWNER_SETUP_PRIVATE.txt` (private, outside Git).
+  Do not claim the production owner while testing.
 
 ## Existing hosts
 

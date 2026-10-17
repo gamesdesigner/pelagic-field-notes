@@ -8,11 +8,22 @@ The user requested migration from Netlify to Vercel on October 17, 2026.
 Project `marinebiology-learn` is created in team `projects-9420`:
 https://vercel.com/projects-9420/marinebiology-learn
 
-The first Vercel build is ready at https://marinebiology-learn.vercel.app.
-The private Blob account backend update is pending final deployment verification. Existing
-sites remain available during migration. Netlify is still serving older source
+Live website: **https://marinebiology-learn.vercel.app**.
+The production deployment and private Vercel Blob account backend are verified. Existing
+sites remain available as previous hosts. Netlify is still serving older source
 because account credits block new builds. The temporary current-content mirror
 is https://marinebiology-learn.isuxyang.chatgpt.site, with separate account storage.
+
+Deployment `dpl_9hT2kpdmB1GCE8vQFtcEfzUw1vza` reached READY from code commit
+`ac4c9b143b641fc95cbb4fd4bb93d70e0b3c83ed`. Live checks passed for short-password
+signup, persistent sessions, sign-in/out, owner setup availability, student
+authorization, request origins, and lesson images. Only disposable test records
+were removed. Existing host accounts have not been copied into the Vercel store.
+
+Deploy through the connected Vercel API using Git source
+`gamesdesigner/pelagic-field-notes`, branch `main`, production target, and the
+project/team IDs in AGENTS.md. GitHub integration is not installed, so pushes alone
+do not yet trigger automatic Vercel deployments. Verify READY and the live API.
 
 Canonical source: https://github.com/gamesdesigner/pelagic-field-notes (`main`).
 Read `AGENTS.md` before deployment. Never copy private handoff files into source.
