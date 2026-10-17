@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {createAuthHandler,createMemoryStore} from '../netlify/lib/auth-core.mjs';
 import {createStudentHandler} from '../netlify/lib/student-core.mjs';
 
-const origin='https://marinebiology-study.netlify.app';
+const origin='https://marinebiology-learn.netlify.app';
 const setupCode='private-test-only-owner-code';
 const cookie=r=>r.headers.get('set-cookie').split(';')[0];
 function post(path,body,session,site=origin){return new Request(origin+path,{method:'POST',headers:{'Content-Type':'application/json',Origin:site,...(session?{Cookie:session}:{})},body:JSON.stringify(body)});}

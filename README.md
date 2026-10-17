@@ -4,12 +4,12 @@ Interactive ocean-science lessons, animal animations, quizzes, and two reading l
 
 ## Production
 
-- Website: https://marinebiology-study.netlify.app
+- Website: https://marinebiology-learn.netlify.app
 - Hosting: **Netlify only**.
 - Netlify project ID: `c1ad4709-306e-4a2e-8695-baf83990d8d2`.
 - GitHub: https://github.com/gamesdesigner/pelagic-field-notes (branch `main`).
 
-The requested `marinebiology.netlify.app` name was unavailable. The existing Netlify project was renamed to `marinebiology-study` on October 16, 2026.
+The existing Netlify project was renamed to `marinebiology-learn` on October 17, 2026, as requested. `127.0.0.1:5173` is only the local development preview; the public address is the Netlify URL above.
 
 ## Development and build
 
