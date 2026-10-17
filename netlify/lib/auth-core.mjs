@@ -61,7 +61,7 @@ export function createAuthHandler({ store, now = () => Date.now(), clientIP = ()
       const username = typeof body.username === 'string' ? body.username.trim().toLowerCase() : '';
       const password = typeof body.password === 'string' ? body.password : '';
       if (!/^[a-z0-9_]{3,24}$/.test(username)) return response({ error: 'Use 3–24 letters, numbers, or underscores for your username.' }, 400);
-      if (password.length < 12 || password.length > 128) return response({ error: 'Use a password with 12–128 characters.' }, 400);
+      if (password.length === 0 || password.length > 128) return response({ error: 'Enter a password (up to 128 characters).' }, 400);
       const key = 'users/' + username;
       if (body.action === 'sign-up') {
         const email = typeof body.email === 'string' ? body.email.trim() : '';

@@ -45,8 +45,8 @@ export default function AccountGate({children}: {children: ReactNode}) {
         <form ref={formRef} onSubmit={submit} className="account-form" key={mode}>
           <label>Username<input name="username" autoComplete="username" required minLength={3} maxLength={24} pattern="[A-Za-z0-9_]{3,24}" spellCheck={false} autoCapitalize="none" aria-describedby="username-help"/></label>
           <p id="username-help" className="account-field-help">3–24 letters, numbers, or underscores.</p>
-          <label htmlFor="account-password">{mode==='sign-up'?'Create password':'Password'}</label><div className="account-password"><input id="account-password" name="password" type={visible?'text':'password'} autoComplete={mode==='sign-up'?'new-password':'current-password'} required minLength={12} maxLength={128} aria-describedby="password-help"/><button type="button" aria-label={visible?'Hide password':'Show password'} onClick={()=>setVisible(v=>!v)}>{visible?'Hide':'Show'}</button></div>
-          <p id="password-help" className="account-field-help">At least 12 characters. A memorable phrase works well.</p>
+          <label htmlFor="account-password">{mode==='sign-up'?'Create password':'Password'}</label><div className="account-password"><input id="account-password" name="password" type={visible?'text':'password'} autoComplete={mode==='sign-up'?'new-password':'current-password'} required maxLength={128} aria-describedby="password-help"/><button type="button" aria-label={visible?'Hide password':'Show password'} onClick={()=>setVisible(v=>!v)}>{visible?'Hide':'Show'}</button></div>
+          <p id="password-help" className="account-field-help">Choose a password. Short passwords are allowed.</p>
           {mode==='sign-up'&&<label>Email <span>(optional)</span><input name="email" type="email" autoComplete="email" maxLength={254}/></label>}
           {error&&<p className="account-form-error" role="alert">{error}</p>}
           <button className="account-primary account-submit" type="submit" disabled={busy}>{busy?'Please wait…':mode==='sign-up'?'Create account':'Sign in'}</button>
