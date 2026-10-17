@@ -7,6 +7,7 @@ The user explicitly switched all future work to the existing Netlify website on 
 - Canonical checkout: `/Users/leima/Desktop/Projects/Ocean_biology/site`.
 - GitHub remote: `https://github.com/gamesdesigner/pelagic-field-notes.git`, branch `main`.
 - Existing Netlify project ID: `c1ad4709-306e-4a2e-8695-baf83990d8d2`.
+- Production URL: `https://marinebiology-study.netlify.app` (`marinebiology.netlify.app` was already taken).
 - Use `netlify.toml`, `vite.netlify.config.ts`, and the static React entry in `src/netlify-main.tsx`.
 - Build with `npm run build:netlify` (or the configured pnpm equivalent); publish directory is `dist-netlify`.
 - Git pushes to the connected GitHub main branch are the normal Netlify deployment path.
