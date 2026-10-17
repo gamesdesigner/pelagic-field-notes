@@ -18,12 +18,11 @@
     "db:generate": "drizzle-kit generate",
     "build:vercel": "vite build --config vite.vercel.config.ts",
     "dev:vercel": "vite --config vite.vercel.config.ts",
-    "typecheck:vercel": "tsc -p tsconfig.vercel.json",
-    "db:migrate:vercel": "node --env-file-if-exists=.env.vercel.local scripts/migrate-vercel-database.mjs"
+    "typecheck:vercel": "tsc -p tsconfig.vercel.json"
   },
   "dependencies": {
-    "@neondatabase/serverless": "^1.2.0",
     "@netlify/blobs": "^11.1.4",
+    "@vercel/blob": "^2.8.2",
     "@vercel/functions": "^3.10.1",
     "drizzle-orm": "0.45.2",
     "react": "19.2.6",
@@ -32,7 +31,6 @@
   },
   "devDependencies": {
     "@cloudflare/vite-plugin": "1.37.1",
-    "@electric-sql/pglite": "^0.5.10",
     "@eslint/js": "9.39.4",
     "@next/eslint-plugin-next": "16.2.6",
     "@openai/sites-vite-plugin": "0.1.0",

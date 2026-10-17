@@ -12,13 +12,15 @@ This supersedes the older Netlify-only deployment target.
 - Build: `pnpm run build:vercel`; output: `dist-vercel`; config: `vercel.json`.
 - React entry: `src/main.tsx`; API: `api/auth.js`, `api/students.js`.
 - Validate with `pnpm test` and `pnpm run typecheck:vercel`.
-- Production accounts require Neon Postgres (`DATABASE_URL` or `POSTGRES_URL`).
-  Run `pnpm run db:migrate:vercel` with the private URL configured before release.
-  Never fall back to in-memory records in production.
+- Production accounts use private Vercel Blob store `store_5P506RkyxPFpB47z`.
+  Vercel injects `BLOB_READ_WRITE_TOKEN`; keep it server-only. Reads must bypass
+  caches and updates must preserve ETag conditions. Never use Neon or fall back
+  to process memory in production. No SQL migration is required.
 - `MARINE_OWNER_SETUP_CODE` is a private server environment variable. No VITE_ prefix.
 - A deployment is complete only after Vercel reports READY and public browser/API
   checks pass. Obtain the actual assigned URL; do not invent a subdomain.
-- Migration is currently pending database provisioning and deployment verification.
+- Vercel URL: https://marinebiology-learn.vercel.app. Initial build is READY;
+  the private Blob backend update awaits final deployment verification.
 
 ## Existing hosts
 

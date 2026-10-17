@@ -8,7 +8,8 @@ The user requested migration from Netlify to Vercel on October 17, 2026.
 Project `marinebiology-learn` is created in team `projects-9420`:
 https://vercel.com/projects-9420/marinebiology-learn
 
-Migration is pending database provisioning and a verified deployment. Existing
+The first Vercel build is ready at https://marinebiology-learn.vercel.app.
+The private Blob account backend update is pending final deployment verification. Existing
 sites remain available during migration. Netlify is still serving older source
 because account credits block new builds. The temporary current-content mirror
 is https://marinebiology-learn.isuxyang.chatgpt.site, with separate account storage.
@@ -36,22 +37,27 @@ together; uploading only the static build would break sign-in.
 ## Persistent accounts on Vercel
 
 Vercel Functions `api/auth.js` and `api/students.js` use shared handlers in
-`server/accounts/`. The Postgres adapter uses parameterized queries and atomic
-conditional writes to protect concurrent signup, singleton ownership, and
-session revocation. No process-memory fallback exists on production endpoints.
+`server/accounts/`. Private Vercel Blob holds JSON account records; no Neon or
+external database is required. The connected store is `store_5P506RkyxPFpB47z`.
+The production `BLOB_READ_WRITE_TOKEN` is injected by Vercel, never client code.
+Do not commit it or prefix it with VITE_. Keep preview records separate from
+production; the adapter uses environment-specific path namespaces.
 
-Connect a Neon Postgres database using Vercel Storage. Set the private production
-`DATABASE_URL` (or `POSTGRES_URL`) and execute the bounded, idempotent migration:
+Reads use `useCache: false` so session revocation and account pauses are immediate.
+New records disallow overwrites; updates require the previous ETag (`ifMatch`).
+These conditional writes protect simultaneous signup, singleton ownership, and
+attempt limits. No process-memory fallback exists on production endpoints.
+The private store is initialized on use; no SQL migration is required.
+
+Run optional integration verification with an ignored `.env.vercel.local` containing
+the private store token:
 
 ```sh
-pnpm run db:migrate:vercel
+MARINE_BLOB_INTEGRATION=1 node --env-file=.env.vercel.local --test tests/vercel-accounts.test.mjs
 ```
 
-The command reads an ignored `.env.vercel.local` if present, or process environment.
-It creates `marine_account_records` from `migrations/postgres/001_account_records.sql`.
-Never expose database URLs through VITE_ variables, commit them, or print them in logs.
-Use separate databases for production and preview. Preserve previous-host databases;
-account records are not automatically transferred by a hosting change.
+The test uses a random isolated namespace and removes its records afterward.
+Previous hosts have separate account records, which are not automatically moved.
 
 Registration requires a username and any nonempty password up to 128 characters;
 email is optional. Passwords use salted scrypt hashes. Seven-day sessions use
