@@ -33,6 +33,16 @@ functions use the existing private Vercel Blob store. A static-only upload would
 break sign-in and progress saves. Preserve existing production accounts and never
 copy another host's database or provision an owner during deployment.
 
+## Great White Shark anatomy
+
+The shark lesson has a stationary interactive anatomy plate in place of the old
+swimming animation. Body parts covers seven labeled structures. Special
+adaptations covers electrical sensors, dermal denticles, heat-retaining vessels,
+an oil-rich liver and a cartilage skeleton. Numbered markers and the named list
+share selection, with explanations and simplified internal overlays. All controls
+work by keyboard. The original article levels and seven-question quiz remain.
+Sources are linked to Florida Museum, AMNH and NOAA.
+
 ## Marine Life in Twilight
 
 Unit 1 is **General Marine Life in Twilight**. Its introductory article has 640

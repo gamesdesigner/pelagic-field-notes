@@ -1,6 +1,6 @@
 import LessonReading from "./LessonReading";
 import { useId } from "react";
-import SharkSwimmingLab from "./SharkSwimmingLab";
+import SharkAnatomy from "./SharkAnatomy";
 import SharkQuiz from "./SharkQuiz";
 
 export function GreatWhiteSharkArt() {
@@ -56,7 +56,7 @@ export default function GreatWhiteSharkLesson() {
       <p>Studying great white sharks helps marine biologists understand migration, predator behavior, ocean food webs, and the overall health of marine ecosystems.</p>
     </article>
     </LessonReading>
-    <SharkSwimmingLab />
+    <SharkAnatomy />
     <SharkQuiz />
   </>;
 }
