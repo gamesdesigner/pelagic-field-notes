@@ -1,6 +1,7 @@
 "use client";
 import {createContext,useContext,useEffect,useRef,useState,type ReactNode,type FormEvent} from 'react';
 
+import {lessonTitles} from '../shared/learning-content.mjs';
 import {LearningProvider} from './LearningProgress';
 
 type Account={username:string;role?:'owner'};
@@ -57,7 +58,7 @@ export default function AccountGate({children}:{children:ReactNode}){
       <p className="landing-persistence"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="4" y="8" width="12" height="9" rx="2"/><path d="M7 8V5a3 3 0 0 1 6 0v3"/></svg>Your account is saved. Stay signed in for 30 days.</p>
      </form>}
     </div>
-    <div className="landing-learning-notes"><p>One ocean. Many ways to explore.</p><div><strong>12</strong><span>ocean lessons</span></div><div><strong>2</strong><span>reading levels</span></div><div><strong>∞</strong><span>reasons to wonder</span></div></div>
+    <div className="landing-learning-notes"><p>One ocean. Many ways to explore.</p><div><strong>{Object.keys(lessonTitles).length}</strong><span>ocean lessons</span></div><div><strong>2</strong><span>reading levels</span></div><div><strong>∞</strong><span>reasons to wonder</span></div></div>
    </aside>
   </div>
   <footer className="account-landing-footer"><span>Marine Biology Class · By Max Yang</span><span>Stay curious. The ocean has more to teach us.</span></footer>

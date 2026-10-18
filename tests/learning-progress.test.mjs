@@ -31,14 +31,14 @@ test('the compact owner spelling cannot shadow a pre-existing separate account',
  const student=await auth(post('/api/auth',{action:'sign-in',username:'TestOwner',password:'a'}));assert.equal((await student.json()).user.role,undefined);
  assert.equal((await auth(post('/api/auth',{action:'sign-in',username:'TestOwner',password:'owner-test'}))).status,401);
 });
-test('all twelve lessons persist completion and reading level without losing earlier completion',async()=>{
+test('all lessons persist completion and reading level without losing earlier completion',async()=>{
  const {progress,student,store}=await setup();
  for(const lessonId of Object.keys(lessonTitles)){const r=await progress(post('/api/progress',{action:'lesson',lessonId,readingLevel:2,completed:true},student));assert.equal(r.status,200);}
  await progress(post('/api/progress',{action:'lesson',lessonId:'shark',readingLevel:1},student));
  const fresh=createLearningHandler({store});const saved=(await (await fresh(get('/api/progress',student))).json()).progress;
- assert.equal(Object.keys(saved.lessons).length,12);assert.ok(saved.lessons.shark.completedAt);assert.equal(saved.lessons.shark.readingLevel,1);assert.equal(saved.lessons.enso.readingLevel,2);
+ assert.equal(Object.keys(saved.lessons).length,Object.keys(lessonTitles).length);assert.ok(saved.lessons.shark.completedAt);assert.equal(saved.lessons.shark.readingLevel,1);assert.equal(saved.lessons.enso.readingLevel,2);
 });
-test('all eight quiz banks are graded server-side; fake score fields are ignored',async()=>{
+test('all quiz banks are graded server-side; fake score fields are ignored',async()=>{
  const {progress,student}=await setup();
  for(const [lessonId,questions] of Object.entries(quizBank)){
   const r=await progress(post('/api/progress',{action:'quiz',lessonId,attemptId:randomUUID(),answers:answers(lessonId),score:0,bestScore:900},student));assert.equal(r.status,200);
@@ -142,4 +142,28 @@ test('refresh recovery chooses pending local edits only for the same or explicit
  assert.equal(restoreQuizSession({...state,attemptId:randomUUID()},cached,7),null);
  assert.equal(restoreQuizSession(state,{...cached,state:{...state,attemptId:randomUUID()},previousAttemptId:state.attemptId},7).previousAttemptId,state.attemptId);
  for(const [score,total,pass] of [[7,10,true],[6,10,false],[5,7,true],[4,7,false],[10,15,false],[11,15,true],[0,0,false]])assert.equal(quizPasses(score,total),pass);
+});
+
+test('new twilight units keep legacy vampire progress and independent resumable quizzes',async()=>{
+ const {progress,student,store,students,owner}=await setup();
+ await progress(post('/api/progress',{action:'lesson',lessonId:'twilight',readingLevel:2,completed:true},student));
+ await progress(post('/api/progress',{action:'lesson',lessonId:'twilightGeneral',readingLevel:1},student));
+ const sessions={};
+ for(const lessonId of ['twilightGeneral','twilight']){
+  const state={attemptId:randomUUID(),revision:1,index:0,selection:answers(lessonId)[0],submitted:true,answers:[answers(lessonId)[0]]};sessions[lessonId]=state;
+  assert.equal((await progress(post('/api/progress',{action:'quiz-draft',lessonId,state,previousAttemptId:null},student))).status,200);
+ }
+ const fresh=createLearningHandler({store});let saved=(await (await fresh(get('/api/progress',student))).json()).progress;
+ assert.ok(saved.lessons.twilight.completedAt);assert.equal(saved.lessons.twilight.readingLevel,2);assert.equal(saved.lessons.twilightGeneral.completedAt,undefined);assert.equal(saved.lessons.twilightGeneral.readingLevel,1);
+ assert.notEqual(saved.quizSessions.twilightGeneral.attemptId,saved.quizSessions.twilight.attemptId);
+ const state={...sessions.twilightGeneral,revision:2,index:7,selection:'',submitted:false,answers:answers('twilightGeneral')};
+ assert.equal((await fresh(post('/api/progress',{action:'quiz-draft',lessonId:'twilightGeneral',state,previousAttemptId:null},student))).status,200);
+ saved=(await (await students(get('/api/students?student=Student%20Reader',owner))).json()).progress;
+ assert.equal(saved.quizzes.twilightGeneral.latestScore,7);assert.equal(saved.quizzes.twilight,undefined);assert.equal(saved.quizSessions.twilight.index,0);assert.ok(saved.lessons.twilight.completedAt);
+});
+test('twilight curriculum has substantial introductory prose and two seven-question five-choice quizzes',async()=>{
+ const {twilightIntro,vampireIntro,twilightGeneralDive}=await import('../shared/twilight-articles.mjs');
+ const words=reading=>reading.sections.flatMap(section=>section.paragraphs).join(' ').split(/\s+/).length;
+ assert.ok(words(twilightIntro)>=500);assert.ok(words(vampireIntro)>=500);assert.ok(words(twilightGeneralDive)>words(twilightIntro)*2);assert.ok(twilightGeneralDive.abstract.length>200);
+ for(const lessonId of ['twilightGeneral','twilight']){assert.equal(quizBank[lessonId].length,7);for(const question of quizBank[lessonId]){assert.equal(new Set(question.options).size,5);assert.ok(question.answer>=0&&question.answer<5);}}
 });

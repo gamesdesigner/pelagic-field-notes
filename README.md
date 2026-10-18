@@ -32,9 +32,31 @@ Vite restarts. Deploy source and `netlify/functions/` together: the auth, studen
 and progress functions use the existing private Netlify Blob account store.
 A static-only upload would break sign-in and progress saves.
 
+## Marine Life in Twilight
+
+Unit 1 is **General Marine Life in Twilight**. Its introductory article has 640
+words; Level 2 has a 1,595-word body plus an abstract. The day/night depth explorer
+has six selectable animal types, example depths, pausable swimming, and linked
+numbered anatomy diagrams. Positions and migrations are illustrative, not fixed
+species limits. Sunlit water above 200 m is included to show the nightly journeys.
+
+Unit 2 is **Vampire Squid**, with a 646-word introductory article and a 2,443-word
+high-school deep dive plus an abstract. The step-by-step defense animation shows
+arm-tip light, release of luminous mucus, and retreat, with playback, speed, reset,
+and still-stage controls. Vampire squid do not have an ordinary ink-sac defense.
+Two new generated images are in `public/assets/twilight/`; their built-in generation
+prompts and source references are in `design/twilight-image-prompts.md`.
+
+Both units have seven-question, five-choice quizzes using the shared server-graded
+question bank and existing resume/save/celebration behavior. Article checks and
+reading levels save independently. The existing `twilight` progress key remains
+bound to Vampire Squid; `twilightGeneral` is the new unit, preserving earlier work.
+The catalog now contains 13 lessons and 10 quizzes. Reduced-motion preferences
+stop the visual motion, while selection, stage controls and reading remain usable.
+
 ## Resuming quizzes and completing articles
 
-All eight quizzes automatically save their question, selected/typed answer and
+All ten quizzes automatically save their question, selected/typed answer and
 checked answers to the signed-in account. Reopen the same lesson after leaving or
 refreshing to continue. An immediate browser recovery copy protects the last edit
 while it syncs. Save failures are visible and retryable. In-progress quizzes also
@@ -123,12 +145,12 @@ a username preserves results. No progress is keyed only by browser localStorage.
 Students can read or change only their own learning record; the owner can view
 students through authenticated `/api/students?student=<username>` reports.
 
-All 12 lessons record started/completed status, visit dates, and the last reading
+All 13 lessons record started/completed status, visit dates, and the last reading
 level. Learners explicitly use **Mark lesson complete** after the reading. The
 preferred reading level is restored next time they open that lesson. **My progress**
 in the lesson header shows the complete account report.
 
-All eight existing quizzes save after every question in an attempt has been
+All ten quizzes save after every question in an attempt has been
 answered. The server grades submitted answers using `shared/learning-content.mjs`,
 the same question bank used by the UI; client-supplied scores are ignored. Saved
 records contain latest/best score, question total, attempt count and last-attempt

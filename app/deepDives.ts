@@ -1,9 +1,18 @@
 import { expandedSections } from "./deepDiveExtensions";
+import { twilightGeneralDive, vampireDefenseSection } from "../shared/twilight-articles.mjs";
 
-export type LessonId = "upwelling" | "conveyor" | "coriolis" | "ekman" | "enso" | "sunlight" | "turtle" | "shark" | "cuttlefish" | "twilight" | "midnight" | "general";
+export type LessonId = "upwelling" | "conveyor" | "coriolis" | "ekman" | "enso" | "sunlight" | "turtle" | "shark" | "cuttlefish" | "twilightGeneral" | "twilight" | "midnight" | "general";
 export type DeepDiveSection = { heading: string; paragraphs: string[]; sources?: string[] };
 type DeepDive = { title: string; deck: string; abstract: string; sections: {heading: string; paragraphs: string[]; sources?: string[]}[]; terms: {word: string; definition: string}[]; question: string };
 export const readingSources: Record<string, {label: string; url: string}> = {
+  twilightOverview:{label:"WHOI · Life in the twilight zone",url:"https://www.whoi.edu/ocean-learning-hub/ocean-topics/how-the-ocean-works/ocean-zones/twilight-zone/"},
+  oceanLayers:{label:"NOAA · Layers of the ocean",url:"https://www.noaa.gov/jetstream/ocean/layers-of-ocean"},
+  lightDepth:{label:"NOAA · Light and depth",url:"https://oceanservice.noaa.gov/facts/light_travel.html"},
+  oxygenZone:{label:"NOAA Ocean Exploration · Oxygen minimum zones",url:"https://oceanexplorer.noaa.gov/ocean-fact/omz/"},
+  twilightMigration:{label:"WHOI · Diel vertical migration",url:"https://otz-prod.whoi.edu/explore-the-otz/migration/"},
+  twilightLayers:{label:"WHOI · Discoveries in twilight layers",url:"https://www.whoi.edu/oceanus/feature/five-big-discoveries-from-whois-ocean-twilight-zone-project/"},
+  twilightLights:{label:"WHOI · Fish with flashlights",url:"https://www.whoi.edu/news-insights/content/fish-with-flashlights/"},
+  vampireLight:{label:"MBARI · Bioluminescence research",url:"https://annualreport.mbari.org/2019/story/bioluminescence-behavior-biochemistry-and-genomics"},
   coastalChem:{label:"NOAA NCCOS · Coastal chemistry interactions",url:"https://coastalscience.noaa.gov/science-areas/climate-change/coastal-ocean-acidification/"},
   overturningEnergy:{label:"Rahmstorf · Ocean circulation and climate research",url:"https://www.whoi.edu/fileserver.do?id=289584&p=279389&pt=2"},
   rossby:{label:"NOAA · Oceanic Rossby waves",url:"https://oceanservice.noaa.gov/facts/rossby-wave.html"},
@@ -341,8 +350,9 @@ cuttlefish: {
  ],terms:[{word:"Chromatophore",definition:"A pigment-bearing skin structure whose visible area is controlled by muscles."},{word:"Buoyancy",definition:"The upward force exerted by displaced fluid; its balance with weight influences floating or sinking."},{word:"Disruptive camouflage",definition:"A pattern that makes an animal’s outline harder to distinguish from its surroundings."}],
  question:"How would you design a background experiment that tests whether a cuttlefish responds to edges rather than only to average brightness? State the control and the response you would measure."
 },
+twilightGeneral: twilightGeneralDive,
 twilight: {
- title:"The twilight zone: vampire squid, oxygen, and sinking carbon",
+ title:"Vampire squid: oxygen, particle feeding, and luminous defense",
  deck:"Explore an ecosystem where dim light and limited oxygen shape how animals obtain energy.",
  abstract:"The mesopelagic, or twilight zone, lies between roughly 200 and 1,000 metres, where sunlight fades and photosynthesis cannot sustain local food webs. Life depends largely on material produced above, transported by sinking particles, moving animals, and circulation. The vampire squid illustrates how low-energy feeding can succeed in oxygen-poor midwater habitats. This article connects its biology with respiration, camouflage, daily migration, and the biological carbon pump. It also examines why oxygen minimum zones are not present at every depth everywhere and why studying fragile animals requires observations that preserve their natural behavior.",
  sections:[
@@ -438,6 +448,8 @@ general: {
  question:"Design a water-column study that tests whether a surface bloom changes food availability at depth. What would you measure, at which depths, and over what sequence of observations?"
 },
 };
+
+deepDives.twilight.sections.splice(4, 0, vampireDefenseSection);
 
 // Keep the introductory mechanisms, add the extended science, then finish with synthesis.
 for (const lessonId of Object.keys(deepDives) as LessonId[]) {

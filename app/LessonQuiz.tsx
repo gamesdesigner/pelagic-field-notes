@@ -7,7 +7,9 @@ import {useQuizAttempt,type QuizId} from './useQuizAttempt';
 export default function LessonQuiz({lessonId,title,className='upwelling-quiz'}:{lessonId:QuizId;title:string;className?:string}){
  const quiz=useQuizAttempt(lessonId);const id=useId();const heading=useRef<HTMLHeadingElement>(null);const previousIndex=useRef<number|null>(null);
  const {state,score,total}=quiz;const index=state?.index??0;
- useEffect(()=>{if(previousIndex.current!==null&&previousIndex.current!==index)heading.current?.focus({preventScroll:true});previousIndex.current=index;},[index]);
+ const hasState=state!==null;
+ // Restoring an attempt must not pull a reader from the article to the quiz.
+ useEffect(()=>{if(!hasState)return;if(previousIndex.current!==null&&previousIndex.current!==index)heading.current?.focus({preventScroll:true});previousIndex.current=index;},[index,hasState]);
  const questions=quizBank[lessonId];const complete=index===total;
  const question=questions[Math.min(index,total-1)];
  const expected=typeof question.answer==='number'?question.options![question.answer]:question.answer;

@@ -1,0 +1,28 @@
+"use client";
+import {useEffect,useState} from 'react';
+import {twilightIntro,vampireIntro} from '../shared/twilight-articles.mjs';
+import LessonReading from './LessonReading';
+import LessonQuiz from './LessonQuiz';
+import TwilightExplorer from './TwilightExplorer';
+import VampireDefense from './VampireDefense';
+const units=[
+ {title:'General Marine Life in Twilight',image:'/assets/twilight/general-twilight.webp',description:'Explore 200–1,000 metres: food webs, living light, and the daily journey between depths.'},
+ {title:'Vampire Squid',image:'/assets/twilight/vampire-squid.webp',description:'Meet an unusual particle collector and discover its webbed arms and glowing mucus defense.'}
+];
+export default function TwilightUnits({onBack}:{onBack:()=>void}){
+ const [unit,setUnit]=useState<number|null>(null);
+ useEffect(()=>{window.scrollTo({top:0,left:0,behavior:'instant'});},[unit]);
+ if(unit===null)return <section className="currents-index twilight-index" aria-labelledby="twilight-index-title"><button type="button" className="back-button" onClick={onBack}>← All subjects</button><div className="currents-heading"><p className="eyebrow">Marine Life in Twilight · Choose a unit</p><h1 id="twilight-index-title">Life in the<br/><em>fading light.</em></h1><p className="twilight-index-deck">Two units, two reading levels, and an ocean of discoveries between 200 and 1,000 metres.</p></div><div className="current-card-grid twilight-unit-grid">{units.map((item,i)=><button type="button" className="current-subject-card" key={item.title} onClick={()=>setUnit(i)}><span className="card-number">{String(i+1).padStart(2,'0')}</span><div className="current-card-art has-topic-image"><img src={item.image} alt="" width="1536" height="1024"/></div><div className="card-copy"><span>Unit {i+1} · Twilight zone</span><h2>{item.title}</h2><p>{item.description}</p></div><span className="card-arrow">↗</span></button>)}</div></section>;
+ return <TwilightLesson key={unit} unit={unit} onBack={()=>setUnit(null)}/>;
+}
+function TwilightLesson({unit,onBack}:{unit:number;onBack:()=>void}){
+ const general=unit===0;const item=units[unit];const reading=general?twilightIntro:vampireIntro;const lessonId=general?'twilightGeneral':'twilight';
+ const bodyWords=reading.sections.flatMap(section=>section.paragraphs).join(' ').split(/\s+/).length;
+ return <div className="twilight-unit">
+  <header className="twilight-unit-header"><button type="button" className="back-button" onClick={onBack}>← Marine Life in Twilight</button><p className="eyebrow">Twilight zone · Unit {unit+1}</p><h1>{item.title}</h1>{!general&&<p className="scientific">Vampyroteuthis infernalis</p>}<p className="twilight-unit-deck">{item.description}</p></header>
+  <figure className="twilight-hero"><img src={item.image} width="1536" height="1024" alt={general?'Illustrated open-water twilight community: lanternfish, hatchetfish, bristlemouth, krill, a red jelly, and a vampire squid among sinking marine snow.':'Scientific illustration of a red-brown vampire squid with mantle fins, a large eye, webbed arms, fine feeding filaments, and blue-white luminous mucus particles near its arm tips.'} decoding="async"/><figcaption>{general?'An illustrated midwater community. Animals are shown together for comparison; their size and positions are not a measured scene.':'Artist’s reconstruction under illustrative lighting. The blue-white particles represent luminous mucus, not ordinary ink.'}</figcaption></figure>
+  <div className="twilight-reading-wrap"><LessonReading lessonId={lessonId}><article className="current-article twilight-short-article" aria-labelledby="twilight-short-title"><p className="eyebrow">Level 1 · {bodyWords} words · {Math.ceil(bodyWords/180)} minute read</p><h2 id="twilight-short-title">{general?'A living world below the sunlight':'A gentle collector with a glowing defense'}</h2><aside className="twilight-abstract"><h3>At a glance</h3><p>{reading.abstract}</p></aside>{reading.sections.map(section=><section key={section.heading}><h3>{section.heading}</h3>{section.paragraphs.map((paragraph,i)=><p key={i}>{paragraph}</p>)}</section>)}<p className="twilight-reading-sources">Explore the evidence: {general?<><a href="https://www.whoi.edu/ocean-learning-hub/ocean-topics/how-the-ocean-works/ocean-zones/twilight-zone/" target="_blank" rel="noreferrer">WHOI · Twilight zone</a> · <a href="https://oceanservice.noaa.gov/facts/light_travel.html" target="_blank" rel="noreferrer">NOAA · Light and depth</a></>:<><a href="https://www.mbari.org/animal/vampire-squid/" target="_blank" rel="noreferrer">MBARI · Vampire squid</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/23015627/" target="_blank" rel="noreferrer">Feeding research</a></>}</p></article></LessonReading></div>
+  {general?<TwilightExplorer/>:<VampireDefense/>}
+  <LessonQuiz lessonId={lessonId} title={general?'General Twilight Life quiz':'Vampire Squid quiz'} className="upwelling-quiz twilight-quiz"/>
+ </div>;
+}

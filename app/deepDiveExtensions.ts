@@ -2,6 +2,7 @@ import type { DeepDiveSection, LessonId } from "./deepDives";
 
 // Substantive extensions supplement the first five sections of each article.
 export const expandedSections: Record<LessonId, DeepDiveSection[]> = {
+twilightGeneral: [],
 upwelling: [
 {heading:"Stratification and the seasonal supply of nutrients",paragraphs:[
 "A vertical density profile helps explain why nutrient delivery changes through the year. During strong surface heating, a relatively light upper layer can develop above denser water. Moving water across that boundary requires energy. The thermocline marks a rapid temperature change, while the pycnocline marks a rapid density change; they often overlap, but salinity can separate them. Upwelling can tilt these boundaries upward toward the coast, allowing water that was below the well-lit layer to reach shallower depths. This is different from stirring the entire ocean until it has one temperature.",

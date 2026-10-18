@@ -15,6 +15,7 @@ import StudentAccounts from "./StudentAccounts";
 import AccountSettings from "./AccountSettings";
 import {MyLearning} from "./LearningProgress";
 import LessonQuiz from "./LessonQuiz";
+import TwilightUnits from "./TwilightUnits";
 
 type Subject = {
   id: string;
@@ -768,9 +769,11 @@ export default function Home() {
             {subjects.filter((subject) => !subject.general).map((subject) => (
               <button className={`subject-card ${subject.tone}`} key={subject.id} onClick={() => openSubject(subject)}>
                 <span className="card-number">{subject.number}</span>
-                <div className={`card-placeholder ${subject.id === "currents" || subject.id === "sunlight" ? "has-subject-image" : ""}`} aria-hidden="true">
+                <div className={`card-placeholder ${subject.id === "currents" || subject.id === "sunlight" || subject.id === "twilight" ? "has-subject-image" : ""}`} aria-hidden="true">
                   {subject.id === "currents" ? (
                     <img src="/assets/field-guide-v2/ocean-surface-currents.webp" alt="" />
+                  ) : subject.id === "twilight" ? (
+                    <img src="/assets/twilight/general-twilight.webp" alt="" />
                   ) : subject.id === "sunlight" ? (
                     <img src="/assets/sunlight/marine-life-in-sunlight.png" alt="" />
                   ) : (
@@ -791,6 +794,8 @@ export default function Home() {
             <span className="general-arrow">Explore <b>→</b></span>
           </button>
         </section>
+      ) : selected.id === "twilight" ? (
+        <TwilightUnits onBack={()=>setSelected(null)}/>
       ) : selected.id === "currents" && currentTopic === 4 ? (
         <EnsoUnit onBack={() => setCurrentTopic(null)} />
       ) : selected.id === "currents" && currentTopic === null ? (
