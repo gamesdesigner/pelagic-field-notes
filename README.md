@@ -53,6 +53,22 @@ have different temperature responses. Invented indices and the omitted processes
 are explicitly documented in the interface. Tank experiments reset when leaving;
 article and quiz progress save to the account.
 
+Nutrient packets now use pointer capture for mouse, pen and touch dragging into
+the water. Invalid drops/cancellations add nothing. Keyboard users select a packet
+and choose Place nutrient; pointer users can also select and tap a water location.
+Successful placement emits tracers from the release point and starts playback.
+The packet tray stays directly above the water on mobile.
+
+`PlanktonTank.tsx` animates fish toward available cell groups, with tail beats,
+turning, opening mouths and capture rings. A capture removes up to four abundance
+units through `consumePlankton`, updates the chart's latest sample and increments
+the feeding record. The daily model runs with `externalGrazing:true` so grazing is
+not subtracted twice. Fish receive one new opportunity per model day (up to three
+pending captures), plus one when introduced. Manual stepping plays a short feeding
+burst; pause freezes the tank. Reset rebuilds the scene and clears counters/tracers.
+The frame loop and timer clean up on unmount, and reduced-motion mode simplifies
+movement and tracer travel.
+
 The shark unit now uses a generated realistic specimen illustration in its hero,
 card and anatomy explorer. Its separate interactive teaching overlays remain.
 Built-in generation prompt: `design/shark-realistic-image-prompt.md`; full PNG

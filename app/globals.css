@@ -1188,3 +1188,21 @@ body,body * { font-family:"Times New Roman",Times,serif!important; }
 .site-shell .shark-specimen-hero { background:#e7e8dc; padding:clamp(18px,3vw,45px); }.site-shell .shark-specimen-hero .sunlight-animal-hero-image { object-fit:contain; max-height:570px; }.shark-specimen-hero figcaption { position:static; color:var(--ink); background:transparent; border:0; padding:20px 0 0; }.shark-specimen-hero figcaption span { color:#9a6c51; }.sunlight-topic-3 .current-card-art { background:#e7e8dc; }
 @media(max-width:1050px) { .plankton-lab-grid { grid-template-columns:1fr; }.plankton-lab-controls { max-width:none; } }
 @media(max-width:760px) { .plankton-cell-grid { grid-template-columns:1fr; }.plankton-cell-card { padding:18px; }.plankton-cell-card h3 { font-size:27px; }.plankton-cell-detail { min-height:0; }.plankton-lab-controls { padding:18px; }.plankton-lab-toolbar>div:last-child { gap:8px; }.plankton-population button { font-size:14px; padding:11px; }.plankton-lab-counts strong { font-size:26px; }.plankton-lab-counts span { font-size:12px; }.plankton-model-note { padding:20px; }.plankton-chart text { font-size:23px; } }
+
+/* Pointer-based nutrient packets also support select-and-place by keyboard. */
+.plankton-nutrient-tray { margin:0 0 16px; }
+.plankton-nutrient-tray>p { font-size:14px; line-height:1.7; color:var(--muted); margin:0 0 12px; }
+.plankton-nutrient-tray>div { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
+.plankton-population .nutrient-packet { display:flex; gap:10px; align-items:center; min-width:0; text-align:left; padding:12px 10px; background:#e5ebdd; cursor:grab; touch-action:none; user-select:none; }
+.plankton-population .nutrient-packet:active { cursor:grabbing; }.nutrient-packet[aria-pressed=true] { outline:2px solid #4c7977; outline-offset:2px; }
+.nutrient-packet>span:nth-child(2) { display:grid; gap:5px; font-size:16px; }.nutrient-packet small { font-size:11px; color:#64817c; }.nutrient-packet>span:last-child { margin-left:auto; color:#718d82; font-size:20px; }
+.nutrient-stock { display:flex; align-items:center; gap:12px; padding:14px 0; border-bottom:1px solid var(--line); }.nutrient-stock>span:nth-child(2) { display:grid; gap:5px; }.nutrient-stock strong { font-weight:400; font-size:17px; }.nutrient-stock small { font-size:12px; color:var(--muted); }.nutrient-stock>span:nth-child(2)>span { color:#7c6645; font-size:13px; }
+.nutrient-drag-ghost { position:fixed; z-index:1000; pointer-events:none; transform:translate(-50%,-75%); display:grid; place-items:center; gap:6px; padding:15px 20px; background:#f5f2e7ed; border:2px solid #4f7c78; border-radius:15px; box-shadow:0 8px 24px #193f4d33; color:#244f58; }
+.nutrient-drag-ghost>span { font-size:32px; }.nutrient-drag-ghost small { font-size:12px; }
+.plankton-water { touch-action:pan-y; }.plankton-water.can-place-nutrient { cursor:crosshair; }
+.tank-placement-row { display:flex; align-items:center; gap:18px; margin-top:12px; }.tank-placement-row p { flex:1; font-size:12px; line-height:1.7; color:var(--muted); margin:0; }.tank-placement-row button { flex:0 0 auto; }
+.plankton-feeding-count { font-size:14px; line-height:1.8; color:#52746c; margin:16px 0 0; padding:12px 14px; border-left:3px solid #b39167; background:#e8eadf; }
+@media(max-width:760px) { .plankton-population .nutrient-packet { flex-direction:column; padding:10px 5px; gap:5px; text-align:center; }.nutrient-packet>span:nth-child(2) { font-size:14px; }.nutrient-packet small { font-size:10px; }.nutrient-packet>span:last-child { display:none; }.nutrient-packet .nutrient-symbol { height:30px; width:30px; font-size:20px; }.tank-placement-row { align-items:start; flex-direction:column; gap:8px; }.nutrient-drag-ghost { padding:10px 14px; }.plankton-nutrient-tray>div { gap:8px; } }
+
+.plankton-drop-hint { font-size:18px; }
+@media(max-width:760px) { .plankton-drop-hint { font-size:28px; } }

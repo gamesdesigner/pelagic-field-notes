@@ -5,7 +5,12 @@ export function addNutrient(state,nutrient) {
  if(!Object.hasOwn(nutrientDoses,nutrient))return state;
  return {...state,[nutrient]:Math.min(60,state[nutrient]+nutrientDoses[nutrient])};
 }
-export function stepPlankton(state) {
+// The animated tank supplies grazing through actual capture events instead.
+export function consumePlankton(state,group,amount=4) {
+ if(!['diatoms','flagellates'].includes(group)||!Number.isFinite(amount)||amount<=0)return state;
+ return {...state,[group]:Math.max(0,state[group]-amount)};
+}
+export function stepPlankton(state,{externalGrazing=false}={}) {
  const {diatoms:d,flagellates:f,nitrogen:n,phosphorus:p,silicate:s,temperature:t,fish}=state;
  const light=Math.max(0,1-(d+f)/600);
  const common=Math.min(n/(n+4),p/(p+1.5));
@@ -14,7 +19,7 @@ export function stepPlankton(state) {
  const needN=(gd+gf)*.09,needP=(gd+gf)*.0225,needS=gd*.08;
  const scale=Math.min(1,needN?n/needN:1,needP?p/needP:1,needS?s/needS:1);
  gd*=scale;gf*=scale;
- const grazing=fish*.045/(1+(d+f)/250);
+ const grazing=externalGrazing?0:fish*.045/(1+(d+f)/250);
  const mortality=.035+Math.max(0,t-28)*.015;
  const nextD=Math.max(0,d+gd-d*(mortality+grazing));
  const nextF=Math.max(0,f+gf-f*(mortality+grazing));

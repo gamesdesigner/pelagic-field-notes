@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {initialPlanktonState,stepPlankton,addNutrient} from '../shared/plankton-model.mjs';
+import {initialPlanktonState,stepPlankton,addNutrient,consumePlankton} from '../shared/plankton-model.mjs';
 const after=(state,days)=>{for(let i=0;i<days;i++)state=stepPlankton(state);return state;};
 test('nutrient exhaustion prevents division without creating negative inventories',()=>{
  const start={...initialPlanktonState(),nitrogen:0,phosphorus:0};const end=after(start,20);
@@ -39,4 +39,20 @@ test('steps and capped nutrient additions preserve previous states for chart com
  const start=initialPlanktonState(),copy={...start};stepPlankton(start);addNutrient(start,'nitrogen');assert.deepEqual(start,copy);
  const full={...start,nitrogen:59};assert.equal(addNutrient(full,'nitrogen').nitrogen,60);
  assert.equal(addNutrient(start,'unknown'),start);
+});
+test('animated captures remove only the prey group and never more than is available',()=>{
+ const start={...initialPlanktonState(),diatoms:2.3};const caught=consumePlankton(start,'diatoms',4);
+ assert.equal(caught.diatoms,0);assert.equal(caught.flagellates,start.flagellates);assert.equal(start.diatoms,2.3);
+ assert.equal(consumePlankton(caught,'diatoms',4).diatoms,0);
+ for(const amount of [NaN,Infinity,0,-4])assert.equal(consumePlankton(start,'diatoms',amount),start);
+ assert.equal(consumePlankton(start,'fish',4),start);
+});
+test('collision-driven grazing is not also subtracted by the daily model',()=>{
+ const stocked={...initialPlanktonState(),fish:12};
+ const next=stepPlankton(stocked,{externalGrazing:true});
+ const noFish=stepPlankton({...stocked,fish:0},{externalGrazing:true});
+ assert.equal(next.diatoms,noFish.diatoms);assert.equal(next.flagellates,noFish.flagellates);
+ const eaten=consumePlankton(consumePlankton(next,'diatoms',4),'flagellates',4);
+ assert.equal(eaten.diatoms,next.diatoms-4);assert.equal(eaten.flagellates,next.flagellates-4);
+ assert.ok(stepPlankton(stocked).diatoms<next.diatoms);
 });
