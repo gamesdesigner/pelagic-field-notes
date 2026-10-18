@@ -1,20 +1,21 @@
-# Ocean Biology: Netlify only
+# Ocean Biology: Vercel production
 
-The latest user-provided AGENTS.md instructions explicitly require Netlify only.
-They override the historical Vercel migration entries in project documents.
+The user explicitly requested live Vercel updates on October 18, 2026.
+This overrides the earlier Netlify-only deployment instruction.
 
 - Work in this canonical `site/` checkout on `main`.
 - Origin: https://github.com/gamesdesigner/pelagic-field-notes.git.
-- Netlify project: `c1ad4709-306e-4a2e-8695-baf83990d8d2`.
-- Website: https://marinebiology-learn.netlify.app.
-- Build: `pnpm run build:netlify`; output: `dist-netlify`.
-- Validate: `pnpm test` and `pnpm run typecheck:netlify`.
-- Deploy source with the functions in `netlify/functions/`; a static-only upload
-  would omit sign-in and saved progress. API handlers share `server/accounts/`.
-- Private accounts and learning records use the existing Netlify Blob store,
-  `marine-biology-private-accounts`, through `netlify/lib/blob-store.mjs`.
-  Preserve strong reads and conditional ETag writes. Never use production memory
-  or replace this account database with another host's database.
+- Vercel project: `prj_p8H4QykqouyJu8leR4eIJbaITawL` (`marinebiology-learn`).
+- Team: `team_H46xn7eMAifKIkbtBxahAwMU` (`projects-9420`).
+- Website: https://marinebiology-learn.vercel.app.
+- Build: `pnpm run build:vercel`; output: `dist-vercel`.
+- Validate: `pnpm test` and `pnpm run typecheck:vercel`.
+- Deploy source with `api/` Vercel Functions; a static-only upload would omit
+  sign-in and saved progress. API handlers share `server/accounts/`.
+- Private Vercel Blob store `store_5P506RkyxPFpB47z` holds existing production
+  accounts and learning records through `server/accounts/vercel-store.mjs`.
+  Preserve uncached reads, environment namespaces and conditional ETag writes.
+  Never use production memory or overwrite this store from another host.
 - Keep stable account keys, legacy sessions, owner authorization, and progress
   during username changes and deployment. Never overwrite the real owner password
   or run owner provisioning during deployment. Public owner signup stays removed.
@@ -24,7 +25,7 @@ They override the historical Vercel migration entries in project documents.
 - Never edit, deploy, rename, or manage the old `*.chatgpt.site` website.
   Do not use Sites source helpers or publishing tools. `.openai/hosting.json` and
   historical Sites entries are legacy information.
-- Do not deploy to or manage Vercel. Its retained adapters are historical source.
+- Do not deploy to Netlify unless the user explicitly requests it again.
 - Netlify previously blocked deployments because account credits were exceeded.
   Verify the actual deployment result; do not claim a blocked build is live or
   purchase credits/change billing without the user's authorization.

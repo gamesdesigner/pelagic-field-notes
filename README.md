@@ -2,17 +2,17 @@
 
 Interactive ocean-science lessons, animations, quizzes, and two reading levels.
 
-## Current host: Netlify
+## Current host: Vercel
 
-The latest user instructions require **Netlify only**, using existing project
-`c1ad4709-306e-4a2e-8695-baf83990d8d2` at https://marinebiology-learn.netlify.app.
-Historical Vercel and Sites notes below do not authorize deploying to those hosts.
-Never edit, deploy, rename, or manage the old ChatGPT-hosted site.
+The user requested live Vercel updates on October 18, 2026, overriding earlier
+Netlify-only instructions. Use existing project `prj_p8H4QykqouyJu8leR4eIJbaITawL`
+in team `team_H46xn7eMAifKIkbtBxahAwMU` at
+https://marinebiology-learn.vercel.app. Never manage the old ChatGPT-hosted site.
 
 Canonical source: https://github.com/gamesdesigner/pelagic-field-notes (`main`).
 Read `AGENTS.md` before deployment. Keep private credentials outside source.
-Netlify has previously blocked new deployments because account credits were
-exceeded. Check deployment status before describing an update as published.
+The GitHub integration is not installed: pushing Git alone does not publish to
+Vercel. Create a deployment from the exact pushed commit and verify READY status.
 
 ## Development and verification
 
@@ -20,17 +20,18 @@ Use Node 24 and the pnpm lockfile:
 
 ```sh
 pnpm install --frozen-lockfile
-pnpm run dev:netlify
+pnpm run dev:vercel
 pnpm test
-pnpm run typecheck:netlify
-pnpm run build:netlify
+pnpm run typecheck:vercel
+pnpm run build:vercel
 ```
 
-`vite.netlify.config.ts` builds the React entry into `dist-netlify/`. Lessons live
+`vite.vercel.config.ts` builds the React entry into `dist-vercel/`. Lessons live
 in `app/`. Local preview accounts use disposable process memory and reset when
-Vite restarts. Deploy source and `netlify/functions/` together: the auth, students,
-and progress functions use the existing private Netlify Blob account store.
-A static-only upload would break sign-in and progress saves.
+Vite restarts. Deploy source and `api/` together: auth, students and progress
+functions use the existing private Vercel Blob store. A static-only upload would
+break sign-in and progress saves. Preserve existing production accounts and never
+copy another host's database or provision an owner during deployment.
 
 ## Marine Life in Twilight
 
@@ -74,7 +75,7 @@ Server grading, account isolation, revision ordering, immutable checked answers,
 conditional writes and retry IDs prevent stale tabs and retries from overwriting
 newer progress or inflating scores. Existing records require no migration.
 
-## Historical Vercel account implementation
+## Vercel account implementation
 
 Vercel Functions `api/auth.js` and `api/students.js` use shared handlers in
 `server/accounts/`. Private Vercel Blob holds JSON account records; no Neon or
