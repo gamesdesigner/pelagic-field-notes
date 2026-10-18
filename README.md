@@ -33,6 +33,31 @@ functions use the existing private Vercel Blob store. A static-only upload would
 break sign-in and progress saves. Preserve existing production accounts and never
 copy another host's database or provision an owner during deployment.
 
+## Planktons & Diatoms
+
+The fifth Marine Life in Sunlight topic has a 370-word Grade 5 Level 1 article,
+a 2,726-word high-school Level 2 article adapted from the supplied text, an
+abstract, article check, and a seven-question five-choice resumable quiz. The
+stable learning key is `plankton`; existing account records require no migration.
+Articles are in `shared/plankton-articles.mjs`. Both learner and owner reports
+include the new lesson automatically through the shared catalog.
+
+`PlanktonCells.tsx` compares an illustrative diatom and photosynthetic armored
+dinoflagellate, with selectable internal structures, silica wall, plates and
+flagella. These are two phytoplankton examples, not a universal plankton cell.
+`PlanktonPopulation.tsx` uses the pure model in `shared/plankton-model.mjs`.
+Learners dose nitrogen/phosphorus/silicate, change 5–35°C water, add/remove up to
+12 filter-feeding fish, play/pause, advance a day, reset, and inspect a chart and
+data table. Nutrients are consumed, grazing removes cells, and the example groups
+have different temperature responses. Invented indices and the omitted processes
+are explicitly documented in the interface. Tank experiments reset when leaving;
+article and quiz progress save to the account.
+
+The shark unit now uses a generated realistic specimen illustration in its hero,
+card and anatomy explorer. Its separate interactive teaching overlays remain.
+Built-in generation prompt: `design/shark-realistic-image-prompt.md`; full PNG
+and WebP: `public/assets/shark/great-white-anatomy-realistic.{png,webp}`.
+
 ## Great White Shark anatomy
 
 The shark lesson has a stationary interactive anatomy plate in place of the old
@@ -62,7 +87,7 @@ Both units have seven-question, five-choice quizzes using the shared server-grad
 question bank and existing resume/save/celebration behavior. Article checks and
 reading levels save independently. The existing `twilight` progress key remains
 bound to Vampire Squid; `twilightGeneral` is the new unit, preserving earlier work.
-The catalog now contains 13 lessons and 10 quizzes. Reduced-motion preferences
+The catalog now contains 14 lessons and 11 quizzes. Reduced-motion preferences
 stop the visual motion, while selection, stage controls and reading remain usable.
 
 ## Resuming quizzes and completing articles

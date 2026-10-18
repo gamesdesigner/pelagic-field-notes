@@ -184,10 +184,97 @@ export const vampireQuestions = [
  {prompt:"Which observation best tests a feeding filament’s function?",options:["Its name sounds dramatic","One photo shows that it is long","Watching particles attach, be retrieved, and move toward the mouth","It resembles a fishing line","It is always visible"],answer:2,explanation:"Observed capture and food handling provide stronger evidence of function than appearance alone."}
 ];
 
+export const planktonQuestions = [
+  {
+    "prompt": "Which statement about diatoms and plankton is correct?",
+    "options": [
+      "Diatoms are a type of phytoplankton",
+      "All plankton are fish",
+      "Diatoms are outside the plankton community",
+      "Every plankton cell has a nucleus",
+      "All plankton are plants"
+    ],
+    "answer": 0,
+    "explanation": "Plankton describes a drifting way of life. Diatoms are one group of photosynthetic plankton."
+  },
+  {
+    "prompt": "What is a diatom’s glass-like wall called?",
+    "options": [
+      "A flagellum",
+      "A frustule",
+      "A gill",
+      "A ribosome",
+      "A fin"
+    ],
+    "answer": 1,
+    "explanation": "The frustule is the silica cell wall, usually built from two overlapping halves and connecting bands."
+  },
+  {
+    "prompt": "Which structure captures light for photosynthesis in the two cells shown?",
+    "options": [
+      "The nucleus",
+      "The mitochondrion",
+      "The vacuole",
+      "The chloroplast",
+      "The flagellum"
+    ],
+    "answer": 3,
+    "explanation": "Chloroplasts contain light-harvesting pigments. The nucleus holds genetic information, while mitochondria help release usable energy."
+  },
+  {
+    "prompt": "Which nutrient does the model diatom need for its wall, unlike the model dinoflagellate?",
+    "options": [
+      "Table salt only",
+      "Oxygen gas only",
+      "Dissolved silicon supplied as silicate",
+      "Plastic particles",
+      "Iron metal chips"
+    ],
+    "answer": 2,
+    "explanation": "Diatoms require dissolved silicon to make new silica wall material. Both model populations also need nitrogen and phosphorus."
+  },
+  {
+    "prompt": "Why might a population shrink after fish are added in this simulation?",
+    "options": [
+      "Every fish removes all sunlight",
+      "Fish turn silica into sand",
+      "All fish eat only diatoms",
+      "The water must freeze",
+      "These filter-feeding fish consume cells faster than they are replaced"
+    ],
+    "answer": 4,
+    "explanation": "Net population change depends on division and losses. These particular model fish graze both populations; other fish can have different diets."
+  },
+  {
+    "prompt": "What is the best way to test a temperature effect?",
+    "options": [
+      "Change all controls together",
+      "Start matching tanks and change only temperature",
+      "Ignore the starting populations",
+      "Add fish and silicate at the same time",
+      "Use one day without any comparison"
+    ],
+    "answer": 1,
+    "explanation": "A controlled comparison changes one factor and keeps the initial conditions and other controls the same."
+  },
+  {
+    "prompt": "Which statement about blooms is most accurate?",
+    "options": [
+      "Every bloom produces toxins",
+      "Blooms can grow forever",
+      "A bloom means all fish disappear",
+      "Blooms can occur when growth exceeds losses, but nutrients and grazing can limit them",
+      "A bloom requires complete darkness"
+    ],
+    "answer": 3,
+    "explanation": "A bloom is an increase in population. Many are natural; some can be harmful. Nutrient depletion, grazing and other losses can end a bloom."
+  }
+];
+
 export const lessonTitles = {
- upwelling:'Upwelling',conveyor:'Global Conveyor Belt',coriolis:'Coriolis Effect',ekman:'Ekman transport',enso:'El Niño & La Niña',sunlight:'Marine Life in Sunlight',turtle:'Green Sea Turtle',shark:'Great White Shark',cuttlefish:'Common Cuttlefish',twilightGeneral:'General Marine Life in Twilight',twilight:'Vampire Squid',midnight:'Marine Life in Midnight',general:'The General Ocean',
+ plankton:'Planktons & Diatoms',upwelling:'Upwelling',conveyor:'Global Conveyor Belt',coriolis:'Coriolis Effect',ekman:'Ekman transport',enso:'El Niño & La Niña',sunlight:'Marine Life in Sunlight',turtle:'Green Sea Turtle',shark:'Great White Shark',cuttlefish:'Common Cuttlefish',twilightGeneral:'General Marine Life in Twilight',twilight:'Vampire Squid',midnight:'Marine Life in Midnight',general:'The General Ocean',
 };
-export const quizBank = {upwelling:upwellingQuestions,conveyor:conveyorQuestions,coriolis:coriolisQuestions,enso:ensoQuestions,sunlight:sunlightQuestions,turtle:turtleQuestions,shark:sharkQuestions,cuttlefish:cuttlefishQuestions,twilightGeneral:twilightQuestions,twilight:vampireQuestions};
+export const quizBank = {plankton:planktonQuestions,upwelling:upwellingQuestions,conveyor:conveyorQuestions,coriolis:coriolisQuestions,enso:ensoQuestions,sunlight:sunlightQuestions,turtle:turtleQuestions,shark:sharkQuestions,cuttlefish:cuttlefishQuestions,twilightGeneral:twilightQuestions,twilight:vampireQuestions};
 export const normalizeAnswer = answer=>answer.trim().toLowerCase().replace(/[^a-z0-9]/g,'');
 export function spellingDistance(entered,expected){
  const row=Array.from({length:expected.length+1},(_,i)=>i);

@@ -16,6 +16,7 @@ import AccountSettings from "./AccountSettings";
 import {MyLearning} from "./LearningProgress";
 import LessonQuiz from "./LessonQuiz";
 import TwilightUnits from "./TwilightUnits";
+import PlanktonLesson from "./PlanktonLesson";
 
 type Subject = {
   id: string;
@@ -96,7 +97,7 @@ const subjects: Subject[] = [
 ];
 
 const currentTopics = ["Upwelling", "Global Conveyor Belt", "Coriolis Effect", "Ekman transport", "El Niño & La Niña"];
-const sunlightTopics = ["General Marine Life in the Sun", "Green Sea Turtle", "Great White Shark", "Common Cuttlefish"];
+const sunlightTopics = ["General Marine Life in the Sun", "Green Sea Turtle", "Great White Shark", "Common Cuttlefish", "Planktons & Diatoms"];
 
 type AnatomyPart = { label: string; x: string; y: string };
 type AnatomyEntry = { title: string; note: string; parts: AnatomyPart[] };
@@ -845,7 +846,7 @@ export default function Home() {
                 <span className="card-number">{String(index + 1).padStart(2, "0")}</span>
                 <div className="current-card-art sunlight-topic-art has-topic-image" aria-hidden="true">
                   <img
-                    src={index === 3 ? "/assets/sunlight/common-cuttlefish.png" : index === 2 ? "/assets/sunlight/great-white-shark.png" : index === 0 ? "/assets/sunlight/marine-life-in-sunlight.png" : "/assets/turtles/green-turtle-grazing.png"}
+                    src={index === 4 ? "/assets/sunlight/marine-life-in-sunlight.png" : index === 3 ? "/assets/sunlight/common-cuttlefish.png" : index === 2 ? "/assets/shark/great-white-anatomy-realistic.webp" : index === 0 ? "/assets/sunlight/marine-life-in-sunlight.png" : "/assets/turtles/green-turtle-grazing.png"}
                     alt=""
                   />
                 </div>
@@ -950,7 +951,7 @@ export default function Home() {
               <>
                 <p className="eyebrow">Marine Life in Sunlight · Topic {Number(currentTopic) + 1}</p>
                 <h1 id="detail-title">{sunlightTopics[currentTopic as number]}</h1>
-                {currentTopic === 3 ? <CommonCuttlefishLesson /> : currentTopic === 2 ? <GreatWhiteSharkLesson /> : currentTopic === 0 ? (
+                {currentTopic === 4 ? <PlanktonLesson /> : currentTopic === 3 ? <CommonCuttlefishLesson /> : currentTopic === 2 ? <GreatWhiteSharkLesson /> : currentTopic === 0 ? (
                   <>
                   <section className="sunlight-reef-hero" aria-label="Breaking waves above a shallow coral reef in the sunlight zone">
                     <div>

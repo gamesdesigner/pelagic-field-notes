@@ -4,12 +4,12 @@ import { useId, useState } from 'react';
 
 const bodyParts = [
   {id:'jaws',name:'Jaws & teeth',tag:'Feeding',text:'Triangular, serrated teeth cut prey. Replacement teeth develop behind the working rows and move forward as older teeth are lost.',fact:'The jaw can project forward during a bite.',x:18,y:80,tip:[175,275]},
-  {id:'eye',name:'Eyes',tag:'Vision',text:'Eyes on the sides of the head detect light, contrast and movement. Vision works alongside smell, hearing and other senses.',fact:'White sharks roll their eyes back for protection during a bite.',x:12,y:19,tip:[207,227]},
-  {id:'gills',name:'Five gill slits',tag:'Breathing',text:'Water passes over delicate gill surfaces, where oxygen enters the blood and carbon dioxide leaves. Five slits open on each side.',fact:'Great whites use forward movement to drive water over the gills.',x:32,y:17,tip:[312,255]},
-  {id:'pectoral',name:'Pectoral fins',tag:'Lift & steering',text:'The paired fins behind the gills help control lift, pitch and turning. They work with the body and tail to guide the shark.',fact:'Pectoral fins guide the animal; the tail supplies most forward thrust.',x:42,y:85,tip:[410,335]},
-  {id:'dorsal',name:'Dorsal fins',tag:'Stability',text:'The large first dorsal fin helps resist rolling. A much smaller second dorsal fin sits farther back along the body.',fact:'The tall triangular fin is only one part of the shark’s stabilizing system.',x:54,y:12,tip:[501,127]},
+  {id:'eye',name:'Eyes',tag:'Vision',text:'Eyes on the sides of the head detect light, contrast and movement. Vision works alongside smell, hearing and other senses.',fact:'White sharks roll their eyes back for protection during a bite.',x:12,y:19,tip:[181,247]},
+  {id:'gills',name:'Five gill slits',tag:'Breathing',text:'Water passes over delicate gill surfaces, where oxygen enters the blood and carbon dioxide leaves. Five slits open on each side.',fact:'Great whites use forward movement to drive water over the gills.',x:32,y:17,tip:[343,270]},
+  {id:'pectoral',name:'Pectoral fins',tag:'Lift & steering',text:'The paired fins behind the gills help control lift, pitch and turning. They work with the body and tail to guide the shark.',fact:'Pectoral fins guide the animal; the tail supplies most forward thrust.',x:42,y:85,tip:[426,350]},
+  {id:'dorsal',name:'Dorsal fins',tag:'Stability',text:'The large first dorsal fin helps resist rolling. A much smaller second dorsal fin sits farther back along the body.',fact:'The tall triangular fin is only one part of the shark’s stabilizing system.',x:54,y:12,tip:[501,137]},
   {id:'lateral',name:'Lateral line',tag:'Water movement',text:'A sensory canal along each side detects local water movement and pressure changes, helping the shark notice nearby disturbances.',fact:'It senses movement in water; electrical signals use a different sensory system.',x:69,y:21,tip:[637,238]},
-  {id:'tail',name:'Tail & caudal keel',tag:'Propulsion',text:'The crescent-shaped tail pushes against water. A ridge on the narrow tail base—the caudal keel—helps streamline this powerful region.',fact:'The tail sweeps from side to side, rather than up and down.',x:88,y:82,tip:[868,242]},
+  {id:'tail',name:'Tail & caudal keel',tag:'Propulsion',text:'The crescent-shaped tail pushes against water. A ridge on the narrow tail base—the caudal keel—helps streamline this powerful region.',fact:'The tail sweeps from side to side, rather than up and down.',x:88,y:82,tip:[867,274]},
 ];
 const adaptations = [
   {id:'ampullae',name:'Electrical sensors',tag:'Ampullae of Lorenzini',text:'Tiny pores around the snout connect to jelly-filled canals and sensory organs that detect weak electrical fields from nearby animals.',fact:'The colored pores are enlarged so you can see them.',x:14,y:76,tip:[158,252]},
@@ -25,7 +25,6 @@ export default function SharkAnatomy() {
   const [selected,setSelected] = useState(0);
   const parts = mode==='body'?bodyParts:adaptations;
   const part = parts[selected];
-  const active = (id:string) => part.id===id?'#be775e':undefined;
 
   function changeMode(value:'body'|'adaptations') { setMode(value); setSelected(0); }
 
@@ -40,29 +39,11 @@ export default function SharkAnatomy() {
         <svg viewBox="0 0 1000 500" role="img" aria-labelledby={`${uid}-title ${uid}-desc`}>
           <title id={`${uid}-title`}>Great white shark anatomy: {part.name}</title>
           <desc id={`${uid}-desc`}>A stationary side-view diagram, head to the left and tail to the right, with numbered callouts. {part.text} {part.id==='liver'||part.id==='skeleton'||part.id==='heat'?'Internal structures are shown as simplified overlays.':''}</desc>
-          <defs>
-            <linearGradient id={`${uid}-skin`} x1="0" y1="0" x2="0" y2="1"><stop stopColor="#4f6971"/><stop offset=".6" stopColor="#82989a"/><stop offset="1" stopColor="#c4cec6"/></linearGradient>
-            <linearGradient id={`${uid}-fin`} x2="1" y2="1"><stop stopColor="#84999b"/><stop offset="1" stopColor="#3e6069"/></linearGradient>
-          </defs>
-          <path d="M70 440 H930" stroke="#bac6bb" strokeWidth="1"/>
-          <text x="70" y="466" className="shark-plate-label">CARCHARODON CARCHARIAS</text><text x="930" y="466" textAnchor="end" className="shark-plate-label">SIDE VIEW · NOT TO SCALE</text>
-          <g stroke="#3d5c65" strokeWidth="2" strokeLinejoin="round">
-            <path d="M805 236 Q850 212 918 100 Q903 195 866 245 Q889 291 919 366 Q852 315 808 266Z" fill={active('tail')||`url(#${uid}-fin)`}/>
-            <path d="M438 185 Q460 117 502 89 Q489 146 533 190Z" fill={active('dorsal')||`url(#${uid}-fin)`}/>
-            <path d="M684 217 L714 186 L715 223Z" fill={active('dorsal')||'#718b90'}/>
-            <path d="M620 290 Q658 313 669 338 Q630 324 602 296Z M715 275 L747 306 L732 273Z" fill="#779194"/>
-            <path d="M121 251 Q190 184 333 176 Q440 160 539 188 Q670 200 788 234 L841 246 L809 267 Q668 290 570 307 Q415 334 269 306 Q210 301 174 279 Q150 272 121 251Z" fill={`url(#${uid}-skin)`}/>
-            <path d="M126 256 Q179 270 225 271 Q303 285 384 280 Q474 285 576 278 Q678 268 812 254 L809 267 Q668 290 570 307 Q415 334 269 306 Q210 301 174 279Z" fill="#eeeee0" stroke="none"/>
-            <path d="M344 275 Q377 328 463 380 Q432 319 413 282Z" fill={active('pectoral')||`url(#${uid}-fin)`}/>
-            <path d="M354 287 Q388 328 447 363" fill="none" stroke="#b2bfba"/>
-          </g>
-          <path d="M174 277 Q211 286 250 275" fill="none" stroke={active('jaws')||'#35505a'} strokeWidth={part.id==='jaws'?6:3}/>
-          {part.id==='jaws'&&<g fill="#faf5e5" stroke="#8a6959" strokeWidth="1">{[0,1,2,3,4,5].map(i=><path key={i} d={`M${181+i*10} 277 l5 9 l5 -8Z`}/>)}</g>}
-          <ellipse cx="207" cy="227" rx="8" ry="7" fill="#162f39" stroke={active('eye')||'#b5c6bf'} strokeWidth={part.id==='eye'?6:2}/><circle cx="205" cy="225" r="2" fill="#eff0dd"/>
-          <path d="M151 252 l10 -3" stroke="#35505a" strokeWidth="3"/>
-          <g stroke={active('gills')||'#49646b'} strokeWidth={part.id==='gills'?5:3} fill="none">{[0,1,2,3,4].map(i=><path key={i} d={`M${279+i*15} ${218-i} q-12 24 -5 54`}/>)}</g>
-          <path d="M260 219 Q440 210 601 237 Q706 246 805 247" fill="none" stroke={active('lateral')||'#bdc9bb'} strokeWidth={part.id==='lateral'?5:2} strokeDasharray={part.id==='lateral'?'7 5':'2 5'}/>
-          <path d="M804 246 l42 -2" stroke={active('tail')||'#31525e'} strokeWidth="5"/>
+          <image href="/assets/shark/great-white-anatomy-realistic.webp" x="100" y="65" width="840" height="400" preserveAspectRatio="none"/>
+          <path d="M70 478 H930" stroke="#bac6bb" strokeWidth="1"/>
+          <text x="70" y="496" className="shark-plate-label">CARCHARODON CARCHARIAS</text><text x="930" y="496" textAnchor="end" className="shark-plate-label">SIDE VIEW · NOT TO SCALE</text>
+          {mode==='body'&&part.id!=='lateral'&&<ellipse cx={part.tip[0]} cy={part.tip[1]} rx={part.id==='gills'?44:part.id==='tail'?48:24} ry={part.id==='gills'?48:part.id==='tail'?70:24} fill="#be775e15" stroke="#aa6049" strokeWidth="2" strokeDasharray="5 4"/>}
+          {part.id==='lateral'&&<path d="M245 239 Q450 215 650 262 Q730 278 837 276" fill="none" stroke="#be775e" strokeWidth="4" strokeDasharray="6 5"/>}
           {part.id==='ampullae'&&<g fill="#be775e" stroke="#fff9e9" strokeWidth="1">{[[144,254],[154,260],[165,267],[177,269],[179,252],[188,258],[159,243]].map(([x,y])=><circle key={`${x}-${y}`} cx={x} cy={y} r="4"/>)}</g>}
           {part.id==='liver'&&<path d="M350 269 Q421 248 579 268 Q637 278 663 282 Q586 309 470 305 Q406 301 350 283Z" fill="#c58b56aa" stroke="#a26340" strokeWidth="2" strokeDasharray="7 4"/>}
           {part.id==='skeleton'&&<g stroke="#f6f0d3" strokeWidth="5" fill="none"><path d="M219 241 Q402 228 571 251 Q694 260 832 247"/>{Array.from({length:24},(_,i)=><path key={i} d={`M${290+i*21} ${235+Math.sin(i/10)*15} l-2 13`}/>)}</g>}
@@ -72,7 +53,7 @@ export default function SharkAnatomy() {
         </svg>
         {parts.map((p,i)=><button type="button" key={p.id} className="shark-anatomy-marker" style={{left:`${p.x}%`,top:`${p.y}%`}} aria-label={`Inspect ${p.name}`} aria-pressed={selected===i} onClick={()=>setSelected(i)}>{i+1}</button>)}
       </div>
-      <figcaption>Educational illustration. Highlighted internal structures, pores, teeth and skin scales are simplified or enlarged. Other organs are omitted.</figcaption>
+      <figcaption>AI-generated natural-history illustration with interactive teaching overlays. Highlighted internal structures, pores, teeth and skin scales are simplified or enlarged. Other organs are omitted.</figcaption>
     </figure>
     <div className="shark-anatomy-explore">
       <div className="shark-anatomy-list" role="group" aria-label={mode==='body'?'Shark body parts':'Shark special adaptations'}>{parts.map((p,i)=><button type="button" key={p.id} aria-pressed={selected===i} aria-controls={`${uid}-detail`} onClick={()=>setSelected(i)}><span>{String(i+1).padStart(2,'0')}</span>{p.name}<span aria-hidden="true">↗</span></button>)}</div>

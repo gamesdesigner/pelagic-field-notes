@@ -1,10 +1,13 @@
+import { planktonDive } from "../shared/plankton-articles.mjs";
 import { expandedSections } from "./deepDiveExtensions";
 import { twilightGeneralDive, vampireDefenseSection } from "../shared/twilight-articles.mjs";
 
-export type LessonId = "upwelling" | "conveyor" | "coriolis" | "ekman" | "enso" | "sunlight" | "turtle" | "shark" | "cuttlefish" | "twilightGeneral" | "twilight" | "midnight" | "general";
+export type LessonId = "plankton" | "upwelling" | "conveyor" | "coriolis" | "ekman" | "enso" | "sunlight" | "turtle" | "shark" | "cuttlefish" | "twilightGeneral" | "twilight" | "midnight" | "general";
 export type DeepDiveSection = { heading: string; paragraphs: string[]; sources?: string[] };
 type DeepDive = { title: string; deck: string; abstract: string; sections: {heading: string; paragraphs: string[]; sources?: string[]}[]; terms: {word: string; definition: string}[]; question: string };
 export const readingSources: Record<string, {label: string; url: string}> = {
+  diatomCells:{label:"Diatoms of North America · Cells and life cycles",url:"https://diatoms.org/practitioners/what-are-diatoms-technical-details"},
+  bloomScience:{label:"NOAA · Harmful algal blooms",url:"https://oceanservice.noaa.gov/hazards/hab/"},
   twilightOverview:{label:"WHOI · Life in the twilight zone",url:"https://www.whoi.edu/ocean-learning-hub/ocean-topics/how-the-ocean-works/ocean-zones/twilight-zone/"},
   oceanLayers:{label:"NOAA · Layers of the ocean",url:"https://www.noaa.gov/jetstream/ocean/layers-of-ocean"},
   lightDepth:{label:"NOAA · Light and depth",url:"https://oceanservice.noaa.gov/facts/light_travel.html"},
@@ -62,6 +65,7 @@ export const readingSources: Record<string, {label: string; url: string}> = {
   jellyCycle:{label:"Monterey Bay Aquarium · Raising jellies",url:"https://www.montereybayaquarium.org/about-us/stories/growing-jellies"},
 };
 export const deepDives: Record<LessonId, DeepDive> = {
+plankton: {...planktonDive,sections:planktonDive.sections.map((section,index)=>({...section,sources:[index===3||index===4||index===11?"diatomCells":index===7?"carbon":index===8?"bloomScience":index===6?"plankton":"phyto"]}))},
 upwelling: {
  title:"Upwelling: from moving water to living food webs",
  deck:"Follow wind energy, nutrient recycling, and biological responses through a coastal system.",

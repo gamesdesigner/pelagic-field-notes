@@ -30,8 +30,8 @@ export function GreatWhiteSharkArt() {
 
 export default function GreatWhiteSharkLesson() {
   return <>
-    <figure className="great-white-hero" aria-label="Illustration of a great white shark swimming through sunlit water">
-      <img className="sunlight-animal-hero-image" src="/assets/sunlight/great-white-shark.png" alt="Great white shark with a gray back and white underside swimming beneath sunbeams in blue coastal water" />
+    <figure className="great-white-hero shark-specimen-hero" aria-label="Realistic scientific illustration of a great white shark">
+      <img className="sunlight-animal-hero-image" src="/assets/shark/great-white-anatomy-realistic.webp" alt="Full side profile of a great white shark with textured gray skin, a white underside, five gill slits, paired fins and a crescent tail" />
       <figcaption><span>Featured predator</span><strong>Great White Shark</strong><em>Carcharodon carcharias</em></figcaption>
     </figure>
     <LessonReading lessonId="shark">
