@@ -30,7 +30,18 @@ export default function CuttlefishLab(){
   </section>
   <section className="discovery-panel cell-panel" aria-labelledby="cuttle-cells-title">
    <div className="discovery-section-heading"><div><p className="eyebrow">Cell biology · Beneath the camouflage</p><h2 id="cuttle-cells-title">Small structures. Remarkable changes.</h2></div><p>Explore pigment, reflected light, and texture—three different ways to change appearance.</p></div>
+   <figure className="skin-art-figure skin-mechanism-figure">
+    <a href="/assets/cuttlefish/color-change-mechanism.png" target="_blank" rel="noreferrer" aria-label="Open the cuttlefish color-change diagram at full size"><img src="/assets/cuttlefish/color-change-mechanism.webp" width="1536" height="1024" loading="lazy" decoding="async" alt="How cuttlefish change color: contracted radial muscles spread a chromatophore’s pigment sac; relaxed muscles let it retract. Below the pigment organs are iridophore reflectors and light-scattering leucophores."/></a>
+    <figcaption>A simplified view of the skin’s color-changing system. Pigment sacs change their visible area; the layers beneath reflect and scatter incoming light. Layer spacing and sizes are not to scale. <a href="/assets/cuttlefish/color-change-mechanism.png" target="_blank" rel="noreferrer">Open the full-size diagram ↗</a></figcaption>
+   </figure>
+   <ol className="skin-mechanism-steps" aria-label="How the skin changes its appearance">
+    <li><strong>Nerves signal the muscles</strong><p>Radial muscles pull outward on an elastic pigment sac.</p></li>
+    <li><strong>The pigment changes area</strong><p>Muscle contraction spreads the sac. Relaxation lets it shrink, exposing more of the background.</p></li>
+    <li><strong>Deeper structures return light</strong><p>Iridophores reflect selected colors; leucophores scatter light broadly.</p></li>
+   </ol>
+   <details className="skin-cutaway-details"><summary>Explore the anatomical skin cutaway</summary>
    <figure className="skin-art-figure"><img src="/assets/field-guide-v2/cuttlefish-skin-cells.webp" width="1536" height="1024" loading="lazy" decoding="async" alt="Magnified cuttlefish skin cutaway: pigment sacs with radial muscles and nerves near the surface, stacked iridophore reflectors beneath, pale leucophores deeper down, and raised papillae on top"/><figcaption>Artist’s reconstruction, not a microscope image. Chromatophores spread pigment near the surface; iridophores reflect selected wavelengths beneath them; deeper leucophores scatter light. Papillae change skin texture. Structure sizes and layer thicknesses are simplified.</figcaption></figure>
+   </details>
    <div className="cell-selector" role="group" aria-label="Skin structure">{cells.map((c,i)=><button key={c.name} aria-pressed={cell===i} onClick={()=>setCell(i)}><i style={{background:c.color}}/>{c.name}</button>)}</div>
    <div className="cell-lab-grid"><div className={`cell-model ${animate?'is-animating':''}`}>
     <div className="cell-model-title"><span>Magnified teaching model</span><strong>{expansion}% pigment expansion</strong></div>
@@ -50,7 +61,7 @@ export default function CuttlefishLab(){
     <label className="cell-toggle"><input type="checkbox" checked={texture} onChange={e=>{setTexture(e.target.checked);setCell(3);}}/>Raise the papillae</label>
     <p className="cell-model-note">The slider spreads existing pigment; it does not make new pigment or turn every cell a new color. This model simplifies scale, timing, and anatomy.</p>
    </div></div>
-   <p className="cuttle-science-sources">Explore the science: <a href="https://www.mbl.edu/news/hanlon-award-aims-reveal-dynamic-interplay-pigments-reflectors-cephalopod-skin" target="_blank" rel="noreferrer">MBL · Pigments and reflectors</a><span> · </span><a href="https://www.mbl.edu/news/how-cuttlefish-spikes-out-its-skin-neurological-study-reveals-surprising-control" target="_blank" rel="noreferrer">MBL · Papillae and texture</a></p>
+   <p className="cuttle-science-sources">Explore the science: <a href="https://www.mbl.edu/news/hanlon-award-aims-reveal-dynamic-interplay-pigments-reflectors-cephalopod-skin" target="_blank" rel="noreferrer">MBL · Pigments and reflectors</a><span> · </span><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3928930/" target="_blank" rel="noreferrer">Chromatophore research</a><span> · </span><a href="https://www.mbl.edu/news/how-cuttlefish-spikes-out-its-skin-neurological-study-reveals-surprising-control" target="_blank" rel="noreferrer">MBL · Papillae and texture</a></p>
   </section>
  </div>;
 }
