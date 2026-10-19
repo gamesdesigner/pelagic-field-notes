@@ -34,28 +34,7 @@ export default function GreatWhiteSharkLesson() {
       <img className="sunlight-animal-hero-image" src="/assets/shark/great-white-anatomy-realistic.webp" alt="Full side profile of a great white shark with textured gray skin, a white underside, five gill slits, paired fins and a crescent tail" />
       <figcaption><span>Featured predator</span><strong>Great White Shark</strong><em>Carcharodon carcharias</em></figcaption>
     </figure>
-    <LessonReading lessonId="shark">
-    <article className="current-article shark-article" aria-label="Great White Shark lesson">
-      <p>The great white shark (<em>Carcharodon carcharias</em>) is one of the largest predatory fish in the ocean. It can grow more than 6 meters (20 feet) long, although most are smaller. Great white sharks live in coastal and offshore waters around the world, especially in cool and temperate regions.</p>
-      <p>Great white sharks are powerful hunters. Their bodies are shaped for fast swimming, with strong tails and large fins that help them move efficiently through the water. They also have several rows of sharp, triangular teeth designed for gripping and cutting prey.</p>
-      <h2>What Do Great White Sharks Eat?</h2>
-      <p>A great white shark’s diet changes as it grows. Young sharks mainly eat fish, squid, rays, and smaller sharks. As they become larger, they are able to hunt bigger prey such as seals and sea lions. They may also feed on dolphins, small whales, sea turtles, and dead whales.</p>
-      <p>Great whites often use surprise when hunting. For example, they may swim upward quickly from deeper water to attack a seal near the surface. Their strong jaws and serrated teeth allow them to tear pieces from large prey.</p>
-      <h2>Travel and Migration Patterns</h2>
-      <p>Great white sharks can travel very long distances. Scientists track them using electronic tags attached to their bodies or fins. These studies have shown that some great whites migrate thousands of kilometers each year.</p>
-      <p>Sharks often move between coastal feeding areas and deeper parts of the open ocean. For example, great white sharks found along the coast of California may spend part of the year near areas where seals and sea lions are common. At other times, they may travel far offshore into the Pacific Ocean.</p>
-      <p>Some sharks return to the same feeding areas year after year. Scientists believe their movements may be influenced by food availability, water temperature, reproduction, and ocean conditions.</p>
-      <p>Great whites are also capable of diving hundreds of meters below the surface. During long migrations, they may repeatedly move between deep and shallow water, possibly while searching for food or navigating through the ocean.</p>
-      <h2>Special Senses</h2>
-      <p>Like other sharks, great whites have highly developed senses. They can detect smells in the water and sense vibrations made by nearby animals. They also have special organs called <strong>ampullae of Lorenzini</strong>, which allow them to detect the weak electrical signals produced by the muscles and nerves of other animals.</p>
-      <p>These senses help great white sharks find prey even when the water is dark or cloudy.</p>
-      <h2>Role in the Marine Ecosystem</h2>
-      <p>Great white sharks are top predators. They help control populations of other marine animals and can influence the behavior of seals, sea lions, and other predators. Because of this, they play an important role in keeping marine food webs balanced.</p>
-      <p>Despite their reputation, great white sharks do not normally hunt humans for food. Shark attacks on people are rare. Some bites may happen when a shark is investigating an unfamiliar object or mistakes a swimmer or surfer for its normal prey.</p>
-      <p>Great white sharks face threats from accidental capture in fishing gear, illegal hunting, pollution, and declining prey populations. Because they reproduce slowly and produce relatively few young, their populations can take many years to recover.</p>
-      <p>Studying great white sharks helps marine biologists understand migration, predator behavior, ocean food webs, and the overall health of marine ecosystems.</p>
-    </article>
-    </LessonReading>
+    <LessonReading lessonId="shark" />
     <SharkAnatomy />
     <SharkQuiz />
   </>;

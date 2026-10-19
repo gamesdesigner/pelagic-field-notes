@@ -38,32 +38,7 @@ export default function CommonCuttlefishLesson() {
       <img className="sunlight-animal-hero-image" src="/assets/sunlight/common-cuttlefish.png" alt="Common cuttlefish with mottled brown camouflage and a W-shaped pupil hovering above a sandy seabed" />
       <figcaption><span>Featured cephalopod</span><strong>Common Cuttlefish</strong><em>Sepia officinalis</em></figcaption>
     </figure>
-    <LessonReading lessonId="cuttlefish">
-    <article className="current-article cuttlefish-article" aria-label="Common Cuttlefish lesson">
-      <p>The common cuttlefish (<em>Sepia officinalis</em>) is a marine animal related to squids and octopuses. It belongs to a group of animals called <strong>cephalopods</strong>, which are known for their intelligence, complex behavior, and ability to change color. Common cuttlefish are found mainly in the eastern Atlantic Ocean and the Mediterranean Sea, where they live in coastal waters and on sandy or muddy sea floors.</p>
-      <p>Cuttlefish have eight arms and two longer feeding tentacles. Inside their bodies is a hard, lightweight structure called a <strong>cuttlebone</strong>. The cuttlebone contains many tiny chambers filled with gas and liquid. By adjusting these chambers, the cuttlefish can control its buoyancy and move up or down in the water.</p>
-      <h2>What Do Common Cuttlefish Eat?</h2>
-      <p>Common cuttlefish are active predators. They mainly eat <strong>crabs, shrimp, small fish, and other mollusks</strong>. Young cuttlefish often begin by eating small crustaceans such as shrimp.</p>
-      <p>When hunting, a cuttlefish may slowly approach its prey while using camouflage to avoid being noticed. Once it is close enough, it rapidly shoots out its two long feeding tentacles. These tentacles grab the prey and pull it toward the cuttlefish&apos;s arms and mouth.</p>
-      <p>Cuttlefish have a strong, parrot-like <strong>beak</strong> that they use to bite and break apart their food.</p>
-      <h2>Color Change and Camouflage</h2>
-      <p>One of the most remarkable abilities of the cuttlefish is its ability to change its appearance extremely quickly. Its skin contains specialized structures, including pigment cells called <strong>chromatophores</strong>.</p>
-      <p>By controlling these cells, a cuttlefish can change its colors and patterns in less than a second. It can appear striped, spotted, dark, pale, or almost completely blended into its surroundings.</p>
-      <p>Cuttlefish use these color changes for several purposes. Camouflage helps them hide from predators and sneak up on prey. They also use patterns and colors to communicate with other cuttlefish, especially during courtship and competition.</p>
-      <h2>Travel and Seasonal Movement</h2>
-      <p>Common cuttlefish do not usually make extremely long ocean migrations like great white sharks, but they do make important <strong>seasonal movements</strong>.</p>
-      <p>During colder months, many common cuttlefish move into deeper offshore waters. As the water becomes warmer in spring and summer, adults often travel toward shallow coastal areas.</p>
-      <p>These shallow waters provide important places for mating and egg-laying. Females attach clusters of dark eggs to seaweed, rocks, shells, and other underwater surfaces. After reproduction, many adult common cuttlefish die, giving them a relatively short life cycle of about one to two years.</p>
-      <h2>Intelligence and Senses</h2>
-      <p>Cuttlefish have large brains compared with many other invertebrates and have excellent eyesight. Their unusual W-shaped pupils help them detect contrast and movement underwater.</p>
-      <p>Scientists have found that cuttlefish can learn from experience, remember information, solve simple problems, and change their hunting strategies. Their sophisticated nervous systems make them important animals for scientists studying learning and animal behavior.</p>
-      <p>Interestingly, cuttlefish are thought to have limited color vision, yet they are still remarkably good at matching the colors and patterns of their surroundings.</p>
-      <h2>Role in the Marine Ecosystem</h2>
-      <p>Common cuttlefish are both <strong>predators and prey</strong>, making them important members of marine food webs. They help control populations of shrimp, crabs, fish, and other small animals.</p>
-      <p>At the same time, cuttlefish are eaten by larger fish, sharks, dolphins, seals, and seabirds. Their camouflage, speed, and ability to release a cloud of ink help them escape predators.</p>
-      <p>Studying common cuttlefish helps marine biologists understand animal intelligence, camouflage, predator-prey relationships, communication, and adaptation to life in the ocean.</p>
-    </article>
-    </LessonReading>
+    <LessonReading lessonId="cuttlefish" />
     <CuttlefishLab />
     <CuttlefishQuiz />
   </>;

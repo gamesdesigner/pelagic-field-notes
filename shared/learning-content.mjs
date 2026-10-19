@@ -1,3 +1,5 @@
+import {schoolingQuestions} from "./schooling-articles.mjs";
+
 // One question bank is used by the lesson UI and server-side grading.
 
 /** @type {{prompt:string,answer:string,options?:string[]}[]} */
@@ -272,9 +274,9 @@ export const planktonQuestions = [
 ];
 
 export const lessonTitles = {
- plankton:'Planktons & Diatoms',upwelling:'Upwelling',conveyor:'Global Conveyor Belt',coriolis:'Coriolis Effect',ekman:'Ekman transport',enso:'El Niño & La Niña',sunlight:'Marine Life in Sunlight',turtle:'Green Sea Turtle',shark:'Great White Shark',cuttlefish:'Common Cuttlefish',twilightGeneral:'General Marine Life in Twilight',twilight:'Vampire Squid',midnight:'Marine Life in Midnight',general:'The General Ocean',
+ schooling:'Schools of Fish',plankton:'Planktons & Diatoms',upwelling:'Upwelling',conveyor:'Global Conveyor Belt',coriolis:'Coriolis Effect',ekman:'Ekman transport',enso:'El Niño & La Niña',sunlight:'Marine Life in Sunlight',turtle:'Green Sea Turtle',shark:'Great White Shark',cuttlefish:'Common Cuttlefish',twilightGeneral:'General Marine Life in Twilight',twilight:'Vampire Squid',midnight:'Marine Life in Midnight',general:'The General Ocean',
 };
-export const quizBank = {plankton:planktonQuestions,upwelling:upwellingQuestions,conveyor:conveyorQuestions,coriolis:coriolisQuestions,enso:ensoQuestions,sunlight:sunlightQuestions,turtle:turtleQuestions,shark:sharkQuestions,cuttlefish:cuttlefishQuestions,twilightGeneral:twilightQuestions,twilight:vampireQuestions};
+export const quizBank = {schooling:schoolingQuestions,plankton:planktonQuestions,upwelling:upwellingQuestions,conveyor:conveyorQuestions,coriolis:coriolisQuestions,enso:ensoQuestions,sunlight:sunlightQuestions,turtle:turtleQuestions,shark:sharkQuestions,cuttlefish:cuttlefishQuestions,twilightGeneral:twilightQuestions,twilight:vampireQuestions};
 export const normalizeAnswer = answer=>answer.trim().toLowerCase().replace(/[^a-z0-9]/g,'');
 export function spellingDistance(entered,expected){
  const row=Array.from({length:expected.length+1},(_,i)=>i);

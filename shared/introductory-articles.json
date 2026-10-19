@@ -1,0 +1,488 @@
+{
+  "upwelling": {
+    "sections": [
+      {
+        "heading": "Follow the movement of water",
+        "paragraphs": [
+          "A coast can become cooler after several windy days even when the air feels warm. One explanation is upwelling: water from below moves upward to replace surface water that has moved away. The rising water is often cooler and richer in dissolved nutrients than the water at the surface.",
+          "Upwelling connects a physical process with living organisms. To explain the connection, follow the sequence from wind to water movement, then to nutrient supply and possible growth. A change in one part of that sequence does not guarantee an immediate response in every other part."
+        ]
+      },
+      {
+        "heading": "Explain why surface water moves offshore",
+        "paragraphs": [
+          "Wind transfers momentum to the upper ocean. Earth's rotation affects the direction of moving water through the Coriolis effect. Away from the equator, the combined wind-driven movement of the surface layer is called Ekman transport. It is approximately to the right of the wind in the Northern Hemisphere and to the left in the Southern Hemisphere under the simple steady model.",
+          "Along a suitable coastline, this transport carries water away from land. Water then rises from below to replace it. The wind direction, hemisphere, and orientation of the coast all matter. Reversing the wind can push water toward the coast instead, producing downwelling."
+        ]
+      },
+      {
+        "heading": "Trace the source of the nutrients",
+        "paragraphs": [
+          "Near the surface, phytoplankton use sunlight to make organic food through photosynthesis. This well-lit region is called the photic zone. Some organisms and waste sink from it as marine snow: particles of dead material, waste, and other organic matter.",
+          "Microbes decompose much of this material before it reaches the seafloor. Decomposition returns nutrients to dissolved forms and uses oxygen. Water below the well-lit surface can therefore contain nutrients regenerated from earlier biological production. Upwelling transports the properties of that water together; its source need not be the deepest ocean floor."
+        ]
+      },
+      {
+        "heading": "Connect nutrients with cell growth",
+        "paragraphs": [
+          "Nitrogen in nutrients such as nitrate helps organisms build proteins and nucleic acids. Phosphorus in phosphate supports genetic material and energy transfer. Diatoms also use dissolved silicon to build their glass-like silica walls. These materials help cells grow, but they are not a substitute for the energy provided by light.",
+          "When suitable light and nutrients allow cell production to exceed losses, phytoplankton numbers increase. A rapid increase is called a bloom. Grazing animals, sinking, and currents remove cells, so nutrient-rich water does not always produce a large bloom. Growth and changes higher in the food web can also take time."
+        ]
+      },
+      {
+        "heading": "Explain why the wider ecosystem responds",
+        "paragraphs": [
+          "Zooplankton eat many phytoplankton, and fish, seabirds, and larger animals feed through connected food webs. Upwelling can therefore support productive coastal fisheries. The response depends on which organisms are present and whether water and food remain available long enough for them to grow or gather.",
+          "Rising water may also be low in oxygen or carry more dissolved carbon. Some blooms cause problems through toxins or oxygen use as they decay, while many are natural parts of ocean life. Productive conditions and stressful conditions can occur in the same coastal system."
+        ]
+      },
+      {
+        "heading": "Use observations to test the explanation",
+        "paragraphs": [
+          "A useful test compares wind direction, surface-water movement, temperature, nutrients, and changes in organisms over time. Colder water after offshore transport supports an upwelling explanation, but temperature alone cannot establish every step. Other currents may also bring cool water into an area.",
+          "In the model, change one control while keeping the others fixed. Predict the direction of transport first, then compare the result with your prediction. This connects the arrows on the screen with a clear explanation of how water movement can affect a food web."
+        ]
+      }
+    ]
+  },
+  "conveyor": {
+    "sections": [
+      {
+        "heading": "Connect the surface with deeper water",
+        "paragraphs": [
+          "Ocean water moves between regions and depths through a network of currents, sinking, mixing, and rising water. The global conveyor belt is a simplified diagram of these connections. It helps explain how heat, dissolved substances, and nutrients travel through the ocean.",
+          "The diagram is not a fixed underwater pipe. Water mixes, branches into different routes, and moves at different speeds. A parcel can take hundreds to thousands of years to pass through long deep-ocean pathways; about 1,000 years is a useful broad illustration, rather than an exact travel time for every route."
+        ]
+      },
+      {
+        "heading": "Explain how density affects sinking",
+        "paragraphs": [
+          "Density is the amount of mass in a given volume. Cooling generally makes seawater denser, and higher salinity also increases density. Salinity describes how much dissolved salt the water contains. Freshening generally reduces density.",
+          "If surface water becomes denser than the water beneath it, it can sink and mix downward. In parts of the North Atlantic near Greenland and Iceland, winter cooling helps form dense waters that enter deeper circulation. Conditions around Antarctica also contribute important deep and bottom waters. Temperature and salinity must be considered together."
+        ]
+      },
+      {
+        "heading": "Follow several connected pathways",
+        "paragraphs": [
+          "Some deep water moves south through the Atlantic and exchanges with waters around Antarctica. Other branches connect with the Indian and Pacific oceans. Surface and upper-ocean currents provide returning flows as part of a wider overturning system.",
+          "Wind and mixing help bring deeper water back toward the surface. Water does not rise simply because it has reached a warm latitude. Winds, tides, turbulent mixing, and the arrangement of water layers supply parts of the movement and energy that a single-loop drawing leaves out."
+        ]
+      },
+      {
+        "heading": "Connect circulation with climate",
+        "paragraphs": [
+          "Currents carry heat from one region to another. Warm upper-ocean water can release heat to the atmosphere as it moves toward higher latitudes. This exchange influences regional climate and links conditions in the ocean with conditions in the air.",
+          "The Gulf Stream is one part of Atlantic circulation. Its warmth contributes to the North Atlantic's heat budget, but European climate also depends on prevailing winds, the atmosphere, geography, and other ocean processes. A conveyor diagram should not be used to attribute a region's entire climate to one current."
+        ]
+      },
+      {
+        "heading": "Follow nutrients and carbon",
+        "paragraphs": [
+          "Organisms use nutrients near the surface, and microbes return some of those nutrients to dissolved forms as sinking material decomposes. Circulation and upwelling can bring nutrient-rich water into well-lit layers, where it may support phytoplankton growth.",
+          "The same network also transports oxygen and carbon. Water that has recently contacted the atmosphere carries a different history from water that has remained deep for a long time. Scientists use temperature, salinity, and chemical tracers to help identify these histories."
+        ]
+      },
+      {
+        "heading": "Explain change without assuming a total shutdown",
+        "paragraphs": [
+          "Warming and freshwater inputs can change surface-water density and affect sinking. Scientists study how these changes influence the Atlantic Meridional Overturning Circulation, or AMOC. Observations and models are both needed because circulation also varies naturally over shorter periods.",
+          "A weakening or major change in Atlantic overturning can have important climate and ecosystem consequences. It does not mean that every ocean current instantly stops. Winds still drive currents, and different branches can respond differently. The useful question is which part changes, how much, over what timescale, and with what evidence."
+        ]
+      }
+    ]
+  },
+  "coriolis": {
+    "sections": [
+      {
+        "heading": "Describe motion from a rotating viewpoint",
+        "paragraphs": [
+          "Earth rotates while air and water move across it. When movement is described relative to the rotating Earth, rotation contributes an apparent sideways deflection called the Coriolis effect. It helps explain patterns in large ocean currents and weather systems.",
+          "A comparison with a rotating platform can help. The same moving object can follow a different-looking path in a view attached to the platform than in a view from the room. The choice of viewpoint, or reference frame, changes how the motion is described."
+        ]
+      },
+      {
+        "heading": "Apply the hemisphere rule",
+        "paragraphs": [
+          "For horizontal motion, the Coriolis contribution turns movement to the right in the Northern Hemisphere and to the left in the Southern Hemisphere. Right and left are measured relative to the direction the object is moving, rather than fixed compass directions.",
+          "For example, a northward-moving parcel in the Northern Hemisphere has a rightward Coriolis contribution toward the east. An eastward-moving parcel has a rightward contribution toward the south. The same rule explains both cases even though the compass direction changes."
+        ]
+      },
+      {
+        "heading": "Explain why latitude matters",
+        "paragraphs": [
+          "The strength of the horizontal Coriolis contribution changes with latitude. It is zero at the equator in the usual horizontal approximation and increases toward the poles. It also depends on how fast the air or water is moving.",
+          "This latitude dependence helps explain why large rotating-fluid patterns differ around the planet. A simple picture based only on changing eastward ground speed can illustrate some north–south motion, but it does not fully explain movement in every direction. The rotating reference frame gives the more general explanation."
+        ]
+      },
+      {
+        "heading": "Combine rotation with the causes of movement",
+        "paragraphs": [
+          "The Coriolis effect does not supply the energy that starts a current. Wind, pressure differences, gravity, and friction also matter. Ocean water follows the combined influence of these processes. A current does not have to curve freely if another contribution balances the Coriolis contribution.",
+          "In many broad, slowly changing currents, pressure-gradient and Coriolis contributions approximately balance. This is called geostrophic balance. It helps explain why water can flow along a sloping pattern of sea-surface height rather than directly downhill across it."
+        ]
+      },
+      {
+        "heading": "Use the idea at an appropriate scale",
+        "paragraphs": [
+          "Around a large low-pressure weather system, pressure differences draw air inward while rotation and friction shape the flow. Such systems usually turn counterclockwise in the Northern Hemisphere and clockwise in the Southern Hemisphere. High-pressure systems have a different arrangement, so the hemisphere alone is not enough to determine every rotation.",
+          "Small swirls in a sink or beside a rock are strongly affected by their container, initial motion, and local forces. They are not reliable demonstrations of the large-scale hemisphere rule. Scale and duration are part of a good explanation."
+        ]
+      },
+      {
+        "heading": "Read an ocean diagram carefully",
+        "paragraphs": [
+          "Before interpreting an arrow, identify the hemisphere, initial direction of motion, and forces included in the model. Predict the rightward or leftward Coriolis contribution, then ask what else acts on the water.",
+          "This approach connects Coriolis science with Ekman transport, gyres, and other circulation patterns. It also prevents a common error: treating an apparent deflection as an explanation for where all the current's energy comes from."
+        ]
+      }
+    ]
+  },
+  "ekman": {
+    "sections": [
+      {
+        "heading": "Wind at the Surface",
+        "paragraphs": [
+          "When wind blows across the ocean, the ripples and waves at the surface appear to travel with it. The water itself behaves differently. Wind transfers energy to the uppermost layer through friction, but Earth's rotation turns that moving water away from the wind's path. The combined movement of the wind-driven upper ocean is called Ekman transport.",
+          "When the motion of the entire wind-influenced layer is added together, the net transport is about 90 degrees to the right of the wind in the Northern Hemisphere and 90 degrees to the left in the Southern Hemisphere. This sideways transport helps shape ocean circulation, climate, and biological productivity."
+        ]
+      },
+      {
+        "heading": "Nansen's Clue and Ekman's Model",
+        "paragraphs": [
+          "During the late nineteenth century, Norwegian explorer Fridtjof Nansen noticed an important pattern while the research ship Fram was trapped in Arctic ice. The wind pushed the ice pack at an angle rather than directly downwind. Nansen suspected that Earth's rotation was responsible.",
+          "Swedish oceanographer Vagn Walfrid Ekman developed the mathematical explanation and published it in 1905. His model showed how wind, friction, and the Coriolis effect create a chain reaction through the upper water column."
+        ]
+      },
+      {
+        "heading": "Friction Meets Rotation",
+        "paragraphs": [
+          "The wind first grips the ocean's surface and transfers kinetic energy to the water. The Coriolis effect then deflects this moving layer—to the right in the Northern Hemisphere and to the left in the Southern Hemisphere. In an idealized deep ocean, the surface current travels roughly 45 degrees away from the wind.",
+          "The moving surface layer drags the water beneath it. Each deeper layer receives less energy, moves more slowly, and turns farther from the wind than the layer above. The main pattern is:",
+          "The surface layer moves fastest and at an angle to the wind.",
+          "Each deeper layer moves more slowly because friction dissipates energy.",
+          "Each layer is rotated farther by the Coriolis effect."
+        ]
+      },
+      {
+        "heading": "The Ekman Spiral",
+        "paragraphs": [
+          "If oceanographers draw an arrow for the speed and direction of every layer, the arrows form a turning, shrinking pattern called the Ekman spiral. The idealized spiral may extend through roughly the upper 100 meters, although its real depth changes with wind strength, turbulence, stratification, and location.",
+          "Individual layers travel in different directions, but their movements combine into one net transport at a right angle to the wind. Ekman transport describes this integrated motion of the full wind-driven layer, not the path of one surface wave or one parcel of water."
+        ]
+      },
+      {
+        "heading": "Coastal Upwelling",
+        "paragraphs": [
+          "Along the California coast, a southward wind can drive Northern Hemisphere Ekman transport offshore. As surface water moves away from land, cold, nutrient-rich water rises from below to replace it. This process is called coastal upwelling.",
+          "The rising water carries nitrates, phosphates, and other nutrients into the sunlit zone. Phytoplankton use these nutrients to grow, supporting food webs that include zooplankton, fish, seabirds, and whales. Upwelling regions occupy only a small portion of the ocean but support some of its most productive fisheries."
+        ]
+      },
+      {
+        "heading": "Coastal Downwelling",
+        "paragraphs": [
+          "If the wind reverses, Ekman transport can push surface water toward the coast. Water piles up along the shoreline and is forced downward. This is coastal downwelling.",
+          "Downwelling does not bring deep nutrients into the sunlit zone, so it usually produces less surface biological growth than upwelling. However, it performs another important job by carrying oxygen-rich surface water into deeper parts of the ocean."
+        ]
+      }
+    ]
+  },
+  "sunlight": {
+    "sections": [
+      {
+        "heading": "The well-lit upper ocean",
+        "paragraphs": [
+          "The sunlight zone, also called the epipelagic zone, extends from the surface to roughly 200 metres deep. Enough light reaches this layer for photosynthesis, making it the most productive and familiar part of the open ocean. Its exact depth changes with water clarity, weather, season, and location.",
+          "Although this zone is only a thin layer compared with the full depth of the sea, it contains most of the ocean's photosynthetic life. Warm temperatures, abundant light, and contact with the atmosphere create conditions that support plankton, fish, reptiles, seabirds, and marine mammals."
+        ]
+      },
+      {
+        "heading": "Photosynthesis supports a food web",
+        "paragraphs": [
+          "Microscopic organisms called phytoplankton use sunlight, carbon dioxide, and nutrients to make food. They form the base of most sunlit-ocean food webs and also release oxygen during photosynthesis.",
+          "Zooplankton graze on phytoplankton. Small fish and filter feeders consume the plankton, and larger predators—including tuna, sharks, dolphins, and seabirds—feed higher in the same connected web. In coastal areas, seagrasses, algae, mangroves, and coral-reef organisms add even more habitats and food sources."
+        ]
+      },
+      {
+        "heading": "Movement and camouflage",
+        "paragraphs": [
+          "Sunlit waters are energetic. Waves mix the surface, winds drive currents, and tides move water through coastal habitats. Many animals use these flows to migrate, find food, disperse young, or conserve energy.",
+          "Visibility also shapes survival. Some animals use silvery scales or transparent bodies to blend into bright water. Others are dark above and pale below—a pattern called countershading that makes them harder to see from either direction."
+        ]
+      },
+      {
+        "heading": "Daily migration between depths",
+        "paragraphs": [
+          "The sunlight zone changes dramatically between day and night. After sunset, enormous numbers of animals rise from deeper water to feed near the surface. Before sunrise, many descend again to hide from visual predators. This daily vertical migration moves carbon and nutrients through the ocean."
+        ]
+      },
+      {
+        "heading": "Changes to a productive habitat",
+        "paragraphs": [
+          "Sunlit marine ecosystems are affected by warming water, pollution, overfishing, habitat damage, and changes in ocean chemistry. Protecting seagrass meadows, coral reefs, coastal wetlands, and open-ocean food webs helps preserve both marine biodiversity and the benefits people receive from the sea."
+        ]
+      }
+    ]
+  },
+  "turtle": {
+    "sections": [
+      {
+        "heading": "Habitat and breathing",
+        "paragraphs": [
+          "The green sea turtle (Chelonia mydas) lives in tropical and subtropical waters around the world. Adults are often found in sunlit coastal habitats such as seagrass meadows, lagoons, bays, and coral reefs. Their streamlined shells and powerful front flippers allow them to travel efficiently through the water.",
+          "Unlike fish, sea turtles breathe air. A green turtle must return to the surface for oxygen, although a resting turtle can remain underwater far longer than an actively swimming one. It also depends on sunlight-warmed water because, like other reptiles, it cannot regulate its body temperature internally in the same way a mammal can."
+        ]
+      },
+      {
+        "heading": "Diet and grazing",
+        "paragraphs": [
+          "Young green turtles eat a mixed diet that may include small animals, algae, and other drifting food. As they mature, many become mainly herbivorous and graze on seagrasses and algae. This dietary shift is unusual among sea turtles.",
+          "Regular grazing clips seagrass blades and can encourage fresh growth. Healthy seagrass meadows provide shelter and feeding grounds for fish, crustaceans, and many other organisms, while also trapping sediment and storing carbon. The turtle therefore influences an entire habitat as it feeds."
+        ]
+      },
+      {
+        "heading": "Migration and nesting",
+        "paragraphs": [
+          "Green turtles may migrate hundreds or thousands of kilometres between feeding areas and nesting beaches. They use several environmental clues to navigate, including the position of the sun, waves, chemical signals, and Earth's magnetic field.",
+          "A female often returns to the same broad region where she hatched. After crawling onto a sandy beach, she digs a nest above the high-tide line and lays a clutch of eggs. Weeks later, the hatchlings emerge and race toward the brightest open horizon, which under natural conditions leads them toward the sea."
+        ]
+      },
+      {
+        "heading": "Risks across the life cycle",
+        "paragraphs": [
+          "Hatchlings face birds, crabs, fish, and other predators. Older turtles must survive storms, sharks, disease, and long migrations. Human activity adds further dangers, including accidental capture in fishing gear, boat strikes, plastic pollution, artificial lighting near nesting beaches, and the loss of seagrass habitat."
+        ]
+      },
+      {
+        "heading": "Connections with the ecosystem",
+        "paragraphs": [
+          "Green turtles connect beaches, reefs, seagrass meadows, and the open ocean during their lives. By grazing, migrating, and transporting nutrients, they help link several parts of the sunlit marine ecosystem.",
+          "Protecting nesting beaches, reducing plastic waste, using turtle-safe fishing methods, and conserving coastal feeding grounds all improve their chance of survival. Population trends provide one kind of evidence about an ecosystem, alongside observations of habitat, food, and other species."
+        ]
+      }
+    ]
+  },
+  "shark": {
+    "sections": [
+      {
+        "heading": "Body form and habitat",
+        "paragraphs": [
+          "The great white shark (Carcharodon carcharias) is one of the largest predatory fish in the ocean. It can grow more than 6 meters (20 feet) long, although most are smaller. Great white sharks live in coastal and offshore waters around the world, especially in cool and temperate regions.",
+          "Great white sharks are powerful hunters. Their bodies are shaped for fast swimming, with strong tails and large fins that help them move efficiently through the water. They also have several rows of sharp, triangular teeth designed for gripping and cutting prey."
+        ]
+      },
+      {
+        "heading": "Diet changes with growth",
+        "paragraphs": [
+          "A great white shark’s diet changes as it grows. Young sharks mainly eat fish, squid, rays, and smaller sharks. As they become larger, they are able to hunt bigger prey such as seals and sea lions. They may also feed on dolphins, small whales, sea turtles, and dead whales.",
+          "Great whites often use surprise when hunting. For example, they may swim upward quickly from deeper water to attack a seal near the surface. Their strong jaws and serrated teeth allow them to tear pieces from large prey."
+        ]
+      },
+      {
+        "heading": "Travel and migration",
+        "paragraphs": [
+          "Great white sharks can travel very long distances. Scientists track them using electronic tags attached to their bodies or fins. These studies have shown that some great whites migrate thousands of kilometers each year.",
+          "Sharks often move between coastal feeding areas and deeper parts of the open ocean. For example, great white sharks found along the coast of California may spend part of the year near areas where seals and sea lions are common. At other times, they may travel far offshore into the Pacific Ocean.",
+          "Some sharks return to the same feeding areas year after year. Scientists believe their movements may be influenced by food availability, water temperature, reproduction, and ocean conditions.",
+          "Great whites are also capable of diving hundreds of meters below the surface. During long migrations, they may repeatedly move between deep and shallow water, possibly while searching for food or navigating through the ocean."
+        ]
+      },
+      {
+        "heading": "Senses used in finding prey",
+        "paragraphs": [
+          "Like other sharks, great whites have highly developed senses. They can detect smells in the water and sense vibrations made by nearby animals. They also have special organs called ampullae of Lorenzini, which allow them to detect the weak electrical signals produced by the muscles and nerves of other animals.",
+          "These senses help great white sharks find prey even when the water is dark or cloudy."
+        ]
+      },
+      {
+        "heading": "Role and pressures in the food web",
+        "paragraphs": [
+          "Great white sharks are top predators. They help control populations of other marine animals and can influence the behavior of seals, sea lions, and other predators. Because of this, they can influence the structure of marine food webs.",
+          "Despite their reputation, great white sharks do not normally hunt humans for food. Shark attacks on people are rare. Some bites may happen when a shark is investigating an unfamiliar object or mistakes a swimmer or surfer for its normal prey.",
+          "Great white sharks face threats from accidental capture in fishing gear, illegal hunting, pollution, and declining prey populations. Because they reproduce slowly and produce relatively few young, their populations can take many years to recover.",
+          "Studying great white sharks helps marine biologists understand migration, predator behavior, ocean food webs, and the overall health of marine ecosystems."
+        ]
+      }
+    ]
+  },
+  "cuttlefish": {
+    "sections": [
+      {
+        "heading": "Body form and buoyancy",
+        "paragraphs": [
+          "The common cuttlefish (Sepia officinalis) is a marine animal related to squids and octopuses. It belongs to a group of animals called cephalopods, which are known for their intelligence, complex behavior, and ability to change color. Common cuttlefish are found mainly in the eastern Atlantic Ocean and the Mediterranean Sea, where they live in coastal waters and on sandy or muddy sea floors.",
+          "Cuttlefish have eight arms and two longer feeding tentacles. Inside their bodies is a hard, lightweight structure called a cuttlebone. The cuttlebone contains many tiny chambers filled with gas and liquid. Regulating liquid in the chamber system helps control buoyancy, while fins and jet propulsion help the animal move."
+        ]
+      },
+      {
+        "heading": "Diet and prey capture",
+        "paragraphs": [
+          "Common cuttlefish are active predators. They mainly eat crabs, shrimp, small fish, and other mollusks. Young cuttlefish often begin by eating small crustaceans such as shrimp.",
+          "When hunting, a cuttlefish may slowly approach its prey while using camouflage to avoid being noticed. Once it is close enough, it rapidly shoots out its two long feeding tentacles. These tentacles grab the prey and pull it toward the cuttlefish's arms and mouth.",
+          "Cuttlefish have a strong, parrot-like beak that they use to bite and break apart their food."
+        ]
+      },
+      {
+        "heading": "Color change and camouflage",
+        "paragraphs": [
+          "The cuttlefish can change its appearance quickly. Its skin contains specialized structures, including pigment cells called chromatophores.",
+          "By controlling these cells, a cuttlefish can change its colors and patterns in less than a second. It can appear striped, spotted, dark, pale, or almost completely blended into its surroundings.",
+          "Cuttlefish use these color changes for several purposes. Camouflage helps them hide from predators and sneak up on prey. They also use patterns and colors to communicate with other cuttlefish, especially during courtship and competition."
+        ]
+      },
+      {
+        "heading": "Seasonal movement and reproduction",
+        "paragraphs": [
+          "Common cuttlefish do not usually make extremely long ocean migrations like great white sharks, but they do make important seasonal movements.",
+          "During colder months, many common cuttlefish move into deeper offshore waters. As the water becomes warmer in spring and summer, adults often travel toward shallow coastal areas.",
+          "These shallow waters provide important places for mating and egg-laying. Females attach clusters of dark eggs to seaweed, rocks, shells, and other underwater surfaces. After reproduction, many adult common cuttlefish die, giving them a relatively short life cycle of about one to two years."
+        ]
+      },
+      {
+        "heading": "Learning and senses",
+        "paragraphs": [
+          "Cuttlefish have large brains compared with many other invertebrates and have excellent eyesight. Their unusual W-shaped pupils help them detect contrast and movement underwater.",
+          "Scientists have found that cuttlefish can learn from experience, remember information, solve simple problems, and change their hunting strategies. Their sophisticated nervous systems make them important animals for scientists studying learning and animal behavior.",
+          "Cuttlefish appear to have limited color vision, yet they are still remarkably good at matching the colors and patterns of their surroundings."
+        ]
+      },
+      {
+        "heading": "Role in the food web",
+        "paragraphs": [
+          "Common cuttlefish are both predators and prey, making them important members of marine food webs. They help control populations of shrimp, crabs, fish, and other small animals.",
+          "At the same time, cuttlefish are eaten by larger fish, sharks, dolphins, seals, and seabirds. Their camouflage, speed, and ability to release a cloud of ink help them escape predators.",
+          "Studying common cuttlefish helps marine biologists understand animal intelligence, camouflage, predator-prey relationships, communication, and adaptation to life in the ocean."
+        ]
+      }
+    ]
+  },
+  "enso": {
+    "sections": [
+      {
+        "heading": "The usual tropical Pacific",
+        "paragraphs": [
+          "Near the equator, trade winds usually blow from east to west: from the Americas toward Indonesia. They push warm surface water westward. In the eastern Pacific, cooler water rises from below to replace it. This is upwelling, which brings nutrients that help tiny drifting organisms grow.",
+          "Above the warm western ocean, moist air rises, cools and forms rain clouds. The ocean and atmosphere act as a connected system. Its changing pattern is called ENSO, short for El Niño–Southern Oscillation. ENSO has warm, cool and neutral phases."
+        ]
+      },
+      {
+        "heading": "El Niño: the warmer phase",
+        "paragraphs": [
+          "During El Niño, the trade winds weaken. Warm surface water spreads toward the central and eastern tropical Pacific, making those areas warmer than usual. The boundary between warmer surface water and cooler deep water—the thermocline—deepens in the east.",
+          "Less cool, nutrient-rich water reaches the surface there. This can reduce the food available to marine ecosystems. Meanwhile, the region where moist air rises and heavy rain develops shifts east. Changes in ocean temperature and winds can reinforce each other: weaker winds favor warming, and that warming can help weaken the winds further."
+        ]
+      },
+      {
+        "heading": "La Niña: the cooler phase",
+        "paragraphs": [
+          "During La Niña, trade winds become stronger than usual. They push more warm water toward the western Pacific. In the east, the thermocline becomes shallower and upwelling strengthens, helping make the central and eastern tropical Pacific cooler than usual.",
+          "The western warm pool favors rising moist air and rainfall. Parts of Indonesia and Australia are often wetter during La Niña and drier during El Niño. La Niña is El Niño’s counterpart, but it does not always follow it."
+        ]
+      },
+      {
+        "heading": "Effects beyond the tropical Pacific",
+        "paragraphs": [
+          "A shift in tropical heat and rainfall changes circulation high in the atmosphere, including the jet stream, a fast-moving band of air that helps steer storms. This can alter the chances of floods, droughts and unusual temperatures far from the Pacific.",
+          "For example, El Niño often favors wetter winters across the southern United States; La Niña often favors drier ones there. These are patterns of probability. The exact effects depend on location, season and the strength of the event—every storm still has other causes."
+        ]
+      },
+      {
+        "heading": "An irregular cycle",
+        "paragraphs": [
+          "Events often last around 9–12 months, and some persist for years. They recur irregularly, roughly every 2–7 years, with neutral conditions in between. Scientists monitor ocean temperatures and winds with satellites, buoys and models to help predict what may come next."
+        ]
+      }
+    ]
+  },
+  "midnight": {
+    "sections": [
+      {
+        "heading": "Locate the habitat",
+        "paragraphs": [
+          "The midnight zone is commonly described as the ocean layer from about 1,000 to 4,000 meters deep. Scientists call it the bathypelagic zone. Sunlight does not support photosynthesis here, and this open-water habitat may still be far above the seafloor.",
+          "Depth changes more than brightness. Pressure increases because of the water overhead, and temperatures are generally cold. Oxygen, currents, and food supply vary among locations. There is no single set of conditions that describes every part of the deep ocean."
+        ]
+      },
+      {
+        "heading": "Trace the food supply",
+        "paragraphs": [
+          "Much of the energy supporting midnight-zone food webs began with photosynthesis closer to the surface. Some arrives as marine snow: sinking particles of organic material. Larger pieces of food and animals moving between depths provide other connections.",
+          "Microbes and animals consume and transform this material. Some animals collect particles, while others catch living prey. Food can be patchy, so finding a meal and using energy carefully are important challenges. Darkness does not mean that the habitat lacks a food web."
+        ]
+      },
+      {
+        "heading": "Meet a colonial animal",
+        "paragraphs": [
+          "A siphonophore can look like one long animal, but its body contains connected, specialized units called zooids. Some zooids provide swimming power, others capture prey, and others help with feeding or reproduction. Their coordinated functions support the whole colony.",
+          "The giant siphonophore Praya dubia is a useful example of this organization. It is associated with midwater habitats and should not be treated as an animal restricted to one exact depth band. A photograph at one depth records one observation, rather than the species' complete range."
+        ]
+      },
+      {
+        "heading": "Connect structure with feeding",
+        "paragraphs": [
+          "Feeding tentacles carry stinging cells that help capture small animals. Other parts of the colony move and process food. The arrangement differs from a fish with one mouth, one gut, and paired fins, showing that animals can solve the problems of movement and feeding through very different body plans.",
+          "A long, delicate body can be damaged by collecting gear. Remotely operated vehicles allow scientists to observe some deep-water animals without first bringing them to the surface. These observations reveal details that a damaged specimen may not preserve."
+        ]
+      },
+      {
+        "heading": "Explain light in a dark environment",
+        "paragraphs": [
+          "Many deep-sea animals produce bioluminescence: light from a chemical reaction. Depending on the animal, it can be associated with prey capture, defense, or communication. A flash should not automatically be assigned the same purpose in every species.",
+          "Red coloration can appear dark in deep water because red light from the surface has been absorbed above. Researchers' bright lights change the appearance of a scene, so the colors in a video are not necessarily the colors another animal would see under natural conditions."
+        ]
+      },
+      {
+        "heading": "Use evidence to explain an adaptation",
+        "paragraphs": [
+          "An adaptation is a feature shaped through evolution that affects how an organism survives or reproduces. A feeding tentacle suggests a possible role in prey capture, but observations are needed to establish what it catches and how it works.",
+          "Compare body structure, behavior, and habitat when explaining deep-sea life. Note the depth of the observation, the lighting used, and whether the animal was observed in place or collected. These details help separate an appealing interpretation from an explanation supported by evidence."
+        ]
+      }
+    ]
+  },
+  "general": {
+    "sections": [
+      {
+        "heading": "View the ocean as a connected system",
+        "paragraphs": [
+          "The ocean changes from bright surface water to darker, deeper habitats. Sunlight, temperature, pressure, oxygen, and food availability influence where organisms can live. The boundaries shown in a depth diagram are useful guides, rather than sharp walls that every species obeys.",
+          "The sunlight zone is often described as the upper 200 meters, the twilight zone as about 200–1,000 meters, and the midnight zone as about 1,000–4,000 meters. Water clarity and geography affect the light available at a particular depth. Some species move across these ranges during their lives or daily activities."
+        ]
+      },
+      {
+        "heading": "Follow energy and nutrients",
+        "paragraphs": [
+          "Phytoplankton capture light through photosynthesis near the surface. Consumers eat producers or other consumers, creating connected food webs. Some organic material sinks as marine snow, and migrating animals can transport material between depths.",
+          "Microbes decompose organic matter and return nutrients to dissolved forms. Currents and mixing move water and its contents through the ocean. Matter is recycled, while usable energy is transferred through organisms and progressively released as heat. These are related processes, but they are not the same thing."
+        ]
+      },
+      {
+        "heading": "Meet a moon jelly",
+        "paragraphs": [
+          "Moon jellies are coastal animals with translucent bells and four often-visible horseshoe-shaped reproductive structures. The name Aurelia includes several similar species, so identifying a jelly's exact species may require more than a quick look at a photograph. Moon jellies should not be treated as residents of every ocean depth.",
+          "Pulses of the bell help a jelly move, while currents also influence its path. Tentacles and oral arms help collect and transfer small prey toward the mouth. Stinging cells support prey capture. Jellies can therefore feed actively even though their movement also depends strongly on the surrounding water."
+        ]
+      },
+      {
+        "heading": "Connect body structure with function",
+        "paragraphs": [
+          "A moon jelly has no brain, heart, or bones like those of a fish or mammal. A nerve net supports sensing and coordinated responses, while a soft, water-rich body allows a different style of movement. Lacking those organs does not mean that the jelly has no organized body systems.",
+          "Its visible free-swimming form is called a medusa. In the life cycle, an early swimming larva can settle and develop into a polyp attached to a surface. Polyps can produce young swimming jellies. Different life stages therefore depend on different conditions and habitats."
+        ]
+      },
+      {
+        "heading": "Explain change using several observations",
+        "paragraphs": [
+          "A large number of visible jellies may reflect reproduction, food conditions, water movement, or a combination of causes. One crowded bay does not establish that the same change has occurred across an entire ocean. Counting only adult medusae also leaves out less-visible life stages.",
+          "To investigate change, compare repeated observations at known locations and times. Record temperature, food availability, currents, and the methods used to count animals. A time series gives a stronger basis for explanation than a single photograph or an unusually memorable day at the shore."
+        ]
+      },
+      {
+        "heading": "Connect the lessons together",
+        "paragraphs": [
+          "Ocean circulation changes the movement of heat and nutrients. Producers respond to light and resources, consumers respond to food and danger, and deeper habitats depend partly on material transported from above. An explanation becomes more useful when it follows these links step by step.",
+          "Use the depth diagram to ask where a process happens, then trace what enters and leaves that region. Consider which conditions favor an organism, which features help it live there, and what observations would test your explanation. This systems approach connects the animals and physical processes throughout the course."
+        ]
+      }
+    ]
+  }
+}

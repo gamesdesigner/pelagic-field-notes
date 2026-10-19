@@ -17,6 +17,7 @@ import {MyLearning} from "./LearningProgress";
 import LessonQuiz from "./LessonQuiz";
 import TwilightUnits from "./TwilightUnits";
 import PlanktonLesson from "./PlanktonLesson";
+import SchoolsOfFishLesson,{FishSchoolArt} from "./SchoolsOfFishLesson";
 
 type Subject = {
   id: string;
@@ -97,7 +98,7 @@ const subjects: Subject[] = [
 ];
 
 const currentTopics = ["Upwelling", "Global Conveyor Belt", "Coriolis Effect", "Ekman transport", "El Niño & La Niña"];
-const sunlightTopics = ["General Marine Life in the Sun", "Green Sea Turtle", "Great White Shark", "Common Cuttlefish", "Planktons & Diatoms"];
+const sunlightTopics = ["General Marine Life in the Sun", "Green Sea Turtle", "Great White Shark", "Common Cuttlefish", "Planktons & Diatoms", "Schools of Fish"];
 
 type AnatomyPart = { label: string; x: string; y: string };
 type AnatomyEntry = { title: string; note: string; parts: AnatomyPart[] };
@@ -845,10 +846,10 @@ export default function Home() {
               <button className={`current-subject-card sunlight-topic-${index + 1}`} key={topic} onClick={() => setCurrentTopic(index)}>
                 <span className="card-number">{String(index + 1).padStart(2, "0")}</span>
                 <div className="current-card-art sunlight-topic-art has-topic-image" aria-hidden="true">
-                  <img
+                  {index === 5 ? <FishSchoolArt /> : <img
                     src={index === 4 ? "/assets/sunlight/marine-life-in-sunlight.png" : index === 3 ? "/assets/sunlight/common-cuttlefish.png" : index === 2 ? "/assets/shark/great-white-anatomy-realistic.webp" : index === 0 ? "/assets/sunlight/marine-life-in-sunlight.png" : "/assets/turtles/green-turtle-grazing.png"}
                     alt=""
-                  />
+                  />}
                 </div>
                 <div className="card-copy"><span>Sunlight zone</span><h2>{topic}</h2><p>Click to reveal this topic.</p></div>
                 <span className="card-arrow">↗</span>
@@ -866,92 +867,20 @@ export default function Home() {
                 <p className="eyebrow">Ocean Currents · Topic {Number(currentTopic) + 1}</p>
                 <h1 id="detail-title">{currentTopics[currentTopic as number]}</h1>
                 {currentTopic === 0 ? (
-                  <LessonReading key="upwelling" lessonId="upwelling"><article className="current-article">
-                    <h2>The Physics of Moving Water</h2>
-                    <p>In the open ocean, wind does not simply push water in a straight line. Because Earth rotates on its axis, moving objects are deflected across the globe. This phenomenon is known as the <strong>Coriolis Effect</strong>. In the Northern Hemisphere, water is deflected to the <strong>right</strong> of the wind&apos;s direction; in the Southern Hemisphere, it is deflected to the <strong>left</strong>.</p>
-                    <p>When strong coastal winds blow parallel to a coastline, the Coriolis Effect—combined with friction between layers of water—creates a net movement of surface water away from the coast at a 90-degree angle. This structural bulk movement of water is called <strong>Ekman Transport</strong>. As the warm, sunlit surface water is systematically stripped away and pushed offshore, it leaves behind a physical void. To fill this space, dense, cold water from the deep ocean is drawn upward toward the sunlit surface layer. This process is called <strong>ocean upwelling</strong>.</p>
-
-                    <h2>The Marine Conveyor of Nutrients</h2>
-                    <p>The deep ocean is essentially a massive biological recycling bin. In the upper, sunlit layers of the ocean (the photic zone), marine organisms live, reproduce, and die. Waste products, decaying organic matter, and dead organisms constantly sink downward into the dark depths—a phenomenon known as <strong>marine snow</strong>.</p>
-                    <p>Deep-sea bacteria decompose this material, breaking it down into basic inorganic chemical compounds. Because there is no sunlight in the deep ocean, photosynthetic plants cannot grow to consume these minerals. As a result, the deep ocean acts as a massive reservoir for critical, life-sustaining nutrients:</p>
-                    <ul>
-                      <li><strong>Nitrates (NO<sub>3</sub><sup>−</sup>):</strong> Essential for synthesizing proteins and nucleic acids in marine plants.</li>
-                      <li><strong>Phosphates (PO<sub>4</sub><sup>3−</sup>):</strong> Required for cellular energy transfer and genetic structural building blocks.</li>
-                      <li><strong>Silicates (SiO<sub>4</sub><sup>4−</sup>):</strong> Crucial for microscopic organisms like <strong>diatoms</strong>, which use silica to construct glass-like protective shells.</li>
-                    </ul>
-                    <p>When upwelling occurs, it acts like an ecological elevator, hoisting these concentrated nutrients up into the photic zone. Suddenly exposed to sunlight, microscopic marine plants called <strong>phytoplankton</strong> rapidly consume the nutrients, fueling explosive population growths known as <strong>algal blooms</strong>. These microscopic cells form the foundational base of the marine food web, instantly attracting zooplankton, small baitfish, and massive top-tier predators like whales, sharks, and commercial fish stocks.</p>
-                  </article></LessonReading>
+                  <LessonReading key="upwelling" lessonId="upwelling" />
                 ) : currentTopic === 1 ? (
-                  <LessonReading key="conveyor" lessonId="conveyor"><article className="current-article conveyor-article">
-                    <h2>A Planet-Wide Current System</h2>
-                    <p>Deep beneath the ocean&apos;s surface lies a massive current system moving more than 20 million tons of water every second (the equivalent of roughly 8,000 Olympic swimming pools). Formally called <strong>thermohaline circulation</strong>, this network is driven entirely by differences in water temperature (&quot;thermo&quot;) and saltiness (&quot;haline&quot;), which dictate seawater density. These forces set off a planet-wide loop that takes roughly 1,000 years to complete a single circuit.</p>
-                    <p>The journey begins in the frigid North Atlantic Ocean near Greenland and Iceland. Intense polar winds chill the surface water, causing it to contract and become denser. Simultaneously, sea ice forms on the surface, leaving salt behind in a process known as <strong>brine rejection</strong>. This remaining unfrozen water becomes extraordinarily salty and cold. Heavy and packed tight, this dense water mass sinks rapidly toward the abyss, creating a downwelling zone known as <strong>North Atlantic Deep Water (NADW)</strong>.</p>
-
-                    <h2>From the Atlantic to the Global Ocean</h2>
-                    <p>Once the NADW hits the ocean floor, it begins a slow, southward crawl along the Atlantic basin. It flows past the equator, enters the South Atlantic, and hooks into the Antarctic Circumpolar Current. In this frozen southern ring, the current picks up additional cold, dense water from the Antarctic shelf, gaining further momentum.</p>
-                    <p>From Antarctica, the deep current splits into two branches moving north into the Indian and Pacific Oceans. As these cold streams travel into warmer climates, they mix with less dense waters. Through a process called <strong>upwelling</strong>, the water warms, decreases in density, and rises back toward the surface. Now in the upper layers of the ocean, the water loops back toward the west and north, driven by winds and equatorial heat. It joins major surface currents like the <strong>Gulf Stream</strong>, carrying tropical heat northward across the Atlantic to replace the water constantly sinking near Greenland.</p>
-
-                    <h2>Climate Regulation and Nutrient Distribution</h2>
-                    <p>The global conveyor belt serves two functions vital to keeping the planet habitable: <strong>climate regulation</strong> and <strong>nutrient distribution</strong>.</p>
-                    <p>First, it acts as a planetary thermostat. By moving massive quantities of warm water from the equator to high latitudes, it moderates global climates. The heat released by the Gulf Stream in the North Atlantic keeps Western Europe relatively mild, preventing places like the United Kingdom from experiencing the brutally sub-zero winters seen at identical latitudes in Canada.</p>
-                    <p>Second, the conveyor belt supports the marine food web. The deep ocean floor acts as a repository for organic matter, rich in nitrates, phosphates, and decayed organisms. When upwelling currents lift this deep water back to the surface, they bring these rich nutrients into the sunlit zone. This sparks massive blooms of phytoplankton—microscopic organisms that serve as the fundamental base for all marine life, from small fish to blue whales.</p>
-
-                    <h2>A Vulnerable Engine</h2>
-                    <p>Today, marine scientists are watching the North Atlantic with growing concern. Human-driven climate change is causing global temperatures to rise, leading to rapid melting of the Greenland Ice Sheet and Arctic sea ice. This melting sends massive torrents of fresh water flooding into the North Atlantic downwelling zone.</p>
-                    <p>Because fresh water lacks salt, it is significantly less dense than salty ocean water. Furthermore, rising temperatures mean the surface water is not cooling down as intensely as it used to. This combination creates a buoyant fresh water cap on the ocean surface. If the surface water is too light to sink, the downwelling engine stalls. Without the heavy sinking water to push the deep current forward, the entire global conveyor belt could slow down or stop completely. A collapse of this system could trigger rapid climate shifts, causing plunging temperatures in Europe, altered global rainfall patterns, and a collapse of marine ecosystems due to starved nutrient cycles.</p>
-                  </article></LessonReading>
+                  <LessonReading key="conveyor" lessonId="conveyor" />
                 ) : currentTopic === 2 ? (
-                  <LessonReading key="coriolis" lessonId="coriolis"><article className="current-article coriolis-article">
-                    <h2>Section 1: The Coriolis Effect</h2>
-                    <p>The <strong>Coriolis effect</strong> is the apparent deflection of freely moving objects caused entirely by the rotation of the Earth. When winds, ocean currents, airplanes, or projectiles travel long distances across the globe, their paths appear to curve relative to the ground below. This phenomenon occurs because the observer is standing on a rotating planet, which creates the illusion of a sideways force acting on the moving object. In reality, there is no physical force pushing the object sideways; the deflection is a result of looking at a straight path from a spinning frame of reference.</p>
-
-                    <h2>Section 2: Physical Mechanism</h2>
-                    <p>The underlying cause of this effect is the difference in rotational speed at different latitudes on a spherical planet. The Earth completes one full rotation every twenty-four hours on its axis. Because a sphere has the largest circumference at its middle, the ground at the equator must travel much faster than the ground near the poles to finish a rotation in the same amount of time. At the equator, the Earth spins eastward at approximately one thousand miles per hour, whereas at mid-latitudes the speed decreases to roughly seven hundred miles per hour, eventually dropping to zero at the exact poles. When an object or air mass moves away from the equator toward the north or south, its inertia preserves its initial fast eastward momentum. As it enters areas where the ground beneath it moves slower, the object outpaces the Earth&apos;s rotation and moves ahead of the surface, resulting in an eastward curve.</p>
-
-                    <h2>Section 3: Geographic Rules</h2>
-                    <p>The direction of the deflection depends entirely on the hemisphere of the planet. In the <strong>Northern Hemisphere</strong>, freely moving objects always deflect to the <strong>right</strong> of their intended direction of travel. This rightward curve applies whether the object travels north, south, east, or west. In the <strong>Southern Hemisphere</strong>, freely moving objects always deflect to the <strong>left</strong> of their intended direction of travel. The Coriolis effect is exactly zero at the equator because moving strictly east or west along the center of the sphere involves no change in the radius of rotation.</p>
-
-                    <h2>Section 4: Atmospheric and Technical Impacts</h2>
-                    <p>This phenomenon directly dictates the structural behavior of large weather systems, ocean gyres, and long-range navigation. Hurricanes develop around zones of low atmospheric pressure where air converges from all directions. When surrounding air rushes toward the center in the Northern Hemisphere, the rightward deflection forces the wind to spin counterclockwise around the low-pressure system. Conversely, in the Southern Hemisphere, the leftward deflection causes hurricanes to spin clockwise. In addition to weather systems, long-range aerospace and marine navigation must account for this shift. Commercial flight paths and military guidance computer systems use mathematical corrections to offset the Earth&apos;s rotation so that aircraft do not drift hundreds of miles away from their destinations.</p>
-                  </article></LessonReading>
+                  <LessonReading key="coriolis" lessonId="coriolis" />
                 ) : (
-                  <LessonReading key="ekman" lessonId="ekman"><article className="current-article ekman-article">
-                    <h2>Wind at the Surface</h2>
-                    <p>When wind blows across the ocean, the ripples and waves at the surface appear to travel with it. The water itself behaves differently. Wind transfers energy to the uppermost layer through friction, but Earth&apos;s rotation turns that moving water away from the wind&apos;s path. The combined movement of the wind-driven upper ocean is called <strong>Ekman transport</strong>.</p>
-                    <p>When the motion of the entire wind-influenced layer is added together, the net transport is about <strong>90 degrees to the right of the wind in the Northern Hemisphere</strong> and <strong>90 degrees to the left in the Southern Hemisphere</strong>. This sideways transport helps shape ocean circulation, climate, and biological productivity.</p>
-
-                    <h2>Nansen&apos;s Clue and Ekman&apos;s Model</h2>
-                    <p>During the late nineteenth century, Norwegian explorer <strong>Fridtjof Nansen</strong> noticed an important pattern while the research ship <em>Fram</em> was trapped in Arctic ice. The wind pushed the ice pack at an angle rather than directly downwind. Nansen suspected that Earth&apos;s rotation was responsible.</p>
-                    <p>Swedish oceanographer <strong>Vagn Walfrid Ekman</strong> developed the mathematical explanation and published it in 1905. His model showed how wind, friction, and the Coriolis effect create a chain reaction through the upper water column.</p>
-
-                    <h2>Friction Meets Rotation</h2>
-                    <p>The wind first grips the ocean&apos;s surface and transfers kinetic energy to the water. The Coriolis effect then deflects this moving layer—to the right in the Northern Hemisphere and to the left in the Southern Hemisphere. In an idealized deep ocean, the surface current travels roughly 45 degrees away from the wind.</p>
-                    <p>The moving surface layer drags the water beneath it. Each deeper layer receives less energy, moves more slowly, and turns farther from the wind than the layer above. The main pattern is:</p>
-                    <ul>
-                      <li>The surface layer moves fastest and at an angle to the wind.</li>
-                      <li>Each deeper layer moves more slowly because friction dissipates energy.</li>
-                      <li>Each layer is rotated farther by the Coriolis effect.</li>
-                    </ul>
-
-                    <h2>The Ekman Spiral</h2>
-                    <p>If oceanographers draw an arrow for the speed and direction of every layer, the arrows form a turning, shrinking pattern called the <strong>Ekman spiral</strong>. The idealized spiral may extend through roughly the upper 100 meters, although its real depth changes with wind strength, turbulence, stratification, and location.</p>
-                    <p>Individual layers travel in different directions, but their movements combine into one net transport at a right angle to the wind. Ekman transport describes this integrated motion of the full wind-driven layer, not the path of one surface wave or one parcel of water.</p>
-
-                    <h2>Coastal Upwelling</h2>
-                    <p>Along the California coast, a southward wind can drive Northern Hemisphere Ekman transport offshore. As surface water moves away from land, cold, nutrient-rich water rises from below to replace it. This process is called <strong>coastal upwelling</strong>.</p>
-                    <p>The rising water carries nitrates, phosphates, and other nutrients into the sunlit zone. Phytoplankton use these nutrients to grow, supporting food webs that include zooplankton, fish, seabirds, and whales. Upwelling regions occupy only a small portion of the ocean but support some of its most productive fisheries.</p>
-
-                    <h2>Coastal Downwelling</h2>
-                    <p>If the wind reverses, Ekman transport can push surface water toward the coast. Water piles up along the shoreline and is forced downward. This is <strong>coastal downwelling</strong>.</p>
-                    <p>Downwelling does not bring deep nutrients into the sunlit zone, so it usually produces less surface biological growth than upwelling. However, it performs another important job by carrying oxygen-rich surface water into deeper parts of the ocean.</p>
-                  </article></LessonReading>
+                  <LessonReading key="ekman" lessonId="ekman" />
                 )}
               </>
             ) : selected.id === "sunlight" ? (
               <>
                 <p className="eyebrow">Marine Life in Sunlight · Topic {Number(currentTopic) + 1}</p>
                 <h1 id="detail-title">{sunlightTopics[currentTopic as number]}</h1>
-                {currentTopic === 4 ? <PlanktonLesson /> : currentTopic === 3 ? <CommonCuttlefishLesson /> : currentTopic === 2 ? <GreatWhiteSharkLesson /> : currentTopic === 0 ? (
+                {currentTopic === 5 ? <SchoolsOfFishLesson /> : currentTopic === 4 ? <PlanktonLesson /> : currentTopic === 3 ? <CommonCuttlefishLesson /> : currentTopic === 2 ? <GreatWhiteSharkLesson /> : currentTopic === 0 ? (
                   <>
                   <section className="sunlight-reef-hero" aria-label="Breaking waves above a shallow coral reef in the sunlight zone">
                     <div>
@@ -960,25 +889,7 @@ export default function Home() {
                       <p>Light, waves, and warm shallow water power a reef community filled with producers, grazers, and predators.</p>
                     </div>
                   </section>
-                  <LessonReading key="sunlight" lessonId="sunlight"><article className="current-article sunlight-article">
-                    <h2>The Ocean&apos;s Brightest Layer</h2>
-                    <p>The sunlight zone, also called the <strong>epipelagic zone</strong>, extends from the surface to roughly 200 metres deep. Enough light reaches this layer for photosynthesis, making it the most productive and familiar part of the open ocean. Its exact depth changes with water clarity, weather, season, and location.</p>
-                    <p>Although this zone is only a thin layer compared with the full depth of the sea, it contains most of the ocean&apos;s photosynthetic life. Warm temperatures, abundant light, and contact with the atmosphere create conditions that support plankton, fish, reptiles, seabirds, and marine mammals.</p>
-
-                    <h2>Photosynthesis Begins the Food Web</h2>
-                    <p>Microscopic organisms called <strong>phytoplankton</strong> use sunlight, carbon dioxide, and nutrients to make food. They form the base of most sunlit-ocean food webs and also release oxygen during photosynthesis.</p>
-                    <p>Zooplankton graze on phytoplankton. Small fish and filter feeders consume the plankton, and larger predators—including tuna, sharks, dolphins, and seabirds—feed higher in the same connected web. In coastal areas, seagrasses, algae, mangroves, and coral-reef organisms add even more habitats and food sources.</p>
-
-                    <h2>Life in Constant Motion</h2>
-                    <p>Sunlit waters are energetic. Waves mix the surface, winds drive currents, and tides move water through coastal habitats. Many animals use these flows to migrate, find food, disperse young, or conserve energy.</p>
-                    <p>Visibility also shapes survival. Some animals use silvery scales or transparent bodies to blend into bright water. Others are dark above and pale below—a pattern called <strong>countershading</strong> that makes them harder to see from either direction.</p>
-
-                    <h2>Daily Visitors from the Deep</h2>
-                    <p>The sunlight zone changes dramatically between day and night. After sunset, enormous numbers of animals rise from deeper water to feed near the surface. Before sunrise, many descend again to hide from visual predators. This daily vertical migration moves carbon and nutrients through the ocean.</p>
-
-                    <h2>A Productive but Vulnerable Habitat</h2>
-                    <p>Sunlit marine ecosystems are affected by warming water, pollution, overfishing, habitat damage, and changes in ocean chemistry. Protecting seagrass meadows, coral reefs, coastal wetlands, and open-ocean food webs helps preserve both marine biodiversity and the benefits people receive from the sea.</p>
-                  </article></LessonReading>
+                  <LessonReading key="sunlight" lessonId="sunlight" />
                   <SunlightZoneLab />
                   </>
                 ) : (
@@ -990,26 +901,7 @@ export default function Home() {
                       <p>Adult green turtles graze through shallow seagrass meadows, clipping blades with their strong beaks and encouraging tender new growth.</p>
                     </div>
                   </section>
-                  <LessonReading key="turtle" lessonId="turtle"><article className="current-article turtle-article">
-                    <h2>A Reptile of Warm, Shallow Seas</h2>
-                    <p>The <strong>green sea turtle</strong> (<em>Chelonia mydas</em>) lives in tropical and subtropical waters around the world. Adults are often found in sunlit coastal habitats such as seagrass meadows, lagoons, bays, and coral reefs. Their streamlined shells and powerful front flippers allow them to travel efficiently through the water.</p>
-                    <p>Unlike fish, sea turtles breathe air. A green turtle must return to the surface for oxygen, although a resting turtle can remain underwater far longer than an actively swimming one. It also depends on sunlight-warmed water because, like other reptiles, it cannot regulate its body temperature internally in the same way a mammal can.</p>
-
-                    <h2>From Omnivorous Young to Grazing Adults</h2>
-                    <p>Young green turtles eat a mixed diet that may include small animals, algae, and other drifting food. As they mature, many become mainly herbivorous and graze on seagrasses and algae. This dietary shift is unusual among sea turtles.</p>
-                    <p>Regular grazing clips seagrass blades and can encourage fresh growth. Healthy seagrass meadows provide shelter and feeding grounds for fish, crustaceans, and many other organisms, while also trapping sediment and storing carbon. The turtle therefore influences an entire habitat as it feeds.</p>
-
-                    <h2>Long-Distance Navigation</h2>
-                    <p>Green turtles may migrate hundreds or thousands of kilometres between feeding areas and nesting beaches. They use several environmental clues to navigate, including the position of the sun, waves, chemical signals, and Earth&apos;s magnetic field.</p>
-                    <p>A female often returns to the same broad region where she hatched. After crawling onto a sandy beach, she digs a nest above the high-tide line and lays a clutch of eggs. Weeks later, the hatchlings emerge and race toward the brightest open horizon, which under natural conditions leads them toward the sea.</p>
-
-                    <h2>Growing Up Is Dangerous</h2>
-                    <p>Hatchlings face birds, crabs, fish, and other predators. Older turtles must survive storms, sharks, disease, and long migrations. Human activity adds further dangers, including accidental capture in fishing gear, boat strikes, plastic pollution, artificial lighting near nesting beaches, and the loss of seagrass habitat.</p>
-
-                    <h2>Why Green Turtles Matter</h2>
-                    <p>Green turtles connect beaches, reefs, seagrass meadows, and the open ocean during their lives. By grazing, migrating, and transporting nutrients, they help link several parts of the sunlit marine ecosystem.</p>
-                    <p>Protecting nesting beaches, reducing plastic waste, using turtle-safe fishing methods, and conserving coastal feeding grounds all improve their chance of survival. A healthy green turtle population is also a sign that the surrounding coastal ecosystem is functioning well.</p>
-                  </article></LessonReading>
+                  <LessonReading key="turtle" lessonId="turtle" />
                   <TurtleFeedingLab />
                   <TurtleQuiz />
                   </>
@@ -1020,10 +912,7 @@ export default function Home() {
                 <p className="eyebrow">Featured animal</p>
                 <h1 id="detail-title">{selected.animal}</h1>
                 <p className="scientific">{selected.scientific}</p>
-                <LessonReading key={selected.id} lessonId={selected.id as "twilight" | "midnight" | "general"}>
-                <p className="animal-description">{selected.description}</p>
-                <aside className="field-note"><span>✦</span><div><strong>Field note</strong><p>{selected.fact}</p></div></aside>
-                </LessonReading>
+                <LessonReading key={selected.id} lessonId={selected.id as "twilight" | "midnight" | "general"} />
               </>
             )}
           </div>

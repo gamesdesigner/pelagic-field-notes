@@ -1,0 +1,675 @@
+{
+  "upwelling": {
+    "title": "Upwelling: how moving water supports life",
+    "question": "How can wind change the food available near a coast?",
+    "abstract": "Upwelling brings water from below into shallower layers. Along suitable coasts, wind-driven surface transport moves water offshore and replacement water rises. The rising water often carries nutrients that can support phytoplankton. Light, grazing, and currents help determine the biological response.",
+    "advancedAbstract": "Coastal upwelling links wind stress, rotating-fluid dynamics, and continuity with nutrient supply and biological production. Source-water chemistry and residence time affect the outcome alongside the amount of water transported. An explanation must account for both cell growth and losses, as well as oxygen and carbon carried with the rising water. Comparing the timing of physical, chemical, and biological observations helps distinguish this mechanism from alternative causes of coastal change.",
+    "goals": [
+      "Describe the sequence from wind to rising water.",
+      "Connect recycled nutrients with phytoplankton growth.",
+      "Use observations to explain why a bloom may or may not develop."
+    ],
+    "advancedGoals": [
+      "Apply continuity and Ekman transport to a coastal setting.",
+      "Compare nutrient supply, residence time, and biological losses.",
+      "Design observations that test an upwelling explanation."
+    ],
+    "terms": [
+      {
+        "word": "Upwelling",
+        "definition": "Water moving upward from a lower layer."
+      },
+      {
+        "word": "Photic zone",
+        "definition": "The well-lit part of the water where photosynthesis can occur."
+      },
+      {
+        "word": "Marine snow",
+        "definition": "Sinking particles that include organic remains and waste."
+      },
+      {
+        "word": "Bloom",
+        "definition": "A rapid increase in a population of plankton."
+      }
+    ],
+    "recap": "Follow the whole chain: wind changes water movement, rising water changes resource supply, and organisms respond under suitable conditions.",
+    "check": {
+      "question": "Why might nutrient-rich water arrive without a large phytoplankton bloom?",
+      "explanation": "Cells also need suitable light and time to grow. Grazing, sinking, or a current carrying cells away can offset new cell production."
+    },
+    "application": "A coast becomes cooler after a wind event. Name two other observations that would help you test whether upwelling occurred.",
+    "sources": [
+      "upwelling",
+      "phyto",
+      "snow"
+    ]
+  },
+  "conveyor": {
+    "title": "Global conveyor belt: a connected ocean",
+    "question": "How do surface and deep waters exchange heat and nutrients?",
+    "abstract": "Overturning circulation connects surface and deep waters through currents, sinking, rising water, and mixing. Temperature and salinity affect density, while winds and tides also help maintain movement. These connections redistribute heat, nutrients, oxygen, and carbon through the ocean.",
+    "advancedAbstract": "Global overturning is a three-dimensional network of water-mass formation, transport, mixing, and upwelling. Density differences help shape vertical structure, but circulation also depends on energy supplied by winds and tides. The conveyor diagram summarizes average connections rather than a single fixed route. Observations of temperature, salinity, transport, and tracers are needed to evaluate how particular branches vary and what those changes imply for climate and ecosystems.",
+    "goals": [
+      "Explain how temperature and salinity affect density.",
+      "Trace connections among major ocean basins.",
+      "Distinguish a circulation change from every current stopping."
+    ],
+    "advancedGoals": [
+      "Relate stratification and water-mass formation to density.",
+      "Assess the roles of mechanical energy and overturning transport.",
+      "Evaluate observations of AMOC variability and change."
+    ],
+    "terms": [
+      {
+        "word": "Density",
+        "definition": "Mass in a given volume."
+      },
+      {
+        "word": "Salinity",
+        "definition": "The amount of dissolved salt in water."
+      },
+      {
+        "word": "Overturning",
+        "definition": "Circulation that connects flows at different depths."
+      },
+      {
+        "word": "Water mass",
+        "definition": "Water identified by a characteristic combination of properties."
+      }
+    ],
+    "recap": "Density, wind, mixing, and the shape of ocean basins work together. A single-loop drawing simplifies a branching, changing system.",
+    "check": {
+      "question": "Why is temperature alone insufficient to predict whether surface water sinks?",
+      "explanation": "Salinity also affects density. The combined properties of the surface water must be compared with those of the water beneath it."
+    },
+    "application": "What information would you add to a conveyor map to show that its arrows represent a simplified average?",
+    "sources": [
+      "density",
+      "amoc"
+    ]
+  },
+  "coriolis": {
+    "title": "Coriolis effect: motion on a rotating Earth",
+    "question": "Why does rotation change how large-scale motion is described?",
+    "abstract": "The Coriolis effect is an apparent deflection associated with describing motion on a rotating Earth. Its horizontal contribution turns movement rightward in the Northern Hemisphere and leftward in the Southern Hemisphere. Latitude, speed, and other forces determine how important it is in a real flow.",
+    "advancedAbstract": "The rotating reference frame introduces a Coriolis contribution perpendicular to horizontal velocity. Its direction depends on hemisphere and instantaneous motion, and its magnitude varies with speed and latitude. Pressure gradients, friction, and other contributions determine the resulting current. Component equations, inertial motion, and geostrophic balance provide different ways to use the same rotational physics while recognizing the spatial and temporal limits of each approximation.",
+    "goals": [
+      "Apply the right/left rule relative to motion.",
+      "Explain why latitude and scale matter.",
+      "Separate rotation from the energy that drives a current."
+    ],
+    "advancedGoals": [
+      "Use the velocity components and Coriolis parameter consistently.",
+      "Compare inertial motion with geostrophic balance.",
+      "Assess when rotation is important using physical scales."
+    ],
+    "terms": [
+      {
+        "word": "Reference frame",
+        "definition": "The viewpoint and coordinates used to describe motion."
+      },
+      {
+        "word": "Deflection",
+        "definition": "A change in the direction of motion."
+      },
+      {
+        "word": "Latitude",
+        "definition": "Angular distance north or south of the equator."
+      },
+      {
+        "word": "Geostrophic balance",
+        "definition": "An approximate balance between pressure-gradient and Coriolis contributions."
+      }
+    ],
+    "recap": "Find the hemisphere and direction of motion first, then consider all the processes acting on the water.",
+    "check": {
+      "question": "For northward motion in the Northern Hemisphere, what compass direction is the rightward Coriolis contribution?",
+      "explanation": "It is eastward. Right is defined relative to the northward direction of motion, not as one fixed compass direction for all currents."
+    },
+    "application": "Explain why the direction of a small swirl beside a rock is not a reliable test of the hemisphere rule.",
+    "sources": [
+      "rotation",
+      "gyres"
+    ]
+  },
+  "ekman": {
+    "title": "Ekman transport: wind-driven movement",
+    "question": "How can wind produce a combined water movement sideways to itself?",
+    "abstract": "Wind transfers momentum to the upper ocean, and rotation affects the moving water. In the simple steady model, the combined wind-driven transport is perpendicular to the wind: rightward in the Northern Hemisphere and leftward in the Southern Hemisphere. Along coasts this can favor upwelling or downwelling.",
+    "advancedAbstract": "Ekman transport follows from the balance among wind stress, rotation, and vertical momentum transfer under specified assumptions. The integrated transport differs from the velocity of an individual layer. The classic spiral illustrates one ideal vertical structure, while real turbulence and stratification alter it. Applying the transport direction to a coastline explains coastal divergence and convergence, with consequences for nutrient supply, oxygen transport, and biological production.",
+    "goals": [
+      "Distinguish a layer current from the combined transport.",
+      "Apply the hemisphere rule to a coastline.",
+      "Connect offshore and onshore transport with vertical movement."
+    ],
+    "advancedGoals": [
+      "Relate wind stress to depth-integrated transport.",
+      "Evaluate the assumptions behind a classic Ekman spiral.",
+      "Predict coastal upwelling and downwelling for stated conditions."
+    ],
+    "terms": [
+      {
+        "word": "Wind stress",
+        "definition": "Force exerted by wind per unit area of water surface."
+      },
+      {
+        "word": "Net transport",
+        "definition": "The combined movement after the relevant layers are added."
+      },
+      {
+        "word": "Ekman spiral",
+        "definition": "An ideal pattern of current direction and speed changing with depth."
+      },
+      {
+        "word": "Downwelling",
+        "definition": "Water moving downward into a lower layer."
+      }
+    ],
+    "recap": "Add the movement through the wind-influenced layer before predicting the combined transport. Coastline orientation determines where replacement water must move.",
+    "check": {
+      "question": "Does a 90-degree net transport mean every layer travels 90 degrees from the wind?",
+      "explanation": "No. Individual layers can have different speeds and directions. The right-angle relationship describes their integrated transport in the simple model."
+    },
+    "application": "Draw a north–south west coast in the Northern Hemisphere. Predict transport for a southward wind, then reverse the wind.",
+    "sources": [
+      "spiral",
+      "dynamics",
+      "upwelling"
+    ]
+  },
+  "enso": {
+    "title": "El Niño and La Niña: a coupled Pacific",
+    "question": "How do winds and ocean temperature affect one another?",
+    "abstract": "ENSO describes warm, cool, and neutral phases of a coupled ocean–atmosphere system. Changes in trade winds alter warm-water distribution and eastern upwelling, while changing ocean temperatures affect atmospheric circulation. These shifts influence marine food webs and weather probabilities beyond the tropical Pacific.",
+    "advancedAbstract": "ENSO develops through interactions among tropical Pacific winds, sea-surface temperature, thermocline structure, and atmospheric convection. Feedbacks can reinforce warm or cool anomalies, while ocean adjustment and other processes affect their evolution. Comparing El Niño, La Niña, and neutral conditions clarifies how physical changes alter nutrient supply and redistribute rainfall. Forecasts express probabilities because event strength, season, location, and other sources of variability influence the outcome.",
+    "goals": [
+      "Compare El Niño, La Niña, and neutral conditions.",
+      "Trace changes in winds, temperature, and upwelling.",
+      "Explain why weather effects are probabilities."
+    ],
+    "advancedGoals": [
+      "Explain coupled feedbacks and thermocline adjustment.",
+      "Connect tropical anomalies with atmospheric teleconnections.",
+      "Evaluate forecast uncertainty and regional consequences."
+    ],
+    "terms": [
+      {
+        "word": "ENSO",
+        "definition": "El Niño–Southern Oscillation, a coupled Pacific climate pattern."
+      },
+      {
+        "word": "Trade winds",
+        "definition": "Prevailing tropical winds that usually blow east to west."
+      },
+      {
+        "word": "Thermocline",
+        "definition": "A layer where water temperature changes rapidly with depth."
+      },
+      {
+        "word": "Teleconnection",
+        "definition": "A link between climate conditions in distant regions."
+      }
+    ],
+    "recap": "Ocean and atmosphere influence one another. A climate phase changes the likelihood of some conditions without determining every local storm.",
+    "check": {
+      "question": "How can weaker trade winds reduce the food supply in the eastern tropical Pacific?",
+      "explanation": "Weaker winds can allow warm water to spread east and reduce the delivery of cool, nutrient-rich subsurface water. Reduced nutrients can limit phytoplankton growth."
+    },
+    "application": "Compare the sequence from trade-wind change to upwelling change in El Niño and La Niña.",
+    "sources": [
+      "enso",
+      "feedback"
+    ]
+  },
+  "sunlight": {
+    "title": "Marine life in sunlight: energy and habitat",
+    "question": "Why does a well-lit layer support so many different food webs?",
+    "abstract": "Sunlit water supports photosynthesis, which supplies organic food for many marine ecosystems. Light, nutrients, water movement, and habitat structure influence the organisms present. Consumers, migration, and sinking material connect the productive upper ocean with other habitats and depths.",
+    "advancedAbstract": "The upper ocean couples primary production with nutrient delivery, physical mixing, and consumer activity. The euphotic boundary follows available light rather than one universal depth. Comparing production and losses explains variation in blooms and food webs, while migration and particle export link the surface with deeper habitats. Anatomy, habitat use, and environmental observations help explain how particular organisms respond within this connected and changing system.",
+    "goals": [
+      "Connect photosynthesis with producers and consumers.",
+      "Describe how habitat and visibility shape adaptations.",
+      "Trace a connection between surface and deeper water."
+    ],
+    "advancedGoals": [
+      "Compare light availability, nutrient limits, and production.",
+      "Explain food-web responses using supply and loss rates.",
+      "Evaluate how physical change affects habitats and export."
+    ],
+    "terms": [
+      {
+        "word": "Producer",
+        "definition": "An organism that makes organic food from inorganic materials."
+      },
+      {
+        "word": "Consumer",
+        "definition": "An organism that obtains organic food by eating other organisms or their products."
+      },
+      {
+        "word": "Countershading",
+        "definition": "A darker upper body and lighter underside."
+      },
+      {
+        "word": "Vertical migration",
+        "definition": "Movement between shallower and deeper water."
+      }
+    ],
+    "recap": "Sunlight supplies energy, but resources, habitats, and interactions determine how organisms use it.",
+    "check": {
+      "question": "Why can clear, brightly lit water still have little phytoplankton growth?",
+      "explanation": "Light alone is insufficient. A shortage of nutrients, strong grazing, or transport out of the area can limit the number of cells present."
+    },
+    "application": "Trace one food-web path from a phytoplankton cell to a predator, then describe one way material can move deeper.",
+    "sources": [
+      "phyto",
+      "plankton",
+      "carbon"
+    ]
+  },
+  "turtle": {
+    "title": "Green sea turtles: grazing and migration",
+    "question": "How does one animal connect feeding grounds with nesting beaches?",
+    "abstract": "Green sea turtles are air-breathing reptiles that use several marine and coastal habitats. Many adults graze on seagrasses and algae, while younger turtles often have a more varied diet. Feeding, migration, and reproduction connect their lives with both underwater habitats and sandy beaches.",
+    "advancedAbstract": "Green turtle ecology changes across life stages as diet, habitat, and movement patterns develop. Anatomy and physiology support swimming and repeated dives while maintaining a dependence on atmospheric oxygen. Grazing links individual feeding with seagrass communities, and navigation connects feeding grounds with nesting regions. Understanding population change requires evidence about survival, reproduction, environmental conditions, and the different human pressures encountered through the life cycle.",
+    "goals": [
+      "Connect breathing and body structure with habitat use.",
+      "Describe changes in diet and movement over the life cycle.",
+      "Explain why protecting several habitats matters."
+    ],
+    "advancedGoals": [
+      "Relate diving physiology to energy and oxygen budgets.",
+      "Evaluate evidence about navigation and reproduction.",
+      "Connect stage-specific risks with conservation strategies."
+    ],
+    "terms": [
+      {
+        "word": "Carapace",
+        "definition": "The hard upper part of a turtle’s shell."
+      },
+      {
+        "word": "Herbivore",
+        "definition": "An animal whose diet is mainly plant or algal material."
+      },
+      {
+        "word": "Migration",
+        "definition": "A repeated movement between regions or habitats."
+      },
+      {
+        "word": "Bycatch",
+        "definition": "Unintended capture in fishing gear."
+      }
+    ],
+    "recap": "A turtle’s life depends on connections among feeding habitats, migration routes, and nesting beaches.",
+    "check": {
+      "question": "Why is protecting a nesting beach alone insufficient for the whole life cycle?",
+      "explanation": "Turtles must also survive at sea, find food, migrate, and avoid hazards such as fishing gear and boat strikes. Different stages depend on different places."
+    },
+    "application": "Explain how a change in seagrass habitat could affect both turtles and other organisms that use the meadow.",
+    "sources": [
+      "turtle",
+      "turtleNavigation",
+      "turtleManagement"
+    ]
+  },
+  "shark": {
+    "title": "Great white sharks: movement, senses, and prey",
+    "question": "How do structure and senses support a large marine predator?",
+    "abstract": "Great white sharks use streamlined bodies, powerful tails, specialized teeth, and several senses to find and capture prey. Diet and movement change with size and circumstances. Their interactions with prey connect coastal feeding areas with offshore waters, while slow reproduction makes some human pressures especially important.",
+    "advancedAbstract": "White shark ecology links swimming mechanics, sensory biology, diet, and long-distance movement. Regional endothermy affects performance, but habitat use also depends on prey, development, and reproductive needs. Tags reveal patterns of movement while leaving uncertainty about particular motives. Evaluating ecological roles and population pressures requires distinguishing observations from behavioral interpretations and combining movement data with evidence about survival and reproduction.",
+    "goals": [
+      "Connect body structures and senses with feeding.",
+      "Describe how diet and movement can change.",
+      "Distinguish tracking observations from explanations of motive."
+    ],
+    "advancedGoals": [
+      "Relate swimming and thermal physiology to performance.",
+      "Evaluate tagging evidence and migration hypotheses.",
+      "Connect reproductive biology with population vulnerability."
+    ],
+    "terms": [
+      {
+        "word": "Predator",
+        "definition": "An animal that captures and eats other animals."
+      },
+      {
+        "word": "Ampullae of Lorenzini",
+        "definition": "Sensory organs that detect weak electrical fields."
+      },
+      {
+        "word": "Migration",
+        "definition": "Movement between regions that can recur over time."
+      },
+      {
+        "word": "Bycatch",
+        "definition": "Unintended capture in fishing gear."
+      }
+    ],
+    "recap": "Anatomy explains possible abilities; observations are needed to establish how a shark uses them in a particular setting.",
+    "check": {
+      "question": "Does a tag showing a shark diving prove that it was hunting?",
+      "explanation": "It establishes the movement, but hunting is one possible explanation. Additional evidence, such as camera footage or prey observations, helps test the interpretation."
+    },
+    "application": "Choose one labeled anatomical feature and connect its structure with a feeding or swimming function.",
+    "sources": [
+      "shark",
+      "sharkTags",
+      "sharkWarm"
+    ]
+  },
+  "cuttlefish": {
+    "title": "Common cuttlefish: camouflage and behavior",
+    "question": "How can a soft-bodied animal change appearance so quickly?",
+    "abstract": "Common cuttlefish combine flexible arms, feeding tentacles, a cuttlebone, and rapidly controlled skin patterns. Pigment structures and reflective layers affect appearance in different ways. Camouflage, senses, learning, and seasonal movement help explain how these animals interact with both prey and predators.",
+    "advancedAbstract": "Common cuttlefish link neural control of skin appearance with sensory decisions, prey capture, and buoyancy. Chromatophores alter pigment coverage, while reflective structures contribute different optical effects. Controlled experiments reveal responses to visual features and learning tasks without demonstrating every proposed mental ability. Relating laboratory evidence to natural behavior requires attention to lighting, background, life stage, and the ecological setting of each observation.",
+    "goals": [
+      "Explain the roles of pigment and reflective skin structures.",
+      "Connect tentacles, beak, and cuttlebone with function.",
+      "Describe how camouflage and learning can support survival."
+    ],
+    "advancedGoals": [
+      "Distinguish neural pigment control from structural reflection.",
+      "Evaluate camouflage experiments and competing cues.",
+      "Connect buoyancy, feeding, and seasonal life history."
+    ],
+    "terms": [
+      {
+        "word": "Cephalopod",
+        "definition": "A mollusk group that includes cuttlefish, squids, and octopuses."
+      },
+      {
+        "word": "Chromatophore",
+        "definition": "A pigment-containing skin organ that changes visible pigment coverage."
+      },
+      {
+        "word": "Cuttlebone",
+        "definition": "A chambered internal structure involved in buoyancy."
+      },
+      {
+        "word": "Camouflage",
+        "definition": "Appearance or behavior that reduces detection or recognition."
+      }
+    ],
+    "recap": "Color change is a coordinated biological response. Different skin layers, senses, and body structures contribute different functions.",
+    "check": {
+      "question": "Why does a cuttlefish’s color change involve more than a single layer of pigment?",
+      "explanation": "Chromatophores change pigment coverage, while iridophores and leucophores affect reflected light. Their combined effects shape the visible pattern."
+    },
+    "application": "Predict how you would test whether an animal responds more strongly to a background’s contrast or its average brightness.",
+    "sources": [
+      "cuttlefish",
+      "cuttleEdges",
+      "cuttlePatterns"
+    ]
+  },
+  "plankton": {
+    "title": "Plankton and diatoms: small cells, connected food webs",
+    "question": "What makes a population of tiny producers grow or shrink?",
+    "abstract": "Phytoplankton use light to build organic food and support many marine food webs. Diatoms are one kind of phytoplankton, with silica walls and light-capturing cell structures. Their populations change as division competes with grazing, resource limits, and other losses.",
+    "advancedAbstract": "Phytoplankton connect cellular processes with food webs and biogeochemical cycles. Diatoms add silica frustules and distinctive life-history constraints to this wider producer community. Photosynthesis and respiration determine carbon balances, while nutrients, light, temperature, and loss processes regulate population change. Cell observations, controlled cultures, and field measurements reveal different parts of the system and must be interpreted at the appropriate scale.",
+    "goals": [
+      "Distinguish plankton, phytoplankton, and diatoms.",
+      "Connect cell structures with basic functions.",
+      "Explain population change using growth and losses."
+    ],
+    "advancedGoals": [
+      "Compare cellular organization among producer groups.",
+      "Use resource limits and losses to explain bloom dynamics.",
+      "Connect production and export with carbon cycling."
+    ],
+    "terms": [
+      {
+        "word": "Phytoplankton",
+        "definition": "Drifting organisms that use light to make organic food."
+      },
+      {
+        "word": "Frustule",
+        "definition": "The silica wall of a diatom."
+      },
+      {
+        "word": "Bloom",
+        "definition": "A rapid population increase."
+      },
+      {
+        "word": "Limiting nutrient",
+        "definition": "A required nutrient whose shortage restricts growth."
+      }
+    ],
+    "recap": "Population size reflects both new cells and losses. Light and nutrients support division, while grazing and other processes remove cells.",
+    "check": {
+      "question": "If cells divide but the total population falls, what must also be happening?",
+      "explanation": "Losses are exceeding the number of new cells. Grazing, sinking, transport, or stress can contribute, depending on the setting."
+    },
+    "application": "Use matching starting conditions in the tank and change one resource. Explain the graph using both division and loss processes.",
+    "sources": [
+      "phyto",
+      "diatomCells",
+      "carbon"
+    ]
+  },
+  "twilightGeneral": {
+    "title": "Marine life in twilight: food, light, and depth",
+    "question": "How do animals live where sunlight is too weak for local photosynthesis?",
+    "abstract": "The twilight zone is dim open water commonly placed between about 200 and 1,000 meters. Food arriving from above, predation, and daily migration connect its residents with the surface. Living light, body form, and energy use help animals respond to changing conditions.",
+    "advancedAbstract": "Mesopelagic ecosystems connect surface production with deeper food webs through particles, predation, and vertical migration. Light gradients shape visibility, camouflage, and signaling, while oxygen, pressure, and temperature constrain physiology. Biological carbon transport depends on what organisms consume, transform, and release at different depths. Combining acoustic, optical, and chemical observations helps explain these processes while accounting for sampling limitations and species differences.",
+    "goals": [
+      "Locate the twilight zone and name example organisms.",
+      "Trace food and daily movement between depths.",
+      "Explain one adaptation using light or energy conditions."
+    ],
+    "advancedGoals": [
+      "Evaluate interacting light, oxygen, and energetic constraints.",
+      "Connect migration and feeding with carbon transport.",
+      "Compare the strengths and limits of sampling methods."
+    ],
+    "terms": [
+      {
+        "word": "Mesopelagic",
+        "definition": "The twilight region of the open-water column."
+      },
+      {
+        "word": "Bioluminescence",
+        "definition": "Light produced by a chemical reaction in an organism."
+      },
+      {
+        "word": "Counterillumination",
+        "definition": "Using emitted light to reduce a silhouette against background light."
+      },
+      {
+        "word": "Diel migration",
+        "definition": "Movement that follows an approximately daily cycle."
+      }
+    ],
+    "recap": "Depth changes visibility, resources, and physical conditions together. Different residents solve these challenges in different ways.",
+    "check": {
+      "question": "Why does a red animal often look dark in deep water?",
+      "explanation": "Red wavelengths from sunlight are absorbed at shallower depths. Without red light to reflect, red tissues can appear very dark."
+    },
+    "application": "Compare a particle collector with an active hunter. How might their energy needs and food sources differ?",
+    "sources": [
+      "twilightOverview",
+      "lightDepth",
+      "twilightMigration"
+    ]
+  },
+  "twilight": {
+    "title": "Vampire squid: collecting food in dim water",
+    "question": "How do feeding and defense suit an energy-saving way of life?",
+    "abstract": "Vampire squid collect organic particles with slender feeding filaments and transfer food toward the mouth. Their webbed arms, fins, and physiology suit a midwater lifestyle. Luminous mucus provides a different defense from the ordinary dark ink released by many shallow-water cephalopods.",
+    "advancedAbstract": "Vampire squid demonstrate how feeding behavior, physiology, and defense can suit food-limited, oxygen-poor midwater conditions. Detrital collection differs from active pursuit of large prey, and observed handling behavior establishes how particles reach the mouth. Bioluminescent mucus and arm displays must be interpreted in relation to the visual environment. In-place video, collected material, and physiological measurements provide complementary evidence while each imposes limits on the conclusions.",
+    "goals": [
+      "Describe how feeding filaments collect particles.",
+      "Distinguish luminous mucus from dark ink.",
+      "Connect body form and behavior with the habitat."
+    ],
+    "advancedGoals": [
+      "Evaluate evidence for detrital feeding and handling.",
+      "Relate oxygen conditions and energetic demand.",
+      "Explain defense in the context of midwater light."
+    ],
+    "terms": [
+      {
+        "word": "Detritus",
+        "definition": "Organic remains and particles derived from organisms."
+      },
+      {
+        "word": "Feeding filament",
+        "definition": "A slender structure used to collect food particles."
+      },
+      {
+        "word": "Luminous mucus",
+        "definition": "Mucus containing light-producing material."
+      },
+      {
+        "word": "Oxygen minimum zone",
+        "definition": "A water region with relatively low dissolved oxygen."
+      }
+    ],
+    "recap": "The name does not describe the diet. Observed feeding and defense connect this animal with its dim, often oxygen-poor environment.",
+    "check": {
+      "question": "Why would a dark ink cloud provide a different kind of signal from glowing mucus in deep water?",
+      "explanation": "Dark ink relies on contrast with surrounding light, while glowing mucus produces light. The usefulness of either defense depends on the viewing environment and predator."
+    },
+    "application": "Trace a food particle from the surrounding water to the mouth, naming the structures involved.",
+    "sources": [
+      "vampire",
+      "vampireStudy",
+      "vampireLight"
+    ]
+  },
+  "midnight": {
+    "title": "Marine life in midnight: a deep-water system",
+    "question": "How do food and coordinated body parts support life without sunlight?",
+    "abstract": "Midnight-zone food webs depend largely on food produced elsewhere and transported through the ocean. Pressure, temperature, oxygen, and patchy resources shape the challenges animals face. A siphonophore illustrates how connected specialized zooids can support movement, feeding, and other functions as one colony.",
+    "advancedAbstract": "Bathypelagic life depends on energy supply, physiological constraints, and ecological interactions in a sunless water column. Siphonophores illustrate division of labor among connected zooids, linking colony organization with propulsion and prey capture. Respiration, bioluminescence, and food encounter processes vary among animals and settings. Observations from remotely operated vehicles and other instruments must be interpreted with attention to depth ranges, artificial lighting, and collection effects.",
+    "goals": [
+      "Describe conditions and food sources in deep water.",
+      "Explain what specialized zooids contribute to a colony.",
+      "Use observations to connect a structure with function."
+    ],
+    "advancedGoals": [
+      "Relate energy budgets and respiration to deep-water conditions.",
+      "Explain colony organization and division of labor.",
+      "Evaluate evidence from in-place and collected observations."
+    ],
+    "terms": [
+      {
+        "word": "Bathypelagic",
+        "definition": "The open-water layer commonly placed around 1,000–4,000 meters."
+      },
+      {
+        "word": "Zooid",
+        "definition": "A specialized connected unit in an animal colony."
+      },
+      {
+        "word": "Bioluminescence",
+        "definition": "Light made through a biological chemical reaction."
+      },
+      {
+        "word": "Adaptation",
+        "definition": "A feature shaped through evolution that affects survival or reproduction."
+      }
+    ],
+    "recap": "Deep water is a changing habitat with connected food webs. A long colonial body is one way to organize the functions needed for life there.",
+    "check": {
+      "question": "Why should a specimen seen at one depth not be assigned permanently to that depth?",
+      "explanation": "The observation records a place and time. A species may occupy a wider range, and individuals can move or vary with life stage and conditions."
+    },
+    "application": "Choose a zooid function and explain how it contributes to the operation of the colony as a whole.",
+    "sources": [
+      "siphonophore",
+      "pressure",
+      "deepOxygen"
+    ]
+  },
+  "general": {
+    "title": "The connected ocean: a moon jelly example",
+    "question": "How can one animal reveal links among habitats and life stages?",
+    "abstract": "Light, pressure, food, and water movement change through the ocean, but organisms and materials connect its layers. Moon jellies illustrate how body structure, feeding, and different life stages depend on particular conditions. A systems explanation follows these relationships rather than treating each habitat as isolated.",
+    "advancedAbstract": "The ocean functions through linked physical, chemical, and biological processes across depths and timescales. Surface production, consumer activity, migration, and particle transformation connect habitats through flows of matter and energy. Moon jelly development illustrates additional links between attached and free-swimming life stages. Repeated observations of organisms and environmental conditions provide a stronger basis for explaining change than a single abundance snapshot or one depth boundary.",
+    "goals": [
+      "Trace energy and nutrient connections across depths.",
+      "Connect moon jelly structures with feeding and movement.",
+      "Explain why life stages matter when interpreting abundance."
+    ],
+    "advancedGoals": [
+      "Distinguish material cycling from energy transfer.",
+      "Connect developmental stages with habitat requirements.",
+      "Design a water-column investigation with alternative explanations."
+    ],
+    "terms": [
+      {
+        "word": "Medusa",
+        "definition": "The free-swimming bell-shaped stage of many jellies."
+      },
+      {
+        "word": "Polyp",
+        "definition": "An attached body form in the life cycle of many jellies."
+      },
+      {
+        "word": "Nerve net",
+        "definition": "A network of nerve cells supporting sensing and coordination."
+      },
+      {
+        "word": "Food web",
+        "definition": "A network of feeding relationships among organisms."
+      }
+    ],
+    "recap": "Follow the connections: physical conditions affect organisms, and organisms transform and transport material through the ocean.",
+    "check": {
+      "question": "Why does counting large moon jellies leave out part of their life cycle?",
+      "explanation": "Larvae, attached polyps, and young jellies can be present in different places and may not be included in a count of adult medusae."
+    },
+    "application": "Choose two lessons from the course and explain one flow of material or energy that connects them.",
+    "sources": [
+      "jelly",
+      "jellyCycle",
+      "carbon"
+    ]
+  },
+  "schooling": {
+    "title": "Small fish, big survival tricks",
+    "question": "When does staying together help a small fish survive?",
+    "abstract": "Small fish survive by combining several defenses. A school can help members notice danger, confuse a hunter, and share the risk of an attack. Camouflage, shelter, and fast escapes provide other kinds of protection. Each strategy has benefits and costs, so the best response depends on the fish and its surroundings.",
+    "advancedAbstract": "Fish schools connect individual sensory decisions with collective patterns that can alter survival. Vision and local water-motion sensing help members respond to neighbors. Changes in spacing, speed, and direction affect detection, targeting, shared risk, food access, and swimming costs. These effects depend on species, habitat, and predator behavior. Comparing models with measured outcomes helps explain both the benefits of grouping and the circumstances in which another defense may be more useful.",
+    "goals": [
+      "Distinguish a coordinated school from a looser shoal.",
+      "Explain three defenses used by small fish.",
+      "Compare the benefits and costs of grouping."
+    ],
+    "advancedGoals": [
+      "Separate dilution, confusion, detection, and capture mechanisms.",
+      "Evaluate local-interaction, sensory, and energetic evidence.",
+      "Use explicit assumptions to calculate and test risk."
+    ],
+    "terms": [
+      {
+        "word": "School",
+        "definition": "A fish group showing coordinated movement and similar headings."
+      },
+      {
+        "word": "Shoal",
+        "definition": "A social group of fish, whether or not they are aligned."
+      },
+      {
+        "word": "Countershading",
+        "definition": "A darker upper body and lighter underside."
+      },
+      {
+        "word": "C-start",
+        "definition": "A rapid escape that begins with a C-shaped body bend."
+      }
+    ],
+    "recap": "Schooling can help, but protection depends on the predator and setting. Local responses can coordinate a group while individual influence changes over time.",
+    "check": {
+      "question": "Why does a school of 500 fish not guarantee a 1-in-500 chance of being caught in nature?",
+      "explanation": "That number assumes one capture and equal exposure. Real groups can attract predators, lose several fish, and expose different individuals to different risks."
+    },
+    "application": "Compare a fish in open water with one beside a coral refuge. Explain why the same survival strategy may not be best for both.",
+    "sources": [
+      "schoolRules",
+      "schoolSenses",
+      "schoolEscape",
+      "schoolEnergy"
+    ]
+  }
+}

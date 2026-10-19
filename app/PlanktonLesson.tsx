@@ -1,8 +1,7 @@
-import {planktonIntro} from '../shared/plankton-articles.mjs';
 import LessonReading from './LessonReading';
 import LessonQuiz from './LessonQuiz';
 import PlanktonCells from './PlanktonCells';
 import PlanktonPopulation from './PlanktonPopulation';
 export default function PlanktonLesson(){
- return <div className="plankton-unit"><p className="plankton-deck">Tiny cells. Planet-sized connections. Explore the microscopic producers that support ocean food webs.</p><LessonReading lessonId="plankton"><article className="current-article plankton-short" aria-labelledby="plankton-short-title"><p className="eyebrow">Level 1 · Grade 5 · About 370 words</p><h2 id="plankton-short-title">The tiny ocean life that keeps our planet alive</h2><aside className="twilight-abstract"><h3>At a glance</h3><p>{planktonIntro.abstract}</p></aside>{planktonIntro.sections.map(section=><section key={section.heading}><h3>{section.heading}</h3>{section.paragraphs.map((p,i)=><p key={i}>{p}</p>)}</section>)}<div className="plankton-vocabulary"><h3>Words to know</h3><p><strong>Phytoplankton:</strong> photosynthetic drifters. <strong>Diatom:</strong> an alga with a silica wall. <strong>Frustule:</strong> that glass-like wall. <strong>Bloom:</strong> a rapid population increase.</p></div><p className="plankton-cell-sources">Learn more: <a href="https://oceanservice.noaa.gov/facts/plankton.html" target="_blank" rel="noreferrer">Explore plankton with NOAA</a>.</p></article></LessonReading><PlanktonCells/><PlanktonPopulation/><LessonQuiz lessonId="plankton" title="Planktons & Diatoms quiz" className="upwelling-quiz"/></div>;
+ return <div className="plankton-unit"><p className="plankton-deck">Tiny cells. Planet-sized connections. Explore the microscopic producers that support ocean food webs.</p><LessonReading lessonId="plankton" /><PlanktonCells/><PlanktonPopulation/><LessonQuiz lessonId="plankton" title="Planktons & Diatoms quiz" className="upwelling-quiz"/></div>;
 }

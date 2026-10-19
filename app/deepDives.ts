@@ -1,11 +1,21 @@
+import { schoolingDive } from "../shared/schooling-articles.mjs";
+import { teachingGuides, editTeachingProse } from "../shared/lesson-articles.mjs";
 import { planktonDive } from "../shared/plankton-articles.mjs";
 import { expandedSections } from "./deepDiveExtensions";
 import { twilightGeneralDive, vampireDefenseSection } from "../shared/twilight-articles.mjs";
 
-export type LessonId = "plankton" | "upwelling" | "conveyor" | "coriolis" | "ekman" | "enso" | "sunlight" | "turtle" | "shark" | "cuttlefish" | "twilightGeneral" | "twilight" | "midnight" | "general";
+export type LessonId = "schooling" | "plankton" | "upwelling" | "conveyor" | "coriolis" | "ekman" | "enso" | "sunlight" | "turtle" | "shark" | "cuttlefish" | "twilightGeneral" | "twilight" | "midnight" | "general";
 export type DeepDiveSection = { heading: string; paragraphs: string[]; sources?: string[] };
 type DeepDive = { title: string; deck: string; abstract: string; sections: {heading: string; paragraphs: string[]; sources?: string[]}[]; terms: {word: string; definition: string}[]; question: string };
 export const readingSources: Record<string, {label: string; url: string}> = {
+  schoolRules:{label:"Herbert-Read et al. · Inferring fish interaction rules",url:"https://pubmed.ncbi.nlm.nih.gov/22065759/"},
+  schoolSenses:{label:"Stewart et al. · Flow sensing and escape",url:"https://pubmed.ncbi.nlm.nih.gov/23325859/"},
+  schoolLeadership:{label:"Puy et al. · Selective interactions and leadership",url:"https://pmc.ncbi.nlm.nih.gov/articles/PMC11067465/"},
+  schoolEscape:{label:"Marras and Domenici · Responses within a school",url:"https://pubmed.ncbi.nlm.nih.gov/23776547/"},
+  schoolEnergy:{label:"Zhang and Lauder · Measured schooling energetics",url:"https://pubmed.ncbi.nlm.nih.gov/38375853/"},
+  schoolContext:{label:"Field research · Habitat and collective behavior",url:"https://doi.org/10.1016/j.anbehav.2020.05.002"},
+  schoolConfusion:{label:"Experiments · Group density and predation risk",url:"https://pmc.ncbi.nlm.nih.gov/articles/PMC4425808/"},
+  schoolCamouflage:{label:"Experiments · Countershading and viewing conditions",url:"https://www.nature.com/articles/s41598-017-13914-y"},
   diatomCells:{label:"Diatoms of North America · Cells and life cycles",url:"https://diatoms.org/practitioners/what-are-diatoms-technical-details"},
   bloomScience:{label:"NOAA · Harmful algal blooms",url:"https://oceanservice.noaa.gov/hazards/hab/"},
   twilightOverview:{label:"WHOI · Life in the twilight zone",url:"https://www.whoi.edu/ocean-learning-hub/ocean-topics/how-the-ocean-works/ocean-zones/twilight-zone/"},
@@ -65,6 +75,7 @@ export const readingSources: Record<string, {label: string; url: string}> = {
   jellyCycle:{label:"Monterey Bay Aquarium · Raising jellies",url:"https://www.montereybayaquarium.org/about-us/stories/growing-jellies"},
 };
 export const deepDives: Record<LessonId, DeepDive> = {
+schooling: schoolingDive,
 plankton: {...planktonDive,sections:planktonDive.sections.map((section,index)=>({...section,sources:[index===3||index===4||index===11?"diatomCells":index===7?"carbon":index===8?"bloomScience":index===6?"plankton":"phyto"]}))},
 upwelling: {
  title:"Upwelling: from moving water to living food webs",
@@ -457,9 +468,12 @@ deepDives.twilight.sections.splice(4, 0, vampireDefenseSection);
 
 // Keep the introductory mechanisms, add the extended science, then finish with synthesis.
 for (const lessonId of Object.keys(deepDives) as LessonId[]) {
+  const guide = teachingGuides[lessonId];
+  deepDives[lessonId].abstract = guide.advancedAbstract;
   const original = deepDives[lessonId].sections;
   deepDives[lessonId].sections = [...original.slice(0, 5), ...expandedSections[lessonId], ...original.slice(5)].map((section, index) => ({
     ...section,
-    heading: `${index + 1}. ${section.heading.replace(/^\d+\.\s*/, "")}`,
+    heading: `${index + 1}. ${editTeachingProse(section.heading.replace(/^\d+\.\s*/, ""))}`,
+    paragraphs: section.paragraphs.map(editTeachingProse),
   }));
 }
