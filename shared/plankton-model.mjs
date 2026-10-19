@@ -1,7 +1,14 @@
 // Individual-cell classroom model. Rates and limitations: design/plankton-growth-research.md.
-export const CELL_LIMIT = 50;
+export const CELL_LIMIT = 5000;
+export const CELLS_PER_SYMBOL = 50;
+// The last symbol is a partial group; its weight keeps displayed totals exact.
+export function planktonSymbolWeights(count){
+ if(!Number.isInteger(count)||count<0||count>CELL_LIMIT)throw new RangeError('Invalid cell count');
+ return Array.from({length:Math.ceil(count/CELLS_PER_SYMBOL)},(_,i)=>Math.min(CELLS_PER_SYMBOL,count-i*CELLS_PER_SYMBOL));
+}
 export const nutrientDoses = { nitrogen:10, phosphorus:3, silicate:10 };
-export const cellCosts = { nitrogen:.18, phosphorus:.045, silicate:.16 };
+// Rescale the illustrative budgets so a 50-cell symbol has the former unit cost.
+export const cellCosts = { nitrogen:.18/50, phosphorus:.045/50, silicate:.16/50 };
 const groups = ['diatoms','flagellates'];
 const minerals = Object.keys(nutrientDoses);
 const emptyStores = () => ({nitrogen:0,phosphorus:0,silicate:0});
@@ -39,16 +46,16 @@ function removeCells(state,group,amount){
  for(const mineral of minerals)state.stores[group][mineral]*=state[group]/before;
  state.lossCredit[group]*=state[group]/before;
 }
-// Each animated bite removes exactly one actual cell. No additional daily fish mortality.
+// A bite removes the exact number of cells represented by its targeted symbol.
 export function consumePlankton(state,group,amount=1) {
  if(!groups.includes(group)||!Number.isInteger(amount)||amount<=0||!state[group])return state;
  const next=copyState(state);removeCells(next,group,amount);return next;
 }
 // A visual patch encounter transfers dissolved nutrients into finite cellular reserves.
-export function absorbNutrient(state,group,mineral){
- if(!groups.includes(group)||!Object.hasOwn(nutrientDoses,mineral)||!state[group]||(group==='flagellates'&&mineral==='silicate'))return state;
+export function absorbNutrient(state,group,mineral,cells=1){
+ if(!groups.includes(group)||!Object.hasOwn(nutrientDoses,mineral)||!state[group]||!Number.isInteger(cells)||cells<1||cells>CELLS_PER_SYMBOL||(group==='flagellates'&&mineral==='silicate'))return state;
  const room=Math.max(0,state[group]*cellCosts[mineral]*2-state.stores[group][mineral]);
- const amount=Math.min(state[mineral],room,cellCosts[mineral]*.5);
+ const amount=Math.min(state[mineral],room,cellCosts[mineral]*.5*Math.min(cells,state[group]));
  if(amount<=1e-9)return state;
  return {...state,[mineral]:state[mineral]-amount,stores:{...state.stores,[group]:{...state.stores[group],[mineral]:state.stores[group][mineral]+amount}}};
 }

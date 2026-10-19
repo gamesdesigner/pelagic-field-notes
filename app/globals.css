@@ -1216,3 +1216,17 @@ body,body * { font-family:"Times New Roman",Times,serif!important; }
 @media(max-width:520px) { .plankton-rate-cards { grid-template-columns:1fr; }.plankton-lab-counts strong small { display:block; margin-top:3px; } }
 
 .plankton-lab-events { color:var(--muted); font-size:13px; line-height:1.8; margin:0 0 18px; }
+.plankton-scale-key { padding:18px 20px; margin:0 0 16px; border:1px solid #a5b7a8; background:#e7ecdf; border-radius:10px; display:grid; grid-template-columns:1fr 1fr; gap:12px 24px; }
+.plankton-scale-key>div { display:flex; gap:12px; align-items:center; min-width:0; }
+.plankton-scale-key img { width:64px; height:64px; flex-shrink:0; object-fit:contain; }
+.plankton-scale-key span { font-size:13px; color:var(--muted); line-height:1.7; }
+.plankton-scale-key strong { display:block; color:#294d4d; font-size:16px; font-weight:500; }
+.plankton-scale-key>p { grid-column:1/-1; font-size:12px; line-height:1.7; color:var(--muted); margin:0; }
+.plankton-specimens { border-block:1px solid var(--line); padding:18px 0; margin:22px 0; }
+.plankton-specimens summary { cursor:pointer; color:#365a58; }
+.plankton-specimens>div { display:grid; grid-template-columns:1fr 1fr; gap:20px; padding-top:18px; }
+.plankton-specimens figure { margin:0; min-width:0; }
+.plankton-specimens img { display:block; width:100%; height:auto; padding:16px; box-sizing:border-box; border-radius:10px; background:#244e58; }
+.plankton-specimens figcaption,.plankton-specimens>p { font-size:13px; line-height:1.7; color:var(--muted); }
+.plankton-specimens figcaption strong { display:block; font-size:17px; font-weight:400; color:#365a58; margin-top:10px; }
+@media(max-width:640px) { .plankton-scale-key { grid-template-columns:1fr; gap:12px; padding:14px; }.plankton-scale-key img { width:55px; height:55px; }.plankton-scale-key strong { font-size:16px; }.plankton-lab-counts strong { font-size:24px; }.plankton-specimens>div { grid-template-columns:1fr; } }

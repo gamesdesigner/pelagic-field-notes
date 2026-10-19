@@ -1,8 +1,9 @@
-# Individual-cell population lab — October 18, 2026
+# Individual-cell population lab — October 19, 2026
 
-The tank starts with one diatom and one photosynthetic dinoflagellate. Every
-visible cell corresponds to exactly one integer in the model. Each group is
-capped at 50 for the display; this is not an ecological carrying capacity.
+The tank starts with one diatom and one photosynthetic dinoflagellate. Populations remain exact integers. Each full
+visible symbol represents 50 cells; the final partial symbol represents the
+remaining 1–49 and shows that number. Each group is capped at 5,000 cells (100
+full symbols) for the display; this is not an ecological carrying capacity.
 
 ## Primary evidence inspected
 
@@ -78,9 +79,12 @@ classroom assumption; it is not a fit to that paper's thermal data.
 
 Use the minimum resource saturation C/(C+K), N and P for both groups, plus Si
 for diatoms. K = 0.8 N, 0.2 P, 0.6 Si in **invented classroom units**. Cell-cycle
-progress uses 0.18 N and 0.045 P per cell-cycle unit, and 0.16 Si for diatoms.
+progress uses 0.0036 N and 0.0009 P per cell-cycle unit, and 0.0032 Si for diatoms.
+These budgets are the October 18 classroom costs divided by 50 to support the
+larger experiment while retaining meaningful finite nutrient supplies. The
+measured growth rates and their conversion to division frequency are unchanged.
 These are teaching budgets, not measured cellular quotas or environmental units.
-Patch encounters transfer 0.5 times those budgets from dissolved stock into
+Patch encounters transfer 0.5 times those budgets times the target symbol weight from dissolved stock into
 finite cellular reserves, capped at two cell-cycle budgets per living cell.
 Daily growth draws on reserves and mixed-water supply without double counting.
 Maintenance consumes 0.012 times each budget per cell/day. These costs, reserve
@@ -89,7 +93,9 @@ sizes and maintenance rates are illustrative, not fitted experimental values.
 Background/stress loss rate m = 0.015 + 0.18*(1-resource limitation) +
 0.04*max(0,T-30) day^-1 is explicitly illustrative. Hourly expected whole-cell
 losses accumulate from N*(1-exp(-m/24)); only complete loss events remove cells.
-Fish remove exactly one prey on mouth contact. Their visible speed and max one
+Fish remove exactly the number represented by their target on mouth contact:
+50 for a full symbol or 1–49 for a partial symbol. No additional fish losses
+are hidden in the daily model. Their visible speed and max one
 new capture allowance per model day (banked at most three) are display choices.
 No additional daily fish deduction occurs. Lost-cell reserves leave the model;
 no nutrient recycling is implied.
@@ -111,3 +117,22 @@ and drifting but preserves cells, patch encounters and controls.
 The app provides paper links and clearly distinguishes measured rates from
 teaching parameters. No claims of a validated species forecast, real tank volume,
 concentrations, oxygen/toxin dynamics, or universal mortality rate are made.
+
+
+## Generated artwork and rendering — October 19 update
+
+The built-in image generator created separate transparent PNG diatom and
+armored dinoflagellate illustrations. Full prompts and output paths are recorded
+in `design/plankton-sprite-prompts.md`; originals and optimized alpha-preserving
+WebP assets live in `public/assets/plankton/`. These are labeled stylized teaching
+illustrations, not microscope photographs or exact taxonomic specimens.
+
+`planktonSymbolWeights` maps N to floor(N/50) full symbols and, if needed, a
+partial symbol of weight N mod 50. No cells are rounded away or invented. A
+partial symbol is faded, carries a proportional ring, and shows its exact weight.
+The tank, visible scale key, chart, table, ledger, accessible descriptions and
+capture accounting all use this same convention. Population arrays still model
+individual cell cycles (at most 5,000 per type); animated images are capped at
+100 per type, so rendering remains bounded instead of drawing 10,000 sprites.
+The scale key says “1 symbol = 50 cells” for both types. The enlarged artwork
+viewer preserves visible details beyond the small tank sprites.
