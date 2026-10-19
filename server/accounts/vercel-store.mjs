@@ -6,9 +6,24 @@ export function vercelAccountStore({client=vercelBlob,prefix='marine-accounts/v1
   const path=key=>prefix+key+'.json';
   return {
     async read(key) {
-      const blob=await client.get(path(key),{access:'private',useCache:false});
-      if(!blob)return null;
-      return {value:await new Response(blob.stream).json(),etag:blob.blob.etag};
+      for(let attempt=0;attempt<3;attempt++){
+        const blob=await client.get(path(key),{access:'private',useCache:false,headers:{'Accept-Encoding':'identity'}});
+        if(!blob)return null;
+        const value=await new Response(blob.stream).json();let etag=blob.blob.etag;
+        // A delivery proxy may weaken the HTTP validator. Never pass that weak
+        // tag to ifMatch or strip it and assume it is an authoritative version.
+        // Confirm the same version through Blob's metadata API. If an overwrite
+        // happened between the two reads, fetch the new body and try again.
+        if(etag?.startsWith('W/')){
+          const metadata=await client.head(path(key));
+          if(!metadata.etag||metadata.etag.startsWith('W/'))throw Error('Storage did not return a strong version');
+          if(etag!==`W/${metadata.etag}`)continue;
+          etag=metadata.etag;
+        }
+        if(!etag)throw Error('Storage did not return a version');
+        return {value,etag};
+      }
+      throw Error('Storage changed while reading its version');
     },
     async write(key,value,etag) {
       try {

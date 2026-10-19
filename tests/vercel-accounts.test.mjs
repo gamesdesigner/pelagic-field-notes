@@ -78,6 +78,31 @@ async function exerciseAccounts(store){
 test('Vercel Blob uses private uncached reads, conditional writes and complete paginated lists',async()=>{
  await exerciseStore(vercelAccountStore({client:fixture(),prefix:'test/'}));
 });
+test('weak delivery validators use a matching authoritative Blob version for conditional writes',async()=>{
+ const client=fixture();const baseGet=client.get.bind(client);const basePut=client.put.bind(client);
+ client.get=async(key,options)=>{assert.equal(options.headers['Accept-Encoding'],'identity');const result=await baseGet(key,options);if(result)result.blob.etag=`W/"${result.blob.etag}"`;return result;};
+ client.head=async key=>({etag:`"${(await baseGet(key,{access:'private',useCache:false})).blob.etag}"`});
+ client.put=async(key,value,options)=>basePut(key,value,{...options,...(options.ifMatch?{ifMatch:options.ifMatch.replaceAll('"','')}:{})});
+ await exerciseStore(vercelAccountStore({client,prefix:'test/'}));
+});
+test('a version change between weak-body and metadata reads refetches instead of pairing stale data with a new tag',async()=>{
+ let reads=0;
+ const store=vercelAccountStore({prefix:'test/',client:{
+  async get(){reads++;return{stream:new Response(JSON.stringify({version:reads})).body,blob:{etag:`W/"v${reads}"`}};},
+  async head(){return{etag:'"v2"'};},
+ }});
+ assert.deepEqual(await store.read('learning/example'),{value:{version:2},etag:'"v2"'});
+ assert.equal(reads,2);
+});
+test('missing, unverified or persistently changing storage versions fail safely',async()=>{
+ for(const tag of ['', 'W/"old"']){
+  const store=vercelAccountStore({client:{
+   async get(){return{stream:new Response('{}').body,blob:{etag:tag}};},
+   async head(){return{etag:'"different"'};},
+  }});
+  await assert.rejects(store.read('learning/example'),/Storage/);
+ }
+});
 test('Vercel Blob adapter preserves single ownership, short passwords and immediate session revocation',async()=>{
  await exerciseAccounts(vercelAccountStore({client:fixture(),prefix:'test/'}));
 });
