@@ -60,6 +60,11 @@ export function createLearningHandler({store,now=()=>Date.now()}){return async r
    // Recheck the session before committing: paused/revoked accounts cannot save.
    if(!await readSessionUser(req,store,now))return response({error:'Please sign in again to save progress.'},401);
    if(await store.write(key,updated,current?.etag))return response({progress:learningView(updated)});
-  }return response({error:'Progress changed in another tab. Please try saving again.'},409);
+  }
+  // Metadata only: make persistent storage conflicts diagnosable without logging
+  // account identifiers, answers, learning records, credentials, or the ETag itself.
+  const conflict=await store.read(key);const etag=conflict?.etag;
+  console.warn('Learning write exhausted conditional retries',{recordPresent:!!conflict,etagPresent:!!etag,etagWeak:typeof etag==='string'&&etag.startsWith('W/'),etagQuoted:typeof etag==='string'&&etag.startsWith('"')});
+  return response({error:'Progress changed in another tab. Please try saving again.'},409);
  }catch{return response({error:'Progress could not be saved right now. Please try again.'},503);}
 };}
