@@ -1,0 +1,33 @@
+{
+  "mode": "Built-in image_gen",
+  "assets": [
+    {
+      "id": "schooling",
+      "prompt": "Use case: scientific-educational. Create a polished, realistic natural-history illustration for a marine biology school website, wide landscape 3:2. A coordinated school of around 35 small silver sardine-like fish swims together through clear teal sunlit seawater. Near fish show anatomically plausible streamlined bodies, delicate transparent fins, forked tails, subtle scales, darker blue-green backs, silver flanks and pale bellies; distant fish smaller with atmospheric depth. All fish generally face right with natural small variations in orientation and spacing, a flowing open formation, not a bait ball. Soft sun shafts from the surface, muted deep teal and blue, warm silver highlights, calm professional field-guide aesthetic, painterly precision with convincing anatomy rather than toy 3D or cartoon. Full fish silhouettes inside frame, no predators, no coral clutter, no text, no labels, no watermark. This replaces a crude repeated-vector fish drawing with rich biologically credible artwork.",
+      "generated_filename": "exec-24d0e89e-8f9a-4ebc-9a7f-432fcb78136e.png",
+      "saved_master": "public/assets/schooling/fish-school-v2.png",
+      "site_asset": "public/assets/schooling/fish-school-v2.webp"
+    },
+    {
+      "id": "penguin",
+      "prompt": "Use case: scientific-educational. Create a detailed natural-history illustration for a marine biology lesson on the emperor penguin, Aptenodytes forsteri. Wide landscape 3:2 scene: foreground adult emperor penguin in full body with accurate black head, pale yellow ear/neck patches grading into white chest, dark back, short flat flippers, sturdy feet, fine feather texture, one fluffy gray chick nearby on Antarctic sea ice; behind them a few distant emperor penguins and a blue Antarctic sea-ice edge. No polar bears, no Arctic species, no tropical setting. Calm overcast daylight, restrained teal blue, ice white and muted golden accents. Professional museum field-guide realism with precise anatomy and soft painterly atmosphere, not cute cartoon, not shiny 3D. Clear visible feet and realistic bill. Entire subject fits comfortably in frame. No text, labels, logos or watermark. Emphasize Antarctica accurately.",
+      "generated_filename": "exec-8648dd5e-59ff-4aa1-9711-56aed5555ba2.png",
+      "saved_master": "public/assets/polar/emperor-penguin-v1.png",
+      "site_asset": "public/assets/polar/emperor-penguin-v1.webp"
+    },
+    {
+      "id": "orca",
+      "prompt": "Use case: scientific-educational. Create a detailed professional natural-history illustration for a marine biology lesson about orcas in Arctic/subarctic seas. Wide landscape 3:2 underwater view of three Orcinus orca traveling together near the surface in cold blue-teal water, a large adult in clear side-three-quarter view foreground, two smaller individuals behind at different distances. Anatomically accurate robust streamlined toothed-whale body, black back, white oval eye patch above and behind real small eye, white underside, gray saddle patch behind dorsal fin, paired paddle pectoral flippers and horizontal tail flukes, no shark gills. One clearly shaped dorsal fin each, mouth closed, no aggression or prey. Modest distant ice floes overhead with open-water breathing access, diffuse natural polar light and subtle water texture. Precise museum illustration with natural realistic surfaces, subdued palette suited to cream/teal educational website, not cartoon, not glossy plastic 3D. No text, labels, logos, watermark.",
+      "generated_filename": "exec-d72c4425-8e0b-443c-8174-d32a5ced8eac.png",
+      "saved_master": "public/assets/polar/orca-v1.png",
+      "site_asset": "public/assets/polar/orca-v1.webp"
+    },
+    {
+      "id": "lionsmane",
+      "prompt": "Use case: scientific-educational. Create a rich, anatomically credible natural-history illustration of a lion's mane jellyfish, Cyanea capillata, in cold northern ocean water. Wide landscape 3:2. One large jelly suspended in deep teal-blue open seawater, bell in upper-middle fully in frame and long trailing fine tentacles curving through lower-right, a modestly domed scalloped reddish amber bell with visible radial structure, dense folded frilly reddish-gold oral arms below center distinctly different from many very thin filamentous marginal tentacles grouped around edge. Translucent gelatinous bell, believable delicate tissues and subtle suspended particles, soft light from above. The mass of oral arms resembles a mane; no human face, no cartoon eyes, no octopus arms, no fluorescent fantasy glow, no coral reef. Professional natural-history painting with scientific realism, calm restrained teal and warm coral/amber palette suitable for a cream/teal school website. Not a photograph claiming a measured specimen; no scale bar, no labels, no text or watermark.",
+      "generated_filename": "exec-69a3befb-8186-4619-be13-b6f7f319595f.png",
+      "saved_master": "public/assets/polar/lions-mane-jellyfish-v1.png",
+      "site_asset": "public/assets/polar/lions-mane-jellyfish-v1.webp"
+    }
+  ]
+}

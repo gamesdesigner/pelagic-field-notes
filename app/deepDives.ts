@@ -1,13 +1,16 @@
+import polarArticles from "../shared/polar-articles.json";
+import {polarSources} from "../shared/polar-content.mjs";
 import { schoolingDive } from "../shared/schooling-articles.mjs";
 import { teachingGuides, editTeachingProse } from "../shared/lesson-articles.mjs";
 import { planktonDive } from "../shared/plankton-articles.mjs";
 import { expandedSections } from "./deepDiveExtensions";
 import { twilightGeneralDive, vampireDefenseSection } from "../shared/twilight-articles.mjs";
 
-export type LessonId = "schooling" | "plankton" | "upwelling" | "conveyor" | "coriolis" | "ekman" | "enso" | "sunlight" | "turtle" | "shark" | "cuttlefish" | "twilightGeneral" | "twilight" | "midnight" | "general";
+export type LessonId = "penguin" | "orca" | "lionsmane" | "schooling" | "plankton" | "upwelling" | "conveyor" | "coriolis" | "ekman" | "enso" | "sunlight" | "turtle" | "shark" | "cuttlefish" | "twilightGeneral" | "twilight" | "midnight" | "general";
 export type DeepDiveSection = { heading: string; paragraphs: string[]; sources?: string[] };
 type DeepDive = { title: string; deck: string; abstract: string; sections: {heading: string; paragraphs: string[]; sources?: string[]}[]; terms: {word: string; definition: string}[]; question: string };
 export const readingSources: Record<string, {label: string; url: string}> = {
+  ...polarSources,
   schoolRules:{label:"Herbert-Read et al. · Inferring fish interaction rules",url:"https://pubmed.ncbi.nlm.nih.gov/22065759/"},
   schoolSenses:{label:"Stewart et al. · Flow sensing and escape",url:"https://pubmed.ncbi.nlm.nih.gov/23325859/"},
   schoolLeadership:{label:"Puy et al. · Selective interactions and leadership",url:"https://pmc.ncbi.nlm.nih.gov/articles/PMC11067465/"},
@@ -75,6 +78,7 @@ export const readingSources: Record<string, {label: string; url: string}> = {
   jellyCycle:{label:"Monterey Bay Aquarium · Raising jellies",url:"https://www.montereybayaquarium.org/about-us/stories/growing-jellies"},
 };
 export const deepDives: Record<LessonId, DeepDive> = {
+...polarArticles.advanced,
 schooling: schoolingDive,
 plankton: {...planktonDive,sections:planktonDive.sections.map((section,index)=>({...section,sources:[index===3||index===4||index===11?"diatomCells":index===7?"carbon":index===8?"bloomScience":index===6?"plankton":"phyto"]}))},
 upwelling: {

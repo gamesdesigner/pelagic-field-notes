@@ -17,6 +17,8 @@ import {MyLearning} from "./LearningProgress";
 import LessonQuiz from "./LessonQuiz";
 import TwilightUnits from "./TwilightUnits";
 import PlanktonLesson from "./PlanktonLesson";
+import CourseIntroduction from "./CourseIntroduction";
+import PolarUnits from "./PolarUnits";
 import SchoolsOfFishLesson,{FishSchoolArt} from "./SchoolsOfFishLesson";
 
 type Subject = {
@@ -34,6 +36,7 @@ type Subject = {
 };
 
 const subjects: Subject[] = [
+  {id:"introduction",number:"00",title:"Introduction",short:"A course overview and two illustrated guides to quizzes and interactive models.",depth:"Start here",animal:"",scientific:"",description:"",fact:"",tone:"course-intro"},
   {
     id: "currents",
     number: "01",
@@ -82,9 +85,10 @@ const subjects: Subject[] = [
     fact: "Bioluminescence is so common here that flashes of blue-green light may be the midnight zone’s main form of communication.",
     tone: "midnight",
   },
+  {id:"polar",number:"05",title:"Life in the Arctic",short:"Northern orcas and jellies, with an Antarctic penguin comparison.",depth:"Polar environments",animal:"",scientific:"",description:"",fact:"",tone:"polar"},
   {
     id: "general",
-    number: "05",
+    number: "06",
     title: "The General Ocean",
     short: "See the complete water column from the surface to the deep.",
     depth: "0–4,000 metres",
@@ -743,6 +747,8 @@ export default function Home() {
     if (subject.id === "currents" || subject.id === "sunlight") setCurrentTopic(null);
   };
 
+  useEffect(()=>{window.scrollTo({top:0,left:0,behavior:"instant"});},[selected?.id,currentTopic]);
+
   useEffect(() => {
     if (!selected) return;
     const onKey = (event: KeyboardEvent) => { if (event.key === "Escape") setSelected(null); };
@@ -764,15 +770,15 @@ export default function Home() {
           <div className="hero-copy">
             <p className="eyebrow">Explore by subject</p>
             <h1 id="page-title">Choose a path<br /><em>through the ocean.</em></h1>
-            <p className="intro">Study how water moves, then meet one remarkable animal from each layer of the sea.</p>
+            <p className="intro">Start with the introduction, then explore moving water, ocean layers, and polar wildlife.</p>
           </div>
 
           <div className="subject-grid">
             {subjects.filter((subject) => !subject.general).map((subject) => (
               <button className={`subject-card ${subject.tone}`} key={subject.id} onClick={() => openSubject(subject)}>
                 <span className="card-number">{subject.number}</span>
-                <div className={`card-placeholder ${subject.id === "currents" || subject.id === "sunlight" || subject.id === "twilight" ? "has-subject-image" : ""}`} aria-hidden="true">
-                  {subject.id === "currents" ? (
+                <div className={`card-placeholder ${["currents","sunlight","twilight","introduction","polar"].includes(subject.id) ? "has-subject-image" : ""}`} aria-hidden="true">
+                  {subject.id === "introduction" ? (<img src="/assets/schooling/fish-school-v2.webp" alt="" />) : subject.id === "polar" ? (<img src="/assets/polar/orca-v1.webp" alt="" />) : subject.id === "currents" ? (
                     <img src="/assets/field-guide-v2/ocean-surface-currents.webp" alt="" />
                   ) : subject.id === "twilight" ? (
                     <img src="/assets/twilight/general-twilight.webp" alt="" />
@@ -788,14 +794,18 @@ export default function Home() {
             ))}
           </div>
 
-          <button className="general-card" onClick={() => openSubject(subjects[4])}>
+          <button className="general-card" onClick={() => openSubject(subjects.find(subject=>subject.id==="general")!)}>
             <img src="/assets/ocean-depths-slide.png" alt="Ocean depth zones from the sunlit surface to the midnight zone" />
             <span className="general-overlay" />
-            <span className="card-number">05</span>
+            <span className="card-number">06</span>
             <span className="general-copy"><small>Complete field plate · 0–4,000 m</small><strong>The General Ocean</strong><em>See the whole water column</em></span>
             <span className="general-arrow">Explore <b>→</b></span>
           </button>
         </section>
+      ) : selected.id === "introduction" ? (
+        <CourseIntroduction onBack={()=>setSelected(null)} onCurrents={()=>openSubject(subjects.find(s=>s.id==="currents")!)} onQuiz={()=>{setSelected(subjects.find(s=>s.id==="sunlight")!);setCurrentTopic(5);}} onTank={()=>{setSelected(subjects.find(s=>s.id==="sunlight")!);setCurrentTopic(4);}}/>
+      ) : selected.id === "polar" ? (
+        <PolarUnits onBack={()=>setSelected(null)}/>
       ) : selected.id === "twilight" ? (
         <TwilightUnits onBack={()=>setSelected(null)}/>
       ) : selected.id === "currents" && currentTopic === 4 ? (

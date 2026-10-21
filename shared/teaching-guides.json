@@ -671,5 +671,143 @@
       "schoolEscape",
       "schoolEnergy"
     ]
+  },
+  "penguin": {
+    "title": "Emperor penguins: living between ice and ocean",
+    "question": "How does an air-breathing bird feed at sea and conserve heat on Antarctic ice?",
+    "abstract": "Emperor penguins are Antarctic seabirds, not Arctic residents. Their flippers support swimming, insulation slows heat loss, and huddling changes exposure to cold air. Diving and breeding connect them with food and suitable sea ice. This southern comparison helps explain why polar animals can share physical challenges while living in different ecosystems.",
+    "advancedAbstract": "Emperor penguin biology connects heat transfer, collective behavior, locomotion, oxygen management, and the timing of reproduction. Models help isolate mechanisms, while tracking and physiological observations test how those mechanisms operate in living birds. This article distinguishes oxygen storage from use, habitat area from seasonal suitability, and colony attendance from survival. It uses Antarctic penguins as a comparison with northern marine life without treating the two polar regions as interchangeable.",
+    "goals": [
+      "Locate emperor penguins in Antarctica rather than the Arctic.",
+      "Connect flippers, insulation, and huddling with their functions.",
+      "Explain why feeding access and breeding timing matter together."
+    ],
+    "advancedGoals": [
+      "Apply heat and oxygen budgets to a diving bird.",
+      "Distinguish measured behavior from the predictions of simplified models.",
+      "Design observations that separate colony attendance from breeding outcomes."
+    ],
+    "terms": [
+      {
+        "word": "Insulation",
+        "definition": "Material or structure that slows heat transfer."
+      },
+      {
+        "word": "Metabolism",
+        "definition": "Chemical processes that support an organism and release usable energy."
+      },
+      {
+        "word": "Huddle",
+        "definition": "A close aggregation that can reduce exposure to cold conditions."
+      },
+      {
+        "word": "Myoglobin",
+        "definition": "An oxygen-binding protein in muscle."
+      }
+    ],
+    "recap": "A penguin survives through connected mechanisms: insulation and huddling reduce heat loss, diving provides food, and breeding depends on suitable habitat at the right time.",
+    "check": {
+      "question": "Why does a photograph of fewer birds at a colony not prove that those birds died?",
+      "explanation": "Birds may be feeding at sea or outside the image. Repeated observations of attendance, breeding stage, and survival are needed to distinguish movement from mortality."
+    },
+    "application": "Compare a penguin huddle with a fish school. Identify one shared feature of group behavior and one difference in the problem it helps solve.",
+    "sources": [
+      "polarPenguins",
+      "polarEmperor",
+      "polarDives",
+      "polarHuddle",
+      "polarOxygen"
+    ]
+  },
+  "orca": {
+    "title": "Orcas: sound, learning, and northern food webs",
+    "question": "How do breathing, learned hunting, and sea ice shape an orca’s opportunities?",
+    "abstract": "Orcas are air-breathing marine mammals with populations across the world, including northern seas. Movement, sound, and social learning help them find and capture food. Different groups can specialize in different prey. Sea ice affects travel and predator–prey interactions, so greater open-water access does not guarantee an easier life.",
+    "advancedAbstract": "Orca ecology links a warm-bodied diving mammal with population-specific feeding behavior, acoustic sensing, social transmission, and changing access through sea ice. Predators affect prey through both capture and changes in perceived risk. Interpreting those effects requires distinguishing encounter rates from population size and observations from causal explanations. Quantitative teaching examples show how geometry, echo timing, and survey effort contribute to a defensible investigation.",
+    "goals": [
+      "Explain why an orca must return to the surface.",
+      "Distinguish communication, echolocation, and learned feeding behavior.",
+      "Describe two ways sea ice can affect predator and prey."
+    ],
+    "advancedGoals": [
+      "Use simple models of geometry, echoes, and encounter rates.",
+      "Explain consumptive and nonconsumptive predator effects.",
+      "Evaluate alternative explanations for changes in sightings."
+    ],
+    "terms": [
+      {
+        "word": "Blubber",
+        "definition": "A fatty tissue layer involved in insulation and energy storage."
+      },
+      {
+        "word": "Echolocation",
+        "definition": "Using emitted sound and returning echoes to obtain information."
+      },
+      {
+        "word": "Social learning",
+        "definition": "Acquiring information through observing or interacting with others."
+      },
+      {
+        "word": "Nonconsumptive effect",
+        "definition": "A predator effect mediated by changed prey behavior rather than capture."
+      }
+    ],
+    "recap": "Orca behavior depends on the population and setting. Breathing access, food, learned skills, and changing ice connect the animal with its wider ecosystem.",
+    "check": {
+      "question": "Why could more orca sightings occur without a larger total population?",
+      "explanation": "Observers may spend more time searching, animals may move into a watched area, or the same individuals may be recorded repeatedly. Survey effort and identification help distinguish these alternatives."
+    },
+    "application": "A bay becomes accessible for longer each summer. Explain one possible change in predator access and one observation needed before predicting a food-web effect.",
+    "sources": [
+      "polarOrca",
+      "polarArcticOrca",
+      "polarRisk",
+      "polarKnowledge"
+    ]
+  },
+  "lionsmane": {
+    "title": "Lion’s mane jellyfish: a soft body in moving water",
+    "question": "How do specialized cells and a gelatinous body support a drifting predator?",
+    "abstract": "Lion’s mane jellyfish occur in cool northern seas. Their bell pulses, fine tentacles encounter prey, and folded oral arms help handle food. Specialized stinging cells contribute to capture. A life cycle with attached and swimming stages links habitats, while currents can change local numbers without creating new animals.",
+    "advancedAbstract": "Lion’s mane jellyfish connect cellular capture mechanisms, tissue organization, locomotion, development, and population dynamics. The visible medusa represents only part of a life cycle involving settlement and polyp stages. Swimming and advection jointly determine movement, while recruitment, mortality, and transport influence abundance. A multiscale approach separates numbers from biomass, local concentration from population growth, and attractive images from measurements that test ecological explanations.",
+    "goals": [
+      "Distinguish the bell, oral arms, and fine tentacles.",
+      "Describe how a stinging capsule contributes to feeding.",
+      "Explain why currents and earlier life stages matter to visible numbers."
+    ],
+    "advancedGoals": [
+      "Apply movement vectors and a population budget to a jelly.",
+      "Connect cellular mechanisms with body and life-cycle functions.",
+      "Compare observation methods and test seasonal explanations."
+    ],
+    "terms": [
+      {
+        "word": "Nematocyst",
+        "definition": "A stinging capsule inside a specialized cnidarian cell."
+      },
+      {
+        "word": "Mesoglea",
+        "definition": "The jelly-like matrix between tissue layers in a jellyfish."
+      },
+      {
+        "word": "Medusa",
+        "definition": "The free-swimming bell-shaped life stage."
+      },
+      {
+        "word": "Ephyra",
+        "definition": "A young swimming stage produced by a scyphozoan polyp."
+      }
+    ],
+    "recap": "A jelly is an organized consumer, not a plant or a fish. Cells, body structures, life stages, and currents together explain its feeding and local abundance.",
+    "check": {
+      "question": "Why might a bay contain more jellies even if no new medusae developed there?",
+      "explanation": "Currents can carry existing medusae into the bay or concentrate them. Repeated counts, water movement, and life-stage observations help distinguish transport from recruitment."
+    },
+    "application": "Design two observations that would help separate local jelly population growth from a gathering caused by water movement.",
+    "sources": [
+      "polarLion",
+      "polarJelly",
+      "polarEphyra"
+    ]
   }
 }

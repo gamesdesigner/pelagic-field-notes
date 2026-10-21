@@ -1,3 +1,4 @@
+import polarArticles from './polar-articles.json' with {type:'json'};
 import originalArticles from './introductory-articles.json' with {type:'json'};
 import guides from './teaching-guides.json' with {type:'json'};
 import {planktonIntro} from './plankton-articles.mjs';
@@ -13,7 +14,7 @@ export function editTeachingProse(text){
   .replace('Imagine floating in an enormous blue room whose ceiling grows fainter as you descend.','Light from above grows fainter with depth.');
 }
 export const teachingGuides=guides;
-const sourceArticles={...originalArticles,plankton:planktonIntro,twilightGeneral:twilightIntro,twilight:vampireIntro,schooling:schoolingIntro};
+const sourceArticles={...originalArticles,...polarArticles.intro,plankton:planktonIntro,twilightGeneral:twilightIntro,twilight:vampireIntro,schooling:schoolingIntro};
 export const introductoryArticles=Object.fromEntries(Object.entries(sourceArticles).map(([key,article])=>[key,{
  title:guides[key].title,abstract:guides[key].abstract,
  sections:article.sections.map(section=>({heading:editTeachingProse(section.heading.replace(/^\d+[.:]\s*/,'')),paragraphs:section.paragraphs.map(editTeachingProse)})),

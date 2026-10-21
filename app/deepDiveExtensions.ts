@@ -2,6 +2,9 @@ import type { DeepDiveSection, LessonId } from "./deepDives";
 
 // Substantive extensions supplement the first five sections of each article.
 export const expandedSections: Record<LessonId, DeepDiveSection[]> = {
+penguin: [],
+orca: [],
+lionsmane: [],
 schooling: [],
 plankton: [],
 twilightGeneral: [],
