@@ -1327,3 +1327,11 @@ body,body * { font-family:"Times New Roman",Times,serif!important; }
 .polar-unit-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
 @media(max-width:900px) { .course-example { grid-template-columns:1fr; }.polar-unit-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
 @media(max-width:760px) { .course-introduction,.polar-lesson { padding-top:90px; }.course-overview { margin-block:42px; }.course-overview p { font-size:17px; }.course-example h3 { font-size:28px; }.polar-geography,.polar-unit-grid { grid-template-columns:1fr; }.polar-geography { padding:24px; }.polar-geography h2 { font-size:25px; }.polar-location-note { padding:22px; }.course-intro-hero figcaption,.polar-hero figcaption { padding:14px 18px; }.course-intro-hero img { aspect-ratio:3/2; object-fit:cover; } }
+
+.quiz-written { display:grid; gap:10px; margin:24px 0; font:15px/1.7 Arial,sans-serif; }
+.quiz-written label { font-weight:700; color:#234e50; }
+.quiz-written textarea { display:block; width:100%; box-sizing:border-box; min-height:135px; resize:vertical; padding:16px; color:#234e50; background:#fffdf7; border:1px solid #8d9d93; border-radius:8px; font:18px/1.7 Arial,sans-serif; }
+.quiz-written textarea:focus-visible { outline:3px solid var(--coral); outline-offset:3px; }
+.quiz-written textarea:disabled { opacity:1; color:#345b60; background:#e6ece4; }
+.quiz-written small { max-width:80ch; color:#526c64; }
+.quiz-feedback p+p { margin-top:12px; }

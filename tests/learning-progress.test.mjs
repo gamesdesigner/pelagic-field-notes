@@ -167,3 +167,24 @@ test('twilight curriculum has substantial introductory prose and two seven-quest
  assert.ok(words(twilightIntro)>=500);assert.ok(words(vampireIntro)>=500);assert.ok(words(twilightGeneralDive)>words(twilightIntro)*2);assert.ok(twilightGeneralDive.abstract.length>200);
  for(const lessonId of ['twilightGeneral','twilight']){assert.equal(quizBank[lessonId].length,7);for(const question of quizBank[lessonId]){assert.equal(new Set(question.options).size,5);assert.ok(question.answer>=0&&question.answer<5);}}
 });
+
+test('polar written drafts resume verbatim and server grades their ideas for owner reports',async()=>{
+ const {progress,student,store,students,owner}=await setup();
+ const lessonId='penguin',attemptId=randomUUID();
+ const written=['Arctic','Feet','To stay warm.','Oxygen.','On his feet.','They are consumers because they eat other animals.','Depth and time.'];
+ const draft={attemptId,revision:1,index:0,selection:'My unfinished\nanswer about Antarctica',submitted:false,answers:[]};
+ assert.equal((await progress(post('/api/progress',{action:'quiz-draft',lessonId,state:draft,previousAttemptId:null},student))).status,200);
+ const fresh=createLearningHandler({store});
+ let saved=(await (await fresh(get('/api/progress',student))).json()).progress;
+ assert.equal(saved.quizSessions.penguin.selection,draft.selection);
+ const checked={...draft,revision:2,index:1,selection:'',answers:[written[0]]};
+ assert.equal((await fresh(post('/api/progress',{action:'quiz-draft',lessonId,state:checked,previousAttemptId:null},student))).status,200);
+ assert.equal((await fresh(post('/api/progress',{action:'quiz-draft',lessonId,state:{...checked,revision:3,answers:['Antarctica']},previousAttemptId:null},student))).status,409);
+ const finish={...draft,revision:4,index:7,selection:'',answers:written};
+ const body={action:'quiz-draft',lessonId,state:finish,previousAttemptId:null,score:7};
+ assert.equal((await fresh(post('/api/progress',body,student))).status,200);
+ assert.equal((await fresh(post('/api/progress',body,student))).status,200);
+ saved=(await (await students(get('/api/students?student=Student%20Reader',owner))).json()).progress;
+ assert.equal(saved.quizzes.penguin.latestScore,5);assert.equal(saved.quizzes.penguin.attempts,1);assert.equal(saved.quizzes.penguin.total,7);
+ assert.deepEqual(saved.quizSessions.penguin.answers,written);
+});
