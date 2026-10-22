@@ -1335,3 +1335,54 @@ body,body * { font-family:"Times New Roman",Times,serif!important; }
 .quiz-written textarea:disabled { opacity:1; color:#345b60; background:#e6ece4; }
 .quiz-written small { max-width:80ch; color:#526c64; }
 .quiz-feedback p+p { margin-top:12px; }
+
+/* A microscope workbench for the lion's mane jellyfish lesson. */
+.jelly-sting-lab { margin:60px 0; padding:clamp(20px,3vw,40px); background:#f0f2e9; border:1px solid #a9c0b5; border-radius:16px; color:#234b50; }
+.sting-heading { max-width:840px; }
+.sting-heading h2 { font:400 clamp(32px,4vw,48px)/1.15 Georgia,serif; margin:14px 0 20px; }
+.sting-heading>p:last-child { font:18px/1.8 Arial,sans-serif; color:#345b60; margin-bottom:26px; }
+.sting-context { display:flex; align-items:center; gap:16px; flex-wrap:wrap; padding:12px 0; border-block:1px solid #bdcfc3; color:#345b60; font:13px/1.6 Arial,sans-serif; }
+.sting-context svg { width:190px; height:40px; }
+.sting-toolbar { display:flex; gap:10px; flex-wrap:wrap; align-items:center; padding:24px 0; }
+.jelly-sting-lab button,.sting-toolbar select { border:1px solid #91aaa0; background:#fffcf4; color:#234b50; font:600 14px/1.5 Arial,sans-serif; border-radius:6px; padding:11px 14px; cursor:pointer; min-height:44px; }
+.jelly-sting-lab button:hover:not(:disabled) { background:#dce8dc; border-color:#345b60; }
+.jelly-sting-lab .sting-primary { background:#234b50; color:#fffdf4; border-color:#234b50; }
+.jelly-sting-lab .sting-primary:hover:not(:disabled) { background:#35676a; }
+.jelly-sting-lab button:disabled { opacity:.45; cursor:default; }
+.jelly-sting-lab button:focus-visible,.sting-toolbar select:focus-visible,.sting-toolbar input:focus-visible,.sting-timeline input:focus-visible,.sting-science summary:focus-visible { outline:3px solid #ad6147; outline-offset:4px; }
+.sting-toolbar label { display:flex; align-items:center; gap:9px; color:#345b60; font:13px/1.6 Arial,sans-serif; }
+.sting-toolbar .sting-manual { min-height:44px; cursor:pointer; }
+.sting-manual input { width:18px; height:18px; accent-color:#234b50; }
+.sting-layout { display:grid; grid-template-columns:minmax(0,2fr) minmax(230px,1fr); gap:24px; align-items:start; }
+.sting-microscope { margin:0; min-width:0; border:1px solid #9db8ac; border-radius:10px; overflow:hidden; background:#d6e5dc; }
+.sting-view-label { display:flex; justify-content:space-between; gap:12px; padding:15px 18px; background:#234b50; color:#f4f4e8; font:12px/1.6 Arial,sans-serif; }
+.sting-microscope>svg { display:block; width:100%; height:auto; }
+.sting-microscope figcaption { padding:15px 18px; font:12px/1.8 Arial,sans-serif; color:#345b60; background:#edf1e7; border-top:1px solid #b6ccbf; }
+.sting-inspector { min-width:0; }
+.sting-inspector>.eyebrow { margin:0 0 10px; }
+.sting-inspector h3 { font:400 26px/1.25 Georgia,serif; margin:0 0 18px; }
+.sting-part-buttons { display:grid; gap:6px; }
+.sting-part-buttons button { display:flex; gap:14px; text-align:left; align-items:center; }
+.sting-part-buttons button span { font-weight:400; font-size:12px; opacity:.7; }
+.jelly-sting-lab button[aria-pressed="true"],.jelly-sting-lab button[aria-pressed="true"]:hover:not(:disabled) { background:#234b50; color:#fffdf4; border-color:#234b50; }
+.sting-part-description { padding:18px 0 0; min-height:150px; }
+.sting-part-description h4 { margin:0 0 8px; font:400 24px/1.3 Georgia,serif; }
+.sting-part-description p { margin:0; font:15px/1.8 Arial,sans-serif; color:#345b60; }
+.sting-timeline { padding-top:26px; }
+.sting-timeline label { display:flex; justify-content:space-between; font:600 14px/1.6 Arial,sans-serif; }
+.sting-timeline input { width:100%; margin:12px 0; height:28px; accent-color:#345e5b; cursor:pointer; }
+.sting-timeline input:disabled { cursor:default; opacity:.5; }
+.sting-timeline p { margin:0 0 22px; font:13px/1.7 Arial,sans-serif; color:#345b60; }
+.sting-stages { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:8px; }
+.sting-stages button { display:flex; gap:9px; align-items:center; text-align:left; }
+.sting-stages button span { font:400 18px/1 Georgia,serif; }
+.sting-explanation { margin-top:22px; padding:24px; background:#e0e9dc; border-left:3px solid #ad705b; border-radius:0 8px 8px 0; min-height:185px; box-sizing:border-box; }
+.sting-explanation .eyebrow { margin:0 0 9px; }
+.sting-explanation h3 { margin:0 0 10px; font:400 28px/1.3 Georgia,serif; }
+.sting-explanation>p:last-child { font:17px/1.8 Arial,sans-serif; margin:0; max-width:90ch; color:#345b60; }
+.sting-science { margin-top:25px; border-top:1px solid #bdcfc3; padding-top:18px; font:14px/1.8 Arial,sans-serif; color:#345b60; }
+.sting-science summary { cursor:pointer; min-height:32px; }
+.sting-science p { max-width:95ch; }
+.sting-science a { color:#234b50; text-underline-offset:3px; }
+@media(max-width:1050px) { .sting-layout { grid-template-columns:1fr; }.sting-part-buttons { grid-template-columns:repeat(3,minmax(0,1fr)); }.sting-part-description { min-height:105px; }.sting-inspector { padding-top:8px; } }
+@media(max-width:650px) { .jelly-sting-lab { margin:40px -8px; padding:18px; }.sting-heading>p:last-child { font-size:16px; }.sting-context { gap:6px 12px; }.sting-context svg { width:150px; }.sting-context>span:last-child { width:100%; }.sting-toolbar { gap:8px; }.sting-toolbar button { flex:1 1 42%; padding-inline:8px; }.sting-toolbar label { flex-wrap:wrap; }.sting-view-label { padding:12px; font-size:11px; }.sting-microscope figcaption { padding:12px; }.sting-part-buttons { grid-template-columns:repeat(2,minmax(0,1fr)); }.sting-part-buttons button { gap:7px; padding:10px; font-size:13px; }.sting-part-description { min-height:145px; }.sting-stages { grid-template-columns:repeat(2,minmax(0,1fr)); }.sting-stages button:last-child { grid-column:1/-1; }.sting-explanation { padding:20px; min-height:245px; }.sting-explanation>p:last-child { font-size:16px; } }

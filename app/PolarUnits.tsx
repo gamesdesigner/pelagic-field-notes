@@ -2,6 +2,7 @@
 import {useEffect,useState} from 'react';
 import LessonReading from './LessonReading';
 import LessonQuiz from './LessonQuiz';
+import JellyfishStingLab from './JellyfishStingLab';
 import {polarUnits} from '../shared/polar-content.mjs';
 import type {LessonId} from './deepDives';
 export default function PolarUnits({onBack}:{onBack:()=>void}){
@@ -12,6 +13,7 @@ export default function PolarUnits({onBack}:{onBack:()=>void}){
   {item.id==='penguin'&&<aside className="polar-location-note"><strong>Antarctica, at the South Pole.</strong><p>Emperor penguins do not naturally live in the Arctic. This unit is a southern comparison with the northern animals in this collection.</p></aside>}
   <figure className="polar-hero"><img src={item.image} alt={item.alt} width="1536" height="1024" decoding="async"/><figcaption>Generated educational illustration · {item.region}. Appearance and scale are illustrative; this is not a measured specimen or a documentary photograph.</figcaption></figure>
   <LessonReading key={item.id} lessonId={item.id as LessonId}/>
+  {item.id==='lionsmane'&&<JellyfishStingLab/>}
   <LessonQuiz key={item.id} lessonId={item.id as 'penguin'|'orca'|'lionsmane'} title={`${item.title} written-answer quiz`} className="upwelling-quiz polar-written-quiz"/>
   <nav className="polar-unit-navigation" aria-label="More polar lessons"><button type="button" onClick={()=>setUnit(null)}>All polar lessons</button>{unit<polarUnits.length-1&&<button type="button" onClick={()=>setUnit(unit+1)}>Next: {polarUnits[unit+1].title} →</button>}</nav>
  </section>;}
