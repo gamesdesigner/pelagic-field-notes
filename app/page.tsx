@@ -19,6 +19,11 @@ import TwilightUnits from "./TwilightUnits";
 import PlanktonLesson from "./PlanktonLesson";
 import CourseIntroduction from "./CourseIntroduction";
 import PolarUnits from "./PolarUnits";
+import CourseLibrary,{type LibrarySelection} from "./CourseLibrary";
+import SiteInformation from "./SiteInformation";
+import {SiteHeader,SiteFooter} from "./SiteChrome";
+import {navigateSite,useSiteNavigation} from "./siteNavigation";
+import {findLibraryLesson,lessonQuery} from "../shared/library-content.mjs";
 import SchoolsOfFishLesson,{FishSchoolArt} from "./SchoolsOfFishLesson";
 
 type Subject = {
@@ -725,8 +730,11 @@ export default function Home() {
   const [accountSettings,setAccountSettings]=useState(false);
   const [myLearning,setMyLearning]=useState(false);
   const [studentPanel, setStudentPanel] = useState(false);
-  const [selected, setSelected] = useState<Subject | null>(null);
-  const [currentTopic, setCurrentTopic] = useState<number | null>(null);
+  const {page,search}=useSiteNavigation();
+  const [initialLesson]=useState(()=>findLibraryLesson(new URLSearchParams(window.location.search).get('lesson')));
+  const [selected, setSelected] = useState<Subject | null>(()=>subjects.find(subject=>subject.id===initialLesson?.subjectId)||null);
+  const [currentTopic, setCurrentTopic] = useState<number | null>(()=>initialLesson?.topic??null);
+  const [libraryUnit,setLibraryUnit]=useState<number|null>(()=>initialLesson?.unit??null);
   const [windSpeed, setWindSpeed] = useState(10);
   const [shelfAngle, setShelfAngle] = useState(1.5);
   const [nutrients, setNutrients] = useState(5.8);
@@ -744,8 +752,18 @@ export default function Home() {
   const hillTop = Math.max(12, 38 - Math.round(shelfVisualAngle / 3));
   const openSubject = (subject: Subject) => {
     setSelected(subject);
+    setLibraryUnit(null);
     if (subject.id === "currents" || subject.id === "sunlight") setCurrentTopic(null);
   };
+
+  function openLibrary(selection:LibrarySelection){
+    const subject=subjects.find(item=>item.id===selection.subjectId);
+    if(!subject)return;
+    setSelected(subject);setCurrentTopic(selection.topic??null);setLibraryUnit(selection.unit??null);
+    navigateSite('/');
+  }
+  function returnToLibrary(){setSelected(null);setCurrentTopic(null);setLibraryUnit(null);}
+  useEffect(()=>{if(page==='sign-in'||page==='sign-up')navigateSite(`/${lessonQuery(search)}`,{replace:true});},[page,search]);
 
   useEffect(()=>{window.scrollTo({top:0,left:0,behavior:"instant"});},[selected?.id,currentTopic]);
 
@@ -757,57 +775,20 @@ export default function Home() {
   }, [selected]);
 
   return (
-    myLearning ? <main className="site-shell"><MyLearning onClose={()=>setMyLearning(false)}/></main> : accountSettings ? <main className="site-shell"><AccountSettings onClose={()=>setAccountSettings(false)}/></main> : studentPanel && account?.user.role === 'owner' ? <StudentAccounts onClose={()=>setStudentPanel(false)} /> : <main className="site-shell">
-      <header className="site-header">
-        <button className="brand" onClick={() => setSelected(null)} aria-label="Return to all subjects">
-          <img src="/assets/marine-biology-class-logo-transparent.png" alt="Marine Biology Class" />
-        </button>
-        {account && <div className="account-header-tools"><span>{account.user.username}</span>{account.user.role==='owner'&&<><span className="owner-badge">Owner</span><button type="button" onClick={()=>setStudentPanel(true)}>Student accounts</button></>}<button type="button" onClick={()=>setMyLearning(true)}>My progress</button><button type="button" onClick={()=>setAccountSettings(true)}>Account settings</button><button type="button" onClick={account.signOut}>Sign out</button></div>}
-      </header>
+    myLearning ? <main className="site-shell"><MyLearning onClose={()=>setMyLearning(false)}/></main> : accountSettings ? <main className="site-shell"><AccountSettings onClose={()=>setAccountSettings(false)}/></main> : studentPanel && account?.user.role === 'owner' ? <StudentAccounts onClose={()=>setStudentPanel(false)} /> : <main className="site-shell library-site">
+      <SiteHeader page={page} onLearn={returnToLibrary} accountTools={account&&<div className="account-header-tools"><span>{account.user.username}</span>{account.user.role==='owner'&&<><span className="owner-badge">Owner</span><button type="button" onClick={()=>setStudentPanel(true)}>Student accounts</button></>}<button type="button" onClick={()=>setMyLearning(true)}>My progress</button><button type="button" onClick={()=>setAccountSettings(true)}>Account settings</button><button type="button" onClick={account.signOut}>Sign out</button></div>}/>
 
-      {!selected ? (
-        <section className="subject-index" aria-labelledby="page-title">
-          <div className="hero-copy">
-            <p className="eyebrow">Explore by subject</p>
-            <h1 id="page-title">Choose a path<br /><em>through the ocean.</em></h1>
-            <p className="intro">Start with the introduction, then explore moving water, ocean layers, and polar wildlife.</p>
-          </div>
 
-          <div className="subject-grid">
-            {subjects.filter((subject) => !subject.general).map((subject) => (
-              <button className={`subject-card ${subject.tone}`} key={subject.id} onClick={() => openSubject(subject)}>
-                <span className="card-number">{subject.number}</span>
-                <div className={`card-placeholder ${["currents","sunlight","twilight","introduction","polar"].includes(subject.id) ? "has-subject-image" : ""}`} aria-hidden="true">
-                  {subject.id === "introduction" ? (<img src="/assets/schooling/fish-school-v2.webp" alt="" />) : subject.id === "polar" ? (<img src="/assets/polar/orca-v1.webp" alt="" />) : subject.id === "currents" ? (
-                    <img src="/assets/field-guide-v2/ocean-surface-currents.webp" alt="" />
-                  ) : subject.id === "twilight" ? (
-                    <img src="/assets/twilight/general-twilight.webp" alt="" />
-                  ) : subject.id === "sunlight" ? (
-                    <img src="/assets/sunlight/marine-life-in-sunlight.png" alt="" />
-                  ) : (
-                    <><span>{subject.tone === "sunlight" ? "☼" : subject.tone === "twilight" ? "◐" : "✦"}</span><small>Image placeholder</small></>
-                  )}
-                </div>
-                <div className="card-copy"><span>{subject.depth}</span><h2>{subject.title}</h2><p>{subject.short}</p></div>
-                <span className="card-arrow">↗</span>
-              </button>
-            ))}
-          </div>
-
-          <button className="general-card" onClick={() => openSubject(subjects.find(subject=>subject.id==="general")!)}>
-            <img src="/assets/ocean-depths-slide.png" alt="Ocean depth zones from the sunlit surface to the midnight zone" />
-            <span className="general-overlay" />
-            <span className="card-number">06</span>
-            <span className="general-copy"><small>Complete field plate · 0–4,000 m</small><strong>The General Ocean</strong><em>See the whole water column</em></span>
-            <span className="general-arrow">Explore <b>→</b></span>
-          </button>
-        </section>
+      {page==='about'||page==='contact' ? (
+        <SiteInformation page={page} onLearn={returnToLibrary}/>
+      ) : !selected ? (
+        <CourseLibrary onOpen={openLibrary} signedIn/>
       ) : selected.id === "introduction" ? (
         <CourseIntroduction onBack={()=>setSelected(null)} onCurrents={()=>openSubject(subjects.find(s=>s.id==="currents")!)} onQuiz={()=>{setSelected(subjects.find(s=>s.id==="sunlight")!);setCurrentTopic(5);}} onTank={()=>{setSelected(subjects.find(s=>s.id==="sunlight")!);setCurrentTopic(4);}}/>
       ) : selected.id === "polar" ? (
-        <PolarUnits onBack={()=>setSelected(null)}/>
+        <PolarUnits key={`polar-${libraryUnit}`} initialUnit={libraryUnit} onBack={()=>setSelected(null)}/>
       ) : selected.id === "twilight" ? (
-        <TwilightUnits onBack={()=>setSelected(null)}/>
+        <TwilightUnits key={`twilight-${libraryUnit}`} initialUnit={libraryUnit} onBack={()=>setSelected(null)}/>
       ) : selected.id === "currents" && currentTopic === 4 ? (
         <EnsoUnit onBack={() => setCurrentTopic(null)} />
       ) : selected.id === "currents" && currentTopic === null ? (
@@ -1012,24 +993,7 @@ export default function Home() {
         </section>
       )}
 
-      <footer className="site-footer">
-        <div className="footer-rule" aria-hidden="true" />
-        <div className="footer-content">
-          <div>
-            <span className="footer-label">Copyright</span>
-            <strong>© 2026 Marine Biology Class</strong>
-            <p>All rights reserved.</p>
-          </div>
-          <div>
-            <span className="footer-label">Created by</span>
-            <strong>By Max Yang</strong>
-          </div>
-          <div>
-            <span className="footer-label">Contact</span>
-            <a href="mailto:anomalocaris.m@gmail.com">anomalocaris.m@gmail.com</a>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter onLearn={returnToLibrary}/>
     </main>
   );
 }

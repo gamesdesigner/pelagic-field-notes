@@ -8,8 +8,8 @@ const units=[
  {title:'General Marine Life in Twilight',image:'/assets/twilight/general-twilight.webp',description:'Explore 200–1,000 metres: food webs, living light, and the daily journey between depths.'},
  {title:'Vampire Squid',image:'/assets/twilight/vampire-squid.webp',description:'Meet an unusual particle collector and discover its webbed arms and glowing mucus defense.'}
 ];
-export default function TwilightUnits({onBack}:{onBack:()=>void}){
- const [unit,setUnit]=useState<number|null>(null);
+export default function TwilightUnits({onBack,initialUnit=null}:{onBack:()=>void;initialUnit?:number|null}){
+ const [unit,setUnit]=useState<number|null>(initialUnit);
  useEffect(()=>{window.scrollTo({top:0,left:0,behavior:'instant'});},[unit]);
  if(unit===null)return <section className="currents-index twilight-index" aria-labelledby="twilight-index-title"><button type="button" className="back-button" onClick={onBack}>← All subjects</button><div className="currents-heading"><p className="eyebrow">Marine Life in Twilight · Choose a unit</p><h1 id="twilight-index-title">Life in the<br/><em>fading light.</em></h1><p className="twilight-index-deck">Two units, two reading levels, and an ocean of discoveries between 200 and 1,000 metres.</p></div><div className="current-card-grid twilight-unit-grid">{units.map((item,i)=><button type="button" className="current-subject-card" key={item.title} onClick={()=>setUnit(i)}><span className="card-number">{String(i+1).padStart(2,'0')}</span><div className="current-card-art has-topic-image"><img src={item.image} alt="" width="1536" height="1024"/></div><div className="card-copy"><span>Unit {i+1} · Twilight zone</span><h2>{item.title}</h2><p>{item.description}</p></div><span className="card-arrow">↗</span></button>)}</div></section>;
  return <TwilightLesson key={unit} unit={unit} onBack={()=>setUnit(null)}/>;

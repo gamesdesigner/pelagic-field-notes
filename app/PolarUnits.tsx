@@ -5,8 +5,8 @@ import LessonQuiz from './LessonQuiz';
 import JellyfishStingLab from './JellyfishStingLab';
 import {polarUnits} from '../shared/polar-content.mjs';
 import type {LessonId} from './deepDives';
-export default function PolarUnits({onBack}:{onBack:()=>void}){
- const [unit,setUnit]=useState<number|null>(null);
+export default function PolarUnits({onBack,initialUnit=null}:{onBack:()=>void;initialUnit?:number|null}){
+ const [unit,setUnit]=useState<number|null>(initialUnit);
  useEffect(()=>{window.scrollTo({top:0,left:0,behavior:'instant'});},[unit]);
  if(unit!==null){const item=polarUnits[unit];return <section className="polar-lesson">
   <header className="polar-lesson-header"><button type="button" className="back-button" onClick={()=>setUnit(null)}>← Life in the Arctic</button><p className="eyebrow">Unit {unit+1} · {item.region}</p><h1>{item.title}</h1><p className="scientific">{item.scientific}</p><p className="polar-deck">{item.description}</p></header>
