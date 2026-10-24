@@ -19,6 +19,8 @@ import LessonQuiz from "./LessonQuiz";
 import TwilightUnits from "./TwilightUnits";
 import PlanktonLesson from "./PlanktonLesson";
 import CourseIntroduction from "./CourseIntroduction";
+import OceanCurrentsIntroduction from "./OceanCurrentsIntroduction";
+import {oceanCurrentsChapterTitle} from "../shared/ocean-currents-introduction.mjs";
 import PolarUnits from "./PolarUnits";
 import CourseLibrary,{type LibrarySelection} from "./CourseLibrary";
 import SiteInformation from "./SiteInformation";
@@ -46,11 +48,11 @@ const subjects: Subject[] = [
   {
     id: "currents",
     number: "01",
-    title: "Ocean Currents",
+    title: oceanCurrentsChapterTitle,
     short: "The moving pathways that connect every ocean basin.",
     depth: "Global circulation",
     animal: "Ocean Currents",
-    scientific: "Five connected topics",
+    scientific: "Chapter introduction and five connected topics",
     description: "ABCDE",
     fact: "ABCDE",
     tone: "current",
@@ -799,13 +801,14 @@ export default function Home() {
         <section className="currents-index" aria-labelledby="currents-title">
           <button className="back-button" onClick={() => setSelected(null)}><span>←</span> All subjects</button>
           <div className="currents-heading">
-            <p className="eyebrow">Ocean Currents · Choose a topic</p>
-            <h1 id="currents-title">Follow the<br /><em>moving ocean.</em></h1>
+            <p className="eyebrow">Chapter introduction · Five connected topics</p>
+            <h1 id="currents-title">Chapter 1-<br /><em>Ocean currents</em></h1>
           </div>
           <figure className="field-guide-overview currents-overview">
             <img src="/assets/field-guide-v2/ocean-surface-currents.webp" width="1536" height="1024" alt="Illustrated world map of surface currents, with clockwise northern subtropical gyres, counterclockwise southern subtropical gyres, and an eastward current around Antarctica." decoding="async"/>
             <figcaption><span>Surface circulation · Illustrated atlas</span><h2>Water on the move.</h2><p>Coral and teal trace warmer and cooler surface pathways. These broad loops are simplified; explore each lesson below to learn what drives them.</p></figcaption>
           </figure>
+          <OceanCurrentsIntroduction/>
           <div className="current-card-grid">
             {currentTopics.map((topic, index) => (
               <button className={`current-subject-card topic-${index + 1}`} key={topic} onClick={() => setCurrentTopic(index)}>
@@ -823,7 +826,7 @@ export default function Home() {
                     <img src="/assets/ekman-transport-illustration.png" alt="" />
                   )}
                 </div>
-                <div className="card-copy"><span>Ocean currents</span><h2>{topic}</h2><p>Click to reveal this topic.</p></div>
+                <div className="card-copy"><span>{oceanCurrentsChapterTitle}</span><h2>{topic}</h2><p>Click to reveal this topic.</p></div>
                 <span className="card-arrow">↗</span>
               </button>
             ))}
@@ -854,12 +857,12 @@ export default function Home() {
         </section>
       ) : (
         <section className={`subject-detail ${selected.tone} ${selected.id === "currents" && currentTopic === 0 ? "upwelling-layout" : ""} ${selected.id === "currents" && currentTopic === 1 ? "conveyor-layout" : ""} ${selected.id === "currents" && currentTopic === 2 ? "coriolis-layout" : ""} ${selected.id === "currents" && currentTopic === 3 ? "ekman-layout" : ""} ${selected.id === "sunlight" ? "sunlight-topic-layout" : ""}`} aria-labelledby="detail-title">
-          <button className="back-button" onClick={() => selected.id === "currents" || selected.id === "sunlight" ? setCurrentTopic(null) : setSelected(null)}><span>←</span> {selected.id === "currents" ? "Ocean Currents" : selected.id === "sunlight" ? "Marine Life in Sunlight" : "All subjects"}</button>
+          <button className="back-button" onClick={() => selected.id === "currents" || selected.id === "sunlight" ? setCurrentTopic(null) : setSelected(null)}><span>←</span> {selected.id === "currents" ? oceanCurrentsChapterTitle : selected.id === "sunlight" ? "Marine Life in Sunlight" : "All subjects"}</button>
           <div className={`detail-copy ${selected.id === "currents" ? "currents-copy" : ""}`}>
             <div className="detail-meta"><span>{selected.number} · Ocean subject</span><span>{selected.depth}</span></div>
             {selected.id === "currents" ? (
               <>
-                <p className="eyebrow">Ocean Currents · Topic {Number(currentTopic) + 1}</p>
+                <p className="eyebrow">{oceanCurrentsChapterTitle} · Topic {Number(currentTopic) + 1}</p>
                 <h1 id="detail-title">{currentTopics[currentTopic as number]}</h1>
                 {currentTopic === 0 ? (
                   <LessonReading key="upwelling" lessonId="upwelling" />

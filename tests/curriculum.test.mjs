@@ -43,7 +43,7 @@ test('the introduction is an approximately 500-word course summary',()=>{
  const text=courseOverview.map(s=>s.paragraph).join(' ');
  const count=text.split(/\s+/).length;
  assert.ok(count>=450&&count<=600,`overview is ${count} words`);
- for(const idea of ['Ocean Currents','Level 1','Level 2','one variable','quiz','Arctic','Antarctic'])assert.ok(text.includes(idea),idea);
+ for(const idea of ['Chapter 1- Ocean currents','Level 1','Level 2','one variable','quiz','Arctic','Antarctic'])assert.ok(text.includes(idea),idea);
 });
 test('polar lessons have complete reading levels and keep the Antarctic comparison explicit',async()=>{
  assert.deepEqual(polarUnits.map(u=>u.id),['penguin','orca','lionsmane']);

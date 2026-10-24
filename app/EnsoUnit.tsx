@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import {oceanCurrentsChapterTitle} from "../shared/ocean-currents-introduction.mjs";
 import EnsoQuiz from "./EnsoQuiz";
 import LessonReading from "./LessonReading";
 
@@ -118,8 +119,8 @@ function EnsoAnimation() {
 export default function EnsoUnit({ onBack }: { onBack: () => void }) {
   return <section className="enso-unit" aria-labelledby="enso-unit-title">
     <div className="enso-lesson">
-      <button className="back-button" onClick={onBack}><span>←</span> Ocean Currents</button>
-      <p className="eyebrow">Ocean Currents · Topic 05 · Ages 13+</p>
+      <button className="back-button" onClick={onBack}><span>←</span> {oceanCurrentsChapterTitle}</button>
+      <p className="eyebrow">{oceanCurrentsChapterTitle} · Topic 05 · Ages 13+</p>
       <h1 id="enso-unit-title">El Niño <em>&</em> La Niña</h1>
       <p className="enso-deck">Small changes across a huge ocean can reshape weather around the world. Meet the Pacific’s warm and cool climate phases.</p>
       <div className="enso-comparison" role="group" aria-label="El Niño and La Niña illustrated comparison">
