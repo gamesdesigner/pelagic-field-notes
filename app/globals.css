@@ -420,8 +420,7 @@ h1,h2 { font-family:Georgia,"Times New Roman",serif; font-weight:400; letter-spa
 .swim-key i { width:30px; height:4px; border-radius:4px; background:#bfe67d; }
 .swim-key i.fast { background:#ffca6c; }
 .sunlight-ocean { position:relative; width:100%; height:clamp(720px,76vw,940px); overflow:hidden; border:1px solid rgba(5,48,75,.3); color:#fff; background:linear-gradient(to bottom,#91d9ee 0 10%,#28a3ca 10%,#177ea7 31%,#0d5e87 54%,#083f68 76%,#052d50 92%,#021e39 100%); box-shadow:0 30px 70px rgba(4,46,65,.18); }
-.sunlight-sky { position:absolute; z-index:1; inset:0 0 auto; height:10%; background:linear-gradient(180deg,#caecf4,#a5d9e8); border-bottom:3px solid rgba(255,255,255,.7); }
-.sunlight-sky::after { content:""; position:absolute; right:0; bottom:-10px; left:0; height:17px; opacity:.85; background:radial-gradient(ellipse at 20px 0,transparent 0 17px,rgba(255,255,255,.75) 18px 20px,transparent 21px) 0 0/80px 17px repeat-x; }
+.sunlight-sky { position:absolute; z-index:1; inset:0 0 auto; height:18%; background:linear-gradient(180deg,#caecf4,#a5d9e8); }
 .sunlight-sky i { position:absolute; top:16px; left:9%; width:44px; height:44px; border-radius:50%; background:#ffe28a; box-shadow:0 0 0 12px rgba(255,226,138,.25),0 0 42px rgba(255,224,124,.8); }
 .sunlight-rays { position:absolute; z-index:1; inset:10% 0 0; overflow:hidden; pointer-events:none; }
 .sunlight-rays i { position:absolute; top:-8%; width:18%; height:90%; opacity:.16; background:linear-gradient(180deg,#fff9bc,transparent); clip-path:polygon(38% 0,62% 0,100% 100%,0 100%); }
@@ -439,22 +438,51 @@ h1,h2 { font-family:Georgia,"Times New Roman",serif; font-weight:400; letter-spa
 .ocean-creature.fast.ltr { animation-name:creatureSprintLtr; }
 .ocean-creature.fast.rtl { animation-name:creatureSprintRtl; }
 .ocean-creature:hover,.ocean-creature:focus-visible,.ocean-creature.selected { border:0; background:transparent; box-shadow:none; outline:none; }
-.ocean-creature:hover .creature-image,.ocean-creature:focus-visible .creature-image,.ocean-creature.selected .creature-image { filter:drop-shadow(0 0 8px #ffdd85) drop-shadow(0 0 16px rgba(255,221,133,.8)); }
-.ocean-creature>small { padding:0; border:0; border-radius:0; background:transparent; color:#fff; font-size:13px; font-weight:700; line-height:1.1; white-space:nowrap; text-shadow:0 2px 5px rgba(0,24,43,.95); }
+.ocean-creature>small { color:#fff; font-size:13px; font-weight:700; line-height:1.1; white-space:nowrap; text-shadow:0 2px 5px #00182bf2; }
 .ocean-creature.selected>small { color:#ffdf8e; text-decoration:underline; text-underline-offset:3px; }
-.creature-art { display:grid; place-items:center; width:150px; height:92px; transform:scale(var(--creature-scale)); transition:transform .2s ease; }
+.creature-art { display:block; width:150px; height:92px; transform:scale(var(--creature-scale)); }
 .ocean-creature.rtl .creature-art { transform:scaleX(-1) scale(var(--creature-scale)); }
-.creature-image { display:block; width:136px; height:78px; object-fit:contain; transform-origin:50% 55%; animation:fishStroke 1.15s ease-in-out infinite; transition:filter .2s ease; }
+/* Jointed swimming rigs: no whole-animal stretch or squash. */
+.sunlight-swimmer { display:block; width:100%; height:100%; overflow:visible; }
+.ocean-creature.phytoplankton { width:110px; left:var(--rest-x); transform:translate(-50%,-50%); animation:none; }
 .ocean-creature.phytoplankton .creature-art { width:94px; height:76px; }
-.ocean-creature.phytoplankton .creature-image { width:82px; height:66px; animation:planktonTurn 5.8s ease-in-out infinite; }
-.ocean-creature.moon-jelly .creature-art { width:96px; height:100px; }
-.ocean-creature.moon-jelly .creature-image { width:86px; height:88px; transform-origin:50% 20%; animation:jellyPulse 3.6s ease-in-out infinite; }
-.ocean-creature.green-turtle .creature-art { width:162px; height:102px; }
-.ocean-creature.green-turtle .creature-image { width:150px; height:92px; transform-origin:55% 50%; animation:turtleStroke 2.1s ease-in-out infinite; }
-@keyframes fishStroke { 0%,100% { transform:skewY(0) scaleX(1); } 25% { transform:skewY(-2deg) scaleX(.965); } 55% { transform:skewY(1.5deg) scaleX(1.015); } 78% { transform:skewY(-1deg) scaleX(.98); } }
-@keyframes turtleStroke { 0%,100% { transform:rotate(0) scaleY(1); } 35% { transform:rotate(-2deg) scaleY(.92); } 68% { transform:rotate(1.5deg) scaleY(1.04); } }
-@keyframes jellyPulse { 0%,100% { transform:scaleY(1) skewX(0); } 40% { transform:scaleY(.82) skewX(2deg); } 65% { transform:scaleY(1.04) skewX(-1deg); } }
-@keyframes planktonTurn { 0%,100% { transform:rotate(-4deg) scale(.98); } 50% { transform:rotate(5deg) scale(1.05); } }
+.ocean-creature.moon-jelly .creature-art { width:96px; height:110px; }
+.ocean-creature.green-turtle .creature-art { width:172px; height:108px; }
+.ocean-creature:is(:hover,:focus-visible,.selected) .creature-art { filter:drop-shadow(0 0 6px #ffdd85); }
+.ocean-creature:focus-visible { outline:2px solid #ffe4a7; outline-offset:4px; border-radius:12px; }
+.sunlight-swimmer g,.sunlight-swimmer path { animation-delay:var(--stroke-delay); transform-box:view-box; }
+.turtle-near-flipper { transform-origin:145px 94px; animation:turtle-paddle-near 5.5s ease-in-out infinite; }
+.turtle-far-flipper { transform-origin:148px 69px; animation:turtle-paddle-far 5.5s ease-in-out infinite; }
+.turtle-rear-flipper,.turtle-back-paddle { transform-origin:78px 94px; animation:turtle-steer 7s ease-in-out infinite; }
+.dolphin-tail-stock { transform-origin:97px 78px; animation:dolphin-tail-beat 1.3s ease-in-out infinite; }
+.dolphin-tail-stock .swimmer-tail-fin { transform-origin:52px 81px; animation:dolphin-fluke 1.3s ease-in-out infinite; }
+.tuna-tail-stock { transform-origin:96px 79px; animation:tuna-tail-beat .8s ease-in-out infinite; }
+.tuna-tail-stock .swimmer-tail-fin { transform-origin:50px 81px; animation:tuna-tail-fin .8s ease-in-out infinite; }
+.swimmer-pectoral { transform-origin:179px 87px; animation:pectoral-steer 3.5s ease-in-out infinite; }
+.jelly-swimming-bell { transform-origin:121px 77px; animation:jelly-bell-stroke 4s ease-in-out infinite; }
+.jelly-trailing-arms { transform-origin:121px 85px; animation:jelly-arms-sway 4s ease-in-out infinite; }
+@keyframes turtle-paddle-near { 0%,100% { transform:rotate(-24deg); } 32% { transform:rotate(30deg); } 56%,78% { transform:rotate(-24deg); } }
+@keyframes turtle-paddle-far { 0%,100% { transform:rotate(20deg); } 32% { transform:rotate(-28deg); } 56%,78% { transform:rotate(20deg); } }
+@keyframes turtle-steer { 0%,100% { transform:rotate(-5deg); } 50% { transform:rotate(9deg); } }
+@keyframes dolphin-tail-beat { 0%,100% { transform:rotate(-9deg); } 50% { transform:rotate(9deg); } }
+@keyframes dolphin-fluke { 0%,100% { transform:rotate(10deg); } 50% { transform:rotate(-10deg); } }
+/* Side-to-side tail beats project as a changing tail angle in this side view. */
+@keyframes tuna-tail-beat { 0%,100% { transform:rotate(-5deg); } 50% { transform:rotate(5deg); } }
+@keyframes tuna-tail-fin { 0%,100% { transform:rotate(12deg); } 50% { transform:rotate(-12deg); } }
+@keyframes pectoral-steer { 0%,100% { transform:rotate(-5deg); } 50% { transform:rotate(7deg); } }
+@keyframes jelly-bell-stroke { 0%,70%,100% { transform:scale(1); } 24% { transform:scale(.85,1.08); } }
+@keyframes jelly-arms-sway { 0%,100% { transform:rotate(-6deg); } 50% { transform:rotate(7deg); } }
+.sunlight-ocean.is-paused * { animation-play-state:paused!important; }
+.swim-key button { padding:9px 14px; border:1px solid #64877e; border-radius:4px; color:#244e50; background:#fffaf0; cursor:pointer; }
+.sunlight-water-surface { position:absolute; z-index:1; inset:0 0 auto; width:100%; height:18%; pointer-events:none; overflow:visible; }
+.surface-swell { animation:surface-heave 6s ease-in-out infinite; }
+.surface-wave-front { animation:surface-travel 10s linear infinite; }
+@keyframes surface-heave { 0%,100% { transform:translateY(-8px); } 50% { transform:translateY(8px); } }
+@keyframes surface-travel { to { transform:translateX(400px); } }
+@media(prefers-reduced-motion:reduce) {
+ .sunlight-ocean * { animation:none!important; }
+ .sunlight-ocean .ocean-creature { left:var(--rest-x); transform:translate(-50%,-50%); }
+}
 @keyframes creatureDriftLtr { 0% { left:-20%; transform:translateY(-50%) translateY(0); } 22% { transform:translateY(-50%) translateY(0); } 31% { transform:translateY(-50%) translateY(-13px); } 41% { transform:translateY(-50%) translateY(0); } 65% { transform:translateY(-50%) translateY(0); } 74% { transform:translateY(-50%) translateY(10px); } 84% { transform:translateY(-50%) translateY(0); } 100% { left:112%; transform:translateY(-50%) translateY(0); } }
 @keyframes creatureDriftRtl { 0% { left:112%; transform:translateY(-50%) translateY(0); } 20% { transform:translateY(-50%) translateY(0); } 30% { transform:translateY(-50%) translateY(11px); } 40% { transform:translateY(-50%) translateY(0); } 63% { transform:translateY(-50%) translateY(0); } 73% { transform:translateY(-50%) translateY(-13px); } 83% { transform:translateY(-50%) translateY(0); } 100% { left:-20%; transform:translateY(-50%) translateY(0); } }
 @keyframes creatureSprintLtr { 0% { left:-20%; transform:translateY(-50%) translateY(0); } 26% { transform:translateY(-50%) translateY(0); } 34% { transform:translateY(-50%) translateY(-10px); } 43% { transform:translateY(-50%) translateY(0); } 69% { transform:translateY(-50%) translateY(0); } 77% { transform:translateY(-50%) translateY(8px); } 86% { transform:translateY(-50%) translateY(0); } 100% { left:112%; transform:translateY(-50%) translateY(0); } }
@@ -463,6 +491,10 @@ h1,h2 { font-family:Georgia,"Times New Roman",serif; font-weight:400; letter-spa
 .creature-info>span { color:#ffdb8a; font-size:12px; font-weight:700; letter-spacing:.09em; text-transform:uppercase; }
 .creature-info h3 { margin:7px 0 9px; font-size:clamp(28px,3.4vw,44px); font-weight:400; line-height:1; }
 .creature-info p { margin:0; color:rgba(255,255,255,.85); font-size:16px; line-height:1.52; }
+.sunlight-lab>.creature-info { position:relative; inset:auto; width:100%; margin-top:14px; display:grid; grid-template-columns:minmax(200px,.7fr) minmax(0,1.3fr); column-gap:32px; align-items:center; box-shadow:none; background:#123b50; }
+.sunlight-lab>.creature-info>span,.sunlight-lab>.creature-info>h3 { grid-column:1; }
+.sunlight-lab>.creature-info>p { grid-column:2; grid-row:1/3; }
+@media(max-width:600px) { .sunlight-lab>.creature-info { display:block; padding:20px; } }
 .twilight-boundary { position:absolute; z-index:7; right:0; bottom:0; left:0; min-height:46px; display:grid; place-items:center; padding:10px 70px 10px 16px; border-top:2px solid rgba(142,198,225,.65); background:#031a31; color:#bce1f1; font-size:14px; font-weight:700; letter-spacing:.1em; text-align:center; text-transform:uppercase; }
 .creature-credit { margin:11px 0 0; color:var(--muted); font-size:12px; line-height:1.4; }
 .creature-credit a { color:inherit; text-underline-offset:2px; }

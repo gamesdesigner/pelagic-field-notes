@@ -161,11 +161,11 @@ test('new twilight units keep legacy vampire progress and independent resumable 
  saved=(await (await students(get('/api/students?student=Student%20Reader',owner))).json()).progress;
  assert.equal(saved.quizzes.twilightGeneral.latestScore,7);assert.equal(saved.quizzes.twilight,undefined);assert.equal(saved.quizSessions.twilight.index,0);assert.ok(saved.lessons.twilight.completedAt);
 });
-test('twilight curriculum has substantial introductory prose and two seven-question five-choice quizzes',async()=>{
+test('twilight curriculum has substantial introductory prose and two seven-question written quizzes',async()=>{
  const {twilightIntro,vampireIntro,twilightGeneralDive}=await import('../shared/twilight-articles.mjs');
  const words=reading=>reading.sections.flatMap(section=>section.paragraphs).join(' ').split(/\s+/).length;
  assert.ok(words(twilightIntro)>=500);assert.ok(words(vampireIntro)>=500);assert.ok(words(twilightGeneralDive)>words(twilightIntro)*2);assert.ok(twilightGeneralDive.abstract.length>200);
- for(const lessonId of ['twilightGeneral','twilight']){assert.equal(quizBank[lessonId].length,7);for(const question of quizBank[lessonId]){assert.equal(new Set(question.options).size,5);assert.ok(question.answer>=0&&question.answer<5);}}
+ for(const lessonId of ['twilightGeneral','twilight']){assert.equal(quizBank[lessonId].length,7);for(const question of quizBank[lessonId]){assert.equal(question.kind,"written");assert.equal(question.options,undefined);assert.equal(typeof question.answer,"string");}}
 });
 
 test('polar written drafts resume verbatim and server grades their ideas for owner reports',async()=>{
@@ -187,4 +187,24 @@ test('polar written drafts resume verbatim and server grades their ideas for own
  saved=(await (await students(get('/api/students?student=Student%20Reader',owner))).json()).progress;
  assert.equal(saved.quizzes.penguin.latestScore,5);assert.equal(saved.quizzes.penguin.attempts,1);assert.equal(saved.quizzes.penguin.total,7);
  assert.deepEqual(saved.quizSessions.penguin.answers,written);
+});
+
+test('legacy choice selections resume alongside new written responses without losing scores',async()=>{
+ const {progress,student,store,students,owner}=await setup();
+ const legacy=['Blowhole','Carapace','Bell','Dorsal fin','Phytoplankton','carapace'];
+ const oldResult=await progress(post('/api/progress',{action:'quiz',lessonId:'sunlight',attemptId:randomUUID(),answers:legacy},student));
+ assert.equal((await oldResult.json()).progress.quizzes.sunlight.bestScore,6);
+ const attemptId=randomUUID();
+ const draft={attemptId,revision:10,index:1,selection:'A carapace, the upper\nshell',submitted:false,answers:['Blowhole']};
+ assert.equal((await progress(post('/api/progress',{action:'quiz-draft',lessonId:'sunlight',state:draft,previousAttemptId:null},student))).status,200);
+ const fresh=createLearningHandler({store});
+ let saved=(await (await fresh(get('/api/progress',student))).json()).progress;
+ assert.equal(saved.quizSessions.sunlight.selection,draft.selection);assert.equal(saved.quizSessions.sunlight.index,1);
+ assert.deepEqual(saved.quizSessions.sunlight.answers,['Blowhole']);
+ const state={...draft,revision:11,index:6,selection:'',submitted:false,answers:['Blowhole','A carapace.','Its bell.','The dorsal fin.','Photosynthetic plankton.','I forgot.']};
+ const body={action:'quiz-draft',lessonId:'sunlight',state,previousAttemptId:null};
+ for(let i=0;i<2;i++)assert.equal((await fresh(post('/api/progress',body,student))).status,200);
+ saved=(await (await students(get('/api/students?student=Student%20Reader',owner))).json()).progress;
+ assert.equal(saved.quizzes.sunlight.latestScore,5);assert.equal(saved.quizzes.sunlight.bestScore,6);assert.equal(saved.quizzes.sunlight.attempts,2);
+ assert.equal(saved.quizSessions.sunlight.index,6);
 });

@@ -7,6 +7,7 @@ import ConveyorBeltQuiz from "./ConveyorBeltQuiz";
 import EkmanCoastalDiagram from "./EkmanCoastalDiagram";
 import EnsoUnit from "./EnsoUnit";
 import TurtleFeedingScene from "./TurtleFeedingScene";
+import SunlightSwimmer,{SunlightWaterSurface} from "./SunlightSwimmer";
 import GreatWhiteSharkLesson from "./GreatWhiteSharkLesson";
 import CommonCuttlefishLesson from "./CommonCuttlefishLesson";
 import LessonReading from "./LessonReading";
@@ -174,7 +175,7 @@ const sunlightCreatures = [
     image: "/assets/sunlight-creatures/phytoplankton.png",
     direction: "ltr",
     speed: "slow",
-    speedLabel: "Slow drifter",
+    speedLabel: "Stationary in this model",
     count: 3,
     depth: 15,
     duration: "28s",
@@ -203,7 +204,7 @@ const sunlightCreatures = [
     speedLabel: "Steady swimmer",
     count: 2,
     depth: 55,
-    duration: "22s",
+    duration: "64s",
     delay: "-12s",
     description: "A surface-breathing reptile that often forages in shallow coastal water. Adults mainly graze on seagrasses and algae before surfacing again for air.",
   },
@@ -468,6 +469,7 @@ function CoriolisQuiz() {
 }
 
 function SunlightZoneLab() {
+  const [paused, setPaused] = useState(false);
   const [selectedCreatureId, setSelectedCreatureId] = useState(sunlightCreatures[0].id);
   const selectedCreature = sunlightCreatures.find((creature) => creature.id === selectedCreatureId) ?? sunlightCreatures[0];
   const selectedAnatomy = sunlightAnatomy[selectedCreature.id];
@@ -478,15 +480,17 @@ function SunlightZoneLab() {
         <div className="sunlight-lab-heading">
           <span>Interactive 2D ocean</span>
           <h2 id="sunlight-lab-title">Life from 0 to 200 metres</h2>
-          <p>Select a moving creature to learn how it lives in the sunlight zone.</p>
+          <p>Watch the waves rise and fall. Select an animal to explore how it swims and lives.</p>
           <div className="swim-key" aria-label="Creature movement key">
             <span><i className="slow" /> Slow or drifting</span>
             <span><i className="fast" /> Fast swimmer</span>
+            <button type="button" aria-pressed={paused} onClick={()=>setPaused(value=>!value)}>{paused?"Resume animation":"Pause animation"}</button>
           </div>
         </div>
 
-        <div className="sunlight-ocean" role="group" aria-label="A layered side view of the sunlight zone from the surface to 200 metres, with selectable marine animals">
+        <div className={`sunlight-ocean ${paused?"is-paused":""}`} role="group" aria-label="A layered side view of the sunlight zone from the surface to 200 metres, with selectable marine animals">
           <div className="sunlight-sky"><i /></div>
+          <SunlightWaterSurface/>
           <div className="sunlight-rays" aria-hidden="true"><i /><i /><i /></div>
           {[0, 50, 100, 150, 200].map((depth) => (
             <div className="depth-line" key={depth} style={{ "--depth-position": `${10 + (depth / 200) * 82}%` } as CSSProperties}>
@@ -509,25 +513,25 @@ function SunlightZoneLab() {
                 type="button"
                 key={`${creature.id}-${instance}`}
                 className={`ocean-creature ${creature.id} ${creature.speed} ${direction} ${selectedCreatureId === creature.id ? "selected" : ""}`}
-                style={{ "--creature-y": `${12 + (instanceDepth / 200) * 74}%`, "--swim-duration": creature.duration, "--swim-delay": `${delay}s`, "--creature-scale": `${scale}` } as CSSProperties}
+                style={{ "--creature-y": `${12 + (instanceDepth / 200) * 74}%`, "--swim-duration": creature.duration, "--swim-delay": `${delay}s`, "--creature-scale": `${scale}`, "--rest-x": `${17+instance*26}%`, "--stroke-delay": `${-instance*1.7}s` } as CSSProperties}
                 aria-label={`${creature.name}, ${creature.speedLabel}, example depth ${instanceDepth} metres`}
                 aria-pressed={selectedCreatureId === creature.id}
                 onClick={() => setSelectedCreatureId(creature.id)}
               >
-                <span className="creature-art" aria-hidden="true"><img className="creature-image" src={creature.image} alt="" /></span>
+                <span className="creature-art" aria-hidden="true"><SunlightSwimmer kind={creature.id}/></span>
                 {instance === 0 && <small>{creature.name}</small>}
               </button>
             );
           }))}
 
-          <div className="creature-info" aria-live="polite">
-            <span>{selectedCreature.speedLabel} · Example depth {selectedCreature.depth} m</span>
-            <h3>{selectedCreature.name}</h3>
-            <p>{selectedCreature.description}</p>
-          </div>
           <div className="twilight-boundary">Twilight zone begins below 200 m</div>
         </div>
-        <p className="creature-credit">Green sea turtle image: <a href="https://pngimg.com/image/24729" target="_blank" rel="noreferrer">PNGimg</a>, CC BY-NC 4.0. Other creature illustrations were created for this study guide.</p>
+        <div className="creature-info" aria-live="polite">
+          <span>{selectedCreature.speedLabel} · Example depth {selectedCreature.depth} m</span>
+          <h3>{selectedCreature.name}</h3>
+          <p>{selectedCreature.description}</p>
+        </div>
+        <p className="creature-credit">Swimming is shown with simplified, articulated 2D illustrations, not to scale or at measured speeds. Plankton stay fixed here for observation; real plankton are carried by currents. Anatomy atlas green sea turtle image: <a href="https://pngimg.com/image/24729" target="_blank" rel="noreferrer">PNGimg</a>, CC BY-NC 4.0. Other creature illustrations were created for this study guide.</p>
       </section>
 
       <section className="anatomy-atlas" aria-labelledby="anatomy-atlas-title">

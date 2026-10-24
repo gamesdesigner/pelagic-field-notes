@@ -2,7 +2,7 @@
 // concept/phrase matching, not an unrestricted essay or AI grading service.
 export const isWrittenQuestion=question=>question?.kind==='written';
 function tokens(text){
- return text.toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/[’]/g,"'")
+ return text.toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/[’]/g,"'").replace(/(?<=\d),(?=\d)/g,'')
   .replace(/\b(can't|cannot)\b/g,'can not').replace(/\bwon't\b/g,'will not').replace(/n't\b/g,' not')
   .replace(/[.!?;,]/g,' | ').match(/[a-z0-9]+|\|/g)||[];
 }

@@ -33,7 +33,7 @@ test('schooling preserves the supplied survival themes and adds a substantially 
  assert.ok(schoolingDive.sections.some(s=>s.sources?.includes('schoolEnergy')));
  const questions=quizBank.schooling;
  assert.equal(questions.length,7);
- for(const q of questions){assert.equal(q.options.length,5);assert.ok(q.options[q.answer]);assert.ok(q.explanation.length>20);}
+ for(const q of questions){assert.equal(q.kind,"written");assert.equal(q.options,undefined);assert.ok(q.answer);assert.ok(q.explanation.length>20);}
 });
 test('existing lesson identifiers and long twilight foundation readings remain intact',()=>{
  for(const id of ['upwelling','conveyor','coriolis','ekman','enso','sunlight','turtle','shark','cuttlefish','plankton','twilightGeneral','twilight','midnight','general'])assert.ok(Object.hasOwn(lessonTitles,id));
