@@ -69,7 +69,7 @@ export const conveyorQuestions = [
     explanation: "Cooling and high salinity can make surface water dense enough to sink and feed the deep Atlantic current.",
   },
   {
-    prompt: "Where does an important sinking region of the global conveyor belt form?",
+    prompt: "Where does an important sinking region of thermohaline circulation form?",
     options: ["The North Atlantic near Greenland and Iceland", "The middle of the Sahara Desert", "The Amazon River", "The equatorial Pacific coastline"],
     answer: "The North Atlantic near Greenland and Iceland",
     explanation: "The lesson's sinking marker highlights the North Atlantic, where surface water loses heat and dense water moves into deeper layers.",
@@ -87,7 +87,7 @@ export const conveyorQuestions = [
     explanation: "Mixing and upwelling bring deep water back toward the upper ocean across broad regions, helping connect the deep and surface pathways.",
   },
   {
-    prompt: "About how long can a parcel of water take to complete a journey around the global conveyor belt?",
+    prompt: "About how long can a parcel of water take to complete a journey through the global thermohaline circulation system?",
     options: ["One day", "One month", "Ten years", "1,000 years"],
     answer: "1,000 years",
     explanation: "A complete journey can take roughly 1,000 years. The map speeds up the animation so you can see the movement.",
@@ -278,7 +278,7 @@ export const planktonQuestions = [
 
 export const lessonTitles = {
  penguin:"Emperor Penguins",orca:"Orcas",lionsmane:"Lion’s Mane Jellyfish",
- schooling:'Schools of Fish',plankton:'Planktons & Diatoms',upwelling:'Upwelling',conveyor:'Global Conveyor Belt',coriolis:'Coriolis Effect',ekman:'Ekman transport',enso:'El Niño & La Niña',sunlight:'Marine Life in Sunlight',turtle:'Green Sea Turtle',shark:'Great White Shark',cuttlefish:'Common Cuttlefish',twilightGeneral:'General Marine Life in Twilight',twilight:'Vampire Squid',midnight:'Marine Life in Midnight',general:'The General Ocean',
+ schooling:'Schools of Fish',plankton:'Planktons & Diatoms',upwelling:'Upwelling',conveyor:'Thermohaline Circulation',coriolis:'Coriolis Effect',ekman:'Ekman transport',enso:'El Niño & La Niña',sunlight:'Marine Life in Sunlight',turtle:'Green Sea Turtle',shark:'Great White Shark',cuttlefish:'Common Cuttlefish',twilightGeneral:'General Marine Life in Twilight',twilight:'Vampire Squid',midnight:'Marine Life in Midnight',general:'The General Ocean',
 };
 export const quizBank = {
  penguin:makeWrittenQuiz('penguin',penguinQuestions),orca:makeWrittenQuiz('orca',orcaQuestions),lionsmane:makeWrittenQuiz('lionsmane',lionsmaneQuestions),

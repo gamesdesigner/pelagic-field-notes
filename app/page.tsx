@@ -107,7 +107,7 @@ const subjects: Subject[] = [
   },
 ];
 
-const currentTopics = ["Upwelling", "Global Conveyor Belt", "Coriolis Effect", "Ekman transport", "El Niño & La Niña"];
+const currentTopics = ["Upwelling", "Thermohaline Circulation", "Coriolis Effect", "Ekman transport", "El Niño & La Niña"];
 const sunlightTopics = ["General Marine Life in the Sun", "Green Sea Turtle", "Great White Shark", "Common Cuttlefish", "Planktons & Diatoms", "Schools of Fish"];
 
 type AnatomyPart = { label: string; x: string; y: string };

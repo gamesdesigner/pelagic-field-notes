@@ -4,7 +4,7 @@ export const contactEmail = 'anomalocaris.m@gmail.com';
 export const libraryGroups = [
   {id:'currents',title:'Ocean currents',label:'Moving water',overview:'Discover how wind, Earth’s rotation, and water density connect the oceans and influence climate.',lessons:[
     {id:'upwelling',title:'Upwelling',summary:'Follow cold, nutrient-rich water toward the sunlit surface.',image:'/assets/upwelling-side-view.png',tag:'Wind & nutrients',subjectId:'currents',topic:0},
-    {id:'conveyor',title:'The global conveyor belt',summary:'Trace the surface and deep currents that link ocean basins.',image:'/assets/field-guide-v2/global-conveyor-belt.webp',tag:'Global circulation',subjectId:'currents',topic:1},
+    {id:'conveyor',title:'Thermohaline Circulation',summary:'Trace the surface and deep currents that link ocean basins.',image:'/assets/field-guide-v2/global-conveyor-belt.webp',tag:'Global circulation',subjectId:'currents',topic:1},
     {id:'coriolis',title:'The Coriolis effect',summary:'Explore how a rotating Earth changes the paths of moving water.',image:'/assets/coriolis-effect-illustration.png',tag:'Earth’s rotation',subjectId:'currents',topic:2},
     {id:'ekman',title:'Ekman transport',summary:'Connect wind and moving water with upwelling and downwelling.',image:'/assets/ekman-transport-illustration.png',tag:'Coastal processes',subjectId:'currents',topic:3},
     {id:'enso',title:'El Niño & La Niña',summary:'Compare changing Pacific winds, temperatures, and circulation.',image:'/assets/field-guide-v2/el-nino-pacific.webp',tag:'Ocean & climate',subjectId:'currents',topic:4},

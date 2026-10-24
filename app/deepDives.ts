@@ -114,7 +114,7 @@ upwelling: {
  question:"A coast becomes colder after several windy days, but chlorophyll does not increase. Propose two explanations and identify the measurements that would distinguish them."
 },
 conveyor: {
- title:"The global conveyor belt: overturning, heat, and carbon",
+ title:"Thermohaline Circulation: overturning, heat, and carbon",
  deck:"Go beyond the single-loop diagram to understand a three-dimensional circulation system.",
  abstract:"Global overturning connects surface and deep waters through water-mass formation, currents, mixing, and upwelling. Temperature and salinity influence density, but wind and mechanical mixing also help maintain the circulation. The familiar conveyor-belt image summarizes these connections; it is not a literal route followed by every water parcel. This article examines density, the Atlantic overturning circulation, heat and carbon transport, and the observations used to measure change. It also distinguishes long-term climate risks from short-term variability and explains why a change in one branch cannot be interpreted as the simultaneous shutdown of every ocean current.",
  sections:[

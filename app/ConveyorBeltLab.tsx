@@ -81,7 +81,7 @@ export default function ConveyorBeltLab() {
   return (
     <section className="conveyor-simulator" aria-labelledby="conveyor-model-title">
       <header className="belt-heading">
-        <div><span className="eyebrow">Interactive circulation atlas</span><h2 id="conveyor-model-title">The global conveyor belt</h2><p>Follow water from the sunlit surface into the deep ocean—and back again.</p></div>
+        <div><span className="eyebrow">Interactive circulation atlas</span><h2 id="conveyor-model-title">Thermohaline Circulation</h2><p>Follow water from the sunlit surface into the deep ocean—and back again.</p></div>
         <div className="belt-legend"><span><i className="surface" /> Warm upper-ocean flow</span><span><i className="deep" /> Cold deep-water flow</span></div>
       </header>
       <div className="belt-toolbar">
@@ -93,7 +93,7 @@ export default function ConveyorBeltLab() {
           <label>Playback <select aria-label="Animation playback speed" value={playback} onChange={(event) => setPlayback(Number(event.target.value))}><option value={.5}>0.5×</option><option value={1}>1×</option><option value={2}>2×</option><option value={3}>3×</option></select></label>
         </div>
       </div>
-      <div className="belt-map-scroll" tabIndex={0} role="region" aria-label="Conveyor map; scroll horizontally on smaller screens">
+      <div className="belt-map-scroll" tabIndex={0} role="region" aria-label="Thermohaline circulation map; scroll horizontally on smaller screens">
         <svg ref={svgRef} className="belt-map" viewBox="0 0 1200 600" role="img" aria-labelledby="belt-map-title belt-map-description">
           <title id="belt-map-title">Animated global ocean circulation</title>
           <desc id="belt-map-description">Orange arrows travel along warm surface pathways returning to the North Atlantic. Blue arrows follow deep-water pathways south through the Atlantic and branch into the Indian and Pacific oceans. Map routes are schematic.</desc>
