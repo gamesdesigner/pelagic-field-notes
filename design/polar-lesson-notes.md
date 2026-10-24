@@ -61,11 +61,19 @@ are retained beside them. Exact prompts and saved paths are recorded in
 - `public/assets/polar/orca-v1.{png,webp}`
 - `public/assets/polar/lions-mane-jellyfish-v1.{png,webp}`
 
-October 24 replacement: `public/assets/polar/lions-mane-jellyfish-v2.{png,webp}`
-now supplies the lion’s mane card and hero. It emphasizes a broader, shallower,
+Earlier October 24 illustration: `public/assets/polar/lions-mane-jellyfish-v2.{png,webp}`
+previously supplied the lion’s mane card and hero. It emphasizes a broader, shallower,
 deeply scalloped red-brown bell, dense folded oral arms, and a much fuller curtain
 of fine tentacles. The first version is retained. The built-in generation prompt,
 scientific references, and asset paths are in `design/lions-mane-image-v2.json`.
+
+The user then requested a real image instead. The lion’s mane card and hero now
+use `public/assets/polar/lions-mane-ronning.webp`, a photograph by Arnstein Rønning
+taken in Mandal, Norway on August 12, 2010. It is licensed CC BY 3.0; source and
+license links are displayed beneath the hero and on the polar index. The original
+JPEG is retained as `lions-mane-ronning-original.jpg`. Only proportional resizing
+and WebP compression were applied. Complete provenance and license links:
+`design/lions-mane-photo-credit.json`. No new generated image was used.
 
 Illustrations have descriptive alt text and captions identifying their
 illustrative status. The existing palette, logo, accounts, credentials,

@@ -1325,6 +1325,8 @@ body,body * { font-family:"Times New Roman",Times,serif!important; }
 .polar-location-note strong { display:block; font:400 24px/1.4 Georgia,serif; margin-bottom:8px; }
 .polar-unit-navigation { display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; margin:50px 0 0; padding-top:28px; border-top:1px solid var(--line); }
 .polar-unit-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+.polar-photo-credits { margin:22px 0; color:#345b60; font:13px/1.8 Arial,sans-serif; }
+.polar-photo-credits a,.polar-hero figcaption a { color:#234e50; text-underline-offset:3px; }
 @media(max-width:900px) { .course-example { grid-template-columns:1fr; }.polar-unit-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
 @media(max-width:760px) { .course-introduction,.polar-lesson { padding-top:90px; }.course-overview { margin-block:42px; }.course-overview p { font-size:17px; }.course-example h3 { font-size:28px; }.polar-geography,.polar-unit-grid { grid-template-columns:1fr; }.polar-geography { padding:24px; }.polar-geography h2 { font-size:25px; }.polar-location-note { padding:22px; }.course-intro-hero figcaption,.polar-hero figcaption { padding:14px 18px; }.course-intro-hero img { aspect-ratio:3/2; object-fit:cover; } }
 
