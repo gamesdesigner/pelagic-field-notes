@@ -61,6 +61,12 @@ are retained beside them. Exact prompts and saved paths are recorded in
 - `public/assets/polar/orca-v1.{png,webp}`
 - `public/assets/polar/lions-mane-jellyfish-v1.{png,webp}`
 
+October 24 replacement: `public/assets/polar/lions-mane-jellyfish-v2.{png,webp}`
+now supplies the lion’s mane card and hero. It emphasizes a broader, shallower,
+deeply scalloped red-brown bell, dense folded oral arms, and a much fuller curtain
+of fine tentacles. The first version is retained. The built-in generation prompt,
+scientific references, and asset paths are in `design/lions-mane-image-v2.json`.
+
 Illustrations have descriptive alt text and captions identifying their
 illustrative status. The existing palette, logo, accounts, credentials,
 production store, old lesson IDs, and existing quizzes are preserved.

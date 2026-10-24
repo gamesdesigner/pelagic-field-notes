@@ -1,0 +1,15 @@
+{
+  "mode": "Built-in image_gen",
+  "date": "2026-10-24",
+  "id": "lionsmane-v2",
+  "prompt": "Use case: scientific-educational.\nAsset type: replacement hero illustration for an existing marine biology lesson, landscape 3:2 composition.\nPrimary request: a distinctly recognizable adult lion's mane jellyfish, Cyanea capillata, with an exceptionally detailed shaggy mane. Show one animal suspended in cold northern open water, a three-quarter side and slightly underside view. Scientific natural-history realism, polished editorial illustration with photographic detail.\nAnatomy: a BROAD FLATTENED red-brown bell with deep scalloping and eight major lobed sectors, translucent amber edge, subtle radial structures. The bell should look wide and relatively shallow, not a tall smooth mushroom dome. Under the bell, voluminous rust-red and warm cream folded, ruffled oral arms form a dense shaggy mane. Clearly separate these broad folded central tissues from HUNDREDS of extremely fine, long, individual hair-like stinging tentacles in clustered bundles originating on the underside near the bell margin. The abundant filamentous tentacles extend far beyond the oral arms and trail through the water in gently curved tangled streams; they must be visibly numerous, not a sparse handful of thick ropes. Do not turn the eight tentacle groups into eight octopus arms.\nComposition: complete bell in the upper-left third, the magnificent dense mane filling the center and sweeping diagonally down and right; long fine tentacles spread across the lower half. Keep the main anatomy inside the frame with breathing room around the bell. Strong readable silhouette at card size, crisp detail for the large lesson hero.\nLighting and palette: natural cool teal and deep blue seawater contrasting with warm copper, burgundy, honey and pale cream tissue, soft directional underwater light, subtle suspended particles, calm professional field-guide mood. No seafloor, no coral reef, no other animals, no cartoon eyes, no neon bioluminescence, no generic moon-jelly shapes, no labels, no text, no watermark. This is an educational artist's reconstruction, not a documentary photograph.",
+  "generated_filename": "exec-b9311947-3a42-4f2d-a0a7-c7423621e96d.png",
+  "saved_master": "public/assets/polar/lions-mane-jellyfish-v2.png",
+  "site_asset": "public/assets/polar/lions-mane-jellyfish-v2.webp",
+  "references": [
+    "https://www.marlin.ac.uk/species/detail/2090/1000",
+    "https://www.aquariumofpacific.org/onlinelearningcenter/species/lions_mane_jelly",
+    "https://www.montereybayaquarium.org/animals-the-ocean/animals-a-to-z/lions-mane-jelly"
+  ],
+  "note": "Generated educational reconstruction, not a measured specimen or documentary photograph. Original output retained; WebP is delivery-format compression only."
+}
