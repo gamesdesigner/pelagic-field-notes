@@ -58,8 +58,9 @@ html,body { margin:0; min-height:100%; background:var(--paper); }
 body { color:var(--ink); font-family:Arial,Helvetica,sans-serif; }
 button { color:inherit; font:inherit; }
 button:focus-visible { outline:3px solid var(--coral); outline-offset:3px; }
+/* Keep the page background in normal flow; a viewport-sized SVG noise layer
+   caused blank repaint regions while scrolling in the in-app browser. */
 .site-shell { min-height:100svh; background:var(--paper); }
-.site-shell::before { content:""; position:fixed; inset:0; pointer-events:none; opacity:.23; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.12'/%3E%3C/svg%3E"); }
 .site-header { position:relative; z-index:5; height:110px; display:flex; align-items:center; padding:0 clamp(24px,5vw,78px); border-bottom:1px solid var(--line); }
 .brand { justify-self:start; display:block; padding:0; border:0; background:transparent; cursor:pointer; }
 .brand img { display:block; width:clamp(280px,23vw,360px); height:98px; object-fit:contain; object-position:left center; }
