@@ -756,12 +756,6 @@ export default function Home() {
   const shelfVisualAngle = 10 + ((shelfAngle - 0.5) / 2.5) * 45;
   const hillShoulder = Math.max(40, 82 - shelfVisualAngle);
   const hillTop = Math.max(12, 38 - Math.round(shelfVisualAngle / 3));
-  const openSubject = (subject: Subject) => {
-    setSelected(subject);
-    setLibraryUnit(null);
-    if (subject.id === "currents" || subject.id === "sunlight") setCurrentTopic(null);
-  };
-
   function openLibrary(selection:LibrarySelection){
     const subject=subjects.find(item=>item.id===selection.subjectId);
     if(!subject)return;
@@ -790,11 +784,13 @@ export default function Home() {
       ) : !selected ? (
         <CourseLibrary onOpen={openLibrary} signedIn/>
       ) : selected.id === "introduction" ? (
-        <CourseIntroduction onBack={returnToLibrary} onCurrents={()=>openSubject(subjects.find(s=>s.id==="currents")!)} onQuiz={()=>{setSelected(subjects.find(s=>s.id==="sunlight")!);setCurrentTopic(5);}} onTank={()=>{setSelected(subjects.find(s=>s.id==="sunlight")!);setCurrentTopic(4);}}/>
+        <CourseIntroduction onBack={returnToLibrary} onCurrents={()=>openLibrary({subjectId:"currents",topic:-1})} onQuiz={()=>{setSelected(subjects.find(s=>s.id==="sunlight")!);setCurrentTopic(5);}} onTank={()=>{setSelected(subjects.find(s=>s.id==="sunlight")!);setCurrentTopic(4);}}/>
       ) : selected.id === "polar" ? (
         <PolarUnits key={`polar-${libraryUnit}`} initialUnit={libraryUnit} onBack={returnToLibrary}/>
       ) : selected.id === "twilight" ? (
         <TwilightUnits key={`twilight-${libraryUnit}`} initialUnit={libraryUnit} onBack={returnToLibrary}/>
+      ) : selected.id === "currents" && currentTopic === -1 ? (
+        <OceanCurrentsIntroduction onBack={returnToLibrary}/>
       ) : selected.id === "currents" && currentTopic === 4 ? (
         <EnsoUnit onBack={returnToLibrary} />
       ) : selected.id === "currents" && currentTopic === null ? (
@@ -808,8 +804,13 @@ export default function Home() {
             <img src="/assets/field-guide-v2/ocean-surface-currents.webp" width="1536" height="1024" alt="Illustrated world map of surface currents, with clockwise northern subtropical gyres, counterclockwise southern subtropical gyres, and an eastward current around Antarctica." decoding="async"/>
             <figcaption><span>Surface circulation · Illustrated atlas</span><h2>Water on the move.</h2><p>Coral and teal trace warmer and cooler surface pathways. These broad loops are simplified; explore each lesson below to learn what drives them.</p></figcaption>
           </figure>
-          <OceanCurrentsIntroduction/>
           <div className="current-card-grid">
+            <button className="current-subject-card" onClick={()=>setCurrentTopic(-1)}>
+              <span className="card-number">Start here</span>
+              <div className="current-card-art has-topic-image" aria-hidden="true"><img src="/assets/field-guide-v2/ocean-surface-currents.webp" alt=""/></div>
+              <div className="card-copy"><span>Chapter introduction</span><h2>Introduction to ocean currents</h2><p>Discover how currents support life and how warming changes their connections.</p></div>
+              <span className="card-arrow" aria-hidden="true">↗</span>
+            </button>
             {currentTopics.map((topic, index) => (
               <button className={`current-subject-card topic-${index + 1}`} key={topic} onClick={() => setCurrentTopic(index)}>
                 <span className="card-number">{String(index + 1).padStart(2, "0")}</span>
