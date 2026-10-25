@@ -1,3 +1,4 @@
+import {sunlightPlasticSources} from "../shared/sunlight-plastics.mjs";
 import polarArticles from "../shared/polar-articles.json";
 import {polarSources} from "../shared/polar-content.mjs";
 import { schoolingDive } from "../shared/schooling-articles.mjs";
@@ -11,6 +12,7 @@ export type DeepDiveSection = { heading: string; paragraphs: string[]; sources?:
 type DeepDive = { title: string; deck: string; abstract: string; sections: {heading: string; paragraphs: string[]; sources?: string[]}[]; terms: {word: string; definition: string}[]; question: string };
 export const readingSources: Record<string, {label: string; url: string}> = {
   ...polarSources,
+  ...sunlightPlasticSources,
   schoolRules:{label:"Herbert-Read et al. · Inferring fish interaction rules",url:"https://pubmed.ncbi.nlm.nih.gov/22065759/"},
   schoolSenses:{label:"Stewart et al. · Flow sensing and escape",url:"https://pubmed.ncbi.nlm.nih.gov/23325859/"},
   schoolLeadership:{label:"Puy et al. · Selective interactions and leadership",url:"https://pmc.ncbi.nlm.nih.gov/articles/PMC11067465/"},

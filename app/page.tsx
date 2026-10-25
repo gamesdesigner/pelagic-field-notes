@@ -1,6 +1,6 @@
 "use client";
 
-import { type CSSProperties, useEffect, useRef, useState } from "react";
+import { type CSSProperties, useCallback, useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import ConveyorBeltLab from "./ConveyorBeltLab";
 import ConveyorBeltQuiz from "./ConveyorBeltQuiz";
@@ -768,17 +768,17 @@ export default function Home() {
     setSelected(subject);setCurrentTopic(selection.topic??null);setLibraryUnit(selection.unit??null);
     navigateSite('/');
   }
-  function returnToLibrary(){setSelected(null);setCurrentTopic(null);setLibraryUnit(null);}
+  const returnToLibrary=useCallback(()=>{setSelected(null);setCurrentTopic(null);setLibraryUnit(null);navigateSite('/');},[]);
   useEffect(()=>{if(page==='sign-in'||page==='sign-up')navigateSite(`/${lessonQuery(search)}`,{replace:true});},[page,search]);
 
   useEffect(()=>{window.scrollTo({top:0,left:0,behavior:"instant"});},[selected?.id,currentTopic]);
 
   useEffect(() => {
     if (!selected) return;
-    const onKey = (event: KeyboardEvent) => { if (event.key === "Escape") setSelected(null); };
+    const onKey = (event: KeyboardEvent) => { if (event.key === "Escape") returnToLibrary(); };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [selected]);
+  }, [selected,returnToLibrary]);
 
   return (
     myLearning ? <main className="site-shell"><MyLearning onClose={()=>setMyLearning(false)}/></main> : accountSettings ? <main className="site-shell"><AccountSettings onClose={()=>setAccountSettings(false)}/></main> : studentPanel && account?.user.role === 'owner' ? <StudentAccounts onClose={()=>setStudentPanel(false)} /> : <main className="site-shell library-site">
@@ -790,16 +790,16 @@ export default function Home() {
       ) : !selected ? (
         <CourseLibrary onOpen={openLibrary} signedIn/>
       ) : selected.id === "introduction" ? (
-        <CourseIntroduction onBack={()=>setSelected(null)} onCurrents={()=>openSubject(subjects.find(s=>s.id==="currents")!)} onQuiz={()=>{setSelected(subjects.find(s=>s.id==="sunlight")!);setCurrentTopic(5);}} onTank={()=>{setSelected(subjects.find(s=>s.id==="sunlight")!);setCurrentTopic(4);}}/>
+        <CourseIntroduction onBack={returnToLibrary} onCurrents={()=>openSubject(subjects.find(s=>s.id==="currents")!)} onQuiz={()=>{setSelected(subjects.find(s=>s.id==="sunlight")!);setCurrentTopic(5);}} onTank={()=>{setSelected(subjects.find(s=>s.id==="sunlight")!);setCurrentTopic(4);}}/>
       ) : selected.id === "polar" ? (
-        <PolarUnits key={`polar-${libraryUnit}`} initialUnit={libraryUnit} onBack={()=>setSelected(null)}/>
+        <PolarUnits key={`polar-${libraryUnit}`} initialUnit={libraryUnit} onBack={returnToLibrary}/>
       ) : selected.id === "twilight" ? (
-        <TwilightUnits key={`twilight-${libraryUnit}`} initialUnit={libraryUnit} onBack={()=>setSelected(null)}/>
+        <TwilightUnits key={`twilight-${libraryUnit}`} initialUnit={libraryUnit} onBack={returnToLibrary}/>
       ) : selected.id === "currents" && currentTopic === 4 ? (
-        <EnsoUnit onBack={() => setCurrentTopic(null)} />
+        <EnsoUnit onBack={returnToLibrary} />
       ) : selected.id === "currents" && currentTopic === null ? (
         <section className="currents-index" aria-labelledby="currents-title">
-          <button className="back-button" onClick={() => setSelected(null)}><span>←</span> All subjects</button>
+          <button className="back-button" onClick={returnToLibrary}><span>←</span> Main page</button>
           <div className="currents-heading">
             <p className="eyebrow">Chapter introduction · Five connected topics</p>
             <h1 id="currents-title">Chapter 1-<br /><em>Ocean currents</em></h1>
@@ -834,7 +834,7 @@ export default function Home() {
         </section>
       ) : selected.id === "sunlight" && currentTopic === null ? (
         <section className="currents-index sunlight-index" aria-labelledby="sunlight-title">
-          <button className="back-button" onClick={() => setSelected(null)}><span>←</span> All subjects</button>
+          <button className="back-button" onClick={returnToLibrary}><span>←</span> Main page</button>
           <div className="currents-heading">
             <p className="eyebrow">Marine Life in Sunlight · Choose a topic</p>
             <h1 id="sunlight-title">Explore the<br /><em>sunlit ocean.</em></h1>
@@ -857,7 +857,7 @@ export default function Home() {
         </section>
       ) : (
         <section className={`subject-detail ${selected.tone} ${selected.id === "currents" && currentTopic === 0 ? "upwelling-layout" : ""} ${selected.id === "currents" && currentTopic === 1 ? "conveyor-layout" : ""} ${selected.id === "currents" && currentTopic === 2 ? "coriolis-layout" : ""} ${selected.id === "currents" && currentTopic === 3 ? "ekman-layout" : ""} ${selected.id === "sunlight" ? "sunlight-topic-layout" : ""}`} aria-labelledby="detail-title">
-          <button className="back-button" onClick={() => selected.id === "currents" || selected.id === "sunlight" ? setCurrentTopic(null) : setSelected(null)}><span>←</span> {selected.id === "currents" ? oceanCurrentsChapterTitle : selected.id === "sunlight" ? "Marine Life in Sunlight" : "All subjects"}</button>
+          <button className="back-button" onClick={returnToLibrary}><span>←</span> Main page</button>
           <div className={`detail-copy ${selected.id === "currents" ? "currents-copy" : ""}`}>
             <div className="detail-meta"><span>{selected.number} · Ocean subject</span><span>{selected.depth}</span></div>
             {selected.id === "currents" ? (

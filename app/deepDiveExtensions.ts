@@ -1,3 +1,4 @@
+import {sunlightPlasticAdvanced} from "../shared/sunlight-plastics.mjs";
 import type { DeepDiveSection, LessonId } from "./deepDives";
 
 // Substantive extensions supplement the first five sections of each article.
@@ -169,6 +170,7 @@ enso: [
 ]}
 ],
 sunlight: [
+...sunlightPlasticAdvanced,
 {heading:"Light attenuation and the depth of photosynthesis",paragraphs:[
 "A simple light model is I(z) = I₀e⁻ᵏᶻ, where I₀ is surface light, z is depth, and k is an attenuation coefficient. The exponential form means each additional depth interval removes a fraction of the remaining light, not a fixed quantity. If k is 0.05 per metre, approximately 37% remains at 20 metres and about 5% at 60 metres. These are hypothetical values for a simplified water column, not universal measurements for sunlit habitats.",
 "Water clarity changes the coefficient. Suspended sediment, plankton, and dissolved colored material can increase attenuation, making a shallow bay darker at depth than clearer offshore water. Solar angle, clouds, and wave conditions also alter light at the surface. An organism’s photosynthetic performance depends on the light it actually receives, including its movement through the water column. A permanently illuminated tank and a cell repeatedly mixed into darkness can have different daily energy budgets even if their midday surface light is equal.",

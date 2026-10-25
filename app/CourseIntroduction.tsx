@@ -2,7 +2,7 @@ import {oceanCurrentsChapterTitle} from '../shared/ocean-currents-introduction.m
 import {courseOverview} from '../shared/course-introduction.mjs';
 export default function CourseIntroduction({onBack,onCurrents,onQuiz,onTank}:{onBack:()=>void;onCurrents:()=>void;onQuiz:()=>void;onTank:()=>void}){
  const words=courseOverview.map(s=>s.paragraph).join(' ').split(/\s+/).length;
- return <section className="course-introduction" aria-labelledby="course-intro-title"><button type="button" className="back-button" onClick={onBack}>← All subjects</button>
+ return <section className="course-introduction" aria-labelledby="course-intro-title"><button type="button" className="back-button" onClick={onBack}>← Main page</button>
  <header className="course-intro-header"><p className="eyebrow">Start here · Your guide to the course</p><h1 id="course-intro-title">A closer look<br/><em>at a living ocean.</em></h1><p>What you will learn, how to explore, and two activities to try first.</p></header>
  <figure className="course-intro-hero"><img src="/assets/schooling/fish-school-v2.webp" alt="Detailed generated illustration of silver fish swimming together through sunlit teal seawater." width="1536" height="1024"/><figcaption>From a single cell to a moving school: connect structures, behavior, and environment.</figcaption></figure>
  <article className="course-overview" aria-labelledby="course-overview-title"><p className="eyebrow">Course overview · {words} words</p><h2 id="course-overview-title">What you will learn</h2>{courseOverview.map(item=><section key={item.heading}><h3>{item.heading}</h3><p>{item.paragraph}</p></section>)}</article>

@@ -119,7 +119,7 @@ function EnsoAnimation() {
 export default function EnsoUnit({ onBack }: { onBack: () => void }) {
   return <section className="enso-unit" aria-labelledby="enso-unit-title">
     <div className="enso-lesson">
-      <button className="back-button" onClick={onBack}><span>←</span> {oceanCurrentsChapterTitle}</button>
+      <button className="back-button" onClick={onBack}><span>←</span> Main page</button>
       <p className="eyebrow">{oceanCurrentsChapterTitle} · Topic 05 · Ages 13+</p>
       <h1 id="enso-unit-title">El Niño <em>&</em> La Niña</h1>
       <p className="enso-deck">Small changes across a huge ocean can reshape weather around the world. Meet the Pacific’s warm and cool climate phases.</p>

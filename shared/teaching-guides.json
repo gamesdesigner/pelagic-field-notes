@@ -224,8 +224,8 @@
   "sunlight": {
     "title": "Marine life in sunlight: energy and habitat",
     "question": "Why does a well-lit layer support so many different food webs?",
-    "abstract": "Sunlit water supports photosynthesis, which supplies organic food for many marine ecosystems. Light, nutrients, water movement, and habitat structure influence the organisms present. Consumers, migration, and sinking material connect the productive upper ocean with other habitats and depths.",
-    "advancedAbstract": "The upper ocean couples primary production with nutrient delivery, physical mixing, and consumer activity. The euphotic boundary follows available light rather than one universal depth. Comparing production and losses explains variation in blooms and food webs, while migration and particle export link the surface with deeper habitats. Anatomy, habitat use, and environmental observations help explain how particular organisms respond within this connected and changing system.",
+    "abstract": "Sunlit water supports photosynthesis, which supplies organic food for many marine ecosystems. Light, nutrients, water movement, and habitat structure influence the organisms present. Consumers, migration, and sinking material connect the productive upper ocean with other habitats and depths. Plastic ingestion, entanglement, and garbage patches add pressures to these habitats; scientists distinguish measured study deaths from an unknown worldwide total.",
+    "advancedAbstract": "The upper ocean couples primary production with nutrient delivery, physical mixing, and consumer activity. The euphotic boundary follows available light rather than one universal depth. Comparing production and losses explains variation in blooms and food webs, while migration and particle export link the surface with deeper habitats. Anatomy, habitat use, and environmental observations help explain how particular organisms respond within this connected and changing system. Plastic pollution illustrates how transport, exposure, and mortality evidence must be distinguished, including uncertainty in death estimates and garbage-patch measurements.",
     "goals": [
       "Connect photosynthesis with producers and consumers.",
       "Describe how habitat and visibility shape adaptations.",
@@ -252,6 +252,14 @@
       {
         "word": "Vertical migration",
         "definition": "Movement between shallower and deeper water."
+      },
+      {
+        "word": "Microplastic",
+        "definition": "A plastic piece smaller than 5 millimeters."
+      },
+      {
+        "word": "Gyre",
+        "definition": "A large system of rotating ocean currents; subtropical gyres can concentrate floating debris."
       }
     ],
     "recap": "Sunlight supplies energy, but resources, habitats, and interactions determine how organisms use it.",
@@ -263,7 +271,11 @@
     "sources": [
       "phyto",
       "plankton",
-      "carbon"
+      "carbon",
+      "plasticWildlife",
+      "garbagePatches",
+      "plasticDeaths",
+      "patchSurvey"
     ]
   },
   "turtle": {
