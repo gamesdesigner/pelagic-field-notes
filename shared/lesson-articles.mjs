@@ -1,6 +1,7 @@
 import polarArticles from './polar-articles.json' with {type:'json'};
 import originalArticles from './introductory-articles.json' with {type:'json'};
 import guides from './teaching-guides.json' with {type:'json'};
+import {cephalopodIntro,cephalopodGuide} from './cephalopod-content.mjs';
 import {sunlightPlasticFoundation} from './sunlight-plastics.mjs';
 import {planktonIntro} from './plankton-articles.mjs';
 import {twilightIntro,vampireIntro} from './twilight-articles.mjs';
@@ -14,10 +15,10 @@ export function editTeachingProse(text){
   .replace(/^(?:It is important to note that |In other words, |In reality, )(.?)/,(_,first)=>first.toUpperCase())
   .replace('Imagine floating in an enormous blue room whose ceiling grows fainter as you descend.','Light from above grows fainter with depth.');
 }
-export const teachingGuides=guides;
-const sourceArticles={...originalArticles,sunlight:{...originalArticles.sunlight,sections:[...originalArticles.sunlight.sections,...sunlightPlasticFoundation]},...polarArticles.intro,plankton:planktonIntro,twilightGeneral:twilightIntro,twilight:vampireIntro,schooling:schoolingIntro};
+export const teachingGuides={...guides,cephalopods:cephalopodGuide};
+const sourceArticles={...originalArticles,cephalopods:cephalopodIntro,cuttlefish:{...originalArticles.cuttlefish,sections:originalArticles.cuttlefish.sections.map((section,index)=>index===0?{...section,paragraphs:['In the last unit, we explored cephalopods as a group. Now let’s focus on one member: the common cuttlefish (Sepia officinalis). This coastal hunter lives mainly in the eastern Atlantic Ocean and Mediterranean Sea, often over sandy or muddy sea floors. Its changing skin patterns, buoyancy control, and quick feeding tentacles make it a useful case study of how cephalopod structures work together.',...section.paragraphs.slice(1)]}:section)},sunlight:{...originalArticles.sunlight,sections:[...originalArticles.sunlight.sections,...sunlightPlasticFoundation]},...polarArticles.intro,plankton:planktonIntro,twilightGeneral:twilightIntro,twilight:vampireIntro,schooling:schoolingIntro};
 export const introductoryArticles=Object.fromEntries(Object.entries(sourceArticles).map(([key,article])=>[key,{
- title:guides[key].title,abstract:guides[key].abstract,
+ title:teachingGuides[key].title,abstract:teachingGuides[key].abstract,
  sections:article.sections.map(section=>({heading:editTeachingProse(section.heading.replace(/^\d+[.:]\s*/,'')),paragraphs:section.paragraphs.map(editTeachingProse)})),
- terms:guides[key].terms,
+ terms:teachingGuides[key].terms,
 }]));

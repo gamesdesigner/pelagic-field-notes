@@ -67,8 +67,8 @@ const courseVariants={
  plankton:['Diatoms are phytoplankton.','Frustule.','Chloroplasts.','Silicate.','Fish eat cells faster than they divide.','Change only temperature.','Growth exceeds losses, but fish grazing can limit it.'],
  schooling:['A school.','It is harder to track one fish.','A tight ball of fish.','Dark on top and light on the belly.','Vibrations.','Neighbors respond to each other.','Schools attract predators and fish compete for food.'],
 };
-test('all fifteen quizzes use written rubrics, retain their totals, and accept existing correct answers',()=>{
- const totals={upwelling:15,coriolis:6,sunlight:6,turtle:6,conveyor:7,enso:7,shark:7,cuttlefish:7,twilightGeneral:7,twilight:7,plankton:7,schooling:7,penguin:7,orca:7,lionsmane:7};
+test('all quizzes use written rubrics, retain their totals, and accept existing correct answers',()=>{
+ const totals={cephalopods:7,upwelling:15,coriolis:6,sunlight:6,turtle:6,conveyor:7,enso:7,shark:7,cuttlefish:7,twilightGeneral:7,twilight:7,plankton:7,schooling:7,penguin:7,orca:7,lionsmane:7};
  assert.deepEqual(Object.keys(quizBank).sort(),Object.keys(totals).sort());
  for(const [id,questions] of Object.entries(quizBank)){
   assert.equal(questions.length,totals[id]);
@@ -129,4 +129,11 @@ test('vampire squid color question credits everyday low-light explanations, incl
   'No light is not the reason.','Red light is not absorbed.',
   'There is no light, but red light is brightest at 900 metres.',
  ])assert.equal(answerIsCorrect(question,answer),false,answer);
+});
+
+test('cephalopod quiz accepts plain-language variants and rejects incorrect body plans',()=>{
+ const accepted=[['Molluscs.','The mollusk group.'],['8 arms.','It has eight arms.'],['Two tentacles.','Feeding tentacles.'],['The siphon.','Its funnel.'],['Chromatophores.','Pigment cells.'],['A chambered nautilus.','Nautilus.'],['They are predators.','They are prey.','Consumers.','They eat fish.']];
+ const rejected=[['Fish.'],['Ten.'],['Fins.'],['The mouth.'],['Ink sac.'],['Octopus.'],['Producers.','They make their own food.']];
+ accepted.forEach((answers,index)=>answers.forEach(answer=>assert.equal(answerIsCorrect(quizBank.cephalopods[index],answer),true,answer)));
+ rejected.forEach((answers,index)=>answers.forEach(answer=>assert.equal(answerIsCorrect(quizBank.cephalopods[index],answer),false,answer)));
 });

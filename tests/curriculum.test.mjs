@@ -63,3 +63,28 @@ test('polar lessons have complete reading levels and keep the Antarctic comparis
   assert.match(svg,/<title[^>]*>/);assert.match(svg,/<desc[^>]*>/);
  }
 });
+
+test('cephalopods introduces the group before cuttlefish with two substantial levels and numbered plates',async()=>{
+ const {cephalopodIntro,cephalopodDive,cephalopodSpecimens,cephalopodSources}=await import('../shared/cephalopod-content.mjs');
+ const {libraryGroups,sunlightChapterTitle}=await import('../shared/library-content.mjs');
+ assert.equal(sunlightChapterTitle,'Chapter 2: The Sunlight Zone');
+ const chapter=libraryGroups.find(group=>group.id==='sunlight');
+ assert.equal(chapter.title,sunlightChapterTitle);
+ const cephIndex=chapter.lessons.findIndex(unit=>unit.id==='cephalopods');
+ assert.equal(chapter.lessons[cephIndex+1].id,'cuttlefish');
+ assert.equal(chapter.lessons.length,7);
+ assert.equal(chapter.lessons[cephIndex].topic,6);
+ assert.deepEqual(chapter.lessons.filter(unit=>unit.id!=='cephalopods').map(unit=>unit.topic),[0,1,2,3,4,5]);
+ assert.ok(words(cephalopodIntro)>=500);
+ assert.ok(words(cephalopodDive)>=2000);
+ assert.ok(words(cephalopodDive)>3*words(cephalopodIntro));
+ assert.ok(introductoryArticles.cuttlefish.sections[0].paragraphs[0].includes('last unit'));
+ assert.deepEqual(cephalopodSpecimens.map(item=>item.id),['octopus','squid','cuttlefish','nautilus']);
+ for(const item of cephalopodSpecimens){
+  await access(new URL(`../public${item.image}`,import.meta.url));
+  assert.ok(item.alt.length>50&&item.description.length>100&&item.scientific);
+  assert.ok(cephalopodSources[item.source]);
+ }
+ for(const section of cephalopodDive.sections)for(const source of section.sources)assert.ok(cephalopodSources[source]);
+ assert.equal(quizBank.cephalopods.length,7);
+});

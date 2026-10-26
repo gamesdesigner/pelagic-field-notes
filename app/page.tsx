@@ -9,6 +9,7 @@ import EnsoUnit from "./EnsoUnit";
 import TurtleFeedingScene from "./TurtleFeedingScene";
 import SunlightSwimmer,{SunlightWaterSurface} from "./SunlightSwimmer";
 import GreatWhiteSharkLesson from "./GreatWhiteSharkLesson";
+import CephalopodsLesson from "./CephalopodsLesson";
 import CommonCuttlefishLesson from "./CommonCuttlefishLesson";
 import LessonReading from "./LessonReading";
 import { useAccount } from "./AccountGate";
@@ -26,8 +27,8 @@ import CourseLibrary,{type LibrarySelection} from "./CourseLibrary";
 import SiteInformation from "./SiteInformation";
 import {SiteHeader,SiteFooter} from "./SiteChrome";
 import {navigateSite,useSiteNavigation} from "./siteNavigation";
-import {findLibraryLesson,lessonQuery} from "../shared/library-content.mjs";
-import SchoolsOfFishLesson,{FishSchoolArt} from "./SchoolsOfFishLesson";
+import {findLibraryLesson,lessonQuery,libraryGroups,sunlightChapterTitle} from "../shared/library-content.mjs";
+import SchoolsOfFishLesson from "./SchoolsOfFishLesson";
 
 type Subject = {
   id: string;
@@ -60,7 +61,7 @@ const subjects: Subject[] = [
   {
     id: "sunlight",
     number: "02",
-    title: "Marine Life in Sunlight",
+    title: sunlightChapterTitle,
     short: "A bright, productive world powered by photosynthesis.",
     depth: "0–200 metres",
     animal: "Green sea turtle",
@@ -110,7 +111,8 @@ const subjects: Subject[] = [
 ];
 
 const currentTopics = ["Upwelling", "Thermohaline Circulation", "Coriolis Effect", "Ekman transport", "El Niño & La Niña"];
-const sunlightTopics = ["General Marine Life in the Sun", "Green Sea Turtle", "Great White Shark", "Common Cuttlefish", "Planktons & Diatoms", "Schools of Fish"];
+const sunlightTopics = ["General Marine Life in the Sun", "Green Sea Turtle", "Great White Shark", "Common Cuttlefish", "Planktons & Diatoms", "Schools of Fish", "Cephalopods"];
+const sunlightUnits=libraryGroups.find(group=>group.id==="sunlight")!.lessons.filter(unit=>'topic' in unit);
 
 type AnatomyPart = { label: string; x: string; y: string };
 type AnatomyEntry = { title: string; note: string; parts: AnatomyPart[] };
@@ -837,20 +839,17 @@ export default function Home() {
         <section className="currents-index sunlight-index" aria-labelledby="sunlight-title">
           <button className="back-button" onClick={returnToLibrary}><span>←</span> Main page</button>
           <div className="currents-heading">
-            <p className="eyebrow">Marine Life in Sunlight · Choose a topic</p>
-            <h1 id="sunlight-title">Explore the<br /><em>sunlit ocean.</em></h1>
+            <p className="eyebrow">{sunlightChapterTitle} · Choose a unit</p>
+            <h1 id="sunlight-title">Chapter 2:<br /><em>The Sunlight Zone</em></h1>
           </div>
           <div className="current-card-grid sunlight-card-grid">
-            {sunlightTopics.map((topic, index) => (
-              <button className={`current-subject-card sunlight-topic-${index + 1}`} key={topic} onClick={() => setCurrentTopic(index)}>
+            {sunlightUnits.map((unit, index) => (
+              <button className={`current-subject-card sunlight-topic-${Number(unit.topic) + 1}`} key={unit.id} onClick={() => setCurrentTopic(unit.topic!)}>
                 <span className="card-number">{String(index + 1).padStart(2, "0")}</span>
                 <div className="current-card-art sunlight-topic-art has-topic-image" aria-hidden="true">
-                  {index === 5 ? <FishSchoolArt /> : <img
-                    src={index === 4 ? "/assets/sunlight/marine-life-in-sunlight.png" : index === 3 ? "/assets/sunlight/common-cuttlefish.png" : index === 2 ? "/assets/shark/great-white-anatomy-realistic.webp" : index === 0 ? "/assets/sunlight/marine-life-in-sunlight.png" : "/assets/turtles/green-turtle-grazing.png"}
-                    alt=""
-                  />}
+                  <img src={unit.image} alt=""/>
                 </div>
-                <div className="card-copy"><span>Sunlight zone</span><h2>{topic}</h2><p>Click to reveal this topic.</p></div>
+                <div className="card-copy"><span>{unit.tag}</span><h2>{unit.title}</h2><p>Click to reveal this topic.</p></div>
                 <span className="card-arrow">↗</span>
               </button>
             ))}
@@ -877,9 +876,9 @@ export default function Home() {
               </>
             ) : selected.id === "sunlight" ? (
               <>
-                <p className="eyebrow">Marine Life in Sunlight · Topic {Number(currentTopic) + 1}</p>
+                <p className="eyebrow">{sunlightChapterTitle} · Unit {sunlightUnits.findIndex(unit=>unit.topic===currentTopic)+1}</p>
                 <h1 id="detail-title">{sunlightTopics[currentTopic as number]}</h1>
-                {currentTopic === 5 ? <SchoolsOfFishLesson /> : currentTopic === 4 ? <PlanktonLesson /> : currentTopic === 3 ? <CommonCuttlefishLesson /> : currentTopic === 2 ? <GreatWhiteSharkLesson /> : currentTopic === 0 ? (
+                {currentTopic === 6 ? <CephalopodsLesson /> : currentTopic === 5 ? <SchoolsOfFishLesson /> : currentTopic === 4 ? <PlanktonLesson /> : currentTopic === 3 ? <CommonCuttlefishLesson /> : currentTopic === 2 ? <GreatWhiteSharkLesson /> : currentTopic === 0 ? (
                   <>
                   <section className="sunlight-reef-hero" aria-label="Breaking waves above a shallow coral reef in the sunlight zone">
                     <div>

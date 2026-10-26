@@ -221,3 +221,27 @@ test('legacy choice selections resume alongside new written responses without lo
  assert.equal(saved.quizzes.sunlight.latestScore,5);assert.equal(saved.quizzes.sunlight.bestScore,6);assert.equal(saved.quizzes.sunlight.attempts,2);
  assert.equal(saved.quizSessions.sunlight.index,6);
 });
+
+test('new cephalopod progress resumes independently and appears in owner reports without replacing cuttlefish',async()=>{
+ const {progress,student,owner,students,store}=await setup();
+ await progress(post('/api/progress',{action:'lesson',lessonId:'cuttlefish',readingLevel:2,completed:true},student));
+ const attemptId=randomUUID();
+ const state={attemptId,revision:1,index:1,selection:'Eight arms.',submitted:false,answers:['Mollusks.']};
+ const draft=await progress(post('/api/progress',{action:'quiz-draft',lessonId:'cephalopods',previousAttemptId:null,state},student));
+ assert.equal(draft.status,200);
+ const fresh=createLearningHandler({store});
+ const saved=(await (await fresh(get('/api/progress',student))).json()).progress;
+ assert.equal(saved.quizSessions.cephalopods.selection,'Eight arms.');
+ assert.equal(saved.quizSessions.cephalopods.index,1);
+ assert.ok(saved.lessons.cuttlefish.completedAt);
+ const written=['Mollusks.','Eight arms.','Tentacles.','Siphon.','Pigment cells.','Nautilus.','They are prey.'];
+ const complete=await fresh(post('/api/progress',{action:'quiz-draft',lessonId:'cephalopods',previousAttemptId:null,state:{attemptId,revision:2,index:7,selection:'',submitted:false,answers:written}},student));
+ assert.equal(complete.status,200);
+ const report=await students(get('/api/students?student=Student%20Reader',owner));
+ assert.equal(report.status,200);
+ const data=await report.json();
+ assert.equal(data.progress.quizzes.cephalopods.latestScore,7);
+ assert.equal(data.progress.quizzes.cephalopods.total,7);
+ assert.ok(data.progress.lessons.cuttlefish.completedAt);
+ assert.equal(data.progress.lessons.cuttlefish.readingLevel,2);
+});

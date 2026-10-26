@@ -1,6 +1,7 @@
 import {oceanCurrentsChapterTitle} from './ocean-currents-introduction.mjs';
 import {polarUnits} from './polar-content.mjs';
 
+export const sunlightChapterTitle='Chapter 2: The Sunlight Zone';
 export const contactEmail = 'anomalocaris.m@gmail.com';
 export const libraryGroups = [
   {id:'currents',title:oceanCurrentsChapterTitle,label:'Moving water',overview:'Discover how wind, Earth’s rotation, and water density connect the oceans and influence climate.',lessons:[
@@ -11,10 +12,11 @@ export const libraryGroups = [
     {id:'ekman',title:'Ekman transport',summary:'Connect wind and moving water with upwelling and downwelling.',image:'/assets/ekman-transport-illustration.png',tag:'Coastal processes',subjectId:'currents',topic:3},
     {id:'enso',title:'El Niño & La Niña',summary:'Compare changing Pacific winds, temperatures, and circulation.',image:'/assets/field-guide-v2/el-nino-pacific.webp',tag:'Ocean & climate',subjectId:'currents',topic:4},
   ]},
-  {id:'sunlight',title:'Marine life in sunlight',label:'0–200 metres',overview:'Meet the animals and tiny producers of the bright surface ocean, from grazing turtles to microscopic cells.',lessons:[
+  {id:'sunlight',title:sunlightChapterTitle,label:'0–200 metres',overview:'Meet the animals and tiny producers of the bright surface ocean, from grazing turtles to microscopic cells.',lessons:[
     {id:'sunlight',title:'Life in the sunlight zone',summary:'Start with the habitats and food webs powered by sunlight.',image:'/assets/sunlight/marine-life-in-sunlight.png',tag:'Unit overview',subjectId:'sunlight',topic:0},
     {id:'turtle',title:'Green sea turtles',summary:'Watch a grazer feed and explore how its environment affects activity.',image:'/assets/turtles/green-turtle-grazing.png',tag:'Feeding & habitat',subjectId:'sunlight',topic:1},
     {id:'shark',title:'Great white sharks',summary:'Look closely at the anatomy and senses of a powerful predator.',image:'/assets/sunlight/great-white-shark.png',tag:'Anatomy & senses',subjectId:'sunlight',topic:2},
+    {id:'cephalopods',title:'Cephalopods',summary:'Compare octopuses, squids, cuttlefish, and nautiluses through their shared body plan and different ways of living.',image:'/assets/cephalopods/octopus-plate-v1.webp',tag:'Body plans & diversity',subjectId:'sunlight',topic:6},
     {id:'cuttlefish',title:'Common cuttlefish',summary:'Uncover camouflage, color-changing cells, and clever hunting.',image:'/assets/sunlight/common-cuttlefish.png',tag:'Color & camouflage',subjectId:'sunlight',topic:3},
     {id:'plankton',title:'Planktons & diatoms',summary:'Explore cells and experiment with a growing plankton population.',image:'/assets/plankton/diatom-detailed-v1.webp',tag:'Microscopic life',subjectId:'sunlight',topic:4},
     {id:'schooling',title:'Schools of fish',summary:'Discover how small fish move together and respond to danger.',image:'/assets/schooling/fish-school-v2.webp',tag:'Animal behavior',subjectId:'sunlight',topic:5},

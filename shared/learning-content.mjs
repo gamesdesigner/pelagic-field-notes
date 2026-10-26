@@ -1,3 +1,4 @@
+import {cephalopodQuestions} from './cephalopod-content.mjs';
 import {makeWrittenQuiz} from './course-written-quizzes.mjs';
 import {penguinQuestions,orcaQuestions,lionsmaneQuestions} from './polar-quizzes.mjs';
 import {isWrittenQuestion,writtenAnswerIsCorrect} from './written-answer-grading.mjs';
@@ -277,10 +278,12 @@ export const planktonQuestions = [
 ];
 
 export const lessonTitles = {
+ cephalopods:'Cephalopods',
  penguin:"Emperor Penguins",orca:"Orcas",lionsmane:"Lion’s Mane Jellyfish",
  schooling:'Schools of Fish',plankton:'Planktons & Diatoms',upwelling:'Upwelling',conveyor:'Thermohaline Circulation',coriolis:'Coriolis Effect',ekman:'Ekman transport',enso:'El Niño & La Niña',sunlight:'Marine Life in Sunlight',turtle:'Green Sea Turtle',shark:'Great White Shark',cuttlefish:'Common Cuttlefish',twilightGeneral:'General Marine Life in Twilight',twilight:'Vampire Squid',midnight:'Marine Life in Midnight',general:'The General Ocean',
 };
 export const quizBank = {
+ cephalopods:cephalopodQuestions,
  penguin:makeWrittenQuiz('penguin',penguinQuestions),orca:makeWrittenQuiz('orca',orcaQuestions),lionsmane:makeWrittenQuiz('lionsmane',lionsmaneQuestions),
  schooling:makeWrittenQuiz('schooling',schoolingQuestions),plankton:makeWrittenQuiz('plankton',planktonQuestions),
  upwelling:makeWrittenQuiz('upwelling',upwellingQuestions),conveyor:makeWrittenQuiz('conveyor',conveyorQuestions),coriolis:makeWrittenQuiz('coriolis',coriolisQuestions),enso:makeWrittenQuiz('enso',ensoQuestions),sunlight:makeWrittenQuiz('sunlight',sunlightQuestions),turtle:makeWrittenQuiz('turtle',turtleQuestions),shark:makeWrittenQuiz('shark',sharkQuestions),cuttlefish:makeWrittenQuiz('cuttlefish',cuttlefishQuestions),twilightGeneral:makeWrittenQuiz('twilightGeneral',twilightQuestions),twilight:makeWrittenQuiz('twilight',vampireQuestions),
