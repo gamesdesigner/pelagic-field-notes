@@ -150,3 +150,15 @@ test('new cnidarian quizzes accept brief scientific answers and distinguish cell
  for(const [id,answers] of Object.entries(accepted))for(const [i,answer] of answers.entries())assert.equal(answerIsCorrect(quizBank[id][i],answer),true,`${id} ${i}: ${answer}`);
  for(const [id,i,answer] of [['cnidaria',1,'nematocysts'],['cnidaria',2,'cnidocytes'],['cnidaria',3,'medusa'],['cnidaria',5,'Cnidaria'],['anemones',0,'plant'],['anemones',4,'photosynthesis']])assert.equal(answerIsCorrect(quizBank[id][i],answer),false,answer);
 });
+
+test('shark quiz credits short electrical-sensing and apex-predator answers with precise teaching feedback',()=>{
+ const senses=quizBank.shark[3],role=quizBank.shark[5];
+ for(const answer of ['electrons.','electron','electric','electricity','electrical activity','weak electrical signals','Electric fields.'])assert.equal(answerIsCorrect(senses,answer),true,answer);
+ for(const answer of ['no electrons','not electricity','smell','vibrations','satellite signals'])assert.equal(answerIsCorrect(senses,answer),false,answer);
+ assert.match(senses.explanation,/precise term is electric fields/);
+ assert.match(senses.explanation,/do not detect individual electrons/);
+ for(const answer of ['apex predator.','An apex predator','Top predator.','They are top predators that influence prey populations and behavior'])assert.equal(answerIsCorrect(role,answer),true,answer);
+ for(const answer of ['predator','not an apex predator','a plant grazer','producer'])assert.equal(answerIsCorrect(role,answer),false,answer);
+ assert.match(role.prompt,/What kind of predator/);assert.doesNotMatch(role.prompt,/what can it influence/);
+ assert.equal(role.answer,'An apex predator (top predator)');
+});

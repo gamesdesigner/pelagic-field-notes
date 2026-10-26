@@ -73,9 +73,10 @@ const rubrics={
   [['fish','fishes'],['squid','rays','smaller sharks','small sharks']],
   [['tail','caudal fin']],
   [['electronic tags','electronic tagging','satellite tags','satellite tagging','acoustic tags','tracking tags','tagging','tags']],
-  [['electrical signals','electric signals','electric fields','electrical fields','electricity','bioelectric']],
+  // Credit brief electrical-sensing vocabulary; feedback supplies the precise term.
+  [['electrical signals','electric signals','electric fields','electrical fields','electricity','bioelectric','bioelectricity','electrical activity','electrical impulses','electric currents','electrical currents','electric','electrical','electron','electrons']],
   [['coastal','coast','inshore'],['offshore','open ocean'],['thousands','thousand','long distances','long distance']],
-  [['top predator','top predators','apex predator','apex predators'],['prey','population','populations','behavior','behaviour','food web','food webs']],
+  [['top predator','top predators','apex predator','apex predators']],
   [['slow reproduction','reproduce slowly','reproduce slow','slow breeding','slowly reproducing','low reproductive rate'],['few young','few offspring','small litters','low offspring','few babies']],
  ],
  cuttlefish:[
@@ -123,7 +124,7 @@ const prompts={
  sunlight:{5:'Name a turtle’s hard upper shell.'},
  turtle:{5:'Name the underwater plant that forms meadows where adult green turtles often feed.'},
  enso:{4:'During La Niña, how do the trade winds and central/eastern tropical Pacific temperatures change compared with neutral conditions?',6:'Does ENSO follow a fixed timetable? Describe the timing of its warm, cool, and neutral phases.'},
- shark:{0:'Name fish and at least one other type of prey young great white sharks eat.',4:'Describe the distances and coastal/offshore areas covered by some great white shark migrations.',5:'What kind of predator is a great white shark, and what can it influence in a marine food web?'},
+ shark:{0:'Name fish and at least one other type of prey young great white sharks eat.',4:'Describe the distances and coastal/offshore areas covered by some great white shark migrations.',5:'What kind of predator is a great white shark in a marine food web?'},
  cuttlefish:{6:'How do pigment, reflection, and texture contribute together to a cuttlefish’s appearance?'},
  twilightGeneral:{5:'Are twilight animals fixed at one depth? Name one factor that can change their depth.',6:'Name one process through which twilight animals help move carbon downward.'},
  twilight:{2:'Describe a vampire squid’s body: how many arms, mantle fins, and fine filaments does it have?',6:'What feeding behavior would you observe to test whether a filament collects food? Describe capture and retrieval.'},
@@ -146,7 +147,7 @@ const paraphrases={
  ]},
 };
 
-const modelAnswers={upwelling:{4:'Cold water'}};
+const modelAnswers={upwelling:{4:'Cold water'},shark:{5:'An apex predator (top predator)'}};
 
 const explanations={
  upwelling:[

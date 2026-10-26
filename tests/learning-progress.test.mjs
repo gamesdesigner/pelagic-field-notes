@@ -274,3 +274,13 @@ test('new cnidarian units keep separate drafts and owner-visible scores while pr
  for(const lessonId of ['cnidaria','anemones'])assert.equal(report.quizzes[lessonId].latestScore,7);
  assert.equal(report.lessons.lionsmane.readingLevel,2);assert.ok(report.lessons.lionsmane.completedAt);
 });
+
+test('server credits the reported short shark answers and preserves the saved score on retry',async()=>{
+ const {progress,student,store}=await setup();const written=answers('shark');written[3]='electrons.';written[5]='apex predator.';
+ const body={action:'quiz',lessonId:'shark',attemptId:randomUUID(),answers:written};
+ const response=await progress(post('/api/progress',body,student));assert.equal(response.status,200);
+ const saved=(await response.json()).progress.quizzes.shark;
+ assert.equal(saved.latestScore,7);assert.equal(saved.total,7);assert.equal(saved.attempts,1);
+ const fresh=createLearningHandler({store});await fresh(post('/api/progress',body,student));
+ assert.deepEqual((await (await fresh(get('/api/progress',student))).json()).progress.quizzes.shark,saved);
+});
