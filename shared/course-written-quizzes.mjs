@@ -76,7 +76,7 @@ const rubrics={
   // Credit brief electrical-sensing vocabulary; feedback supplies the precise term.
   [['electrical signals','electric signals','electric fields','electrical fields','electricity','bioelectric','bioelectricity','electrical activity','electrical impulses','electric currents','electrical currents','electric','electrical','electron','electrons']],
   [['coastal','coast','inshore'],['offshore','open ocean'],['thousands','thousand','long distances','long distance']],
-  [['top predator','top predators','apex predator','apex predators']],
+  [['top predator','top predators','apex predator','apex predators','apex','top','top of the food chain','top of food chain']],
   [['slow reproduction','reproduce slowly','reproduce slow','slow breeding','slowly reproducing','low reproductive rate'],['few young','few offspring','small litters','low offspring','few babies']],
  ],
  cuttlefish:[

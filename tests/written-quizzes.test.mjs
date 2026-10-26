@@ -157,7 +157,7 @@ test('shark quiz credits short electrical-sensing and apex-predator answers with
  for(const answer of ['no electrons','not electricity','smell','vibrations','satellite signals'])assert.equal(answerIsCorrect(senses,answer),false,answer);
  assert.match(senses.explanation,/precise term is electric fields/);
  assert.match(senses.explanation,/do not detect individual electrons/);
- for(const answer of ['apex predator.','An apex predator','Top predator.','They are top predators that influence prey populations and behavior'])assert.equal(answerIsCorrect(role,answer),true,answer);
+ for(const answer of ['apex predator.','apex','top','top of the food chain','An apex predator','Top predator.','They are top predators that influence prey populations and behavior'])assert.equal(answerIsCorrect(role,answer),true,answer);
  for(const answer of ['predator','not an apex predator','a plant grazer','producer'])assert.equal(answerIsCorrect(role,answer),false,answer);
  assert.match(role.prompt,/What kind of predator/);assert.doesNotMatch(role.prompt,/what can it influence/);
  assert.equal(role.answer,'An apex predator (top predator)');
