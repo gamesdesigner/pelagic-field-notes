@@ -15,7 +15,7 @@ const rubrics={
   [['right','rightward']],
   [['ekman transport']],
   [['offshore','away from the coast','away from shore','out to sea']],
-  [['cold','cool','colder'],['nutrient rich','nutrients'],['deep','deeper','below']],
+  [['cold','cool','colder','cooler','low temperature','lower temperature']],
   [['photic','euphotic','sunlit zone','sunlight zone']],
   [['marine snow']],
   [['bacteria','bacterial','microbes','decomposers']],
@@ -118,7 +118,7 @@ const rubrics={
 
 // Choice-oriented wording becomes a focused, answerable writing prompt.
 const prompts={
- upwelling:{13:'Name the process in which deep ocean water rises toward the surface.',14:'What is the general name for tiny organisms that drift in ocean currents?'},
+ upwelling:{4:'Compared with surface water, is upwelled water usually warmer or colder?',13:'Name the process in which deep ocean water rises toward the surface.',14:'What is the general name for tiny organisms that drift in ocean currents?'},
  coriolis:{5:'Name the apparent deflection caused by Earth’s rotation.'},
  sunlight:{5:'Name a turtle’s hard upper shell.'},
  turtle:{5:'Name the underwater plant that forms meadows where adult green turtles often feed.'},
@@ -146,13 +146,15 @@ const paraphrases={
  ]},
 };
 
+const modelAnswers={upwelling:{4:'Cold water'}};
+
 const explanations={
  upwelling:[
   'Earth’s rotation produces the Coriolis effect, an apparent deflection of motion over its surface.',
   'Moving water is deflected to the right of its motion in the Northern Hemisphere.',
   'Net Ekman transport is perpendicular to the wind in the idealized model.',
   'When wind-driven transport moves surface water offshore, deeper water can rise to replace it.',
-  'Upwelling brings cooler deep water carrying dissolved nutrients toward the surface.',
+  'Upwelled water is usually colder than the surface water it replaces. It often carries dissolved nutrients too; naming the colder temperature answers this question.',
   'The photic or euphotic zone is the sunlit upper ocean that supports photosynthesis.',
   'Marine snow is sinking organic material, including remains and waste.',
   'Microbial decomposition recycles organic matter and releases nutrients.',
@@ -208,7 +210,7 @@ export function makeWrittenQuiz(lessonId,questions){
  const rules=rubrics[lessonId];
  if(!rules||rules.length!==questions.length)throw Error(`Missing written rubrics for ${lessonId}`);
  return questions.map((question,index)=>{
-  const answer=typeof question.answer==='number'?question.options[question.answer]:question.answer;
+  const answer=modelAnswers[lessonId]?.[index]??(typeof question.answer==='number'?question.options[question.answer]:question.answer);
   return {kind:'written',prompt:prompts[lessonId]?.[index]??question.prompt,answer,
    concepts:rules[index],acceptedPhrases:[answer,...(paraphrases[lessonId]?.[index]??[])],rejectConcepts:conflicts[lessonId]?.[index]??[],
    explanation:question.explanation??explanations[lessonId]?.[index]??answer,

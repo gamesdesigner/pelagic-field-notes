@@ -1,7 +1,8 @@
 import {oceanCurrentsChapterTitle} from './ocean-currents-introduction.mjs';
 import {polarUnits} from './polar-content.mjs';
 
-export const sunlightChapterTitle='Chapter 2: The Sunlight Zone';
+import {sunlightChapterTitle,polarChapterTitle} from './chapter-structure.mjs';
+export {sunlightChapterTitle,polarChapterTitle};
 export const contactEmail = 'anomalocaris.m@gmail.com';
 export const libraryGroups = [
   {id:'currents',title:oceanCurrentsChapterTitle,label:'Moving water',overview:'Discover how wind, Earth’s rotation, and water density connect the oceans and influence climate.',lessons:[
@@ -18,17 +19,19 @@ export const libraryGroups = [
     {id:'shark',title:'Great white sharks',summary:'Look closely at the anatomy and senses of a powerful predator.',image:'/assets/sunlight/great-white-shark.png',tag:'Anatomy & senses',subjectId:'sunlight',topic:2},
     {id:'cephalopods',title:'Cephalopods',summary:'Compare octopuses, squids, cuttlefish, and nautiluses through their shared body plan and different ways of living.',image:'/assets/cephalopods/octopus-plate-v1.webp',tag:'Body plans & diversity',subjectId:'sunlight',topic:6},
     {id:'cuttlefish',title:'Common cuttlefish',summary:'Uncover camouflage, color-changing cells, and clever hunting.',image:'/assets/sunlight/common-cuttlefish.png',tag:'Color & camouflage',subjectId:'sunlight',topic:3},
+    {id:'cnidaria',title:'Cnidaria',summary:'Compare jellyfish, corals, hydroids, and anemones through their shared stinging cells and different body plans.',image:'/assets/cnidarians/moon-jelly-plate-v1.webp',tag:'Body plans & stinging cells',subjectId:'sunlight',topic:7},
+    {id:'anemones',title:'Anemones',summary:'Study tentacle feeding, soft bodies, and partnerships through four illustrated species.',image:'/assets/cnidarians/bubble-tip-plate-v1.webp',tag:'Anatomy & ecology',subjectId:'sunlight',topic:8},
     {id:'plankton',title:'Planktons & diatoms',summary:'Explore cells and experiment with a growing plankton population.',image:'/assets/plankton/diatom-detailed-v1.webp',tag:'Microscopic life',subjectId:'sunlight',topic:4},
     {id:'schooling',title:'Schools of fish',summary:'Discover how small fish move together and respond to danger.',image:'/assets/schooling/fish-school-v2.webp',tag:'Animal behavior',subjectId:'sunlight',topic:5},
   ]},
+  {id:'polar',title:polarChapterTitle,label:'Northern seas · Antarctic comparison',overview:'Study northern orcas and lion’s mane jellyfish, then compare them with emperor penguins in Antarctica.',lessons:polarUnits.map((item,unit)=>({id:item.id,title:item.title,summary:item.description,image:item.image,tag:item.region,subjectId:'polar',unit})),
+  },
   {id:'depths',title:'Below the surface',label:'Twilight & the deep ocean',overview:'Travel through fading light and deeper water to explore unusual bodies, feeding strategies, and connected ocean layers.',lessons:[
     {id:'twilightGeneral',title:'Life in the twilight zone',summary:'Explore food webs, living light, and daily migrations.',image:'/assets/twilight/general-twilight.webp',tag:'200–1,000 metres',subjectId:'twilight',unit:0},
     {id:'twilight',title:'Vampire squid',summary:'Meet a marine-snow collector with an unusual glowing defense.',image:'/assets/twilight/vampire-squid.webp',tag:'Twilight animal study',subjectId:'twilight',unit:1},
     {id:'midnight',title:'Life in the midnight zone',summary:'Investigate deep-ocean conditions and the giant siphonophore.',image:'/assets/ocean-depths-slide.png',tag:'1,000–4,000 metres',subjectId:'midnight'},
     {id:'general',title:'The general ocean',summary:'Bring the water column together, with a closer look at moon jellies.',image:'/assets/sunlight-creatures/moon-jelly.png',tag:'The connected ocean',subjectId:'general'},
   ]},
-  {id:'polar',title:'Life in the Arctic',label:'Northern seas · Antarctic comparison',overview:'Study northern orcas and lion’s mane jellyfish, then compare them with emperor penguins in Antarctica.',lessons:polarUnits.map((item,unit)=>({id:item.id,title:item.title,summary:item.description,image:item.image,tag:item.region,subjectId:'polar',unit})),
-  },
 ];
 
 /** @returns {{id:string,subjectId:string,topic?:number,unit?:number}|undefined} */

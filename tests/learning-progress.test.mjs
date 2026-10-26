@@ -245,3 +245,32 @@ test('new cephalopod progress resumes independently and appears in owner reports
  assert.ok(data.progress.lessons.cuttlefish.completedAt);
  assert.equal(data.progress.lessons.cuttlefish.readingLevel,2);
 });
+
+test('server credits cold water and restores the same completed upwelling attempt',async()=>{
+ const {progress,student,store}=await setup();const written=answers('upwelling');written[4]='cold water';
+ const body={action:'quiz',lessonId:'upwelling',attemptId:randomUUID(),answers:written};
+ const response=await progress(post('/api/progress',body,student));assert.equal(response.status,200);
+ const saved=(await response.json()).progress.quizzes.upwelling;
+ assert.equal(saved.latestScore,15);assert.equal(saved.total,15);assert.equal(saved.attempts,1);
+ const fresh=createLearningHandler({store});await fresh(post('/api/progress',body,student));
+ assert.deepEqual((await (await fresh(get('/api/progress',student))).json()).progress.quizzes.upwelling,saved);
+});
+
+test('new cnidarian units keep separate drafts and owner-visible scores while preserving lion’s mane progress',async()=>{
+ const {progress,student,owner,students,store}=await setup();
+ await progress(post('/api/progress',{action:'lesson',lessonId:'lionsmane',readingLevel:2,completed:true},student));
+ const attempts={};
+ for(const lessonId of ['cnidaria','anemones']){
+  attempts[lessonId]=randomUUID();const state={attemptId:attempts[lessonId],revision:1,index:1,selection:lessonId==='cnidaria'?'stinging cells':'pedal disc',submitted:false,answers:[answers(lessonId)[0]]};
+  assert.equal((await progress(post('/api/progress',{action:'quiz-draft',lessonId,previousAttemptId:null,state},student))).status,200);
+ }
+ const fresh=createLearningHandler({store});const restored=(await (await fresh(get('/api/progress',student))).json()).progress;
+ assert.equal(restored.quizSessions.cnidaria.selection,'stinging cells');assert.equal(restored.quizSessions.anemones.selection,'pedal disc');assert.ok(restored.lessons.lionsmane.completedAt);
+ for(const lessonId of ['cnidaria','anemones']){
+  const state={attemptId:attempts[lessonId],revision:2,index:7,selection:'',submitted:false,answers:answers(lessonId)};
+  assert.equal((await fresh(post('/api/progress',{action:'quiz-draft',lessonId,previousAttemptId:null,state},student))).status,200);
+ }
+ const report=(await (await students(get('/api/students?student=Student%20Reader',owner))).json()).progress;
+ for(const lessonId of ['cnidaria','anemones'])assert.equal(report.quizzes[lessonId].latestScore,7);
+ assert.equal(report.lessons.lionsmane.readingLevel,2);assert.ok(report.lessons.lionsmane.completedAt);
+});

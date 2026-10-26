@@ -68,7 +68,7 @@ const courseVariants={
  schooling:['A school.','It is harder to track one fish.','A tight ball of fish.','Dark on top and light on the belly.','Vibrations.','Neighbors respond to each other.','Schools attract predators and fish compete for food.'],
 };
 test('all quizzes use written rubrics, retain their totals, and accept existing correct answers',()=>{
- const totals={cephalopods:7,upwelling:15,coriolis:6,sunlight:6,turtle:6,conveyor:7,enso:7,shark:7,cuttlefish:7,twilightGeneral:7,twilight:7,plankton:7,schooling:7,penguin:7,orca:7,lionsmane:7};
+ const totals={cnidaria:7,anemones:7,cephalopods:7,upwelling:15,coriolis:6,sunlight:6,turtle:6,conveyor:7,enso:7,shark:7,cuttlefish:7,twilightGeneral:7,twilight:7,plankton:7,schooling:7,penguin:7,orca:7,lionsmane:7};
  assert.deepEqual(Object.keys(quizBank).sort(),Object.keys(totals).sort());
  for(const [id,questions] of Object.entries(quizBank)){
   assert.equal(questions.length,totals[id]);
@@ -90,7 +90,7 @@ test('every converted question accepts an independently worded answer',()=>{
 });
 test('written grading rejects missing ideas, common wrong concepts and contradicted answers',()=>{
  const cases=[
-  ['upwelling',1,'To the left, not the right.'],['upwelling',4,'Cold water.'],['upwelling',8,'Proteins.'],
+  ['upwelling',1,'To the left, not the right.'],['upwelling',4,'Warm water.'],['upwelling',8,'Proteins.'],
   ['coriolis',0,'The Moon spins.'],['coriolis',4,'Clockwise.'],['sunlight',0,'No blowhole.'],
   ['turtle',0,'Only algae.'],['turtle',1,'It uses gills to get oxygen.'],
   ['conveyor',0,'Salinity.'],['conveyor',3,'The Pacific only.'],['conveyor',6,'It becomes less dense.'],
@@ -136,4 +136,17 @@ test('cephalopod quiz accepts plain-language variants and rejects incorrect body
  const rejected=[['Fish.'],['Ten.'],['Fins.'],['The mouth.'],['Ink sac.'],['Octopus.'],['Producers.','They make their own food.']];
  accepted.forEach((answers,index)=>answers.forEach(answer=>assert.equal(answerIsCorrect(quizBank.cephalopods[index],answer),true,answer)));
  rejected.forEach((answers,index)=>answers.forEach(answer=>assert.equal(answerIsCorrect(quizBank.cephalopods[index],answer),false,answer)));
+});
+
+test('upwelling temperature question accepts cold water without demanding nutrient or depth details',()=>{
+ const question=quizBank.upwelling[4];
+ assert.equal(question.answer,'Cold water');
+ assert.match(question.prompt,/warmer or colder/);
+ for(const answer of ['cold water','Cold.','cooler water','lower temperature','It is cold water from below.'])assert.equal(answerIsCorrect(question,answer),true,answer);
+ for(const answer of ['warm water','not cold water','It is warmer.','nutrients'])assert.equal(answerIsCorrect(question,answer),false,answer);
+});
+test('new cnidarian quizzes accept brief scientific answers and distinguish cells from capsules',()=>{
+ const accepted={cnidaria:['Cnidaria','stinging cells','nematocysts','polyp','algae','not Cnidaria','prey'],anemones:['An animal, not a plant.','pedal disc','tentacles','gastrovascular cavity','fission','algae','no scale bar']};
+ for(const [id,answers] of Object.entries(accepted))for(const [i,answer] of answers.entries())assert.equal(answerIsCorrect(quizBank[id][i],answer),true,`${id} ${i}: ${answer}`);
+ for(const [id,i,answer] of [['cnidaria',1,'nematocysts'],['cnidaria',2,'cnidocytes'],['cnidaria',3,'medusa'],['cnidaria',5,'Cnidaria'],['anemones',0,'plant'],['anemones',4,'photosynthesis']])assert.equal(answerIsCorrect(quizBank[id][i],answer),false,answer);
 });

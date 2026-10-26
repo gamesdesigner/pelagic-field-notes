@@ -9,6 +9,8 @@ import EnsoUnit from "./EnsoUnit";
 import TurtleFeedingScene from "./TurtleFeedingScene";
 import SunlightSwimmer,{SunlightWaterSurface} from "./SunlightSwimmer";
 import GreatWhiteSharkLesson from "./GreatWhiteSharkLesson";
+import CnidarianLesson from "./CnidarianLesson";
+import {polarChapterTitle} from "../shared/chapter-structure.mjs";
 import CephalopodsLesson from "./CephalopodsLesson";
 import CommonCuttlefishLesson from "./CommonCuttlefishLesson";
 import LessonReading from "./LessonReading";
@@ -94,7 +96,7 @@ const subjects: Subject[] = [
     fact: "Bioluminescence is so common here that flashes of blue-green light may be the midnight zone’s main form of communication.",
     tone: "midnight",
   },
-  {id:"polar",number:"05",title:"Life in the Arctic",short:"Northern orcas and jellies, with an Antarctic penguin comparison.",depth:"Polar environments",animal:"",scientific:"",description:"",fact:"",tone:"polar"},
+  {id:"polar",number:"03",title:polarChapterTitle,short:"Northern orcas and jellies, with an Antarctic penguin comparison.",depth:"Polar environments",animal:"",scientific:"",description:"",fact:"",tone:"polar"},
   {
     id: "general",
     number: "06",
@@ -111,7 +113,7 @@ const subjects: Subject[] = [
 ];
 
 const currentTopics = ["Upwelling", "Thermohaline Circulation", "Coriolis Effect", "Ekman transport", "El Niño & La Niña"];
-const sunlightTopics = ["General Marine Life in the Sun", "Green Sea Turtle", "Great White Shark", "Common Cuttlefish", "Planktons & Diatoms", "Schools of Fish", "Cephalopods"];
+const sunlightTopics = ["General Marine Life in the Sun", "Green Sea Turtle", "Great White Shark", "Common Cuttlefish", "Planktons & Diatoms", "Schools of Fish", "Cephalopods", "Cnidaria", "Anemones"];
 const sunlightUnits=libraryGroups.find(group=>group.id==="sunlight")!.lessons.filter(unit=>'topic' in unit);
 
 type AnatomyPart = { label: string; x: string; y: string };
@@ -878,7 +880,7 @@ export default function Home() {
               <>
                 <p className="eyebrow">{sunlightChapterTitle} · Unit {sunlightUnits.findIndex(unit=>unit.topic===currentTopic)+1}</p>
                 <h1 id="detail-title">{sunlightTopics[currentTopic as number]}</h1>
-                {currentTopic === 6 ? <CephalopodsLesson /> : currentTopic === 5 ? <SchoolsOfFishLesson /> : currentTopic === 4 ? <PlanktonLesson /> : currentTopic === 3 ? <CommonCuttlefishLesson /> : currentTopic === 2 ? <GreatWhiteSharkLesson /> : currentTopic === 0 ? (
+                {currentTopic === 7 ? <CnidarianLesson lessonId="cnidaria" /> : currentTopic === 8 ? <CnidarianLesson lessonId="anemones" /> : currentTopic === 6 ? <CephalopodsLesson /> : currentTopic === 5 ? <SchoolsOfFishLesson /> : currentTopic === 4 ? <PlanktonLesson /> : currentTopic === 3 ? <CommonCuttlefishLesson /> : currentTopic === 2 ? <GreatWhiteSharkLesson /> : currentTopic === 0 ? (
                   <>
                   <section className="sunlight-reef-hero" aria-label="Breaking waves above a shallow coral reef in the sunlight zone">
                     <div>
