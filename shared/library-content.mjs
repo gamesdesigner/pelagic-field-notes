@@ -12,6 +12,7 @@ const lessons = [
     {id:'ekman',title:'Ekman transport',summary:'Connect wind and moving water with upwelling and downwelling.',image:'/assets/ekman-transport-illustration.png',tag:'Coastal processes',subjectId:'currents',topic:3},
     {id:'enso',title:'El Niño & La Niña',summary:'Compare changing Pacific winds, temperatures, and circulation.',image:'/assets/field-guide-v2/el-nino-pacific.webp',tag:'Ocean & climate',subjectId:'currents',topic:4},
     {id:'sunlight',title:'Life in the sunlight zone',summary:'Start with the habitats and food webs powered by sunlight.',image:'/assets/sunlight/marine-life-in-sunlight.png',tag:'Unit overview',subjectId:'sunlight',topic:0},
+    {id:'corals',title:'Corals',summary:'Compare coral types, discover how reefs form, meet reef animals, and explore warming and bleaching.',image:'/assets/corals/elkhorn-plate-v1.webp',tag:'Reef builders & climate',subjectId:'sunlight',topic:9},
     {id:'turtle',title:'Green sea turtles',summary:'Watch a grazer feed and explore how its environment affects activity.',image:'/assets/turtles/green-turtle-grazing.png',tag:'Feeding & habitat',subjectId:'sunlight',topic:1},
     {id:'shark',title:'Great white sharks',summary:'Look closely at the anatomy and senses of a powerful predator.',image:'/assets/sunlight/great-white-shark.png',tag:'Anatomy & senses',subjectId:'sunlight',topic:2},
     {id:'cephalopods',title:'Cephalopods',summary:'Compare octopuses, squids, cuttlefish, and nautiluses through their shared body plan and different ways of living.',image:'/assets/cephalopods/octopus-plate-v1.webp',tag:'Body plans & diversity',subjectId:'sunlight',topic:6},
@@ -28,7 +29,7 @@ const lessons = [
 ];
 const chapterDetails={
  currents:{label:'Moving water',overview:'Discover how wind, Earth’s rotation, and water density connect the oceans and influence climate.'},
- sunlight:{label:'0–200 metres',overview:'Explore the bright surface ocean: habitats, grazing turtles, sharks, microscopic producers, and fish defences.'},
+ sunlight:{label:'0–200 metres',overview:'Explore the bright surface ocean: habitats, coral reefs, grazing turtles, sharks, microscopic producers, and fish defences.'},
  polar:{label:'Northern seas · Antarctic comparison',overview:'Study orcas in northern waters and compare their lives with emperor penguins in Antarctica.'},
  depths:{label:'200–1,000 metres',overview:'Explore the twilight zone: fading light, food webs, living light, and daily journeys between depths.'},
  cephalopods:{label:'Octopuses, squids, cuttlefish & nautiluses',overview:'Begin with the cephalopod body plan, focus on the common cuttlefish, and meet the vampire squid of deeper water.'},

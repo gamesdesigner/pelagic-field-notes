@@ -284,3 +284,18 @@ test('server credits the reported short shark answers and preserves the saved sc
  const fresh=createLearningHandler({store});await fresh(post('/api/progress',body,student));
  assert.deepEqual((await (await fresh(get('/api/progress',student))).json()).progress.quizzes.shark,saved);
 });
+
+test('Corals resumes its own draft and saves an owner-visible score while preserving previous lessons',async()=>{
+ const {progress,student,owner,students,store}=await setup();
+ await progress(post('/api/progress',{action:'lesson',lessonId:'cnidaria',readingLevel:2,completed:true},student));
+ await progress(post('/api/progress',{action:'lesson',lessonId:'corals',readingLevel:2},student));
+ const attemptId=randomUUID();const state={attemptId,revision:1,index:1,selection:'limestone',submitted:false,answers:['hard coral']};
+ assert.equal((await progress(post('/api/progress',{action:'quiz-draft',lessonId:'corals',previousAttemptId:null,state},student))).status,200);
+ const fresh=createLearningHandler({store});const restored=(await (await fresh(get('/api/progress',student))).json()).progress;
+ assert.equal(restored.quizSessions.corals.index,1);assert.equal(restored.quizSessions.corals.selection,'limestone');assert.equal(restored.lessons.corals.readingLevel,2);assert.ok(restored.lessons.cnidaria.completedAt);
+ const final={...state,revision:2,index:7,selection:'',answers:['hard coral','limestone','plankton','Great Barrier','crabs','algae','hotter']};
+ const body={action:'quiz-draft',lessonId:'corals',previousAttemptId:null,state:final};
+ assert.equal((await fresh(post('/api/progress',body,student))).status,200);assert.equal((await fresh(post('/api/progress',body,student))).status,200);
+ const report=(await (await students(get('/api/students?student=Student%20Reader',owner))).json()).progress;
+ assert.equal(report.quizzes.corals.latestScore,7);assert.equal(report.quizzes.corals.attempts,1);assert.ok(report.lessons.cnidaria.completedAt);
+});

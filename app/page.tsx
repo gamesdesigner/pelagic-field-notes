@@ -9,6 +9,7 @@ import EnsoUnit from "./EnsoUnit";
 import TurtleFeedingScene from "./TurtleFeedingScene";
 import SunlightSwimmer,{SunlightWaterSurface} from "./SunlightSwimmer";
 import GreatWhiteSharkLesson from "./GreatWhiteSharkLesson";
+import CoralsLesson from "./CoralsLesson";
 import CnidarianLesson from "./CnidarianLesson";
 import {polarChapterTitle,twilightChapterTitle,chapterForLesson,lessonChapterLabel} from "../shared/chapter-structure.mjs";
 import CephalopodsLesson from "./CephalopodsLesson";
@@ -881,7 +882,7 @@ export default function Home() {
               <>
                 <p className="eyebrow">{lessonChapterLabel(activeLesson?.id)}</p>
                 <h1 id="detail-title">{activeLesson?.title}</h1>
-                {currentTopic === 7 ? <CnidarianLesson lessonId="cnidaria" /> : currentTopic === 8 ? <CnidarianLesson lessonId="anemones" /> : currentTopic === 6 ? <CephalopodsLesson /> : currentTopic === 5 ? <SchoolsOfFishLesson /> : currentTopic === 4 ? <PlanktonLesson /> : currentTopic === 3 ? <CommonCuttlefishLesson /> : currentTopic === 2 ? <GreatWhiteSharkLesson /> : currentTopic === 0 ? (
+                {currentTopic === 9 ? <CoralsLesson /> : currentTopic === 7 ? <CnidarianLesson lessonId="cnidaria" /> : currentTopic === 8 ? <CnidarianLesson lessonId="anemones" /> : currentTopic === 6 ? <CephalopodsLesson /> : currentTopic === 5 ? <SchoolsOfFishLesson /> : currentTopic === 4 ? <PlanktonLesson /> : currentTopic === 3 ? <CommonCuttlefishLesson /> : currentTopic === 2 ? <GreatWhiteSharkLesson /> : currentTopic === 0 ? (
                   <>
                   <section className="sunlight-reef-hero" aria-label="Breaking waves above a shallow coral reef in the sunlight zone">
                     <div>

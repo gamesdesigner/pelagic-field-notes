@@ -68,7 +68,7 @@ const courseVariants={
  schooling:['A school.','It is harder to track one fish.','A tight ball of fish.','Dark on top and light on the belly.','Vibrations.','Neighbors respond to each other.','Schools attract predators and fish compete for food.'],
 };
 test('all quizzes use written rubrics, retain their totals, and accept existing correct answers',()=>{
- const totals={cnidaria:7,anemones:7,cephalopods:7,upwelling:15,coriolis:6,sunlight:6,turtle:6,conveyor:7,enso:7,shark:7,cuttlefish:7,twilightGeneral:7,twilight:7,plankton:7,schooling:7,penguin:7,orca:7,lionsmane:7};
+ const totals={corals:7,cnidaria:7,anemones:7,cephalopods:7,upwelling:15,coriolis:6,sunlight:6,turtle:6,conveyor:7,enso:7,shark:7,cuttlefish:7,twilightGeneral:7,twilight:7,plankton:7,schooling:7,penguin:7,orca:7,lionsmane:7};
  assert.deepEqual(Object.keys(quizBank).sort(),Object.keys(totals).sort());
  for(const [id,questions] of Object.entries(quizBank)){
   assert.equal(questions.length,totals[id]);
@@ -161,4 +161,10 @@ test('shark quiz credits short electrical-sensing and apex-predator answers with
  for(const answer of ['predator','not an apex predator','a plant grazer','producer'])assert.equal(answerIsCorrect(role,answer),false,answer);
  assert.match(role.prompt,/What kind of predator/);assert.doesNotMatch(role.prompt,/what can it influence/);
  assert.equal(role.answer,'An apex predator (top predator)');
+});
+
+test('Corals quiz accepts short everyday answers and rejects reversed scientific ideas',()=>{
+ const accepted=[['hard corals','Stony.','stony, not soft'],['limestone','CaCO3','calcium carbonate'],['plankton','tiny animals','zooplankton'],['Great Barrier','the Great Barrier Reef'],['fish','crabs','shrimp','parrotfish','turtles','anemone'],['algae','zooxanthellae','symbionts'],['warm water','hotter','warming','the temperature goes up','an increase in temperature']];
+ for(const [index,answers] of accepted.entries())for(const answer of answers)assert.equal(answerIsCorrect(quizBank.corals[index],answer),true,`${index}: ${answer}`);
+ for(const [index,answer] of [[0,'soft coral'],[1,'plastic'],[2,'rocks'],[3,'the Amazon'],[4,'seaweed'],[5,'paint'],[6,'cooling'],[6,'not warming']])assert.equal(answerIsCorrect(quizBank.corals[index],answer),false,answer);
 });

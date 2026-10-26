@@ -94,7 +94,7 @@ test('Cnidaria and Anemones have substantial paired readings, sourced plates, an
  const {chapters,chapterUnitReference,polarChapterTitle,lionsManeFoundationOpening,lionsManeAdvancedOpening}=await import('../shared/chapter-structure.mjs');
  assert.deepEqual(libraryGroups.map(g=>g.id),['currents','sunlight','polar','depths','cephalopods','cnidaria']);
  assert.equal(libraryGroups[2].title,polarChapterTitle);
- assert.equal(polarChapterTitle,'Chapter 3- Life in the Arctic');
+ assert.equal(polarChapterTitle,'Chapter 3- The Arctic');
  assert.deepEqual(libraryGroups[1].lessons.map(l=>l.id),chapters[1].lessonIds);
  assert.equal(chapterUnitReference('cnidaria'),'Chapter 6, Unit 1');
  assert.ok(introductoryArticles.lionsmane.sections[0].paragraphs.includes(lionsManeFoundationOpening));
@@ -116,5 +116,27 @@ test('Cnidaria and Anemones have substantial paired readings, sourced plates, an
   assert.equal(quizBank[id].length,7);
  }
  const component=await readFile(new URL('../app/CnidarianLesson.tsx',import.meta.url),'utf8');
+ assert.ok(component.indexOf('<ScientificPlate')<component.indexOf('<LessonQuiz'));
+});
+
+test('Corals is a complete Chapter 2 unit with two reading levels and six sourced scientific plates',async()=>{
+ const {coralIntro,coralDive,coralGuide,coralSpecimens,coralSources}=await import('../shared/coral-content.mjs');
+ const {libraryGroups,findLibraryLesson}=await import('../shared/library-content.mjs');
+ const {chapterForLesson,lessonChapterLabel}=await import('../shared/chapter-structure.mjs');
+ assert.equal(libraryGroups[2].title,'Chapter 3- The Arctic');
+ assert.equal(chapterForLesson('corals').id,'sunlight');assert.equal(lessonChapterLabel('corals'),'Chapter 2- The Sunlight Zone · Unit 2');
+ assert.equal(findLibraryLesson('corals').topic,9);
+ assert.ok(words(coralIntro)>=500);assert.ok(words(coralDive)>=2000);assert.ok(words(coralDive)>3*words(coralIntro));
+ assert.deepEqual(teachingGuides.corals,coralGuide);
+ const text=coralIntro.sections.flatMap(s=>s.paragraphs).join(' ');
+ for(const idea of ['stony','Sea fans','zooplankton','calcium carbonate','Great Barrier Reef','2,300','fish, crabs','warming','bleaching','not automatically dead','acidification'])assert.ok(text.includes(idea),idea);
+ assert.equal(coralSpecimens.length,6);assert.equal(new Set(coralSpecimens.map(s=>s.image)).size,6);
+ assert.deepEqual(coralSpecimens.map(s=>s.id),['elkhorn','staghorn','brain','pillar','sea-fan','leather']);
+ for(const item of coralSpecimens){assert.ok(item.scientific&&item.alt.length>80&&item.description.length>100);assert.ok(coralSources[item.source]);await access(new URL('../public'+item.image,import.meta.url));}
+ for(const section of coralDive.sections)for(const source of section.sources)assert.ok(coralSources[source]);
+ for(const source of coralGuide.sources)assert.ok(coralSources[source]);
+ assert.equal(quizBank.corals.length,7);
+ const component=await readFile(new URL('../app/CoralsLesson.tsx',import.meta.url),'utf8');
+ assert.ok(component.indexOf('<LessonReading')<component.indexOf('<ScientificPlate'));
  assert.ok(component.indexOf('<ScientificPlate')<component.indexOf('<LessonQuiz'));
 });

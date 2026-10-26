@@ -1,3 +1,4 @@
+import {coralQuestions} from './coral-content.mjs';
 import {cnidarianQuizzes} from './cnidarian-content.mjs';
 import {cephalopodQuestions} from './cephalopod-content.mjs';
 import {makeWrittenQuiz} from './course-written-quizzes.mjs';
@@ -279,12 +280,14 @@ export const planktonQuestions = [
 ];
 
 export const lessonTitles = {
+ corals:'Corals',
  cnidaria:'Cnidaria',anemones:'Anemones',
  cephalopods:'Cephalopods',
  penguin:"Emperor Penguins",orca:"Orcas",lionsmane:"Lion’s Mane Jellyfish",
  schooling:'Fish defences',plankton:'Planktons & Diatoms',upwelling:'Upwelling',conveyor:'Thermohaline Circulation',coriolis:'Coriolis Effect',ekman:'Ekman transport',enso:'El Niño & La Niña',sunlight:'Marine Life in Sunlight',turtle:'Green Sea Turtle',shark:'Great White Shark',cuttlefish:'Common Cuttlefish',twilightGeneral:'General Marine Life in Twilight',twilight:'Vampire Squid',midnight:'Marine Life in Midnight',general:'The General Ocean',
 };
 export const quizBank = {
+ corals:coralQuestions,
  ...cnidarianQuizzes,
  cephalopods:cephalopodQuestions,
  penguin:makeWrittenQuiz('penguin',penguinQuestions),orca:makeWrittenQuiz('orca',orcaQuestions),lionsmane:makeWrittenQuiz('lionsmane',lionsmaneQuestions),
