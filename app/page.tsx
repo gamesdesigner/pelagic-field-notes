@@ -10,7 +10,7 @@ import TurtleFeedingScene from "./TurtleFeedingScene";
 import SunlightSwimmer,{SunlightWaterSurface} from "./SunlightSwimmer";
 import GreatWhiteSharkLesson from "./GreatWhiteSharkLesson";
 import CnidarianLesson from "./CnidarianLesson";
-import {polarChapterTitle} from "../shared/chapter-structure.mjs";
+import {polarChapterTitle,twilightChapterTitle,chapterForLesson,lessonChapterLabel} from "../shared/chapter-structure.mjs";
 import CephalopodsLesson from "./CephalopodsLesson";
 import CommonCuttlefishLesson from "./CommonCuttlefishLesson";
 import LessonReading from "./LessonReading";
@@ -74,8 +74,8 @@ const subjects: Subject[] = [
   },
   {
     id: "twilight",
-    number: "03",
-    title: "Marine Life in Twilight",
+    number: "04",
+    title: twilightChapterTitle,
     short: "Where sunlight fades and daily migrations begin.",
     depth: "200–1,000 metres",
     animal: "Vampire squid",
@@ -113,7 +113,6 @@ const subjects: Subject[] = [
 ];
 
 const currentTopics = ["Upwelling", "Thermohaline Circulation", "Coriolis Effect", "Ekman transport", "El Niño & La Niña"];
-const sunlightTopics = ["General Marine Life in the Sun", "Green Sea Turtle", "Great White Shark", "Common Cuttlefish", "Planktons & Diatoms", "Schools of Fish", "Cephalopods", "Cnidaria", "Anemones"];
 const sunlightUnits=libraryGroups.find(group=>group.id==="sunlight")!.lessons.filter(unit=>'topic' in unit);
 
 type AnatomyPart = { label: string; x: string; y: string };
@@ -778,6 +777,8 @@ export default function Home() {
     return () => window.removeEventListener("keydown", onKey);
   }, [selected,returnToLibrary]);
 
+  const activeLesson=libraryGroups.flatMap(group=>group.lessons).find(lesson=>lesson.subjectId===selected?.id&&(!('topic' in lesson)||lesson.topic===currentTopic)&&(!('unit' in lesson)||lesson.unit===libraryUnit));
+  const activeChapter=chapterForLesson(activeLesson?.id);
   return (
     myLearning ? <main className="site-shell"><MyLearning onClose={()=>setMyLearning(false)}/></main> : accountSettings ? <main className="site-shell"><AccountSettings onClose={()=>setAccountSettings(false)}/></main> : studentPanel && account?.user.role === 'owner' ? <StudentAccounts onClose={()=>setStudentPanel(false)} /> : <main className="site-shell library-site">
       <SiteHeader page={page} onLearn={returnToLibrary} accountTools={account&&<div className="account-header-tools"><span>{account.user.username}</span>{account.user.role==='owner'&&<><span className="owner-badge">Owner</span><button type="button" onClick={()=>setStudentPanel(true)}>Student accounts</button></>}<button type="button" onClick={()=>setMyLearning(true)}>My progress</button><button type="button" onClick={()=>setAccountSettings(true)}>Account settings</button><button type="button" onClick={account.signOut}>Sign out</button></div>}/>
@@ -802,7 +803,7 @@ export default function Home() {
           <button className="back-button" onClick={returnToLibrary}><span>←</span> Main page</button>
           <div className="currents-heading">
             <p className="eyebrow">Chapter introduction · Five connected topics</p>
-            <h1 id="currents-title">Chapter 1-<br /><em>Ocean currents</em></h1>
+            <h1 id="currents-title">{oceanCurrentsChapterTitle}</h1>
           </div>
           <figure className="field-guide-overview currents-overview">
             <img src="/assets/field-guide-v2/ocean-surface-currents.webp" width="1536" height="1024" alt="Illustrated world map of surface currents, with clockwise northern subtropical gyres, counterclockwise southern subtropical gyres, and an eastward current around Antarctica." decoding="async"/>
@@ -842,7 +843,7 @@ export default function Home() {
           <button className="back-button" onClick={returnToLibrary}><span>←</span> Main page</button>
           <div className="currents-heading">
             <p className="eyebrow">{sunlightChapterTitle} · Choose a unit</p>
-            <h1 id="sunlight-title">Chapter 2:<br /><em>The Sunlight Zone</em></h1>
+            <h1 id="sunlight-title">{sunlightChapterTitle}</h1>
           </div>
           <div className="current-card-grid sunlight-card-grid">
             {sunlightUnits.map((unit, index) => (
@@ -861,10 +862,10 @@ export default function Home() {
         <section className={`subject-detail ${selected.tone} ${selected.id === "currents" && currentTopic === 0 ? "upwelling-layout" : ""} ${selected.id === "currents" && currentTopic === 1 ? "conveyor-layout" : ""} ${selected.id === "currents" && currentTopic === 2 ? "coriolis-layout" : ""} ${selected.id === "currents" && currentTopic === 3 ? "ekman-layout" : ""} ${selected.id === "sunlight" ? "sunlight-topic-layout" : ""}`} aria-labelledby="detail-title">
           <button className="back-button" onClick={returnToLibrary}><span>←</span> Main page</button>
           <div className={`detail-copy ${selected.id === "currents" ? "currents-copy" : ""}`}>
-            <div className="detail-meta"><span>{selected.number} · Ocean subject</span><span>{selected.depth}</span></div>
+            <div className="detail-meta"><span>{String(activeChapter?.number??selected.number).padStart(2,"0")} · Ocean subject</span><span>{selected.depth}</span></div>
             {selected.id === "currents" ? (
               <>
-                <p className="eyebrow">{oceanCurrentsChapterTitle} · Topic {Number(currentTopic) + 1}</p>
+                <p className="eyebrow">{lessonChapterLabel(activeLesson?.id)}</p>
                 <h1 id="detail-title">{currentTopics[currentTopic as number]}</h1>
                 {currentTopic === 0 ? (
                   <LessonReading key="upwelling" lessonId="upwelling" />
@@ -878,8 +879,8 @@ export default function Home() {
               </>
             ) : selected.id === "sunlight" ? (
               <>
-                <p className="eyebrow">{sunlightChapterTitle} · Unit {sunlightUnits.findIndex(unit=>unit.topic===currentTopic)+1}</p>
-                <h1 id="detail-title">{sunlightTopics[currentTopic as number]}</h1>
+                <p className="eyebrow">{lessonChapterLabel(activeLesson?.id)}</p>
+                <h1 id="detail-title">{activeLesson?.title}</h1>
                 {currentTopic === 7 ? <CnidarianLesson lessonId="cnidaria" /> : currentTopic === 8 ? <CnidarianLesson lessonId="anemones" /> : currentTopic === 6 ? <CephalopodsLesson /> : currentTopic === 5 ? <SchoolsOfFishLesson /> : currentTopic === 4 ? <PlanktonLesson /> : currentTopic === 3 ? <CommonCuttlefishLesson /> : currentTopic === 2 ? <GreatWhiteSharkLesson /> : currentTopic === 0 ? (
                   <>
                   <section className="sunlight-reef-hero" aria-label="Breaking waves above a shallow coral reef in the sunlight zone">
@@ -909,7 +910,7 @@ export default function Home() {
               </>
             ) : (
               <>
-                <p className="eyebrow">Featured animal</p>
+                <p className="eyebrow">{lessonChapterLabel(activeLesson?.id)}</p>
                 <h1 id="detail-title">{selected.animal}</h1>
                 <p className="scientific">{selected.scientific}</p>
                 <LessonReading key={selected.id} lessonId={selected.id as "twilight" | "midnight" | "general"} />

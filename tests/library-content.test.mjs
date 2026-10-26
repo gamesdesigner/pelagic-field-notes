@@ -38,3 +38,30 @@ test('ocean currents introduction is the first standalone chapter unit and survi
   ['upwelling',0],['conveyor',1],['coriolis',2],['ekman',3],['enso',4],
  ]);
 });
+
+test('six hyphenated chapters classify each lesson once without changing saved IDs or renderer destinations',async()=>{
+ const {chapters,chapterForLesson,chapterUnitReference,lessonChapterLabel}=await import('../shared/chapter-structure.mjs');
+ const expected=[
+  ['Chapter 1- Ocean currents',['currentsIntro','upwelling','conveyor','coriolis','ekman','enso']],
+  ['Chapter 2- The Sunlight Zone',['sunlight','turtle','shark','plankton','schooling']],
+  ['Chapter 3- Life in the Arctic',['penguin','orca']],
+  ['Chapter 4- Twilight Zone',['twilightGeneral']],
+  ['Chapter 5- Cephalopods',['cephalopods','cuttlefish','twilight']],
+  ['Chapter 6- Cnidaria',['cnidaria','anemones','lionsmane','midnight','general']],
+ ];
+ assert.deepEqual(libraryGroups.map(group=>[group.title,group.lessons.map(lesson=>lesson.id)]),expected);
+ for(const chapter of chapters)for(const [index,id] of chapter.lessonIds.entries()){
+  assert.equal(chapterForLesson(id).id,chapter.id);
+  assert.equal(chapterUnitReference(id),`Chapter ${chapter.number}, Unit ${index+1}`);
+  assert.equal(lessonChapterLabel(id),`${chapter.title} · Unit ${index+1}`);
+ }
+ assert.equal(chapterForLesson('unknown'),undefined);assert.equal(lessonChapterLabel(undefined),'');
+ assert.throws(()=>chapterUnitReference('unknown'));
+ const stable={sunlight:['sunlight',0],turtle:['sunlight',1],shark:['sunlight',2],cuttlefish:['sunlight',3],plankton:['sunlight',4],schooling:['sunlight',5],cephalopods:['sunlight',6],cnidaria:['sunlight',7],anemones:['sunlight',8]};
+ for(const [id,destination] of Object.entries(stable)){const lesson=findLibraryLesson(id);assert.deepEqual([lesson.subjectId,lesson.topic],destination);}
+ for(const [id,subjectId,unit] of [['twilightGeneral','twilight',0],['twilight','twilight',1],['penguin','polar',0],['orca','polar',1],['lionsmane','polar',2]]){
+  const lesson=findLibraryLesson(id);assert.equal(lesson.subjectId,subjectId);assert.equal(lesson.unit,unit);
+ }
+ assert.equal(findLibraryLesson('schooling').title,'Fish defences');
+ assert.equal(lessonTitles.schooling,'Fish defences');
+});

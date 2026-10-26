@@ -1,4 +1,5 @@
-export const oceanCurrentsChapterTitle='Chapter 1- Ocean currents';
+import {chapters} from './chapter-structure.mjs';
+export const oceanCurrentsChapterTitle=chapters[0].title;
 
 export const oceanCurrentsIntroduction={
  title:'Why ocean currents matter',

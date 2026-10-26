@@ -1,4 +1,5 @@
 "use client";
+import {lessonChapterLabel} from '../shared/chapter-structure.mjs';
 import {useId} from 'react';
 import {oceanCurrentsIntroduction as introduction} from '../shared/ocean-currents-introduction.mjs';
 
@@ -7,7 +8,7 @@ export default function OceanCurrentsIntroduction({onBack}:{onBack:()=>void}){
  const words=introduction.sections.flatMap(section=>section.paragraphs).join(' ').split(/\s+/).length;
  return <section className="currents-intro-unit" aria-labelledby={`${id}-unit-title`}>
   <button type="button" className="back-button" onClick={onBack}>← Main page</button>
-  <header className="currents-intro-heading"><p className="eyebrow">Chapter 1 · Start here</p><h1 id={`${id}-unit-title`}>Introduction to ocean currents</h1><p>Follow the moving water that connects climate, habitats, and ocean life.</p></header>
+  <header className="currents-intro-heading"><p className="eyebrow">{lessonChapterLabel('currentsIntro')} · Start here</p><h1 id={`${id}-unit-title`}>Introduction to ocean currents</h1><p>Follow the moving water that connects climate, habitats, and ocean life.</p></header>
   <figure className="field-guide-overview currents-intro-hero">
    <img src="/assets/field-guide-v2/ocean-surface-currents.webp" width="1536" height="1024" alt="Illustrated world map showing warm and cool surface currents linking ocean basins and circulating around continents." decoding="async"/>
    <figcaption><span>A connected ocean</span><h2>Moving water. Shared connections.</h2><p>Currents carry heat and nutrients between places. This simplified map shows broad surface pathways; deeper circulation connects another part of the ocean.</p></figcaption>

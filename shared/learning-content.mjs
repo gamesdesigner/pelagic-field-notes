@@ -282,7 +282,7 @@ export const lessonTitles = {
  cnidaria:'Cnidaria',anemones:'Anemones',
  cephalopods:'Cephalopods',
  penguin:"Emperor Penguins",orca:"Orcas",lionsmane:"Lion’s Mane Jellyfish",
- schooling:'Schools of Fish',plankton:'Planktons & Diatoms',upwelling:'Upwelling',conveyor:'Thermohaline Circulation',coriolis:'Coriolis Effect',ekman:'Ekman transport',enso:'El Niño & La Niña',sunlight:'Marine Life in Sunlight',turtle:'Green Sea Turtle',shark:'Great White Shark',cuttlefish:'Common Cuttlefish',twilightGeneral:'General Marine Life in Twilight',twilight:'Vampire Squid',midnight:'Marine Life in Midnight',general:'The General Ocean',
+ schooling:'Fish defences',plankton:'Planktons & Diatoms',upwelling:'Upwelling',conveyor:'Thermohaline Circulation',coriolis:'Coriolis Effect',ekman:'Ekman transport',enso:'El Niño & La Niña',sunlight:'Marine Life in Sunlight',turtle:'Green Sea Turtle',shark:'Great White Shark',cuttlefish:'Common Cuttlefish',twilightGeneral:'General Marine Life in Twilight',twilight:'Vampire Squid',midnight:'Marine Life in Midnight',general:'The General Ocean',
 };
 export const quizBank = {
  ...cnidarianQuizzes,

@@ -66,15 +66,14 @@ test('polar lessons have complete reading levels and keep the Antarctic comparis
 
 test('cephalopods introduces the group before cuttlefish with two substantial levels and numbered plates',async()=>{
  const {cephalopodIntro,cephalopodDive,cephalopodSpecimens,cephalopodSources}=await import('../shared/cephalopod-content.mjs');
- const {libraryGroups,sunlightChapterTitle}=await import('../shared/library-content.mjs');
- assert.equal(sunlightChapterTitle,'Chapter 2: The Sunlight Zone');
- const chapter=libraryGroups.find(group=>group.id==='sunlight');
- assert.equal(chapter.title,sunlightChapterTitle);
+ const {libraryGroups}=await import('../shared/library-content.mjs');
+ const chapter=libraryGroups.find(group=>group.id==='cephalopods');
+ assert.equal(chapter.title,'Chapter 5- Cephalopods');
  const cephIndex=chapter.lessons.findIndex(unit=>unit.id==='cephalopods');
  assert.equal(chapter.lessons[cephIndex+1].id,'cuttlefish');
- assert.equal(chapter.lessons.length,9);
+ assert.equal(chapter.lessons.length,3);
  assert.equal(chapter.lessons[cephIndex].topic,6);
- assert.deepEqual(chapter.lessons.filter(unit=>!['cephalopods','cnidaria','anemones'].includes(unit.id)).map(unit=>unit.topic),[0,1,2,3,4,5]);
+ assert.deepEqual(chapter.lessons.map(unit=>unit.id),['cephalopods','cuttlefish','twilight']);
  assert.ok(words(cephalopodIntro)>=500);
  assert.ok(words(cephalopodDive)>=2000);
  assert.ok(words(cephalopodDive)>3*words(cephalopodIntro));
@@ -92,14 +91,14 @@ test('cephalopods introduces the group before cuttlefish with two substantial le
 test('Cnidaria and Anemones have substantial paired readings, sourced plates, and stable destinations',async()=>{
  const {cnidarianIntros,cnidarianDives,cnidarianSpecimens,cnidarianSources}=await import('../shared/cnidarian-content.mjs');
  const {libraryGroups,findLibraryLesson}=await import('../shared/library-content.mjs');
- const {sunlightLessonOrder,sunlightUnitReference,polarChapterTitle,lionsManeFoundationOpening,lionsManeAdvancedOpening}=await import('../shared/chapter-structure.mjs');
- assert.deepEqual(libraryGroups.map(g=>g.id),['currents','sunlight','polar','depths']);
+ const {chapters,chapterUnitReference,polarChapterTitle,lionsManeFoundationOpening,lionsManeAdvancedOpening}=await import('../shared/chapter-structure.mjs');
+ assert.deepEqual(libraryGroups.map(g=>g.id),['currents','sunlight','polar','depths','cephalopods','cnidaria']);
  assert.equal(libraryGroups[2].title,polarChapterTitle);
- assert.equal(polarChapterTitle,'Chapter 3: Life in the Arctic');
- assert.deepEqual(libraryGroups[1].lessons.map(l=>l.id),sunlightLessonOrder);
- assert.equal(sunlightUnitReference('cnidaria'),'Chapter 2, Unit 6');
+ assert.equal(polarChapterTitle,'Chapter 3- Life in the Arctic');
+ assert.deepEqual(libraryGroups[1].lessons.map(l=>l.id),chapters[1].lessonIds);
+ assert.equal(chapterUnitReference('cnidaria'),'Chapter 6, Unit 1');
  assert.ok(introductoryArticles.lionsmane.sections[0].paragraphs.includes(lionsManeFoundationOpening));
- assert.match(lionsManeAdvancedOpening,/Chapter 2, Unit 6/);
+ assert.match(lionsManeAdvancedOpening,/Chapter 6, Unit 1/);
  assert.match(lionsManeAdvancedOpening,/one of the largest jellyfish/);
  const deepSource=await readFile(new URL('../app/deepDives.ts',import.meta.url),'utf8');
  assert.match(deepSource,/deepDives\.lionsmane\.sections\[0\]\.paragraphs\.unshift\(lionsManeAdvancedOpening\)/);

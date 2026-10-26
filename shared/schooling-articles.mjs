@@ -1,6 +1,6 @@
 // Level 1 adapts the user-supplied article; Level 2 is an original, source-backed lesson.
 export const schoolingIntro = {
-  "title": "Small fish, big survival tricks",
+  "title": "Fish defences: small fish, big survival tricks",
   "abstract": "Small fish survive by combining several defenses. A school can help members notice danger, confuse a hunter, and share the risk of an attack. Camouflage, shelter, and fast escapes provide other kinds of protection. Each strategy has benefits and costs, so the best response depends on the fish and its surroundings.",
   "sections": [
     {
@@ -64,7 +64,7 @@ export const schoolingIntro = {
   ]
 };
 export const schoolingDive = {
-  "title": "Schools of fish: sensing, collective movement, and survival",
+  "title": "Fish defences: sensing, collective movement, and survival",
   "deck": "Explain how individual decisions create group behavior, then weigh the benefits and costs of staying together.",
   "abstract": "Fish schools link individual sensory decisions with collective patterns that can alter survival. Vision and water-motion sensing help fish respond to neighbors, while changes in spacing, speed, and direction shape the group. Schooling can influence detection, targeting, risk sharing, food access, and swimming costs, but its effects depend on species, habitat, and predator behavior. Understanding these mechanisms requires separating plausible models from measured outcomes and comparing alternatives such as camouflage, refuge use, and rapid escape.",
   "sections": [
