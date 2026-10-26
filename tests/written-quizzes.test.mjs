@@ -108,3 +108,25 @@ test('number formatting does not change science answers',()=>{
  for(const answer of ['1,000 years','1000 years','About one thousand years.'])assert.equal(answerIsCorrect(quizBank.conveyor[5],answer),true);
  for(const answer of ['200–1,000 metres','200 to 1000 m','Two hundred to one thousand meters.'])assert.equal(answerIsCorrect(quizBank.twilightGeneral[0],answer),true);
 });
+
+test('vampire squid color question credits everyday low-light explanations, including absence',()=>{
+ const question=quizBank.twilight[5];
+ for(const answer of [
+  'since there is no light.','Because there is no light.','No light!',
+  'There is no red light down there.','There is not much light.',
+  'There is not enough red light.','There is not much red light.',
+  'The absence of red light.','Red light is not there.',
+  'There isn’t any light.','There is not enough light to see its color.',
+  'Very little light reaches that depth.','The lack of light makes it look dark.',
+  'It is dark down there.','It’s too dark to see the red color.',
+  'Red light does not reach the squid.','Red light can’t reach it.',
+  'Red light is absorbed before it gets that deep.','Red light is scarce.',
+ ])assert.equal(answerIsCorrect(question,answer),true,answer);
+ for(const answer of [
+  'Light.','Red skin.','There is no food.','It needs no oxygen.',
+  'It is always covered in mud.','Red light is brightest at 900 metres.',
+  'Not because there is no light.','There is not a lack of light.',
+  'No light is not the reason.','Red light is not absorbed.',
+  'There is no light, but red light is brightest at 900 metres.',
+ ])assert.equal(answerIsCorrect(question,answer),false,answer);
+});

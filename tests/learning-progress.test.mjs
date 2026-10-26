@@ -47,6 +47,19 @@ test('all quiz banks are graded server-side; fake score fields are ignored',asyn
  const r=await progress(post('/api/progress',{action:'quiz',lessonId:'shark',attemptId:randomUUID(),answers:quizBank.shark.map(()=> 'wrong answer'),score:7},student));const quiz=(await r.json()).progress.quizzes.shark;
  assert.equal(quiz.latestScore,0);assert.equal(quiz.bestScore,7);assert.equal(quiz.attempts,2);
 });
+test('server credits a plain-language low-light explanation and preserves the saved attempt',async()=>{
+ const {progress,student,store}=await setup();
+ const written=answers('twilight');written[5]='since there is no light.';
+ const body={action:'quiz',lessonId:'twilight',attemptId:randomUUID(),answers:written};
+ const response=await progress(post('/api/progress',body,student));
+ assert.equal(response.status,200);
+ const saved=(await response.json()).progress.quizzes.twilight;
+ assert.equal(saved.latestScore,7);assert.equal(saved.total,7);assert.equal(saved.attempts,1);
+ const fresh=createLearningHandler({store});
+ await fresh(post('/api/progress',body,student));
+ const restored=(await (await fresh(get('/api/progress',student))).json()).progress.quizzes.twilight;
+ assert.deepEqual(restored,saved);
+});
 test('quiz retries are idempotent and concurrent saves preserve lessons and attempts',async()=>{
  const {progress,student}=await setup();const body={action:'quiz',lessonId:'enso',attemptId:randomUUID(),answers:answers('enso')};
  const both=await Promise.all([progress(post('/api/progress',body,student)),progress(post('/api/progress',body,student))]);assert.ok(both.every(r=>r.status===200));

@@ -131,6 +131,21 @@ const prompts={
  schooling:{0:'What do we call a group of fish swimming together with coordinated headings?',5:'How do nearby fish coordinate their movement in a school?',6:'Name two costs of schooling: one involving predators and one involving food.'},
 };
 
+// Some answers explain a missing resource. Match the complete idea so words
+// such as "no" and "not" are not mistaken for denying the correct explanation.
+const paraphrases={
+ twilight:{5:[
+  'no light','no sunlight','no red light','no red wavelengths',
+  'not any light','not much light','not enough light',
+  'not any red light','not much red light','not enough red light',
+  'little light','low light','lack of light','absence of light','lack of red light','absence of red light',
+  'light is absent','light is scarce','light is limited','light is not present','light is not there',
+  'light does not reach','light cannot reach','light does not get',
+  'light is absorbed','light has been absorbed','red wavelengths are absorbed',
+  'it is dark','too dark','dark water','in darkness',
+ ]},
+};
+
 const explanations={
  upwelling:[
   'Earth’s rotation produces the Coriolis effect, an apparent deflection of motion over its surface.',
@@ -181,7 +196,7 @@ const conflicts={
  turtle:{1:['gills','breathe water'],2:['rear flippers']},
  enso:{1:['stronger','strengthen'],2:['westward'],4:['warmer eastern pacific','weaker trade winds'],6:['every year','fixed annual schedule']},
  shark:{0:['only seals','only sea lions','seagrass']},
- twilight:{0:['blood'],4:['ordinary ink','black ink']},
+ twilight:{0:['blood'],4:['ordinary ink','black ink'],5:['red light is brightest','plenty of red light','red light is not absorbed','always covered in mud','eyes paint the water','all deep animals are white']},
 };
 
 /**
@@ -195,7 +210,7 @@ export function makeWrittenQuiz(lessonId,questions){
  return questions.map((question,index)=>{
   const answer=typeof question.answer==='number'?question.options[question.answer]:question.answer;
   return {kind:'written',prompt:prompts[lessonId]?.[index]??question.prompt,answer,
-   concepts:rules[index],acceptedPhrases:[answer],rejectConcepts:conflicts[lessonId]?.[index]??[],
+   concepts:rules[index],acceptedPhrases:[answer,...(paraphrases[lessonId]?.[index]??[])],rejectConcepts:conflicts[lessonId]?.[index]??[],
    explanation:question.explanation??explanations[lessonId]?.[index]??answer,
   };
  });
