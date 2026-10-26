@@ -92,7 +92,7 @@ test('Cnidaria and Anemones have substantial paired readings, sourced plates, an
  const {cnidarianIntros,cnidarianDives,cnidarianSpecimens,cnidarianSources}=await import('../shared/cnidarian-content.mjs');
  const {libraryGroups,findLibraryLesson}=await import('../shared/library-content.mjs');
  const {chapters,chapterUnitReference,polarChapterTitle,lionsManeFoundationOpening,lionsManeAdvancedOpening}=await import('../shared/chapter-structure.mjs');
- assert.deepEqual(libraryGroups.map(g=>g.id),['currents','sunlight','polar','depths','cephalopods','cnidaria']);
+ assert.deepEqual(libraryGroups.map(g=>g.id),['currents','sunlight','polar','depths','cephalopods','cnidaria','sharks']);
  assert.equal(libraryGroups[2].title,polarChapterTitle);
  assert.equal(polarChapterTitle,'Chapter 3- The Arctic');
  assert.deepEqual(libraryGroups[1].lessons.map(l=>l.id),chapters[1].lessonIds);
@@ -139,4 +139,29 @@ test('Corals is a complete Chapter 2 unit with two reading levels and six source
  const component=await readFile(new URL('../app/CoralsLesson.tsx',import.meta.url),'utf8');
  assert.ok(component.indexOf('<LessonReading')<component.indexOf('<ScientificPlate'));
  assert.ok(component.indexOf('<ScientificPlate')<component.indexOf('<LessonQuiz'));
+});
+
+
+test('Sharks opens Chapter 7 with four comparative plates before the preserved great white unit',async()=>{
+ const {sharkOverviewIntro,sharkOverviewDive,sharkOverviewGuide,sharkOverviewSpecimens,sharkOverviewSources}=await import('../shared/sharks-content.mjs');
+ const {libraryGroups,findLibraryLesson}=await import('../shared/library-content.mjs');
+ const {lessonChapterLabel,greatWhiteFoundationOpening,greatWhiteAdvancedOpening}=await import('../shared/chapter-structure.mjs');
+ assert.deepEqual(libraryGroups[6].lessons.map(l=>l.id),['sharks','shark']);
+ assert.equal(libraryGroups[6].title,'Chapter 7- Sharks');
+ assert.equal(libraryGroups[1].lessons.some(l=>l.id==='shark'),false);
+ assert.equal(findLibraryLesson('shark').subjectId,'sunlight');assert.equal(findLibraryLesson('shark').topic,2);
+ assert.equal(findLibraryLesson('sharks').subjectId,'sharks');
+ assert.equal(lessonChapterLabel('shark'),'Chapter 7- Sharks · Unit 2');
+ assert.ok(words(sharkOverviewIntro)>=500);assert.ok(words(sharkOverviewDive)>=2000);assert.ok(words(sharkOverviewDive)>3*words(sharkOverviewIntro));
+ assert.deepEqual(teachingGuides.sharks,sharkOverviewGuide);
+ assert.equal(sharkOverviewSpecimens.length,4);assert.equal(new Set(sharkOverviewSpecimens.map(s=>s.image)).size,4);
+ for(const item of sharkOverviewSpecimens){assert.ok(item.alt.length>80&&item.description.length>100&&item.scientific);assert.ok(sharkOverviewSources[item.source]);await access(new URL('../public'+item.image,import.meta.url));}
+ for(const section of sharkOverviewDive.sections)for(const key of section.sources)assert.ok(sharkOverviewSources[key]);
+ for(const key of sharkOverviewGuide.sources)assert.ok(sharkOverviewSources[key]);
+ assert.ok(introductoryArticles.shark.sections[0].paragraphs.includes(greatWhiteFoundationOpening));
+ assert.match(greatWhiteAdvancedOpening,/Chapter 7, Unit 1/);
+ const deep=await readFile(new URL('../app/deepDives.ts',import.meta.url),'utf8');
+ assert.match(deep,/deepDives\.shark\.sections\[0\]\.paragraphs\.unshift\(greatWhiteAdvancedOpening\)/);
+ const component=await readFile(new URL('../app/SharksLesson.tsx',import.meta.url),'utf8');
+ assert.ok(component.indexOf('<LessonReading')<component.indexOf('<ScientificPlate'));assert.ok(component.indexOf('<ScientificPlate')<component.indexOf('<LessonQuiz'));
 });

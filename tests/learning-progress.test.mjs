@@ -299,3 +299,21 @@ test('Corals resumes its own draft and saves an owner-visible score while preser
  const report=(await (await students(get('/api/students?student=Student%20Reader',owner))).json()).progress;
  assert.equal(report.quizzes.corals.latestScore,7);assert.equal(report.quizzes.corals.attempts,1);assert.ok(report.lessons.cnidaria.completedAt);
 });
+
+
+test('shark overview draft and score stay independent of the relocated great white records',async()=>{
+ const {progress,student,owner,students,store}=await setup();
+ await progress(post('/api/progress',{action:'lesson',lessonId:'shark',readingLevel:2,completed:true},student));
+ await progress(post('/api/progress',{action:'quiz',lessonId:'shark',attemptId:randomUUID(),answers:answers('shark')},student));
+ const before=(await (await progress(get('/api/progress',student))).json()).progress;
+ await progress(post('/api/progress',{action:'lesson',lessonId:'sharks',readingLevel:2},student));
+ const state={attemptId:randomUUID(),revision:1,index:1,selection:'gills',submitted:false,answers:['cartilage']};
+ assert.equal((await progress(post('/api/progress',{action:'quiz-draft',lessonId:'sharks',previousAttemptId:null,state},student))).status,200);
+ const fresh=createLearningHandler({store});const restored=(await (await fresh(get('/api/progress',student))).json()).progress;
+ assert.equal(restored.quizSessions.sharks.index,1);assert.equal(restored.quizSessions.sharks.selection,'gills');assert.equal(restored.lessons.sharks.readingLevel,2);
+ assert.deepEqual(restored.lessons.shark,before.lessons.shark);assert.deepEqual(restored.quizzes.shark,before.quizzes.shark);
+ const body={action:'quiz-draft',lessonId:'sharks',previousAttemptId:null,state:{...state,revision:2,index:7,selection:'',answers:['cartilage','gills','whale shark','hammerhead','electricity','pups','bycatch']}};
+ assert.equal((await fresh(post('/api/progress',body,student))).status,200);assert.equal((await fresh(post('/api/progress',body,student))).status,200);
+ const report=(await (await students(get('/api/students?student=Student%20Reader',owner))).json()).progress;
+ assert.equal(report.quizzes.sharks.latestScore,7);assert.equal(report.quizzes.sharks.attempts,1);assert.deepEqual(report.quizzes.shark,before.quizzes.shark);assert.deepEqual(report.lessons.shark,before.lessons.shark);
+});

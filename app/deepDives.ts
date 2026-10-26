@@ -1,6 +1,7 @@
+import {sharkOverviewDive,sharkOverviewSources} from "../shared/sharks-content.mjs";
 import {coralDive,coralSources} from "../shared/coral-content.mjs";
 import {cnidarianDives,cnidarianSources} from "../shared/cnidarian-content.mjs";
-import {lionsManeAdvancedOpening} from "../shared/chapter-structure.mjs";
+import {lionsManeAdvancedOpening,greatWhiteAdvancedOpening} from "../shared/chapter-structure.mjs";
 import {sunlightPlasticSources} from "../shared/sunlight-plastics.mjs";
 import polarArticles from "../shared/polar-articles.json";
 import {polarSources} from "../shared/polar-content.mjs";
@@ -12,11 +13,12 @@ import { twilightGeneralDive, vampireDefenseSection } from "../shared/twilight-a
 
 import {cephalopodDive,cephalopodSources} from "../shared/cephalopod-content.mjs";
 
-export type LessonId = "corals" | "cnidaria" | "anemones" | "cephalopods" | "penguin" | "orca" | "lionsmane" | "schooling" | "plankton" | "upwelling" | "conveyor" | "coriolis" | "ekman" | "enso" | "sunlight" | "turtle" | "shark" | "cuttlefish" | "twilightGeneral" | "twilight" | "midnight" | "general";
+export type LessonId = "sharks" | "corals" | "cnidaria" | "anemones" | "cephalopods" | "penguin" | "orca" | "lionsmane" | "schooling" | "plankton" | "upwelling" | "conveyor" | "coriolis" | "ekman" | "enso" | "sunlight" | "turtle" | "shark" | "cuttlefish" | "twilightGeneral" | "twilight" | "midnight" | "general";
 export type DeepDiveSection = { heading: string; paragraphs: string[]; sources?: string[] };
 type DeepDive = { title: string; deck: string; abstract: string; sections: {heading: string; paragraphs: string[]; sources?: string[]}[]; terms: {word: string; definition: string}[]; question: string };
 export const readingSources: Record<string, {label: string; url: string}> = {
   ...polarSources,
+  ...sharkOverviewSources,
   ...coralSources,
   ...cnidarianSources,
   ...cephalopodSources,
@@ -89,6 +91,7 @@ export const readingSources: Record<string, {label: string; url: string}> = {
 };
 export const deepDives: Record<LessonId, DeepDive> = {
 ...polarArticles.advanced,
+sharks:sharkOverviewDive,
 corals:coralDive,
 ...cnidarianDives,
 cephalopods:cephalopodDive,
@@ -480,6 +483,8 @@ general: {
  question:"Design a water-column study that tests whether a surface bloom changes food availability at depth. What would you measure, at which depths, and over what sequence of observations?"
 },
 };
+
+deepDives.shark.sections[0].paragraphs.unshift(greatWhiteAdvancedOpening);
 
 deepDives.lionsmane.sections[0].paragraphs.unshift(lionsManeAdvancedOpening);
 

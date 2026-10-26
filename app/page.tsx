@@ -9,9 +9,10 @@ import EnsoUnit from "./EnsoUnit";
 import TurtleFeedingScene from "./TurtleFeedingScene";
 import SunlightSwimmer,{SunlightWaterSurface} from "./SunlightSwimmer";
 import GreatWhiteSharkLesson from "./GreatWhiteSharkLesson";
+import SharksLesson from "./SharksLesson";
 import CoralsLesson from "./CoralsLesson";
 import CnidarianLesson from "./CnidarianLesson";
-import {polarChapterTitle,twilightChapterTitle,chapterForLesson,lessonChapterLabel} from "../shared/chapter-structure.mjs";
+import {sharksChapterTitle,polarChapterTitle,twilightChapterTitle,chapterForLesson,lessonChapterLabel} from "../shared/chapter-structure.mjs";
 import CephalopodsLesson from "./CephalopodsLesson";
 import CommonCuttlefishLesson from "./CommonCuttlefishLesson";
 import LessonReading from "./LessonReading";
@@ -48,6 +49,7 @@ type Subject = {
 };
 
 const subjects: Subject[] = [
+  {id:"sharks",number:"07",title:sharksChapterTitle,short:"Compare shark diversity, then study the great white.",depth:"Ocean habitats",animal:"",scientific:"",description:"",fact:"",tone:"sunlight"},
   {id:"introduction",number:"00",title:"Introduction",short:"A course overview and two illustrated guides to quizzes and interactive models.",depth:"Start here",animal:"",scientific:"",description:"",fact:"",tone:"course-intro"},
   {
     id: "currents",
@@ -860,7 +862,7 @@ export default function Home() {
           </div>
         </section>
       ) : (
-        <section className={`subject-detail ${selected.tone} ${selected.id === "currents" && currentTopic === 0 ? "upwelling-layout" : ""} ${selected.id === "currents" && currentTopic === 1 ? "conveyor-layout" : ""} ${selected.id === "currents" && currentTopic === 2 ? "coriolis-layout" : ""} ${selected.id === "currents" && currentTopic === 3 ? "ekman-layout" : ""} ${selected.id === "sunlight" ? "sunlight-topic-layout" : ""}`} aria-labelledby="detail-title">
+        <section className={`subject-detail ${selected.tone} ${selected.id === "currents" && currentTopic === 0 ? "upwelling-layout" : ""} ${selected.id === "currents" && currentTopic === 1 ? "conveyor-layout" : ""} ${selected.id === "currents" && currentTopic === 2 ? "coriolis-layout" : ""} ${selected.id === "currents" && currentTopic === 3 ? "ekman-layout" : ""} ${(selected.id === "sunlight" || selected.id === "sharks") ? "sunlight-topic-layout" : ""}`} aria-labelledby="detail-title">
           <button className="back-button" onClick={returnToLibrary}><span>←</span> Main page</button>
           <div className={`detail-copy ${selected.id === "currents" ? "currents-copy" : ""}`}>
             <div className="detail-meta"><span>{String(activeChapter?.number??selected.number).padStart(2,"0")} · Ocean subject</span><span>{selected.depth}</span></div>
@@ -908,6 +910,12 @@ export default function Home() {
                   <TurtleQuiz />
                   </>
                 )}
+              </>
+            ) : selected.id === "sharks" ? (
+              <>
+                <p className="eyebrow">{lessonChapterLabel("sharks")}</p>
+                <h1 id="detail-title">Introduction to sharks</h1>
+                <SharksLesson />
               </>
             ) : (
               <>
