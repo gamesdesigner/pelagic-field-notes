@@ -30,6 +30,25 @@ const variants={
   ['Advection.','The currents move them into the bay.','Transport by moving water.'],
  ],
 };
+test('new unit rubrics accept brief independently worded answers while rejecting clear errors',()=>{
+ const examples={
+  lanternfish:['Light organs.','Counter illumination.','In the evening.','Copepods.','Bony fish.','Vertical migration.','Tuna.'],
+  barreleye:['Inside the transparent head.','Olfaction.','They rotate.','Pacific Ocean.','Small crustaceans.','No.','An underwater robot.'],
+  hatchetfish:['Different groups.','Flattened from side to side.','Bioluminescence.','Counter illumination.','Above them.','Reflection.','Mesopelagic.'],
+  bioluminescence:['Bio luminescence.','A light organ.','Yes.','Luciferin.','Luciferase.','Communication.','Light diffraction.'],
+  verticalMigration:['Daily.','Dusk.','They are harder to spot.','Temperature.','Organic particles.','An echo sounder.','150 m/h.'],
+  octopus:['8.','Suction cups.','Funnel.','Chromatophores.','Clams.','In a cave.','No.'],
+  humboldt:['Dosidicus gigas.','2.','The mantle.','Funnel.','Little oxygen.','Other squid.','Light organs.'],
+  nautilus:['The newest chamber.','Septa.','The siphuncle.','Siphon.','No.','Shrimp.','Late maturity.'],
+  hydroids:['A cnidarian.','Polyps.','Cnidocytes.','Bud formation.','Medusae.','Planula larva.','No.'],
+  whaleShark:['A shark.','Filtration.','Gills.','Krill.','Spotting.','Not necessarily.','Bycatch.'],
+  hammerhead:['Cephalofoil.','The sides.','Electric fields.','Squid.','A bay.','Not enough evidence.','Live birth.'],
+  leopardShark:['Saddles.','Below the head.','Worms.','A bay.','Tidal cycle.','Yes.','Live young.'],
+  mako:['Conical.','Slender teeth.','Caudal fin.','Gills.','Heat retention.','Squid.','Delayed reproduction.'],
+ };
+ for(const [id,answers] of Object.entries(examples))for(const [index,answer] of answers.entries())assert.equal(answerIsCorrect(quizBank[id][index],answer),true,`${id} ${index+1}: ${answer}`);
+ for(const [id,index,answer] of [['barreleye',1,'Vision.'],['hatchetfish',2,'Sound.'],['bioluminescence',0,'Reflection.'],['verticalMigration',6,'600.'],['octopus',0,'Ten.'],['humboldt',4,'High salt.'],['nautilus',2,'Funnel.'],['hydroids',0,'Seaweed.'],['whaleShark',0,'Mammal.'],['hammerhead',6,'External egg cases.'],['leopardShark',4,'The seasons.'],['mako',3,'Lungs.']])assert.equal(answerIsCorrect(quizBank[id][index],answer),false,`${id} ${index+1}: ${answer}`);
+});
 test('each polar quiz has seven written responses without choice answers',()=>{
  for(const id of Object.keys(variants)){
   assert.equal(quizBank[id].length,7);
@@ -68,7 +87,7 @@ const courseVariants={
  schooling:['A school.','It is harder to track one fish.','A tight ball of fish.','Dark on top and light on the belly.','Vibrations.','Neighbors respond to each other.','Schools attract predators and fish compete for food.'],
 };
 test('all quizzes use written rubrics, retain their totals, and accept existing correct answers',()=>{
- const totals={kelp:7,seaIce:7,narwhal:7,beluga:7,walrus:7,sharks:7,corals:7,cnidaria:7,anemones:7,cephalopods:7,upwelling:15,coriolis:6,sunlight:6,turtle:6,conveyor:7,enso:7,shark:7,cuttlefish:7,twilightGeneral:7,twilight:7,plankton:7,schooling:7,penguin:7,orca:7,lionsmane:7};
+ const totals={lanternfish:7,barreleye:7,hatchetfish:7,bioluminescence:7,verticalMigration:7,octopus:7,humboldt:7,nautilus:7,hydroids:7,whaleShark:7,hammerhead:7,leopardShark:7,mako:7,kelp:7,seaIce:7,narwhal:7,beluga:7,walrus:7,sharks:7,corals:7,cnidaria:7,anemones:7,cephalopods:7,upwelling:15,coriolis:6,sunlight:6,turtle:6,conveyor:7,enso:7,shark:7,cuttlefish:7,twilightGeneral:7,twilight:7,plankton:7,schooling:7,penguin:7,orca:7,lionsmane:7};
  assert.deepEqual(Object.keys(quizBank).sort(),Object.keys(totals).sort());
  for(const [id,questions] of Object.entries(quizBank)){
   assert.equal(questions.length,totals[id]);

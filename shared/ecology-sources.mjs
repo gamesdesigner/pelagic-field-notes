@@ -1,4 +1,6 @@
+import {completionSources} from './completion/sources.mjs';
 export const ecologySources={
+ ...completionSources,
  kelpNOAA:{label:'NOAA Fisheries · Kelp forest habitat',url:'https://www.fisheries.noaa.gov/west-coast/habitat-conservation/kelp-forest-habitat-west-coast'},
  kelpGiant:{label:'Monterey Bay Aquarium · Giant kelp',url:'https://www.montereybayaquarium.org/animals-the-ocean/animals-a-to-z/giant-kelp'},
  kelpForest:{label:'Monterey Bay Aquarium · Kelp forest ecosystems',url:'https://www.montereybayaquarium.org/animals-the-ocean/ecosystems/kelp-forest'},

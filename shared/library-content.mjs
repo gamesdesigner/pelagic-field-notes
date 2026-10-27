@@ -1,10 +1,12 @@
 import {polarUnits} from './polar-content.mjs';
+import {completionUnits} from './completion/units.mjs';
 
 import {chapters,sunlightChapterTitle,polarChapterTitle} from './chapter-structure.mjs';
 export {sunlightChapterTitle,polarChapterTitle};
 export const contactEmail = 'anomalocaris.m@gmail.com';
 // Renderer destinations stay stable independently of chapter membership.
 const lessons = [
+    ...completionUnits,
     {id:'sharks',title:'Introduction to sharks',summary:'Explore shark body plans, senses, feeding, and four illustrated species before studying the great white.',image:'/assets/sharks-overview/whale-shark-plate-v1.webp',tag:'Body plans & diversity',subjectId:'sharks'},
     {id:'currentsIntro',title:'Introduction to ocean currents',summary:'Learn how moving water supports ocean life and climate, and how global warming changes those connections.',image:'/assets/field-guide-v2/ocean-surface-currents.webp',tag:'Start here',kind:'introduction',subjectId:'currents',topic:-1},
     {id:'upwelling',title:'Upwelling',summary:'Follow cold, nutrient-rich water toward the sunlit surface.',image:'/assets/upwelling-side-view.png',tag:'Wind & nutrients',subjectId:'currents',topic:0},
@@ -30,13 +32,13 @@ const lessons = [
   ...polarUnits.map((item,unit)=>({id:item.id,title:item.title,summary:item.description,image:item.image,tag:item.region,subjectId:'polar',unit})),
 ];
 const chapterDetails={
- sharks:{label:'Diversity, anatomy & ecology',overview:'Begin with shark biology and four contrasting species, then explore the great white’s anatomy, senses, and role in the food web.'},
+ sharks:{label:'Diversity, anatomy & ecology',overview:'Begin with shark biology, then compare great whites, whale sharks, scalloped hammerheads, leopard sharks, and shortfin makos.'},
  currents:{label:'Moving water',overview:'Discover how wind, Earth’s rotation, and water density connect the oceans and influence climate.'},
  sunlight:{label:'0–200 metres',overview:'Explore the bright surface ocean: habitats, coral reefs, grazing turtles, microscopic producers, fish defences, and kelp forests.'},
  polar:{label:'Sea ice, northern mammals & Antarctic comparison',overview:'Begin beneath Arctic sea ice, then study orcas, narwhals, belugas, and walruses before an Antarctic penguin comparison.'},
- depths:{label:'200–1,000 metres',overview:'Explore the twilight zone: fading light, food webs, living light, and daily journeys between depths.'},
- cephalopods:{label:'Octopuses, squids, cuttlefish & nautiluses',overview:'Begin with the cephalopod body plan, focus on the common cuttlefish, and meet the vampire squid of deeper water.'},
- cnidaria:{label:'Corals, anemones, hydroids & jellyfish',overview:'Connect shared stinging cells with different body plans, then explore anemones, lion’s mane jellies, giant siphonophores, and moon jellies.'},
+ depths:{label:'200–1,000 metres',overview:'Meet lanternfish, barreleyes, and marine hatchetfish, then investigate living light and daily journeys between depths.'},
+ cephalopods:{label:'Octopuses, squids, cuttlefish & nautiluses',overview:'Compare the common cuttlefish, giant Pacific octopus, Humboldt squid, chambered nautilus, and vampire squid through their shared body plan.'},
+ cnidaria:{label:'Anemones, hydroids & jellyfish',overview:'Connect shared stinging cells with anemones, lion’s mane jellies, giant siphonophores, moon jellies, and attached hydroid colonies.'},
 };
 /** @typedef {{id:string,title:string,summary:string,image:string,tag:string,kind?:string,subjectId:string,topic?:number,unit?:number}} LibraryLesson */
 /** @type {{id:string,title:string,label:string,overview:string,lessons:LibraryLesson[]}[]} */

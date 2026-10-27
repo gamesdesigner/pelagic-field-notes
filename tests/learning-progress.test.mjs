@@ -11,6 +11,30 @@ const get=(path,cookie)=>new Request(origin+path,{headers:cookie?{Cookie:cookie}
 const post=(path,body,cookie,site=origin)=>new Request(origin+path,{method:'POST',headers:{Origin:site,'Content-Type':'application/json',...(cookie?{Cookie:cookie}:{})},body:JSON.stringify(body)});
 const cookie=r=>r.headers.get('set-cookie').split(';')[0];
 const answers=id=>quizBank[id].map(question=>typeof question.answer==='number'?question.options[question.answer]:question.answer);
+test('thirteen additional units persist separate drafts, completion, scores and owner reports while old records survive',async()=>{
+ const {completionUnits}=await import('../shared/completion/units.mjs');
+ const {progress,student,owner,students,store}=await setup();
+ await progress(post('/api/progress',{action:'lesson',lessonId:'penguin',readingLevel:2,completed:true},student));
+ await progress(post('/api/progress',{action:'quiz',lessonId:'shark',attemptId:randomUUID(),answers:answers('shark')},student));
+ const before=(await (await progress(get('/api/progress',student))).json()).progress;
+ const states={};
+ for(const {id:lessonId} of completionUnits){
+  assert.equal((await progress(post('/api/progress',{action:'lesson',lessonId,readingLevel:2},student))).status,200);
+  states[lessonId]={attemptId:randomUUID(),revision:1,index:1,selection:answers(lessonId)[1],submitted:false,answers:[answers(lessonId)[0]]};
+  assert.equal((await progress(post('/api/progress',{action:'quiz-draft',lessonId,previousAttemptId:null,state:states[lessonId]},student))).status,200);
+ }
+ const fresh=createLearningHandler({store});const restored=(await (await fresh(get('/api/progress',student))).json()).progress;
+ for(const {id} of completionUnits){assert.equal(restored.quizSessions[id].selection,answers(id)[1]);assert.equal(restored.quizSessions[id].index,1);assert.equal(restored.lessons[id].readingLevel,2);}
+ for(const {id:lessonId} of completionUnits){
+  const state={...states[lessonId],revision:2,index:7,selection:'',answers:answers(lessonId)};
+  const body={action:'quiz-draft',lessonId,previousAttemptId:null,state};
+  assert.equal((await fresh(post('/api/progress',body,student))).status,200);assert.equal((await fresh(post('/api/progress',body,student))).status,200);
+  assert.equal((await fresh(post('/api/progress',{action:'lesson',lessonId,readingLevel:2,completed:true},student))).status,200);
+ }
+ const report=(await (await students(get('/api/students?student=Student%20Reader',owner))).json()).progress;
+ for(const {id} of completionUnits){assert.equal(report.quizzes[id].latestScore,7,id);assert.equal(report.quizzes[id].attempts,1,id);assert.ok(report.lessons[id].completedAt);}
+ assert.deepEqual(report.lessons.penguin,before.lessons.penguin);assert.deepEqual(report.quizzes.shark,before.quizzes.shark);
+});
 async function setup(store=createMemoryStore()){
  await provisionOwner({store,username:'Test Owner',password:'owner-test'});
  const auth=createAuthHandler({store});const students=createStudentHandler({store});const progress=createLearningHandler({store});

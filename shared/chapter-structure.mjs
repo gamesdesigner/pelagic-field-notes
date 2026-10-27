@@ -4,10 +4,10 @@ export const chapters=[
  {id:'currents',number:1,name:'Ocean currents',lessonIds:['currentsIntro','upwelling','conveyor','coriolis','ekman','enso']},
  {id:'sunlight',number:2,name:'The Sunlight Zone',lessonIds:['sunlight','corals','turtle','plankton','schooling','kelp']},
  {id:'polar',number:3,name:'The Arctic',lessonIds:['seaIce','orca','narwhal','beluga','walrus','penguin']},
- {id:'depths',number:4,name:'Twilight Zone',lessonIds:['twilightGeneral']},
- {id:'cephalopods',number:5,name:'Cephalopods',lessonIds:['cephalopods','cuttlefish','twilight']},
- {id:'cnidaria',number:6,name:'Cnidaria',lessonIds:['cnidaria','anemones','lionsmane','midnight','general']},
- {id:'sharks',number:7,name:'Sharks',lessonIds:['sharks','shark']},
+ {id:'depths',number:4,name:'Twilight Zone',lessonIds:['twilightGeneral','lanternfish','barreleye','hatchetfish','bioluminescence','verticalMigration']},
+ {id:'cephalopods',number:5,name:'Cephalopods',lessonIds:['cephalopods','cuttlefish','octopus','humboldt','nautilus','twilight']},
+ {id:'cnidaria',number:6,name:'Cnidaria',lessonIds:['cnidaria','anemones','lionsmane','midnight','general','hydroids']},
+ {id:'sharks',number:7,name:'Sharks',lessonIds:['sharks','shark','whaleShark','hammerhead','leopardShark','mako']},
 ].map(chapter=>({...chapter,title:`Chapter ${chapter.number}- ${chapter.name}`}));
 export const sunlightChapterTitle=chapters[1].title;
 export const polarChapterTitle=chapters[2].title;

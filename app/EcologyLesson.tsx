@@ -2,7 +2,7 @@ import {useId} from 'react';
 import LessonReading from './LessonReading';
 import LessonQuiz from './LessonQuiz';
 import {ecologyLessons,ecologySources} from '../shared/ecology-content.mjs';
-export type EcologyLessonId='kelp'|'seaIce'|'narwhal'|'beluga'|'walrus';
+export type EcologyLessonId=keyof typeof ecologyLessons;
 const sources:Record<string,{label:string;url:string}>=ecologySources;
 export default function EcologyLesson({lessonId}:{lessonId:EcologyLessonId}){
  const lesson=ecologyLessons[lessonId];

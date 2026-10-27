@@ -1,0 +1,18 @@
+import {lanternfishLesson} from './lanternfish.mjs';
+import {barreleyeLesson} from './barreleye.mjs';
+import {hatchetfishLesson} from './hatchetfish.mjs';
+import {bioluminescenceLesson} from './bioluminescence.mjs';
+import {verticalMigrationLesson} from './vertical-migration.mjs';
+import {octopusLesson} from './octopus.mjs';
+import {humboldtLesson} from './humboldt.mjs';
+import {nautilusLesson} from './nautilus.mjs';
+import {hydroidsLesson} from './hydroids.mjs';
+import {whaleSharkLesson} from './whale-shark.mjs';
+import {hammerheadLesson} from './hammerhead.mjs';
+import {leopardSharkLesson} from './leopard-shark.mjs';
+import {makoLesson} from './mako.mjs';
+export const completionLessons={lanternfish:lanternfishLesson,barreleye:barreleyeLesson,hatchetfish:hatchetfishLesson,bioluminescence:bioluminescenceLesson,verticalMigration:verticalMigrationLesson,octopus:octopusLesson,humboldt:humboldtLesson,nautilus:nautilusLesson,hydroids:hydroidsLesson,whaleShark:whaleSharkLesson,hammerhead:hammerheadLesson,leopardShark:leopardSharkLesson,mako:makoLesson};
+export const completionIntros={lanternfish:lanternfishLesson.intro,barreleye:barreleyeLesson.intro,hatchetfish:hatchetfishLesson.intro,bioluminescence:bioluminescenceLesson.intro,verticalMigration:verticalMigrationLesson.intro,octopus:octopusLesson.intro,humboldt:humboldtLesson.intro,nautilus:nautilusLesson.intro,hydroids:hydroidsLesson.intro,whaleShark:whaleSharkLesson.intro,hammerhead:hammerheadLesson.intro,leopardShark:leopardSharkLesson.intro,mako:makoLesson.intro};
+export const completionDives={lanternfish:lanternfishLesson.dive,barreleye:barreleyeLesson.dive,hatchetfish:hatchetfishLesson.dive,bioluminescence:bioluminescenceLesson.dive,verticalMigration:verticalMigrationLesson.dive,octopus:octopusLesson.dive,humboldt:humboldtLesson.dive,nautilus:nautilusLesson.dive,hydroids:hydroidsLesson.dive,whaleShark:whaleSharkLesson.dive,hammerhead:hammerheadLesson.dive,leopardShark:leopardSharkLesson.dive,mako:makoLesson.dive};
+export const completionGuides={lanternfish:lanternfishLesson.guide,barreleye:barreleyeLesson.guide,hatchetfish:hatchetfishLesson.guide,bioluminescence:bioluminescenceLesson.guide,verticalMigration:verticalMigrationLesson.guide,octopus:octopusLesson.guide,humboldt:humboldtLesson.guide,nautilus:nautilusLesson.guide,hydroids:hydroidsLesson.guide,whaleShark:whaleSharkLesson.guide,hammerhead:hammerheadLesson.guide,leopardShark:leopardSharkLesson.guide,mako:makoLesson.guide};
+export const completionQuizzes={lanternfish:lanternfishLesson.questions,barreleye:barreleyeLesson.questions,hatchetfish:hatchetfishLesson.questions,bioluminescence:bioluminescenceLesson.questions,verticalMigration:verticalMigrationLesson.questions,octopus:octopusLesson.questions,humboldt:humboldtLesson.questions,nautilus:nautilusLesson.questions,hydroids:hydroidsLesson.questions,whaleShark:whaleSharkLesson.questions,hammerhead:hammerheadLesson.questions,leopardShark:leopardSharkLesson.questions,mako:makoLesson.questions};

@@ -14,7 +14,7 @@ import { twilightGeneralDive, vampireDefenseSection } from "../shared/twilight-a
 
 import {cephalopodDive,cephalopodSources} from "../shared/cephalopod-content.mjs";
 
-export type LessonId = "kelp" | "seaIce" | "narwhal" | "beluga" | "walrus" | "sharks" | "corals" | "cnidaria" | "anemones" | "cephalopods" | "penguin" | "orca" | "lionsmane" | "schooling" | "plankton" | "upwelling" | "conveyor" | "coriolis" | "ekman" | "enso" | "sunlight" | "turtle" | "shark" | "cuttlefish" | "twilightGeneral" | "twilight" | "midnight" | "general";
+export type LessonId = keyof typeof ecologyDives | "sharks" | "corals" | "cnidaria" | "anemones" | "cephalopods" | "penguin" | "orca" | "lionsmane" | "schooling" | "plankton" | "upwelling" | "conveyor" | "coriolis" | "ekman" | "enso" | "sunlight" | "turtle" | "shark" | "cuttlefish" | "twilightGeneral" | "twilight" | "midnight" | "general";
 export type DeepDiveSection = { heading: string; paragraphs: string[]; sources?: string[] };
 type DeepDive = { title: string; deck: string; abstract: string; sections: {heading: string; paragraphs: string[]; sources?: string[]}[]; terms: {word: string; definition: string}[]; question: string };
 export const readingSources: Record<string, {label: string; url: string}> = {

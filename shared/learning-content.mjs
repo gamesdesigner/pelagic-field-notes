@@ -282,6 +282,7 @@ export const planktonQuestions = [
 ];
 
 export const lessonTitles = {
+ lanternfish:'Lanternfish',barreleye:'Barreleye fish',hatchetfish:'Marine hatchetfish',bioluminescence:'Bioluminescence',verticalMigration:'Daily vertical migration',octopus:'Giant Pacific octopus',humboldt:'Humboldt squid',nautilus:'Chambered nautilus',hydroids:'Hydroids',whaleShark:'Whale sharks',hammerhead:'Scalloped hammerheads',leopardShark:'Leopard sharks',mako:'Shortfin makos',
  kelp:'Kelp forests',seaIce:'Life beneath sea ice',narwhal:'Narwhals',beluga:'Beluga whales',walrus:'Walruses',
  sharks:'Introduction to sharks',
  corals:'Corals',

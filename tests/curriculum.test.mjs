@@ -6,9 +6,40 @@ import {lessonTitles,quizBank} from '../shared/learning-content.mjs';
 import polarArticles from '../shared/polar-articles.json' with {type:'json'};
 import {polarUnits,polarSources} from '../shared/polar-content.mjs';
 import {courseOverview} from '../shared/course-introduction.mjs';
+import {completionLessons} from '../shared/completion/content.mjs';
+import {completionUnits} from '../shared/completion/units.mjs';
+import {completionSources} from '../shared/completion/sources.mjs';
 import {access,readFile} from 'node:fs/promises';
 
 const words=article=>article.sections.flatMap(section=>section.paragraphs).join(' ').split(/\s+/).length;
+test('thirteen remaining units complete all seven chapters with distinct substantial readings and numbered diagrams',async()=>{
+ assert.equal(completionUnits.length,13);assert.equal(Object.keys(completionLessons).length,13);
+ const {libraryGroups,findLibraryLesson}=await import('../shared/library-content.mjs');
+ assert.equal(Object.keys(lessonTitles).length,41);assert.equal(Object.keys(quizBank).length,38);
+ assert.ok(libraryGroups.every(chapter=>chapter.lessons.length===6));
+ const images=new Set(),headings=new Set();
+ for(const [index,unit] of completionUnits.entries()){
+  const lesson=completionLessons[unit.id];assert.ok(lesson,unit.id);
+  assert.equal(findLibraryLesson(unit.id).subjectId,'extensions');assert.equal(findLibraryLesson(unit.id).unit,index);
+  assert.ok(words(lesson.intro)>=500,`${unit.id} Level 1`);assert.ok(words(lesson.dive)>=2000,`${unit.id} Level 2`);
+  assert.ok(words(lesson.dive)>3*words(lesson.intro),`${unit.id} needs substantially deeper Level 2`);
+  assert.deepEqual(introductoryArticles[unit.id].sections,lesson.intro.sections.map(({heading,paragraphs})=>({heading,paragraphs})));assert.deepEqual(teachingGuides[unit.id],lesson.guide);
+  assert.equal(quizBank[unit.id].length,7);assert.ok(quizBank[unit.id].every(q=>q.kind==='written'&&!q.options));
+  assert.equal(unit.image,lesson.diagram.image);images.add(unit.image);headings.add(lesson.intro.sections[0].heading);
+  assert.equal(lesson.diagram.key.length,index>=9||unit.id==='humboldt'||unit.id==='nautilus'?6:5);
+  assert.ok(lesson.diagram.alt.length>80&&lesson.diagram.note.length>100);
+  await access(new URL('../public'+unit.image,import.meta.url));
+  for(const [name,description,source] of lesson.diagram.key){assert.ok(name&&description.length>20);assert.ok(completionSources[source],`${unit.id}: ${source}`);}
+  for(const source of lesson.guide.sources)assert.ok(completionSources[source],source);
+  for(const section of [...lesson.intro.sections,...lesson.dive.sections])for(const source of section.sources)assert.ok(completionSources[source],source);
+ }
+ assert.equal(images.size,13);assert.equal(headings.size,13);
+ const text=id=>completionLessons[id].dive.sections.flatMap(s=>s.paragraphs).join(' ');
+ assert.match(text('barreleye'),/hypothes/i);assert.match(text('nautilus'),/siphuncle/);
+ assert.match(text('hydroids'),/planula/);assert.match(text('mako'),/regional endothermy/i);
+ const component=await readFile(new URL('../app/AdditionalUnits.tsx',import.meta.url),'utf8');
+ assert.match(component,/lessonChapterLabel\(item.id\)/);assert.match(component,/onOpen\(next\)/);assert.match(component,/onBack/);
+});
 test('every registered lesson has a complete foundation article and teaching guide',()=>{
  const ids=Object.keys(lessonTitles).sort();
  assert.deepEqual(Object.keys(introductoryArticles).sort(),ids);
@@ -71,9 +102,9 @@ test('cephalopods introduces the group before cuttlefish with two substantial le
  assert.equal(chapter.title,'Chapter 5- Cephalopods');
  const cephIndex=chapter.lessons.findIndex(unit=>unit.id==='cephalopods');
  assert.equal(chapter.lessons[cephIndex+1].id,'cuttlefish');
- assert.equal(chapter.lessons.length,3);
+ assert.equal(chapter.lessons.length,6);
  assert.equal(chapter.lessons[cephIndex].topic,6);
- assert.deepEqual(chapter.lessons.map(unit=>unit.id),['cephalopods','cuttlefish','twilight']);
+ assert.deepEqual(chapter.lessons.map(unit=>unit.id),['cephalopods','cuttlefish','octopus','humboldt','nautilus','twilight']);
  assert.ok(words(cephalopodIntro)>=500);
  assert.ok(words(cephalopodDive)>=2000);
  assert.ok(words(cephalopodDive)>3*words(cephalopodIntro));
@@ -146,7 +177,7 @@ test('Sharks opens Chapter 7 with four comparative plates before the preserved g
  const {sharkOverviewIntro,sharkOverviewDive,sharkOverviewGuide,sharkOverviewSpecimens,sharkOverviewSources}=await import('../shared/sharks-content.mjs');
  const {libraryGroups,findLibraryLesson}=await import('../shared/library-content.mjs');
  const {lessonChapterLabel,greatWhiteFoundationOpening,greatWhiteAdvancedOpening}=await import('../shared/chapter-structure.mjs');
- assert.deepEqual(libraryGroups[6].lessons.map(l=>l.id),['sharks','shark']);
+ assert.deepEqual(libraryGroups[6].lessons.map(l=>l.id),['sharks','shark','whaleShark','hammerhead','leopardShark','mako']);
  assert.equal(libraryGroups[6].title,'Chapter 7- Sharks');
  assert.equal(libraryGroups[1].lessons.some(l=>l.id==='shark'),false);
  assert.equal(findLibraryLesson('shark').subjectId,'sunlight');assert.equal(findLibraryLesson('shark').topic,2);
@@ -177,7 +208,7 @@ test('kelp and four Arctic units have substantial levels, sourced numbered diagr
  assert.equal(lessonChapterLabel('kelp'),'Chapter 2- The Sunlight Zone · Unit 6');
  assert.equal(lessonChapterLabel('seaIce'),'Chapter 3- The Arctic · Unit 1');
  for(const [id,index] of [['penguin',0],['orca',1],['lionsmane',2],['seaIce',3],['narwhal',4],['beluga',5],['walrus',6]])assert.equal(findLibraryLesson(id).unit,index);
- for(const [id,lesson] of Object.entries(ecologyLessons)){
+ for(const id of ['kelp','seaIce','narwhal','beluga','walrus']){const lesson=ecologyLessons[id];
   assert.ok(words(lesson.intro)>=500,id);assert.ok(words(lesson.dive)>=2000,id);assert.ok(words(lesson.dive)>3*words(lesson.intro),id);
   assert.equal(introductoryArticles[id].abstract,lesson.guide.abstract);assert.deepEqual(teachingGuides[id],lesson.guide);
   assert.ok(lesson.diagram.alt.length>80&&lesson.diagram.note.length>100);

@@ -10,6 +10,7 @@ import TurtleFeedingScene from "./TurtleFeedingScene";
 import SunlightSwimmer,{SunlightWaterSurface} from "./SunlightSwimmer";
 import GreatWhiteSharkLesson from "./GreatWhiteSharkLesson";
 import EcologyLesson from "./EcologyLesson";
+import AdditionalUnits from "./AdditionalUnits";
 import SharksLesson from "./SharksLesson";
 import CoralsLesson from "./CoralsLesson";
 import CnidarianLesson from "./CnidarianLesson";
@@ -50,6 +51,7 @@ type Subject = {
 };
 
 const subjects: Subject[] = [
+  {id:"extensions",number:"",title:"Ocean studies",short:"",depth:"",animal:"",scientific:"",description:"",fact:"",tone:"twilight"},
   {id:"sharks",number:"07",title:sharksChapterTitle,short:"Compare shark diversity, then study the great white.",depth:"Ocean habitats",animal:"",scientific:"",description:"",fact:"",tone:"sunlight"},
   {id:"introduction",number:"00",title:"Introduction",short:"A course overview and two illustrated guides to quizzes and interactive models.",depth:"Start here",animal:"",scientific:"",description:"",fact:"",tone:"course-intro"},
   {
@@ -772,7 +774,7 @@ export default function Home() {
   const returnToLibrary=useCallback(()=>{setSelected(null);setCurrentTopic(null);setLibraryUnit(null);navigateSite('/');},[]);
   useEffect(()=>{if(page==='sign-in'||page==='sign-up')navigateSite(`/${lessonQuery(search)}`,{replace:true});},[page,search]);
 
-  useEffect(()=>{window.scrollTo({top:0,left:0,behavior:"instant"});},[selected?.id,currentTopic]);
+  useEffect(()=>{window.scrollTo({top:0,left:0,behavior:"instant"});},[selected?.id,currentTopic,libraryUnit]);
 
   useEffect(() => {
     if (!selected) return;
@@ -796,6 +798,8 @@ export default function Home() {
         <CourseIntroduction onBack={returnToLibrary} onCurrents={()=>openLibrary({subjectId:"currents",topic:-1})} onQuiz={()=>{setSelected(subjects.find(s=>s.id==="sunlight")!);setCurrentTopic(5);}} onTank={()=>{setSelected(subjects.find(s=>s.id==="sunlight")!);setCurrentTopic(4);}}/>
       ) : selected.id === "polar" ? (
         <PolarUnits key={`polar-${libraryUnit}`} initialUnit={libraryUnit} onBack={returnToLibrary}/>
+      ) : selected.id === "extensions" ? (
+        <AdditionalUnits key={`extension-${libraryUnit}`} initialUnit={libraryUnit} onBack={returnToLibrary} onOpen={openLibrary}/>
       ) : selected.id === "twilight" ? (
         <TwilightUnits key={`twilight-${libraryUnit}`} initialUnit={libraryUnit} onBack={returnToLibrary}/>
       ) : selected.id === "currents" && currentTopic === -1 ? (

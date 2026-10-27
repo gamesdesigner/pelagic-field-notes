@@ -3,6 +3,7 @@ import type { DeepDiveSection, LessonId } from "./deepDives";
 
 // Substantive extensions supplement the first five sections of each article.
 export const expandedSections: Record<LessonId, DeepDiveSection[]> = {
+lanternfish:[],barreleye:[],hatchetfish:[],bioluminescence:[],verticalMigration:[],octopus:[],humboldt:[],nautilus:[],hydroids:[],whaleShark:[],hammerhead:[],leopardShark:[],mako:[],
 sharks: [],
 kelp: [],seaIce: [],narwhal: [],beluga: [],walrus: [],
 corals: [],
