@@ -413,3 +413,26 @@ test('new ray and phantom units restore independent quiz drafts and owner-visibl
  for(const {id} of rayUnits){assert.equal(report.quizzes[id].latestScore,7,id);assert.equal(report.quizzes[id].attempts,1,id);assert.ok(report.lessons[id].completedAt);}
  assert.deepEqual(report.lessons.cnidaria,before.lessons.cnidaria);assert.deepEqual(report.quizzes.shark,before.quizzes.shark);
 });
+
+test('nine whale and deep-sea lessons restore separate drafts and report scores to owner while preserving earlier units',async()=>{
+ const {whaleDeepUnits}=await import('../shared/whales-deep/units.mjs');
+ const {progress,student,owner,students,store}=await setup();
+ for(const lessonId of ['midnightLife','mantaRay','coelacanth'])assert.equal((await progress(post('/api/progress',{action:'lesson',lessonId,readingLevel:2},student))).status,200);
+ await progress(post('/api/progress',{action:'quiz',lessonId:'mantaRay',attemptId:randomUUID(),answers:answers('mantaRay')},student));
+ const before=(await (await progress(get('/api/progress',student))).json()).progress,states={};
+ for(const {id:lessonId} of whaleDeepUnits){
+  assert.equal((await progress(post('/api/progress',{action:'lesson',lessonId,readingLevel:2},student))).status,200);
+  states[lessonId]={attemptId:randomUUID(),revision:1,index:1,selection:answers(lessonId)[1],submitted:false,answers:[answers(lessonId)[0]]};
+  assert.equal((await progress(post('/api/progress',{action:'quiz-draft',lessonId,previousAttemptId:null,state:states[lessonId]},student))).status,200);
+ }
+ const fresh=createLearningHandler({store}),restored=(await (await fresh(get('/api/progress',student))).json()).progress;
+ for(const {id} of whaleDeepUnits){assert.equal(restored.quizSessions[id].index,1);assert.equal(restored.quizSessions[id].selection,answers(id)[1]);assert.equal(restored.lessons[id].readingLevel,2);}
+ for(const {id:lessonId} of whaleDeepUnits){
+  const body={action:'quiz-draft',lessonId,previousAttemptId:null,state:{...states[lessonId],revision:2,index:7,selection:'',answers:answers(lessonId)}};
+  assert.equal((await fresh(post('/api/progress',body,student))).status,200);assert.equal((await fresh(post('/api/progress',body,student))).status,200);
+  assert.equal((await fresh(post('/api/progress',{action:'lesson',lessonId,readingLevel:2,completed:true},student))).status,200);
+ }
+ const report=(await (await students(get('/api/students?student=Student%20Reader',owner))).json()).progress;
+ for(const {id} of whaleDeepUnits){assert.equal(report.quizzes[id].latestScore,7,id);assert.equal(report.quizzes[id].attempts,1,id);assert.ok(report.lessons[id].completedAt);}
+ assert.deepEqual(report.lessons.midnightLife,before.lessons.midnightLife);assert.deepEqual(report.quizzes.mantaRay,before.quizzes.mantaRay);
+});

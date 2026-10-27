@@ -12,15 +12,15 @@ import {completionSources} from '../shared/completion/sources.mjs';
 import {access,readFile} from 'node:fs/promises';
 
 const words=article=>article.sections.flatMap(section=>section.paragraphs).join(' ').split(/\s+/).length;
-test('new Midnight Zone chapter has four complete units while later chapter IDs and destinations stay stable',async()=>{
+test('original Midnight Zone additions retain four complete units while later chapter IDs and destinations stay stable',async()=>{
  const {midnightLessons}=await import('../shared/midnight/content.mjs');
  const {midnightSources}=await import('../shared/midnight/sources.mjs');
  const {midnightUnits}=await import('../shared/midnight/units.mjs');
  const {chapters,chapterForLesson,cephalopodsChapterTitle,sharksChapterTitle}=await import('../shared/chapter-structure.mjs');
  const {findLibraryLesson,libraryGroups}=await import('../shared/library-content.mjs');
- assert.equal(chapters.length,9);assert.equal(libraryGroups.flatMap(c=>c.lessons).length,49);
+ assert.equal(chapters.length,10);assert.equal(libraryGroups.flatMap(c=>c.lessons).length,58);
  assert.equal(chapters[4].title,'Chapter 5- Midnight Zone');
- assert.deepEqual(chapters[4].lessonIds,['midnightLife','giantIsopod','blackDragonfish','pelicanEel']);
+ assert.deepEqual(chapters[4].lessonIds.slice(0,4),['midnightLife','giantIsopod','blackDragonfish','pelicanEel']);
  assert.equal(cephalopodsChapterTitle,'Chapter 6- Cephalopods');assert.equal(sharksChapterTitle,'Chapter 8- Sharks');
  assert.equal(chapterForLesson('cnidaria').number,7);assert.equal(chapterForLesson('midnight').id,'cnidaria');
  assert.equal(findLibraryLesson('midnight').subjectId,'midnight');assert.equal(findLibraryLesson('twilight').unit,1);
@@ -44,8 +44,8 @@ test('new Midnight Zone chapter has four complete units while later chapter IDs 
 test('thirteen earlier additions retain distinct readings, diagrams, and stable destinations',async()=>{
  assert.equal(completionUnits.length,13);assert.equal(Object.keys(completionLessons).length,13);
  const {libraryGroups,findLibraryLesson}=await import('../shared/library-content.mjs');
- assert.equal(Object.keys(lessonTitles).length,48);assert.equal(Object.keys(quizBank).length,45);
- assert.ok(libraryGroups.filter(chapter=>!['midnightZone','cnidaria','rays'].includes(chapter.id)).every(chapter=>chapter.lessons.length===6));
+ assert.equal(Object.keys(lessonTitles).length,57);assert.equal(Object.keys(quizBank).length,54);
+ assert.ok(libraryGroups.filter(chapter=>!['midnightZone','cnidaria','rays','whales'].includes(chapter.id)).every(chapter=>chapter.lessons.length===6));
  const images=new Set(),headings=new Set();
  for(const [index,unit] of completionUnits.entries()){
   const lesson=completionLessons[unit.id];assert.ok(lesson,unit.id);
@@ -152,7 +152,7 @@ test('Cnidaria and Anemones have substantial paired readings, sourced plates, an
  const {cnidarianIntros,cnidarianDives,cnidarianSpecimens,cnidarianSources}=await import('../shared/cnidarian-content.mjs');
  const {libraryGroups,findLibraryLesson}=await import('../shared/library-content.mjs');
  const {chapters,chapterUnitReference,polarChapterTitle,lionsManeFoundationOpening,lionsManeAdvancedOpening}=await import('../shared/chapter-structure.mjs');
- assert.deepEqual(libraryGroups.map(g=>g.id),['currents','sunlight','polar','depths','midnightZone','cephalopods','cnidaria','sharks','rays']);
+ assert.deepEqual(libraryGroups.map(g=>g.id),['currents','sunlight','polar','depths','midnightZone','cephalopods','cnidaria','sharks','rays','whales']);
  assert.equal(libraryGroups[2].title,polarChapterTitle);
  assert.equal(polarChapterTitle,'Chapter 3- The Arctic');
  assert.deepEqual(libraryGroups[1].lessons.map(l=>l.id),chapters[1].lessonIds);
@@ -261,8 +261,8 @@ test('phantom jelly and Chapter 9 rays provide complete readings, references, di
  const {ecologySources}=await import('../shared/ecology-sources.mjs');
  const {libraryGroups,findLibraryLesson}=await import('../shared/library-content.mjs');
  const {chapterUnitReference}=await import('../shared/chapter-structure.mjs');
- assert.equal(libraryGroups.length,9);assert.equal(libraryGroups.at(-1).title,'Chapter 9- Rays');
- assert.deepEqual(libraryGroups.at(-1).lessons.map(x=>x.id),['rays','mantaRay']);
+ assert.equal(libraryGroups.length,10);assert.equal(libraryGroups.find(x=>x.id==='rays').title,'Chapter 9- Rays');
+ assert.deepEqual(libraryGroups.find(x=>x.id==='rays').lessons.map(x=>x.id),['rays','mantaRay']);
  assert.equal(chapterUnitReference('giantPhantom'),'Chapter 7, Unit 7');
  for(const [i,unit] of rayUnits.entries()){
   const lesson=rayLessons[unit.id];assert.equal(findLibraryLesson(unit.id).unit,17+i);
@@ -281,4 +281,50 @@ test('phantom jelly and Chapter 9 rays provide complete readings, references, di
  assert.match(text('mantaRay'),/reef-manta studies.*oceanic/is);
  const reading=await readFile(new URL('../app/EcologyLesson.tsx',import.meta.url),'utf8');
  assert.ok(reading.indexOf('{children}')>reading.indexOf('<EcologyDiagram'));assert.ok(reading.indexOf('{children}')<reading.indexOf('<LessonQuiz'));
+});
+
+test('Whales chapter and six Midnight additions have substantial sourced readings, accurate habitat context, and stable destinations',async()=>{
+ const {whaleDeepLessons}=await import('../shared/whales-deep/content.mjs');
+ const {whaleDeepUnits}=await import('../shared/whales-deep/units.mjs');
+ const {ecologySources}=await import('../shared/ecology-sources.mjs');
+ const {chapters,chapterForLesson}=await import('../shared/chapter-structure.mjs');
+ const {libraryGroups,findLibraryLesson}=await import('../shared/library-content.mjs');
+ assert.equal(chapters.length,10);assert.equal(libraryGroups.flatMap(c=>c.lessons).length,58);
+ assert.equal(Object.keys(lessonTitles).length,57);assert.equal(Object.keys(quizBank).length,54);
+ assert.equal(chapters.at(-1).title,'Chapter 10- Whales');assert.deepEqual(chapters.at(-1).lessonIds,['whales','blueWhale','spermWhale']);
+ assert.deepEqual(chapters[4].lessonIds,['midnightLife','giantIsopod','blackDragonfish','pelicanEel','oarfish','giantTubeworm','yetiCrab','hydrothermalVents','anglerfish','coelacanth']);
+ for(const [index,unit] of whaleDeepUnits.entries()){
+  const lesson=whaleDeepLessons[unit.id];assert.ok(lesson,unit.id);
+  assert.equal(findLibraryLesson(unit.id).unit,20+index);assert.equal(findLibraryLesson(unit.id).subjectId,'extensions');
+  assert.equal(chapterForLesson(unit.id).id,index<3?'whales':'midnightZone');
+  assert.ok(words(lesson.intro)>=500,unit.id);assert.ok(words(lesson.dive)>=2000,unit.id);assert.ok(words(lesson.dive)>3*words(lesson.intro),unit.id);
+  assert.deepEqual(teachingGuides[unit.id],lesson.guide);assert.equal(introductoryArticles[unit.id].abstract,lesson.guide.abstract);
+  assert.equal(quizBank[unit.id].length,7);assert.ok(quizBank[unit.id].every(q=>q.kind==='written'&&!q.options));
+  assert.equal(unit.image,lesson.diagram.image);await access(new URL('../public'+unit.image,import.meta.url));
+  assert.equal(lesson.diagram.key.length,index===0?4:index===6?6:5);
+  for(const [name,description,source] of lesson.diagram.key){assert.ok(name&&description.length>35);assert.ok(ecologySources[source],source);}
+  for(const source of lesson.guide.sources)assert.ok(ecologySources[source],source);
+  for(const section of [...lesson.intro.sections,...lesson.dive.sections])for(const source of section.sources)assert.ok(ecologySources[source],source);
+ }
+ const text=id=>whaleDeepLessons[id].dive.sections.flatMap(s=>s.paragraphs).join(' ');
+ assert.match(text('whales'),/mating.*calving.*nursing/is);assert.match(text('whales'),/2,992/);
+ assert.match(text('blueWhale'),/315.*not a limit/is);assert.match(text('spermWhale'),/echolocation/i);
+ for(const id of ['oarfish','coelacanth'])assert.match(text(id),/comparison/i);
+ assert.match(text('giantTubeworm'),/lacks.*mouth.*gut/is);assert.match(text('yetiCrab'),/Kiwa tyleri/);
+ assert.match(text('hydrothermalVents'),/carbon source.*energy/is);assert.match(text('hydrothermalVents'),/not smoke/);
+ assert.match(text('anglerfish'),/580.*twilight/is);assert.match(text('coelacanth'),/does not mean.*unchanged/is);
+});
+
+test('whale comparison and vent chemical reference preserve roles, sources, and population-specific claims',async()=>{
+ const {whaleComparisons,ventChemicals,ventChemicalCategories}=await import('../shared/whales-deep/field-guide.mjs');
+ const {ecologySources}=await import('../shared/ecology-sources.mjs');
+ assert.equal(whaleComparisons.length,4);
+ for(const item of whaleComparisons){for(const field of ['prey','movement','reproduction','depth'])assert.ok(item[field].length>35);for(const source of item.sources)assert.ok(ecologySources[source]);}
+ assert.match(whaleComparisons[0].reproduction,/not completely mapped/);assert.match(whaleComparisons[1].movement,/Age and sex/);
+ assert.equal(ventChemicals.length,9);
+ for(const item of ventChemicals){assert.ok(item.formula&&item.origin.length>25&&item.role.length>50);assert.ok(ecologySources[item.source]);for(const category of item.categories)assert.ok(ventChemicalCategories.some(c=>c.id===category));}
+ assert.deepEqual(ventChemicals.find(c=>c.formula==='O₂').categories,['acceptor']);
+ assert.match(ventChemicals.find(c=>c.formula==='O₂').origin,/seawater/);
+ assert.ok(ventChemicals.find(c=>c.formula==='CH₄').categories.includes('carbon'));
+ assert.match(ventChemicals[0].role,/do not supply carbon/);
 });

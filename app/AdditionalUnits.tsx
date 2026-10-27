@@ -1,5 +1,9 @@
 "use client";
 import './ray-labs.css';
+import './whale-deep.css';
+import {whaleDeepUnits} from '../shared/whales-deep/units.mjs';
+import WhaleFieldGuide from './WhaleFieldGuide';
+import VentChemistry from './VentChemistry';
 import {rayUnits} from '../shared/rays/units.mjs';
 import MantaMouthLab from './MantaMouthLab';
 import PhantomSizeComparison from './PhantomSizeComparison';
@@ -9,7 +13,7 @@ import {midnightUnits} from '../shared/midnight/units.mjs';
 import {chapterForLesson,lessonChapterLabel} from '../shared/chapter-structure.mjs';
 import {libraryGroups} from '../shared/library-content.mjs';
 import type {LibrarySelection} from './CourseLibrary';
-const additionalUnits=[...completionUnits,...midnightUnits,...rayUnits];
+const additionalUnits=[...completionUnits,...midnightUnits,...rayUnits,...whaleDeepUnits];
 
 export default function AdditionalUnits({initialUnit,onBack,onOpen}:{initialUnit:number|null;onBack:()=>void;onOpen:(selection:LibrarySelection)=>void}){
  const item=additionalUnits[initialUnit??0];
@@ -19,7 +23,7 @@ export default function AdditionalUnits({initialUnit,onBack,onOpen}:{initialUnit
  const next=nextId?libraryGroups.flatMap(group=>group.lessons).find(unit=>unit.id===nextId):undefined;
  return <section className="polar-lesson" aria-labelledby="additional-unit-title">
   <header className="polar-lesson-header"><button type="button" className="back-button" onClick={onBack}>← Main page</button><p className="eyebrow">{lessonChapterLabel(item.id)} · {item.tag}</p><h1 id="additional-unit-title">{item.title}</h1><p className="scientific">{item.scientific}</p><p className="polar-deck">{item.summary}</p></header>
-  <EcologyLesson lessonId={item.id as EcologyLessonId}>{item.id==='giantPhantom'&&<PhantomSizeComparison/>}{item.id==='mantaRay'&&<MantaMouthLab/>}</EcologyLesson>
+  <EcologyLesson lessonId={item.id as EcologyLessonId}>{item.id==='giantPhantom'&&<PhantomSizeComparison/>}{item.id==='mantaRay'&&<MantaMouthLab/>}{item.id==='whales'&&<WhaleFieldGuide/>}{item.id==='hydrothermalVents'&&<VentChemistry/>}</EcologyLesson>
   <nav className="polar-unit-navigation" aria-label={`More ${chapter.name} lessons`}><button type="button" onClick={onBack}>Main page</button>{next&&<button type="button" onClick={()=>onOpen(next)}>Next: {next.title} →</button>}</nav>
  </section>;
 }

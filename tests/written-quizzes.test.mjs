@@ -97,7 +97,7 @@ const courseVariants={
  schooling:['A school.','It is harder to track one fish.','A tight ball of fish.','Dark on top and light on the belly.','Vibrations.','Neighbors respond to each other.','Schools attract predators and fish compete for food.'],
 };
 test('all quizzes use written rubrics, retain their totals, and accept existing correct answers',()=>{
- const totals={giantPhantom:7,rays:7,mantaRay:7,midnightLife:7,giantIsopod:7,blackDragonfish:7,pelicanEel:7,lanternfish:7,barreleye:7,hatchetfish:7,bioluminescence:7,verticalMigration:7,octopus:7,humboldt:7,nautilus:7,hydroids:7,whaleShark:7,hammerhead:7,leopardShark:7,mako:7,kelp:7,seaIce:7,narwhal:7,beluga:7,walrus:7,sharks:7,corals:7,cnidaria:7,anemones:7,cephalopods:7,upwelling:15,coriolis:6,sunlight:6,turtle:6,conveyor:7,enso:7,shark:7,cuttlefish:7,twilightGeneral:7,twilight:7,plankton:7,schooling:7,penguin:7,orca:7,lionsmane:7};
+ const totals={whales:7,blueWhale:7,spermWhale:7,oarfish:7,giantTubeworm:7,yetiCrab:7,hydrothermalVents:7,anglerfish:7,coelacanth:7,giantPhantom:7,rays:7,mantaRay:7,midnightLife:7,giantIsopod:7,blackDragonfish:7,pelicanEel:7,lanternfish:7,barreleye:7,hatchetfish:7,bioluminescence:7,verticalMigration:7,octopus:7,humboldt:7,nautilus:7,hydroids:7,whaleShark:7,hammerhead:7,leopardShark:7,mako:7,kelp:7,seaIce:7,narwhal:7,beluga:7,walrus:7,sharks:7,corals:7,cnidaria:7,anemones:7,cephalopods:7,upwelling:15,coriolis:6,sunlight:6,turtle:6,conveyor:7,enso:7,shark:7,cuttlefish:7,twilightGeneral:7,twilight:7,plankton:7,schooling:7,penguin:7,orca:7,lionsmane:7};
  assert.deepEqual(Object.keys(quizBank).sort(),Object.keys(totals).sort());
  for(const [id,questions] of Object.entries(quizBank)){
   assert.equal(questions.length,totals[id]);
@@ -223,4 +223,20 @@ test('phantom and ray quizzes accept concise concepts without accepting contrary
  };
  for(const [id,answers] of Object.entries(examples))for(const [index,answer] of answers.entries())assert.equal(answerIsCorrect(quizBank[id][index],answer),true,`${id} ${index+1}: ${answer}`);
  for(const [id,index,answer] of [['giantPhantom',0,'Eight.'],['giantPhantom',1,'The bell diameter.'],['giantPhantom',5,'Longer.'],['rays',0,'Bone only.'],['rays',4,'Venom.'],['rays',6,'Live pups.'],['mantaRay',0,'Seals.'],['mantaRay',3,'Not endangered.'],['mantaRay',4,'Yes.']])assert.equal(answerIsCorrect(quizBank[id][index],answer),false,`${id} ${index+1}: ${answer}`);
+});
+
+test('Whales and Midnight additions accept short paraphrases while rejecting contrary mechanisms',()=>{
+ const examples={
+ whales:['Mammals.','Baleen.','Blue whales.','Krill.','A calving area.','It varies.','Yes.'],
+ blueWhale:['Krill.','Baleen plates.','The throat folds.','Yes.','2.','No.','Fishing gear.'],
+ spermWhale:['A toothed whale.','Echo location.','Squid.','Myoglobin.','1.','Yes.','No.'],
+ oarfish:['A fish.','Crimson.','The dorsal fin.','Krill.','No.','Shallower water.','A camera.'],
+ giantTubeworm:['Trophosome.','No.','Chemo synthesis.','H2S.','CO2.','Cooler mixed water.','The plume.'],
+ yetiCrab:['A squat lobster.','Bristles.','On the outer surface.','Antarctica.','No.','Different species differ.','Bacteria.'],
+ hydrothermalVents:['Ocean water.','Hot rock.','Mineral particles.','Chemosynthesis.','Methane.','Mussels.','Cooler water.'],
+ anglerfish:['The forehead.','The esca.','Bacteria.','Bio luminescence.','Mesopelagic.','No.','Not guaranteed.'],
+ coelacanth:['Fleshy fins.','A living fish.','Shallower water.','2.','Electric fields.','No.','eDNA.'],
+ };
+ for(const [id,answers] of Object.entries(examples))for(const [index,answer] of answers.entries())assert.equal(answerIsCorrect(quizBank[id][index],answer),true,`${id} ${index+1}: ${answer}`);
+ for(const [id,index,answer] of [['whales',0,'A fish.'],['whales',2,'Sperm whale.'],['blueWhale',1,'Cutting teeth.'],['blueWhale',4,'One.'],['spermWhale',1,'Photosynthesis.'],['spermWhale',3,'Baleen.'],['oarfish',3,'Grass.'],['giantTubeworm',2,'Photosynthesis.'],['giantTubeworm',4,'Oxygen.'],['yetiCrab',0,'A mammal.'],['yetiCrab',2,'An internal trophosome.'],['hydrothermalVents',0,'Air.'],['hydrothermalVents',3,'Photosynthesis.'],['anglerfish',0,'The chin only.'],['anglerfish',4,'Midnight only.'],['coelacanth',4,'Sunlight.'],['coelacanth',6,'A photograph only.']])assert.equal(answerIsCorrect(quizBank[id][index],answer),false,`${id} ${index+1}: ${answer}`);
 });
