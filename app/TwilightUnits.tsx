@@ -1,6 +1,6 @@
 "use client";
 import {useEffect,useState} from 'react';
-import {twilightChapterTitle,lessonChapterLabel} from '../shared/chapter-structure.mjs';
+import {twilightChapterTitle,cephalopodsChapterTitle,lessonChapterLabel} from '../shared/chapter-structure.mjs';
 import LessonReading from './LessonReading';
 import LessonQuiz from './LessonQuiz';
 import TwilightExplorer from './TwilightExplorer';
@@ -12,7 +12,7 @@ const units=[
 export default function TwilightUnits({onBack,initialUnit=null}:{onBack:()=>void;initialUnit?:number|null}){
  const [unit,setUnit]=useState<number|null>(initialUnit);
  useEffect(()=>{window.scrollTo({top:0,left:0,behavior:'instant'});},[unit]);
- if(unit===null)return <section className="currents-index twilight-index" aria-labelledby="twilight-index-title"><button type="button" className="back-button" onClick={onBack}>← Main page</button><div className="currents-heading"><p className="eyebrow">{twilightChapterTitle} · Choose a unit</p><h1 id="twilight-index-title">{twilightChapterTitle}</h1><p className="twilight-index-deck">Explore fading light, daily migrations, and food webs between 200 and 1,000 metres. The Vampire Squid lesson is now in Chapter 5- Cephalopods.</p></div><div className="current-card-grid twilight-unit-grid">{units.slice(0,1).map((item,i)=><button type="button" className="current-subject-card" key={item.title} onClick={()=>setUnit(i)}><span className="card-number">{String(i+1).padStart(2,'0')}</span><div className="current-card-art has-topic-image"><img src={item.image} alt="" width="1536" height="1024"/></div><div className="card-copy"><span>Unit {i+1} · Twilight zone</span><h2>{item.title}</h2><p>{item.description}</p></div><span className="card-arrow">↗</span></button>)}</div></section>;
+ if(unit===null)return <section className="currents-index twilight-index" aria-labelledby="twilight-index-title"><button type="button" className="back-button" onClick={onBack}>← Main page</button><div className="currents-heading"><p className="eyebrow">{twilightChapterTitle} · Choose a unit</p><h1 id="twilight-index-title">{twilightChapterTitle}</h1><p className="twilight-index-deck">Explore fading light, daily migrations, and food webs between 200 and 1,000 metres. The Vampire Squid lesson is now in {cephalopodsChapterTitle}.</p></div><div className="current-card-grid twilight-unit-grid">{units.slice(0,1).map((item,i)=><button type="button" className="current-subject-card" key={item.title} onClick={()=>setUnit(i)}><span className="card-number">{String(i+1).padStart(2,'0')}</span><div className="current-card-art has-topic-image"><img src={item.image} alt="" width="1536" height="1024"/></div><div className="card-copy"><span>Unit {i+1} · Twilight zone</span><h2>{item.title}</h2><p>{item.description}</p></div><span className="card-arrow">↗</span></button>)}</div></section>;
  return <TwilightLesson key={unit} unit={unit} onBack={onBack}/>;
 }
 function TwilightLesson({unit,onBack}:{unit:number;onBack:()=>void}){

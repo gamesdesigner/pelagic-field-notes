@@ -30,6 +30,16 @@ const variants={
   ['Advection.','The currents move them into the bay.','Transport by moving water.'],
  ],
 };
+test('Midnight Zone quizzes accept concise answers and reject clear biological errors',()=>{
+ const examples={
+  midnightLife:['Bathypelagic zone.','No sunlight.','Sinking particles.','Bottom dwelling.','It goes up.','Chemo synthesis.','An underwater camera.'],
+  giantIsopod:['A crustacean.','7 pairs.','Antennas.','An outer skeleton.','Swimmerets.','Carrion feeding.','Bait attracts them.'],
+  blackDragonfish:['A bony fish.','The chin barbel.','Light organs.','Other fishes.','Females.','Larvae.','Different species need evidence.'],
+  pelicanEel:['Gulper.','Small.','The throat.','Shrimp.','The end of the tail.','Not necessarily.','Seawater.'],
+ };
+ for(const [id,answers] of Object.entries(examples))for(const [index,answer] of answers.entries())assert.equal(answerIsCorrect(quizBank[id][index],answer),true,`${id} ${index+1}: ${answer}`);
+ for(const [id,index,answer] of [['midnightLife',0,'Euphotic.'],['midnightLife',5,'Photosynthesis.'],['giantIsopod',0,'An insect.'],['giantIsopod',1,'Six.'],['giantIsopod',4,'Lungs.'],['blackDragonfish',0,'A reptile.'],['blackDragonfish',1,'A rod above the head.'],['blackDragonfish',4,'Male only.'],['pelicanEel',0,'Moray.'],['pelicanEel',4,'On the chin.'],['pelicanEel',6,'Surface air.']])assert.equal(answerIsCorrect(quizBank[id][index],answer),false,`${id} ${index+1}: ${answer}`);
+});
 test('new unit rubrics accept brief independently worded answers while rejecting clear errors',()=>{
  const examples={
   lanternfish:['Light organs.','Counter illumination.','In the evening.','Copepods.','Bony fish.','Vertical migration.','Tuna.'],
@@ -87,7 +97,7 @@ const courseVariants={
  schooling:['A school.','It is harder to track one fish.','A tight ball of fish.','Dark on top and light on the belly.','Vibrations.','Neighbors respond to each other.','Schools attract predators and fish compete for food.'],
 };
 test('all quizzes use written rubrics, retain their totals, and accept existing correct answers',()=>{
- const totals={lanternfish:7,barreleye:7,hatchetfish:7,bioluminescence:7,verticalMigration:7,octopus:7,humboldt:7,nautilus:7,hydroids:7,whaleShark:7,hammerhead:7,leopardShark:7,mako:7,kelp:7,seaIce:7,narwhal:7,beluga:7,walrus:7,sharks:7,corals:7,cnidaria:7,anemones:7,cephalopods:7,upwelling:15,coriolis:6,sunlight:6,turtle:6,conveyor:7,enso:7,shark:7,cuttlefish:7,twilightGeneral:7,twilight:7,plankton:7,schooling:7,penguin:7,orca:7,lionsmane:7};
+ const totals={midnightLife:7,giantIsopod:7,blackDragonfish:7,pelicanEel:7,lanternfish:7,barreleye:7,hatchetfish:7,bioluminescence:7,verticalMigration:7,octopus:7,humboldt:7,nautilus:7,hydroids:7,whaleShark:7,hammerhead:7,leopardShark:7,mako:7,kelp:7,seaIce:7,narwhal:7,beluga:7,walrus:7,sharks:7,corals:7,cnidaria:7,anemones:7,cephalopods:7,upwelling:15,coriolis:6,sunlight:6,turtle:6,conveyor:7,enso:7,shark:7,cuttlefish:7,twilightGeneral:7,twilight:7,plankton:7,schooling:7,penguin:7,orca:7,lionsmane:7};
  assert.deepEqual(Object.keys(quizBank).sort(),Object.keys(totals).sort());
  for(const [id,questions] of Object.entries(quizBank)){
   assert.equal(questions.length,totals[id]);

@@ -12,11 +12,40 @@ import {completionSources} from '../shared/completion/sources.mjs';
 import {access,readFile} from 'node:fs/promises';
 
 const words=article=>article.sections.flatMap(section=>section.paragraphs).join(' ').split(/\s+/).length;
-test('thirteen remaining units complete all seven chapters with distinct substantial readings and numbered diagrams',async()=>{
+test('new Midnight Zone chapter has four complete units while later chapter IDs and destinations stay stable',async()=>{
+ const {midnightLessons}=await import('../shared/midnight/content.mjs');
+ const {midnightSources}=await import('../shared/midnight/sources.mjs');
+ const {midnightUnits}=await import('../shared/midnight/units.mjs');
+ const {chapters,chapterForLesson,cephalopodsChapterTitle,sharksChapterTitle}=await import('../shared/chapter-structure.mjs');
+ const {findLibraryLesson,libraryGroups}=await import('../shared/library-content.mjs');
+ assert.equal(chapters.length,8);assert.equal(libraryGroups.flatMap(c=>c.lessons).length,46);
+ assert.equal(chapters[4].title,'Chapter 5- Midnight Zone');
+ assert.deepEqual(chapters[4].lessonIds,['midnightLife','giantIsopod','blackDragonfish','pelicanEel']);
+ assert.equal(cephalopodsChapterTitle,'Chapter 6- Cephalopods');assert.equal(sharksChapterTitle,'Chapter 8- Sharks');
+ assert.equal(chapterForLesson('cnidaria').number,7);assert.equal(chapterForLesson('midnight').id,'cnidaria');
+ assert.equal(findLibraryLesson('midnight').subjectId,'midnight');assert.equal(findLibraryLesson('twilight').unit,1);
+ for(const [index,unit] of midnightUnits.entries()){
+  const lesson=midnightLessons[unit.id];assert.ok(lesson);
+  assert.equal(findLibraryLesson(unit.id).unit,13+index);assert.equal(findLibraryLesson(unit.id).subjectId,'extensions');
+  assert.ok(words(lesson.intro)>=500,unit.id);assert.ok(words(lesson.dive)>=2000,unit.id);assert.ok(words(lesson.dive)>3*words(lesson.intro),unit.id);
+  assert.deepEqual(teachingGuides[unit.id],lesson.guide);assert.equal(introductoryArticles[unit.id].abstract,lesson.guide.abstract);
+  assert.equal(quizBank[unit.id].length,7);assert.ok(quizBank[unit.id].every(q=>q.kind==='written'&&!q.options));
+  assert.equal(lesson.diagram.image,unit.image);assert.equal(lesson.diagram.key.length,index===3?5:6);
+  assert.ok(lesson.diagram.alt.length>80&&lesson.diagram.note.length>100);await access(new URL('../public'+unit.image,import.meta.url));
+  for(const [name,description,source] of lesson.diagram.key){assert.ok(name&&description.length>30);assert.ok(midnightSources[source],source);}
+  for(const source of lesson.guide.sources)assert.ok(midnightSources[source],source);
+  for(const section of [...lesson.intro.sections,...lesson.dive.sections])for(const source of section.sources)assert.ok(midnightSources[source],source);
+ }
+ const text=id=>midnightLessons[id].dive.sections.flatMap(s=>s.paragraphs).join(' ');
+ assert.match(text('midnightLife'),/concentration.*flux/is);assert.match(text('giantIsopod'),/seven pairs/i);
+ assert.match(text('blackDragonfish'),/Idiacanthus atlanticus/);assert.match(text('blackDragonfish'),/beneath the chin/);
+ assert.match(text('blackDragonfish'),/larvae|larval/i);assert.match(text('pelicanEel'),/capacity.*diet/is);
+});
+test('thirteen earlier additions retain distinct readings, diagrams, and stable destinations',async()=>{
  assert.equal(completionUnits.length,13);assert.equal(Object.keys(completionLessons).length,13);
  const {libraryGroups,findLibraryLesson}=await import('../shared/library-content.mjs');
- assert.equal(Object.keys(lessonTitles).length,41);assert.equal(Object.keys(quizBank).length,38);
- assert.ok(libraryGroups.every(chapter=>chapter.lessons.length===6));
+ assert.equal(Object.keys(lessonTitles).length,45);assert.equal(Object.keys(quizBank).length,42);
+ assert.ok(libraryGroups.filter(chapter=>chapter.id!=='midnightZone').every(chapter=>chapter.lessons.length===6));
  const images=new Set(),headings=new Set();
  for(const [index,unit] of completionUnits.entries()){
   const lesson=completionLessons[unit.id];assert.ok(lesson,unit.id);
@@ -99,7 +128,7 @@ test('cephalopods introduces the group before cuttlefish with two substantial le
  const {cephalopodIntro,cephalopodDive,cephalopodSpecimens,cephalopodSources}=await import('../shared/cephalopod-content.mjs');
  const {libraryGroups}=await import('../shared/library-content.mjs');
  const chapter=libraryGroups.find(group=>group.id==='cephalopods');
- assert.equal(chapter.title,'Chapter 5- Cephalopods');
+ assert.equal(chapter.title,'Chapter 6- Cephalopods');
  const cephIndex=chapter.lessons.findIndex(unit=>unit.id==='cephalopods');
  assert.equal(chapter.lessons[cephIndex+1].id,'cuttlefish');
  assert.equal(chapter.lessons.length,6);
@@ -123,13 +152,13 @@ test('Cnidaria and Anemones have substantial paired readings, sourced plates, an
  const {cnidarianIntros,cnidarianDives,cnidarianSpecimens,cnidarianSources}=await import('../shared/cnidarian-content.mjs');
  const {libraryGroups,findLibraryLesson}=await import('../shared/library-content.mjs');
  const {chapters,chapterUnitReference,polarChapterTitle,lionsManeFoundationOpening,lionsManeAdvancedOpening}=await import('../shared/chapter-structure.mjs');
- assert.deepEqual(libraryGroups.map(g=>g.id),['currents','sunlight','polar','depths','cephalopods','cnidaria','sharks']);
+ assert.deepEqual(libraryGroups.map(g=>g.id),['currents','sunlight','polar','depths','midnightZone','cephalopods','cnidaria','sharks']);
  assert.equal(libraryGroups[2].title,polarChapterTitle);
  assert.equal(polarChapterTitle,'Chapter 3- The Arctic');
  assert.deepEqual(libraryGroups[1].lessons.map(l=>l.id),chapters[1].lessonIds);
- assert.equal(chapterUnitReference('cnidaria'),'Chapter 6, Unit 1');
+ assert.equal(chapterUnitReference('cnidaria'),'Chapter 7, Unit 1');
  assert.ok(introductoryArticles.lionsmane.sections[0].paragraphs.includes(lionsManeFoundationOpening));
- assert.match(lionsManeAdvancedOpening,/Chapter 6, Unit 1/);
+ assert.match(lionsManeAdvancedOpening,/Chapter 7, Unit 1/);
  assert.match(lionsManeAdvancedOpening,/one of the largest jellyfish/);
  const deepSource=await readFile(new URL('../app/deepDives.ts',import.meta.url),'utf8');
  assert.match(deepSource,/deepDives\.lionsmane\.sections\[0\]\.paragraphs\.unshift\(lionsManeAdvancedOpening\)/);
@@ -173,16 +202,16 @@ test('Corals is a complete Chapter 2 unit with two reading levels and six source
 });
 
 
-test('Sharks opens Chapter 7 with four comparative plates before the preserved great white unit',async()=>{
+test('Sharks opens Chapter 8 with four comparative plates before the preserved great white unit',async()=>{
  const {sharkOverviewIntro,sharkOverviewDive,sharkOverviewGuide,sharkOverviewSpecimens,sharkOverviewSources}=await import('../shared/sharks-content.mjs');
  const {libraryGroups,findLibraryLesson}=await import('../shared/library-content.mjs');
  const {lessonChapterLabel,greatWhiteFoundationOpening,greatWhiteAdvancedOpening}=await import('../shared/chapter-structure.mjs');
- assert.deepEqual(libraryGroups[6].lessons.map(l=>l.id),['sharks','shark','whaleShark','hammerhead','leopardShark','mako']);
- assert.equal(libraryGroups[6].title,'Chapter 7- Sharks');
+ assert.deepEqual(libraryGroups[7].lessons.map(l=>l.id),['sharks','shark','whaleShark','hammerhead','leopardShark','mako']);
+ assert.equal(libraryGroups[7].title,'Chapter 8- Sharks');
  assert.equal(libraryGroups[1].lessons.some(l=>l.id==='shark'),false);
  assert.equal(findLibraryLesson('shark').subjectId,'sunlight');assert.equal(findLibraryLesson('shark').topic,2);
  assert.equal(findLibraryLesson('sharks').subjectId,'sharks');
- assert.equal(lessonChapterLabel('shark'),'Chapter 7- Sharks · Unit 2');
+ assert.equal(lessonChapterLabel('shark'),'Chapter 8- Sharks · Unit 2');
  assert.ok(words(sharkOverviewIntro)>=500);assert.ok(words(sharkOverviewDive)>=2000);assert.ok(words(sharkOverviewDive)>3*words(sharkOverviewIntro));
  assert.deepEqual(teachingGuides.sharks,sharkOverviewGuide);
  assert.equal(sharkOverviewSpecimens.length,4);assert.equal(new Set(sharkOverviewSpecimens.map(s=>s.image)).size,4);
@@ -190,7 +219,7 @@ test('Sharks opens Chapter 7 with four comparative plates before the preserved g
  for(const section of sharkOverviewDive.sections)for(const key of section.sources)assert.ok(sharkOverviewSources[key]);
  for(const key of sharkOverviewGuide.sources)assert.ok(sharkOverviewSources[key]);
  assert.ok(introductoryArticles.shark.sections[0].paragraphs.includes(greatWhiteFoundationOpening));
- assert.match(greatWhiteAdvancedOpening,/Chapter 7, Unit 1/);
+ assert.match(greatWhiteAdvancedOpening,/Chapter 8, Unit 1/);
  const deep=await readFile(new URL('../app/deepDives.ts',import.meta.url),'utf8');
  assert.match(deep,/deepDives\.shark\.sections\[0\]\.paragraphs\.unshift\(greatWhiteAdvancedOpening\)/);
  const component=await readFile(new URL('../app/SharksLesson.tsx',import.meta.url),'utf8');

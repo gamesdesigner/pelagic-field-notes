@@ -1,12 +1,14 @@
 "use client";
 import EcologyLesson,{type EcologyLessonId} from './EcologyLesson';
 import {completionUnits} from '../shared/completion/units.mjs';
+import {midnightUnits} from '../shared/midnight/units.mjs';
 import {chapterForLesson,lessonChapterLabel} from '../shared/chapter-structure.mjs';
 import {libraryGroups} from '../shared/library-content.mjs';
 import type {LibrarySelection} from './CourseLibrary';
+const additionalUnits=[...completionUnits,...midnightUnits];
 
 export default function AdditionalUnits({initialUnit,onBack,onOpen}:{initialUnit:number|null;onBack:()=>void;onOpen:(selection:LibrarySelection)=>void}){
- const item=completionUnits[initialUnit??0];
+ const item=additionalUnits[initialUnit??0];
  if(!item)return <section className="polar-lesson"><button type="button" className="back-button" onClick={onBack}>← Main page</button><h1>Choose a lesson from the main page</h1></section>;
  const chapter=chapterForLesson(item.id)!;
  const nextId=chapter.lessonIds[chapter.lessonIds.indexOf(item.id)+1];

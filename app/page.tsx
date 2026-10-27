@@ -52,7 +52,7 @@ type Subject = {
 
 const subjects: Subject[] = [
   {id:"extensions",number:"",title:"Ocean studies",short:"",depth:"",animal:"",scientific:"",description:"",fact:"",tone:"twilight"},
-  {id:"sharks",number:"07",title:sharksChapterTitle,short:"Compare shark diversity, then study the great white.",depth:"Ocean habitats",animal:"",scientific:"",description:"",fact:"",tone:"sunlight"},
+  {id:"sharks",number:"08",title:sharksChapterTitle,short:"Compare shark diversity, then study the great white.",depth:"Ocean habitats",animal:"",scientific:"",description:"",fact:"",tone:"sunlight"},
   {id:"introduction",number:"00",title:"Introduction",short:"A course overview and two illustrated guides to quizzes and interactive models.",depth:"Start here",animal:"",scientific:"",description:"",fact:"",tone:"course-intro"},
   {
     id: "currents",
@@ -1008,7 +1008,7 @@ export default function Home() {
             ) : (
               <div className="large-placeholder"><span>{selected.tone === "current" ? "↝" : selected.tone === "sunlight" ? "☼" : selected.tone === "twilight" ? "◐" : "✦"}</span><p>Animal image placeholder</p><small>{selected.animal}</small></div>
             )}
-            <div className="visual-label"><span>Subject {selected.number}</span><p>{selected.title}</p></div>
+            <div className="visual-label"><span>Chapter {activeChapter?.number??selected.number}</span><p>{activeChapter?.title??selected.title}</p></div>
           </div>
         </section>
       )}

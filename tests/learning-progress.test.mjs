@@ -11,6 +11,29 @@ const get=(path,cookie)=>new Request(origin+path,{headers:cookie?{Cookie:cookie}
 const post=(path,body,cookie,site=origin)=>new Request(origin+path,{method:'POST',headers:{Origin:site,'Content-Type':'application/json',...(cookie?{Cookie:cookie}:{})},body:JSON.stringify(body)});
 const cookie=r=>r.headers.get('set-cookie').split(';')[0];
 const answers=id=>quizBank[id].map(question=>typeof question.answer==='number'?question.options[question.answer]:question.answer);
+test('Midnight Zone saves independent drafts and scores without replacing moved chapters or the old midnight lesson',async()=>{
+ const {midnightUnits}=await import('../shared/midnight/units.mjs');
+ const {progress,student,owner,students,store}=await setup();
+ for(const lessonId of ['midnight','twilight','cuttlefish','shark'])await progress(post('/api/progress',{action:'lesson',lessonId,readingLevel:2,completed:true},student));
+ for(const lessonId of ['twilight','cuttlefish','shark'])await progress(post('/api/progress',{action:'quiz',lessonId,attemptId:randomUUID(),answers:answers(lessonId)},student));
+ const before=(await (await progress(get('/api/progress',student))).json()).progress;const states={};
+ for(const {id:lessonId} of midnightUnits){
+  assert.equal((await progress(post('/api/progress',{action:'lesson',lessonId,readingLevel:2},student))).status,200);
+  states[lessonId]={attemptId:randomUUID(),revision:1,index:1,selection:answers(lessonId)[1],submitted:false,answers:[answers(lessonId)[0]]};
+  assert.equal((await progress(post('/api/progress',{action:'quiz-draft',lessonId,previousAttemptId:null,state:states[lessonId]},student))).status,200);
+ }
+ const fresh=createLearningHandler({store});const restored=(await (await fresh(get('/api/progress',student))).json()).progress;
+ for(const {id} of midnightUnits){assert.equal(restored.quizSessions[id].index,1);assert.equal(restored.quizSessions[id].selection,answers(id)[1]);assert.equal(restored.lessons[id].readingLevel,2);}
+ for(const {id:lessonId} of midnightUnits){
+  const body={action:'quiz-draft',lessonId,previousAttemptId:null,state:{...states[lessonId],revision:2,index:7,selection:'',answers:answers(lessonId)}};
+  assert.equal((await fresh(post('/api/progress',body,student))).status,200);assert.equal((await fresh(post('/api/progress',body,student))).status,200);
+  assert.equal((await fresh(post('/api/progress',{action:'lesson',lessonId,readingLevel:2,completed:true},student))).status,200);
+ }
+ const report=(await (await students(get('/api/students?student=Student%20Reader',owner))).json()).progress;
+ for(const {id} of midnightUnits){assert.equal(report.quizzes[id].latestScore,7,id);assert.equal(report.quizzes[id].attempts,1,id);assert.ok(report.lessons[id].completedAt);}
+ for(const id of ['midnight','twilight','cuttlefish','shark'])assert.deepEqual(report.lessons[id],before.lessons[id]);
+ for(const id of ['twilight','cuttlefish','shark'])assert.deepEqual(report.quizzes[id],before.quizzes[id]);
+});
 test('thirteen additional units persist separate drafts, completion, scores and owner reports while old records survive',async()=>{
  const {completionUnits}=await import('../shared/completion/units.mjs');
  const {progress,student,owner,students,store}=await setup();
