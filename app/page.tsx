@@ -936,10 +936,6 @@ export default function Home() {
               <img src="/assets/ocean-depths-slide.png" alt="Complete scientific illustration of ocean depth zones" />
             ) : selected.id === "currents" && currentTopic === 1 ? (
               <>
-                <figure className="field-guide-overview conveyor-overview">
-                  <img src="/assets/field-guide-v2/global-conveyor-belt.webp" width="1536" height="1024" alt="Conceptual world map of overturning circulation: coral upper-ocean water flows toward the North Atlantic, while blue deep water moves south and branches into the Indian and Pacific oceans." loading="lazy" decoding="async"/>
-                  <figcaption><span>Surface to deep sea · Illustrated atlas</span><h2>One ocean, connected at depth.</h2><p>Coral shows the upper-ocean return; blue shows deeper pathways. This simplified illustration introduces the circulation. Use the moving map below to follow its stages.</p></figcaption>
-                </figure>
                 <ConveyorBeltLab /><ConveyorBeltQuiz />
               </>
             ) : selected.id === "currents" && currentTopic === 0 ? (
