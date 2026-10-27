@@ -389,3 +389,27 @@ test('five ecology units restore independent drafts and owner-visible scores whi
  for(const id of ids){assert.equal(report.quizzes[id].latestScore,7);assert.equal(report.quizzes[id].attempts,1);assert.ok(report.lessons[id].completedAt);}
  assert.deepEqual(report.lessons.penguin,before.lessons.penguin);assert.deepEqual(report.quizzes.shark,before.quizzes.shark);
 });
+
+test('new ray and phantom units restore independent quiz drafts and owner-visible completion without changing older records',async()=>{
+ const {rayUnits}=await import('../shared/rays/units.mjs');
+ const {progress,student,owner,students,store}=await setup();
+ await progress(post('/api/progress',{action:'lesson',lessonId:'cnidaria',readingLevel:2,completed:true},student));
+ await progress(post('/api/progress',{action:'quiz',lessonId:'shark',attemptId:randomUUID(),answers:answers('shark')},student));
+ const before=(await (await progress(get('/api/progress',student))).json()).progress;
+ const states={};
+ for(const {id:lessonId} of rayUnits){
+  await progress(post('/api/progress',{action:'lesson',lessonId,readingLevel:2},student));
+  states[lessonId]={attemptId:randomUUID(),revision:1,index:1,selection:answers(lessonId)[1],submitted:false,answers:[answers(lessonId)[0]]};
+  assert.equal((await progress(post('/api/progress',{action:'quiz-draft',lessonId,previousAttemptId:null,state:states[lessonId]},student))).status,200);
+ }
+ const fresh=createLearningHandler({store});const restored=(await (await fresh(get('/api/progress',student))).json()).progress;
+ for(const {id} of rayUnits){assert.equal(restored.quizSessions[id].index,1);assert.equal(restored.quizSessions[id].selection,answers(id)[1]);assert.equal(restored.lessons[id].readingLevel,2);}
+ for(const {id:lessonId} of rayUnits){
+  const body={action:'quiz-draft',lessonId,previousAttemptId:null,state:{...states[lessonId],revision:2,index:7,selection:'',answers:answers(lessonId)}};
+  assert.equal((await fresh(post('/api/progress',body,student))).status,200);assert.equal((await fresh(post('/api/progress',body,student))).status,200);
+  assert.equal((await fresh(post('/api/progress',{action:'lesson',lessonId,readingLevel:2,completed:true},student))).status,200);
+ }
+ const report=(await (await students(get('/api/students?student=Student%20Reader',owner))).json()).progress;
+ for(const {id} of rayUnits){assert.equal(report.quizzes[id].latestScore,7,id);assert.equal(report.quizzes[id].attempts,1,id);assert.ok(report.lessons[id].completedAt);}
+ assert.deepEqual(report.lessons.cnidaria,before.lessons.cnidaria);assert.deepEqual(report.quizzes.shark,before.quizzes.shark);
+});

@@ -97,7 +97,7 @@ const courseVariants={
  schooling:['A school.','It is harder to track one fish.','A tight ball of fish.','Dark on top and light on the belly.','Vibrations.','Neighbors respond to each other.','Schools attract predators and fish compete for food.'],
 };
 test('all quizzes use written rubrics, retain their totals, and accept existing correct answers',()=>{
- const totals={midnightLife:7,giantIsopod:7,blackDragonfish:7,pelicanEel:7,lanternfish:7,barreleye:7,hatchetfish:7,bioluminescence:7,verticalMigration:7,octopus:7,humboldt:7,nautilus:7,hydroids:7,whaleShark:7,hammerhead:7,leopardShark:7,mako:7,kelp:7,seaIce:7,narwhal:7,beluga:7,walrus:7,sharks:7,corals:7,cnidaria:7,anemones:7,cephalopods:7,upwelling:15,coriolis:6,sunlight:6,turtle:6,conveyor:7,enso:7,shark:7,cuttlefish:7,twilightGeneral:7,twilight:7,plankton:7,schooling:7,penguin:7,orca:7,lionsmane:7};
+ const totals={giantPhantom:7,rays:7,mantaRay:7,midnightLife:7,giantIsopod:7,blackDragonfish:7,pelicanEel:7,lanternfish:7,barreleye:7,hatchetfish:7,bioluminescence:7,verticalMigration:7,octopus:7,humboldt:7,nautilus:7,hydroids:7,whaleShark:7,hammerhead:7,leopardShark:7,mako:7,kelp:7,seaIce:7,narwhal:7,beluga:7,walrus:7,sharks:7,corals:7,cnidaria:7,anemones:7,cephalopods:7,upwelling:15,coriolis:6,sunlight:6,turtle:6,conveyor:7,enso:7,shark:7,cuttlefish:7,twilightGeneral:7,twilight:7,plankton:7,schooling:7,penguin:7,orca:7,lionsmane:7};
  assert.deepEqual(Object.keys(quizBank).sort(),Object.keys(totals).sort());
  for(const [id,questions] of Object.entries(quizBank)){
   assert.equal(questions.length,totals[id]);
@@ -213,4 +213,14 @@ test('new ecology quizzes accept concise answers without requiring model-answer 
  const wrong={kelp:[[0,'flowering plant'],[1,'teeth'],[2,'respiration'],[5,'otter']],seaIce:[[0,'iceberg'],[2,'no light'],[5,'gills']],narwhal:[[0,'horn'],[1,'Antarctica'],[3,'photosynthesis']],beluga:[[0,'brain'],[1,'light'],[4,'gills']],walrus:[[0,'tusks'],[1,'photosynthesis'],[2,'whiskers']]};
  for(const [id,cases] of Object.entries(wrong))for(const [index,answer] of cases)assert.equal(answerIsCorrect(quizBank[id][index],answer),false,`${id} ${index}: ${answer}`);
  for(const id of Object.keys(variants))assert.equal(answerIsCorrect(quizBank[id][0],'not '+quizBank[id][0].answer),false,id);
+});
+
+test('phantom and ray quizzes accept concise concepts without accepting contrary biology',()=>{
+ const examples={
+ giantPhantom:['4.','The mouth arms.','Cnidaria.','No.','Open water.','Shorter.','Not enough evidence.'],
+ rays:['Cartilage.','A manta.','On a sandy seafloor.','No.','Electric shocks.','By catch.','Eggs.'],
+ mantaRay:['Zooplankton.','Head fins.','Gills.','Endangered.','No.','They migrate.','Not necessarily.'],
+ };
+ for(const [id,answers] of Object.entries(examples))for(const [index,answer] of answers.entries())assert.equal(answerIsCorrect(quizBank[id][index],answer),true,`${id} ${index+1}: ${answer}`);
+ for(const [id,index,answer] of [['giantPhantom',0,'Eight.'],['giantPhantom',1,'The bell diameter.'],['giantPhantom',5,'Longer.'],['rays',0,'Bone only.'],['rays',4,'Venom.'],['rays',6,'Live pups.'],['mantaRay',0,'Seals.'],['mantaRay',3,'Not endangered.'],['mantaRay',4,'Yes.']])assert.equal(answerIsCorrect(quizBank[id][index],answer),false,`${id} ${index+1}: ${answer}`);
 });

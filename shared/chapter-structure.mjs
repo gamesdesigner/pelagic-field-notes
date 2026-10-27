@@ -7,8 +7,9 @@ export const chapters=[
  {id:'depths',number:4,name:'Twilight Zone',lessonIds:['twilightGeneral','lanternfish','barreleye','hatchetfish','bioluminescence','verticalMigration']},
  {id:'midnightZone',number:5,name:'Midnight Zone',lessonIds:['midnightLife','giantIsopod','blackDragonfish','pelicanEel']},
  {id:'cephalopods',number:6,name:'Cephalopods',lessonIds:['cephalopods','cuttlefish','octopus','humboldt','nautilus','twilight']},
- {id:'cnidaria',number:7,name:'Cnidaria',lessonIds:['cnidaria','anemones','lionsmane','midnight','general','hydroids']},
+ {id:'cnidaria',number:7,name:'Cnidaria',lessonIds:['cnidaria','anemones','lionsmane','midnight','general','hydroids','giantPhantom']},
  {id:'sharks',number:8,name:'Sharks',lessonIds:['sharks','shark','whaleShark','hammerhead','leopardShark','mako']},
+ {id:'rays',number:9,name:'Rays',lessonIds:['rays','mantaRay']},
 ].map(chapter=>({...chapter,title:`Chapter ${chapter.number}- ${chapter.name}`}));
 export const sunlightChapterTitle=chapters[1].title;
 export const polarChapterTitle=chapters[2].title;

@@ -39,7 +39,7 @@ test('ocean currents introduction is the first standalone chapter unit and survi
  ]);
 });
 
-test('eight hyphenated chapters classify each lesson once without changing saved IDs or renderer destinations',async()=>{
+test('nine hyphenated chapters classify each lesson once without changing saved IDs or renderer destinations',async()=>{
  const {chapters,chapterForLesson,chapterUnitReference,lessonChapterLabel}=await import('../shared/chapter-structure.mjs');
  const expected=[
   ['Chapter 1- Ocean currents',['currentsIntro','upwelling','conveyor','coriolis','ekman','enso']],
@@ -48,13 +48,14 @@ test('eight hyphenated chapters classify each lesson once without changing saved
   ['Chapter 4- Twilight Zone',['twilightGeneral','lanternfish','barreleye','hatchetfish','bioluminescence','verticalMigration']],
   ['Chapter 5- Midnight Zone',['midnightLife','giantIsopod','blackDragonfish','pelicanEel']],
   ['Chapter 6- Cephalopods',['cephalopods','cuttlefish','octopus','humboldt','nautilus','twilight']],
-  ['Chapter 7- Cnidaria',['cnidaria','anemones','lionsmane','midnight','general','hydroids']],
+  ['Chapter 7- Cnidaria',['cnidaria','anemones','lionsmane','midnight','general','hydroids','giantPhantom']],
   ['Chapter 8- Sharks',['sharks','shark','whaleShark','hammerhead','leopardShark','mako']],
+  ['Chapter 9- Rays',['rays','mantaRay']],
  ];
  assert.deepEqual(libraryGroups.map(group=>[group.title,group.lessons.map(lesson=>lesson.id)]),expected);
- assert.ok(libraryGroups.filter(group=>group.id!=='midnightZone').every(group=>group.lessons.length===6));
+ assert.ok(libraryGroups.filter(group=>!['midnightZone','cnidaria','rays'].includes(group.id)).every(group=>group.lessons.length===6));
  assert.equal(libraryGroups.find(group=>group.id==='midnightZone').lessons.length,4);
- assert.equal(libraryGroups.flatMap(group=>group.lessons).length,46);
+ assert.equal(libraryGroups.flatMap(group=>group.lessons).length,49);
  for(const chapter of chapters)for(const [index,id] of chapter.lessonIds.entries()){
   assert.equal(chapterForLesson(id).id,chapter.id);
   assert.equal(chapterUnitReference(id),`Chapter ${chapter.number}, Unit ${index+1}`);

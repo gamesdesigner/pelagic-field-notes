@@ -1,14 +1,15 @@
-import {useId} from 'react';
+import {useId,type ReactNode} from 'react';
 import LessonReading from './LessonReading';
 import LessonQuiz from './LessonQuiz';
 import {ecologyLessons,ecologySources} from '../shared/ecology-content.mjs';
 export type EcologyLessonId=keyof typeof ecologyLessons;
 const sources:Record<string,{label:string;url:string}>=ecologySources;
-export default function EcologyLesson({lessonId}:{lessonId:EcologyLessonId}){
+export default function EcologyLesson({lessonId,children}:{lessonId:EcologyLessonId;children?:ReactNode}){
  const lesson=ecologyLessons[lessonId];
  return <>
   <LessonReading key={`reading-${lessonId}`} lessonId={lessonId}/>
   <EcologyDiagram diagram={lesson.diagram}/>
+  {children}
   <LessonQuiz key={`quiz-${lessonId}`} lessonId={lessonId} title={`${lesson.title} written-answer quiz`}/>
  </>;
 }
