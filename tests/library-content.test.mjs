@@ -43,8 +43,8 @@ test('seven hyphenated chapters classify each lesson once without changing saved
  const {chapters,chapterForLesson,chapterUnitReference,lessonChapterLabel}=await import('../shared/chapter-structure.mjs');
  const expected=[
   ['Chapter 1- Ocean currents',['currentsIntro','upwelling','conveyor','coriolis','ekman','enso']],
-  ['Chapter 2- The Sunlight Zone',['sunlight','corals','turtle','plankton','schooling']],
-  ['Chapter 3- The Arctic',['penguin','orca']],
+  ['Chapter 2- The Sunlight Zone',['sunlight','corals','turtle','plankton','schooling','kelp']],
+  ['Chapter 3- The Arctic',['seaIce','orca','narwhal','beluga','walrus','penguin']],
   ['Chapter 4- Twilight Zone',['twilightGeneral']],
   ['Chapter 5- Cephalopods',['cephalopods','cuttlefish','twilight']],
   ['Chapter 6- Cnidaria',['cnidaria','anemones','lionsmane','midnight','general']],

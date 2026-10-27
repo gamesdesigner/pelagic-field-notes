@@ -1559,3 +1559,9 @@ body,body * { font-family:"Times New Roman",Times,serif!important; }
 .cephalopod-specimen-key .cephalopod-scientific { color:#93664f; }
 .cephalopod-specimen-key a { color:#345b60; font-size:14px; text-underline-offset:4px; }
 @media(max-width:700px) { .cephalopod-specimen-grid,.cephalopod-specimen-key { grid-template-columns:1fr; }.cephalopod-specimen-key { gap:28px; }.cephalopod-deck { font-size:18px; } }
+
+/* Large, readable numbered scientific diagrams share the course atlas style. */
+.ecology-diagram-image { margin: 1.5rem 0; }
+.ecology-diagram-image a { display:block; }
+.ecology-diagram-image img { display:block; width:100%; height:auto; border:1px solid var(--line, #c8cfca); border-radius:4px; }
+.ecology-diagram-image figcaption { margin-top:.65rem; font-size:.85rem; color:var(--muted, #586e70); }

@@ -1,0 +1,11 @@
+import {kelpLesson} from './kelp-content.mjs';
+import {seaIceLesson} from './arctic-ice-content.mjs';
+import {narwhalLesson} from './narwhal-content.mjs';
+import {belugaLesson} from './beluga-content.mjs';
+import {walrusLesson} from './walrus-content.mjs';
+export {ecologySources} from './ecology-sources.mjs';
+export const ecologyLessons={kelp:kelpLesson,seaIce:seaIceLesson,narwhal:narwhalLesson,beluga:belugaLesson,walrus:walrusLesson};
+export const ecologyIntros={kelp:kelpLesson.intro,seaIce:seaIceLesson.intro,narwhal:narwhalLesson.intro,beluga:belugaLesson.intro,walrus:walrusLesson.intro};
+export const ecologyDives={kelp:kelpLesson.dive,seaIce:seaIceLesson.dive,narwhal:narwhalLesson.dive,beluga:belugaLesson.dive,walrus:walrusLesson.dive};
+export const ecologyGuides={kelp:kelpLesson.guide,seaIce:seaIceLesson.guide,narwhal:narwhalLesson.guide,beluga:belugaLesson.guide,walrus:walrusLesson.guide};
+export const ecologyQuizzes={kelp:kelpLesson.questions,seaIce:seaIceLesson.questions,narwhal:narwhalLesson.questions,beluga:belugaLesson.questions,walrus:walrusLesson.questions};

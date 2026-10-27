@@ -1,3 +1,4 @@
+import {ecologyDives,ecologySources} from "../shared/ecology-content.mjs";
 import {sharkOverviewDive,sharkOverviewSources} from "../shared/sharks-content.mjs";
 import {coralDive,coralSources} from "../shared/coral-content.mjs";
 import {cnidarianDives,cnidarianSources} from "../shared/cnidarian-content.mjs";
@@ -13,11 +14,12 @@ import { twilightGeneralDive, vampireDefenseSection } from "../shared/twilight-a
 
 import {cephalopodDive,cephalopodSources} from "../shared/cephalopod-content.mjs";
 
-export type LessonId = "sharks" | "corals" | "cnidaria" | "anemones" | "cephalopods" | "penguin" | "orca" | "lionsmane" | "schooling" | "plankton" | "upwelling" | "conveyor" | "coriolis" | "ekman" | "enso" | "sunlight" | "turtle" | "shark" | "cuttlefish" | "twilightGeneral" | "twilight" | "midnight" | "general";
+export type LessonId = "kelp" | "seaIce" | "narwhal" | "beluga" | "walrus" | "sharks" | "corals" | "cnidaria" | "anemones" | "cephalopods" | "penguin" | "orca" | "lionsmane" | "schooling" | "plankton" | "upwelling" | "conveyor" | "coriolis" | "ekman" | "enso" | "sunlight" | "turtle" | "shark" | "cuttlefish" | "twilightGeneral" | "twilight" | "midnight" | "general";
 export type DeepDiveSection = { heading: string; paragraphs: string[]; sources?: string[] };
 type DeepDive = { title: string; deck: string; abstract: string; sections: {heading: string; paragraphs: string[]; sources?: string[]}[]; terms: {word: string; definition: string}[]; question: string };
 export const readingSources: Record<string, {label: string; url: string}> = {
   ...polarSources,
+  ...ecologySources,
   ...sharkOverviewSources,
   ...coralSources,
   ...cnidarianSources,
@@ -91,6 +93,7 @@ export const readingSources: Record<string, {label: string; url: string}> = {
 };
 export const deepDives: Record<LessonId, DeepDive> = {
 ...polarArticles.advanced,
+...ecologyDives,
 sharks:sharkOverviewDive,
 corals:coralDive,
 ...cnidarianDives,

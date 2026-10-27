@@ -68,7 +68,7 @@ const courseVariants={
  schooling:['A school.','It is harder to track one fish.','A tight ball of fish.','Dark on top and light on the belly.','Vibrations.','Neighbors respond to each other.','Schools attract predators and fish compete for food.'],
 };
 test('all quizzes use written rubrics, retain their totals, and accept existing correct answers',()=>{
- const totals={sharks:7,corals:7,cnidaria:7,anemones:7,cephalopods:7,upwelling:15,coriolis:6,sunlight:6,turtle:6,conveyor:7,enso:7,shark:7,cuttlefish:7,twilightGeneral:7,twilight:7,plankton:7,schooling:7,penguin:7,orca:7,lionsmane:7};
+ const totals={kelp:7,seaIce:7,narwhal:7,beluga:7,walrus:7,sharks:7,corals:7,cnidaria:7,anemones:7,cephalopods:7,upwelling:15,coriolis:6,sunlight:6,turtle:6,conveyor:7,enso:7,shark:7,cuttlefish:7,twilightGeneral:7,twilight:7,plankton:7,schooling:7,penguin:7,orca:7,lionsmane:7};
  assert.deepEqual(Object.keys(quizBank).sort(),Object.keys(totals).sort());
  for(const [id,questions] of Object.entries(quizBank)){
   assert.equal(questions.length,totals[id]);
@@ -175,4 +175,13 @@ test('shark overview quiz credits brief answers while rejecting wrong or negated
  assert.equal(quizBank.sharks.length,7);
  for(const [index,answers] of accepted.entries())for(const answer of answers)assert.equal(answerIsCorrect(quizBank.sharks[index],answer),true,`${index}: ${answer}`);
  for(const [index,answer] of [[0,'bones'],[1,'lungs'],[2,'whale'],[3,'mako'],[4,'sound'],[5,'seeds'],[6,'photosynthesis'],[0,'not cartilage'],[6,'not fishing']])assert.equal(answerIsCorrect(quizBank.sharks[index],answer),false,answer);
+});
+
+
+test('new ecology quizzes accept concise answers without requiring model-answer wording',()=>{
+ const variants={kelp:[['seaweed','algae'],['hold fast'],['photosynthesis'],['air','gas'],['Scotland','Monterey'],['urchins'],['heatwaves','pollution']],seaIce:[['sea ice'],['salty water'],['light'],['copepods','zooplankton'],['cod'],['air','breathing hole'],['shelter','food']],narwhal:[['tooth'],['north'],['blow hole'],['sonar'],['squid'],['flukes'],['noise','ice loss']],beluga:[['melon'],['reflected sound'],['sonar'],['white'],['blowhole'],['fish','squid'],['noise']],walrus:[['vibrissae','whiskers'],['suction'],['tongue'],['clams'],['hauling out','haul-out'],['climbing','social display'],['ice retreat','melting ice']]};
+ for(const [id,questions] of Object.entries(variants))for(const [index,answers] of questions.entries())for(const answer of answers)assert.equal(answerIsCorrect(quizBank[id][index],answer),true,`${id} ${index}: ${answer}`);
+ const wrong={kelp:[[0,'flowering plant'],[1,'teeth'],[2,'respiration'],[5,'otter']],seaIce:[[0,'iceberg'],[2,'no light'],[5,'gills']],narwhal:[[0,'horn'],[1,'Antarctica'],[3,'photosynthesis']],beluga:[[0,'brain'],[1,'light'],[4,'gills']],walrus:[[0,'tusks'],[1,'photosynthesis'],[2,'whiskers']]};
+ for(const [id,cases] of Object.entries(wrong))for(const [index,answer] of cases)assert.equal(answerIsCorrect(quizBank[id][index],answer),false,`${id} ${index}: ${answer}`);
+ for(const id of Object.keys(variants))assert.equal(answerIsCorrect(quizBank[id][0],'not '+quizBank[id][0].answer),false,id);
 });

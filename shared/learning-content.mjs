@@ -1,3 +1,4 @@
+import {ecologyQuizzes} from './ecology-content.mjs';
 import {sharkOverviewQuestions} from './sharks-content.mjs';
 import {coralQuestions} from './coral-content.mjs';
 import {cnidarianQuizzes} from './cnidarian-content.mjs';
@@ -281,6 +282,7 @@ export const planktonQuestions = [
 ];
 
 export const lessonTitles = {
+ kelp:'Kelp forests',seaIce:'Life beneath sea ice',narwhal:'Narwhals',beluga:'Beluga whales',walrus:'Walruses',
  sharks:'Introduction to sharks',
  corals:'Corals',
  cnidaria:'Cnidaria',anemones:'Anemones',
@@ -289,6 +291,7 @@ export const lessonTitles = {
  schooling:'Fish defences',plankton:'Planktons & Diatoms',upwelling:'Upwelling',conveyor:'Thermohaline Circulation',coriolis:'Coriolis Effect',ekman:'Ekman transport',enso:'El Niño & La Niña',sunlight:'Marine Life in Sunlight',turtle:'Green Sea Turtle',shark:'Great White Shark',cuttlefish:'Common Cuttlefish',twilightGeneral:'General Marine Life in Twilight',twilight:'Vampire Squid',midnight:'Marine Life in Midnight',general:'The General Ocean',
 };
 export const quizBank = {
+ ...ecologyQuizzes,
  sharks:sharkOverviewQuestions,
  corals:coralQuestions,
  ...cnidarianQuizzes,

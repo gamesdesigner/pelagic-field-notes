@@ -1,7 +1,11 @@
+import {arcticUnits} from './arctic-units.mjs';
+/** @typedef {{id:string,title:string,scientific:string,region:string,image:string,alt:string,description:string,width?:number,height?:number,ecology?:boolean,photo?:{author:string,location:string,sourceUrl:string,license:string,licenseUrl:string}}} PolarUnit */
+/** @type {PolarUnit[]} */
 export const polarUnits = [
  {id:'penguin',title:'Emperor Penguins',scientific:'Aptenodytes forsteri',region:'Antarctic comparison',image:'/assets/polar/emperor-penguin-v1.webp',alt:'Generated natural-history illustration of an adult emperor penguin and a gray chick standing on Antarctic sea ice.',description:'Compare insulation, diving, huddling, and breeding in the southern polar ocean.'},
  {id:'orca',title:'Orcas',scientific:'Orcinus orca',region:'Arctic and subarctic seas',image:'/assets/polar/orca-v1.webp',alt:'Generated underwater illustration of three orcas in cold northern water with open breathing space between distant ice floes.',description:'Connect sound, social learning, and hunting with a changing sea-ice landscape.'},
  {id:'lionsmane',title:'Lion’s Mane Jellyfish',scientific:'Cyanea capillata',region:'Cool northern seas',image:'/assets/polar/lions-mane-ronning.webp',width:1536,height:1150,alt:'Photograph of a lion’s mane jellyfish in Mandal, Norway, with a translucent scalloped bell, orange center, and fine tentacles against dark blue water.',photo:{author:'Arnstein Rønning',location:'Mandal, Norway',sourceUrl:'https://commons.wikimedia.org/wiki/File:Cyanea_capillata_no.JPG',license:'CC BY 3.0',licenseUrl:'https://creativecommons.org/licenses/by/3.0/'},description:'Follow stinging cells, a gelatinous body, and a life cycle shaped by currents.'},
+ ...arcticUnits,
 ];
 export const polarSources = {
  polarPenguins:{label:'Australian Antarctic Program · Penguin distribution and biology',url:'https://www.antarctica.gov.au/about-antarctica/animals/penguins/'},

@@ -46,8 +46,8 @@ test('the introduction is an approximately 500-word course summary',()=>{
  for(const idea of ['Chapter 1- Ocean currents','Level 1','Level 2','one variable','quiz','Arctic','Antarctic'])assert.ok(text.includes(idea),idea);
 });
 test('polar lessons have complete reading levels and keep the Antarctic comparison explicit',async()=>{
- assert.deepEqual(polarUnits.map(u=>u.id),['penguin','orca','lionsmane']);
- for(const unit of polarUnits){
+ assert.deepEqual(polarUnits.slice(0,3).map(u=>u.id),['penguin','orca','lionsmane']);
+ for(const unit of polarUnits.slice(0,3)){
   const id=unit.id;assert.ok(Object.hasOwn(lessonTitles,id));
   assert.ok(words(introductoryArticles[id])>=500);
   assert.ok(words(polarArticles.advanced[id])>=1500);
@@ -164,4 +164,33 @@ test('Sharks opens Chapter 7 with four comparative plates before the preserved g
  assert.match(deep,/deepDives\.shark\.sections\[0\]\.paragraphs\.unshift\(greatWhiteAdvancedOpening\)/);
  const component=await readFile(new URL('../app/SharksLesson.tsx',import.meta.url),'utf8');
  assert.ok(component.indexOf('<LessonReading')<component.indexOf('<ScientificPlate'));assert.ok(component.indexOf('<ScientificPlate')<component.indexOf('<LessonQuiz'));
+});
+
+
+test('kelp and four Arctic units have substantial levels, sourced numbered diagrams, and seven written questions',async()=>{
+ const {ecologyLessons,ecologySources}=await import('../shared/ecology-content.mjs');
+ const {libraryGroups,findLibraryLesson}=await import('../shared/library-content.mjs');
+ const {lessonChapterLabel}=await import('../shared/chapter-structure.mjs');
+ assert.equal(libraryGroups[1].lessons.length,6);assert.equal(libraryGroups[2].lessons.length,6);
+ assert.deepEqual(libraryGroups[2].lessons.map(l=>l.id),['seaIce','orca','narwhal','beluga','walrus','penguin']);
+ assert.equal(findLibraryLesson('kelp').topic,10);
+ assert.equal(lessonChapterLabel('kelp'),'Chapter 2- The Sunlight Zone · Unit 6');
+ assert.equal(lessonChapterLabel('seaIce'),'Chapter 3- The Arctic · Unit 1');
+ for(const [id,index] of [['penguin',0],['orca',1],['lionsmane',2],['seaIce',3],['narwhal',4],['beluga',5],['walrus',6]])assert.equal(findLibraryLesson(id).unit,index);
+ for(const [id,lesson] of Object.entries(ecologyLessons)){
+  assert.ok(words(lesson.intro)>=500,id);assert.ok(words(lesson.dive)>=2000,id);assert.ok(words(lesson.dive)>3*words(lesson.intro),id);
+  assert.equal(introductoryArticles[id].abstract,lesson.guide.abstract);assert.deepEqual(teachingGuides[id],lesson.guide);
+  assert.ok(lesson.diagram.alt.length>80&&lesson.diagram.note.length>100);
+  assert.equal(lesson.diagram.key.length,{kelp:7,seaIce:6,narwhal:5,beluga:6,walrus:5}[id]);
+  await access(new URL('../public'+lesson.diagram.image,import.meta.url));
+  for(const [name,description,source] of lesson.diagram.key){assert.ok(name&&description.length>45);assert.ok(ecologySources[source]);}
+  for(const source of lesson.guide.sources)assert.ok(ecologySources[source]);
+  for(const section of lesson.dive.sections)for(const source of section.sources)assert.ok(ecologySources[source],source);
+  assert.equal(quizBank[id].length,7);assert.ok(quizBank[id].every(q=>q.kind==='written'&&!q.options));
+ }
+ const component=await readFile(new URL('../app/EcologyLesson.tsx',import.meta.url),'utf8');
+ assert.ok(component.indexOf('<LessonReading')<component.indexOf('<EcologyDiagram'));
+ assert.ok(component.indexOf('<EcologyDiagram')<component.indexOf('<LessonQuiz'));
+ const polar=await readFile(new URL('../app/PolarUnits.tsx',import.meta.url),'utf8');
+ assert.match(polar,/setUnit\(next.index\)/);assert.match(polar,/chapterIndex>=0/);
 });
