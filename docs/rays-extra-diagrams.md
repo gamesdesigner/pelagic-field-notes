@@ -10,9 +10,11 @@ the prompts and preserved originals. WebP conversion keeps the original 1536×10
 dimensions. Plates are illustrations, with explicit limitations and a cited key.
 
 - Southern stingray: dorsal disc, eye, spiracle, tail defense and underside inset.
-- Short-tail: thick body and relatively short tail; the edited plate corrects the
-  spiracle leader and depicts a serrated defensive spine along the tail. Fine
-  proportions remain illustrative rather than a measured anatomical specimen.
+- Short-tail v2: strict dorsal view with head upward and the tail emerging from
+  the posterior midline between the pelvic fins, correcting v1's side attachment.
+  A separate side profile shows body thickness. Fine proportions remain
+  illustrative rather than a measured anatomical specimen. V1 is retained only
+  for provenance; the catalogue and lesson both reference the new v2 URL.
 - Clearnose: paired translucent snout regions, thorns, two small dorsal fins and
   a separate egg case. No stingray-style venomous barb.
 - Ribbontail: oval spotted disc and striped tail. Number 4 repeats in the inset

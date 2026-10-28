@@ -1,4 +1,8 @@
 export const whaleDeepSources={
+ whaleOilNPS:{label:'National Park Service · Whale oil, blubber, and spermaceti products',url:'https://home.nps.gov/nebe/learn/historyculture/whaleproducts.htm'},
+ whaleOilLondon:{label:'London Museum · The whaling trade, blubber, and baleen',url:'https://www.londonmuseum.org.uk/collections/london-stories/londons-whaling-trade-blubber-baleen/'},
+ whaleHistoryAustralia:{label:'Australian Government · Industrial whaling and population declines',url:'https://www.dcceew.gov.au/environment/marine/marine-species/cetaceans/whaling'},
+ whaleCommercialIWC:{label:'International Whaling Commission · Commercial whaling and the 1985/86 moratorium',url:'https://iwc.int/management-and-conservation/whaling/commercial'},
  whaleSpermDeep:{label:'NOAA (2023 review) · Sperm whale dives documented to about 2,000 m, p.142',url:'https://www.fisheries.noaa.gov/s3/2024-11/authorization-hawaii-deepset-longline-fishery-biological-opinion-addended-2023-05-22.pdf#page=143'},
  oarfishROV:{label:'Benfield et al. (2013) · Five in situ oarfish observations',url:'https://doi.org/10.1111/jfb.12144'},
  anglerDiversity:{label:'Monterey Bay Aquarium · Deep-sea anglerfish diversity and reproduction',url:'https://www.montereybayaquarium.org/animals-the-ocean/animals-a-to-z/deep-sea-anglerfish'},

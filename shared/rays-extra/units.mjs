@@ -5,4 +5,4 @@ export const rayExtraUnits=[
  {id:'clearnoseSkate',title:'Clearnose Skate',scientific:'Rostroraja eglanteria',summary:'Identify a translucent snout, compare skates with stingrays, and follow development inside an egg case.',tag:'Skates, thorns & egg cases'},
  {id:'bluespottedRibbontail',title:'Bluespotted Ribbontail Ray',scientific:'Taeniura lymma',summary:'Study blue spots, a ribbon-like tail fold, reef shelters, and feeding trips into tidal shallows.',tag:'Reef edges & tidal feeding'},
  {id:'blueRingedOctopus',title:'Blue-ringed Octopuses',scientific:'Hapalochlaena species · Plate: H. lunulata',summary:'Connect reflective warning rings, eight flexible arms, and potentially deadly venom without confusing danger with aggression.',tag:'Warning colors & venom'},
-].map((unit,index)=>({...unit,image:`/assets/rays-extra/${unit.id}-diagram-v1.webp`,subjectId:'extensions',unit:29+index}));
+].map((unit,index)=>({...unit,image:`/assets/rays-extra/${unit.id}-diagram-${unit.id==='shortTailStingray'?'v2':'v1'}.webp`,subjectId:'extensions',unit:29+index}));
