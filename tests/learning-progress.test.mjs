@@ -414,6 +414,29 @@ test('new ray and phantom units restore independent quiz drafts and owner-visibl
  assert.deepEqual(report.lessons.cnidaria,before.lessons.cnidaria);assert.deepEqual(report.quizzes.shark,before.quizzes.shark);
 });
 
+test('new stingray, skate, and octopus records resume independently and appear in owner reports',async()=>{
+ const {rayExtraUnits}=await import('../shared/rays-extra/units.mjs');
+ const {progress,student,owner,students,store}=await setup();
+ await progress(post('/api/progress',{action:'lesson',lessonId:'mantaRay',readingLevel:2,completed:true},student));
+ const before=(await (await progress(get('/api/progress',student))).json()).progress;
+ const states={};
+ for(const {id:lessonId} of rayExtraUnits){
+  await progress(post('/api/progress',{action:'lesson',lessonId,readingLevel:2},student));
+  states[lessonId]={attemptId:randomUUID(),revision:1,index:1,selection:answers(lessonId)[1],submitted:false,answers:[answers(lessonId)[0]]};
+  assert.equal((await progress(post('/api/progress',{action:'quiz-draft',lessonId,previousAttemptId:null,state:states[lessonId]},student))).status,200);
+ }
+ const fresh=createLearningHandler({store});const restored=(await (await fresh(get('/api/progress',student))).json()).progress;
+ for(const {id} of rayExtraUnits){assert.equal(restored.quizSessions[id].index,1);assert.equal(restored.quizSessions[id].selection,answers(id)[1]);assert.equal(restored.lessons[id].readingLevel,2);}
+ for(const {id:lessonId} of rayExtraUnits){
+  const body={action:'quiz-draft',lessonId,previousAttemptId:null,state:{...states[lessonId],revision:2,index:7,selection:'',answers:answers(lessonId)}};
+  assert.equal((await fresh(post('/api/progress',body,student))).status,200);assert.equal((await fresh(post('/api/progress',body,student))).status,200);
+  assert.equal((await fresh(post('/api/progress',{action:'lesson',lessonId,readingLevel:2,completed:true},student))).status,200);
+ }
+ const report=(await (await students(get('/api/students?student=Student%20Reader',owner))).json()).progress;
+ for(const {id} of rayExtraUnits){assert.equal(report.quizzes[id].latestScore,7,id);assert.equal(report.quizzes[id].attempts,1,id);assert.ok(report.lessons[id].completedAt);}
+ assert.deepEqual(report.lessons.mantaRay,before.lessons.mantaRay);
+});
+
 test('nine whale and deep-sea lessons restore separate drafts and report scores to owner while preserving earlier units',async()=>{
  const {whaleDeepUnits}=await import('../shared/whales-deep/units.mjs');
  const {progress,student,owner,students,store}=await setup();

@@ -1,0 +1,14 @@
+export const rayExtraSources={
+ southernProfile:{label:'Florida Museum · Southern stingray identification, habitat, and biology',url:'https://www.floridamuseum.ufl.edu/discover-fish/species-profiles/southern-stingray/'},
+ shortTailProfile:{label:'Florida Museum · Short-tail stingray biology and injury risk',url:'https://www.floridamuseum.ufl.edu/discover-fish/species-profiles/short-tail-stingray/'},
+ smoothAustralia:{label:'Museums Victoria · Smooth stingray, Bathytoshia brevicaudata',url:'https://fishesofaustralia.net.au/home/species/2020'},
+ clearnoseProfile:{label:'Florida Museum · Clearnose skate, Rostroraja eglanteria',url:'https://www.floridamuseum.ufl.edu/discover-fish/species-profiles/clearnose-skate/'},
+ clearnoseFWC:{label:'Florida Fish and Wildlife · Clearnose skate identification',url:'https://myfwc.com/wildlifehabitats/profiles/saltwater/rays/clearnose-skate/'},
+ ribbonProfile:{label:'Florida Museum · Bluespotted ribbontail ray, Taeniura lymma',url:'https://www.floridamuseum.ufl.edu/discover-fish/species-profiles/bluespotted-ribbontail-ray/'},
+ blueMuseum:{label:'Natural History Museum · Blue-ringed octopus biology and venom',url:'https://www.nhm.ac.uk/discover/blue-ringed-octopus-small-vibrant-deadly.html'},
+ blueAustralian:{label:'Australian Museum · Blue-lined octopus and the Hapalochlaena group',url:'https://australian.museum/learn/animals/molluscs/southern-blue-lined-octopus-hapalochaena-fasciata/'},
+ blueRingsStudy:{label:'Mäthger et al. (2012) · How blue-ringed octopuses flash their rings',url:'https://pubmed.ncbi.nlm.nih.gov/23053367/'},
+ blueToxinStudy:{label:'Williams et al. (2012) · Tetrodotoxin distribution in two Hapalochlaena species',url:'https://pubmed.ncbi.nlm.nih.gov/22983011/'},
+ structuralColor:{label:'Mäthger et al. (2009) · Structural coloration in cephalopods',url:'https://pmc.ncbi.nlm.nih.gov/articles/PMC2706477/'},
+ blueEmergency:{label:'Divers Alert Network · Blue-ringed octopus envenomation',url:'https://dan.org/health-medicine/health-resources/diseases-conditions/blue-ringed-octopus/'},
+};

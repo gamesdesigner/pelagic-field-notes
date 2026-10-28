@@ -282,6 +282,7 @@ export const planktonQuestions = [
 ];
 
 export const lessonTitles = {
+ southernStingray:'Southern Stingray',shortTailStingray:'Short-tail Stingray',clearnoseSkate:'Clearnose Skate',bluespottedRibbontail:'Bluespotted Ribbontail Ray',blueRingedOctopus:'Blue-ringed Octopuses',
  whales:'Whales',blueWhale:'Blue Whale',spermWhale:'Sperm Whale',oarfish:'Oarfish',giantTubeworm:'Giant Tubeworms',yetiCrab:'Yeti Crab',hydrothermalVents:'Hydrothermal Vents',anglerfish:'Anglerfish',coelacanth:'Coelacanth',
  giantPhantom:'Giant Phantom Jellyfish',rays:'Rays',mantaRay:'Manta Ray',
  midnightLife:'Life in the Midnight Zone',giantIsopod:'Giant Isopods',blackDragonfish:'Black Dragonfish',pelicanEel:'Pelican Eels',

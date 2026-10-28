@@ -1,3 +1,4 @@
+import {rayExtraLessons,rayExtraIntros,rayExtraDives,rayExtraGuides,rayExtraQuizzes} from './rays-extra/content.mjs';
 import {whaleDeepLessons,whaleDeepIntros,whaleDeepDives,whaleDeepGuides,whaleDeepQuizzes} from './whales-deep/content.mjs';
 import {rayLessons,rayIntros,rayDives,rayGuides,rayQuizzes} from './rays/content.mjs';
 import {kelpLesson} from './kelp-content.mjs';
@@ -8,8 +9,8 @@ import {walrusLesson} from './walrus-content.mjs';
 import {completionLessons,completionIntros,completionDives,completionGuides,completionQuizzes} from './completion/content.mjs';
 import {midnightLessons,midnightIntros,midnightDives,midnightGuides,midnightQuizzes} from './midnight/content.mjs';
 export {ecologySources} from './ecology-sources.mjs';
-export const ecologyLessons={kelp:kelpLesson,seaIce:seaIceLesson,narwhal:narwhalLesson,beluga:belugaLesson,walrus:walrusLesson,...completionLessons,...midnightLessons,...rayLessons,...whaleDeepLessons};
-export const ecologyIntros={kelp:kelpLesson.intro,seaIce:seaIceLesson.intro,narwhal:narwhalLesson.intro,beluga:belugaLesson.intro,walrus:walrusLesson.intro,...completionIntros,...midnightIntros,...rayIntros,...whaleDeepIntros};
-export const ecologyDives={kelp:kelpLesson.dive,seaIce:seaIceLesson.dive,narwhal:narwhalLesson.dive,beluga:belugaLesson.dive,walrus:walrusLesson.dive,...completionDives,...midnightDives,...rayDives,...whaleDeepDives};
-export const ecologyGuides={kelp:kelpLesson.guide,seaIce:seaIceLesson.guide,narwhal:narwhalLesson.guide,beluga:belugaLesson.guide,walrus:walrusLesson.guide,...completionGuides,...midnightGuides,...rayGuides,...whaleDeepGuides};
-export const ecologyQuizzes={kelp:kelpLesson.questions,seaIce:seaIceLesson.questions,narwhal:narwhalLesson.questions,beluga:belugaLesson.questions,walrus:walrusLesson.questions,...completionQuizzes,...midnightQuizzes,...rayQuizzes,...whaleDeepQuizzes};
+export const ecologyLessons={kelp:kelpLesson,seaIce:seaIceLesson,narwhal:narwhalLesson,beluga:belugaLesson,walrus:walrusLesson,...completionLessons,...midnightLessons,...rayLessons,...whaleDeepLessons,...rayExtraLessons};
+export const ecologyIntros={kelp:kelpLesson.intro,seaIce:seaIceLesson.intro,narwhal:narwhalLesson.intro,beluga:belugaLesson.intro,walrus:walrusLesson.intro,...completionIntros,...midnightIntros,...rayIntros,...whaleDeepIntros,...rayExtraIntros};
+export const ecologyDives={kelp:kelpLesson.dive,seaIce:seaIceLesson.dive,narwhal:narwhalLesson.dive,beluga:belugaLesson.dive,walrus:walrusLesson.dive,...completionDives,...midnightDives,...rayDives,...whaleDeepDives,...rayExtraDives};
+export const ecologyGuides={kelp:kelpLesson.guide,seaIce:seaIceLesson.guide,narwhal:narwhalLesson.guide,beluga:belugaLesson.guide,walrus:walrusLesson.guide,...completionGuides,...midnightGuides,...rayGuides,...whaleDeepGuides,...rayExtraGuides};
+export const ecologyQuizzes={kelp:kelpLesson.questions,seaIce:seaIceLesson.questions,narwhal:narwhalLesson.questions,beluga:belugaLesson.questions,walrus:walrusLesson.questions,...completionQuizzes,...midnightQuizzes,...rayQuizzes,...whaleDeepQuizzes,...rayExtraQuizzes};

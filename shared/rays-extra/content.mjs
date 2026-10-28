@@ -1,0 +1,10 @@
+import {southernStingrayLesson} from './southern.mjs';
+import {shortTailStingrayLesson} from './short-tail.mjs';
+import {clearnoseSkateLesson} from './clearnose.mjs';
+import {bluespottedRibbontailLesson} from './ribbontail.mjs';
+import {blueRingedOctopusLesson} from './blue-ringed.mjs';
+export const rayExtraLessons={southernStingray:southernStingrayLesson,shortTailStingray:shortTailStingrayLesson,clearnoseSkate:clearnoseSkateLesson,bluespottedRibbontail:bluespottedRibbontailLesson,blueRingedOctopus:blueRingedOctopusLesson};
+export const rayExtraIntros={southernStingray:southernStingrayLesson.intro,shortTailStingray:shortTailStingrayLesson.intro,clearnoseSkate:clearnoseSkateLesson.intro,bluespottedRibbontail:bluespottedRibbontailLesson.intro,blueRingedOctopus:blueRingedOctopusLesson.intro};
+export const rayExtraDives={southernStingray:southernStingrayLesson.dive,shortTailStingray:shortTailStingrayLesson.dive,clearnoseSkate:clearnoseSkateLesson.dive,bluespottedRibbontail:bluespottedRibbontailLesson.dive,blueRingedOctopus:blueRingedOctopusLesson.dive};
+export const rayExtraGuides={southernStingray:southernStingrayLesson.guide,shortTailStingray:shortTailStingrayLesson.guide,clearnoseSkate:clearnoseSkateLesson.guide,bluespottedRibbontail:bluespottedRibbontailLesson.guide,blueRingedOctopus:blueRingedOctopusLesson.guide};
+export const rayExtraQuizzes={southernStingray:southernStingrayLesson.questions,shortTailStingray:shortTailStingrayLesson.questions,clearnoseSkate:clearnoseSkateLesson.questions,bluespottedRibbontail:bluespottedRibbontailLesson.questions,blueRingedOctopus:blueRingedOctopusLesson.questions};

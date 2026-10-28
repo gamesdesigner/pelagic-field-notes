@@ -6,10 +6,10 @@ export const chapters=[
  {id:'polar',number:3,name:'The Arctic',lessonIds:['seaIce','orca','narwhal','beluga','walrus','penguin']},
  {id:'depths',number:4,name:'Twilight Zone',lessonIds:['twilightGeneral','lanternfish','barreleye','hatchetfish','bioluminescence','verticalMigration']},
  {id:'midnightZone',number:5,name:'Midnight Zone',lessonIds:['midnightLife','giantIsopod','blackDragonfish','pelicanEel','oarfish','giantTubeworm','yetiCrab','hydrothermalVents','anglerfish','coelacanth']},
- {id:'cephalopods',number:6,name:'Cephalopods',lessonIds:['cephalopods','cuttlefish','octopus','humboldt','nautilus','twilight']},
+ {id:'cephalopods',number:6,name:'Cephalopods',lessonIds:['cephalopods','cuttlefish','octopus','humboldt','nautilus','twilight','blueRingedOctopus']},
  {id:'cnidaria',number:7,name:'Cnidaria',lessonIds:['cnidaria','anemones','lionsmane','midnight','general','hydroids','giantPhantom']},
  {id:'sharks',number:8,name:'Sharks',lessonIds:['sharks','shark','whaleShark','hammerhead','leopardShark','mako']},
- {id:'rays',number:9,name:'Rays',lessonIds:['rays','mantaRay']},
+ {id:'rays',number:9,name:'Rays',lessonIds:['rays','mantaRay','southernStingray','shortTailStingray','clearnoseSkate','bluespottedRibbontail']},
  {id:'whales',number:10,name:'Whales',lessonIds:['whales','blueWhale','spermWhale']},
 ].map(chapter=>({...chapter,title:`Chapter ${chapter.number}- ${chapter.name}`}));
 export const sunlightChapterTitle=chapters[1].title;

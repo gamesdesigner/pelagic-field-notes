@@ -47,16 +47,16 @@ test('ten hyphenated chapters classify each lesson once without changing saved I
   ['Chapter 3- The Arctic',['seaIce','orca','narwhal','beluga','walrus','penguin']],
   ['Chapter 4- Twilight Zone',['twilightGeneral','lanternfish','barreleye','hatchetfish','bioluminescence','verticalMigration']],
   ['Chapter 5- Midnight Zone',['midnightLife','giantIsopod','blackDragonfish','pelicanEel','oarfish','giantTubeworm','yetiCrab','hydrothermalVents','anglerfish','coelacanth']],
-  ['Chapter 6- Cephalopods',['cephalopods','cuttlefish','octopus','humboldt','nautilus','twilight']],
+  ['Chapter 6- Cephalopods',['cephalopods','cuttlefish','octopus','humboldt','nautilus','twilight','blueRingedOctopus']],
   ['Chapter 7- Cnidaria',['cnidaria','anemones','lionsmane','midnight','general','hydroids','giantPhantom']],
   ['Chapter 8- Sharks',['sharks','shark','whaleShark','hammerhead','leopardShark','mako']],
-  ['Chapter 9- Rays',['rays','mantaRay']],
+  ['Chapter 9- Rays',['rays','mantaRay','southernStingray','shortTailStingray','clearnoseSkate','bluespottedRibbontail']],
   ['Chapter 10- Whales',['whales','blueWhale','spermWhale']],
  ];
  assert.deepEqual(libraryGroups.map(group=>[group.title,group.lessons.map(lesson=>lesson.id)]),expected);
- assert.ok(libraryGroups.filter(group=>!['midnightZone','cnidaria','rays','whales'].includes(group.id)).every(group=>group.lessons.length===6));
+ assert.ok(libraryGroups.filter(group=>!['midnightZone','cnidaria','cephalopods','rays','whales'].includes(group.id)).every(group=>group.lessons.length===6));
  assert.equal(libraryGroups.find(group=>group.id==='midnightZone').lessons.length,10);
- assert.equal(libraryGroups.flatMap(group=>group.lessons).length,58);
+ assert.equal(libraryGroups.flatMap(group=>group.lessons).length,63);
  for(const chapter of chapters)for(const [index,id] of chapter.lessonIds.entries()){
   assert.equal(chapterForLesson(id).id,chapter.id);
   assert.equal(chapterUnitReference(id),`Chapter ${chapter.number}, Unit ${index+1}`);

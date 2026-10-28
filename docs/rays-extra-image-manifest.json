@@ -1,0 +1,27 @@
+{
+  "southernStingray": {
+    "prompt": "Scientific marine biology museum field-guide plate, landscape1536x1024. Accurate watercolor/ink on warm ivory, teal accents. Full animals fit frame. Only text is small numerals1–5 with fine leader lines to specified structures, each once. No titles, names, watermark, people. Dorsal Hypanus americanus southern stingray: broad angular diamond olive gray-brown disc, shortpointed snout, raisedeyes and spiracles behindthem, extremely long thin whip tail much longer than disc, small serrated spine near tailbase. No dorsal fin or mantaheadlobes. Separate small ventral inset bottomleft shows mouth and5pairs gills.1 pectoraldisc,2 eye,3 spiracle behindeye,4 tailspine,5 undersidemouth inset.",
+    "original": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-ce0e3fa1-a9c6-4835-a759-5b91b263cf90.png",
+    "asset": "/assets/rays-extra/southernStingray-diagram-v1.webp"
+  },
+  "shortTailStingray": {
+    "prompt": "Scientific marine biology museum field-guide plate, landscape1536x1024. Accurate watercolor/ink on warm ivory, teal accents. Full animals fit frame. Only text is small numerals1–5 with fine leader lines to specified structures, each once. No titles, names, watermark, people. Adult Bathytoshia brevicaudata smooth short-tail stingray dorsal view. Huge thick broad rhomboid gray-brown disc rounded wingtips, tiny pale pores diagonal beside head. Thick tailbase tapering to relatively shorttail about disc length, strong serrated spine atop tail. No dorsalfin, no longwhiptail. Small separate sideprofile inset bottomleft emphasizes bodythickness.1 disc,2 eye,3 spiracle behindeye,4 tailspine,5 thickbody inset.",
+    "original": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-bd635e12-1b91-4e31-b52d-4f8775ffd5df.png",
+    "asset": "/assets/rays-extra/shortTailStingray-diagram-v1.webp"
+  },
+  "clearnoseSkate": {
+    "prompt": "Scientific marine biology museum field-guide plate, landscape1536x1024. Accurate watercolor/ink on warm ivory, teal accents. Full animals fit frame. Only text is small numerals1–5 with fine leader lines to specified structures, each once. No titles, names, watermark, people. Dorsal Rostroraja eglanteria clearnose skate: brown-gray angular diamond disc, elongated pointed snout with TWO translucent triangular patches either side central rostralridge, dark small spots andbars, NO big ocelli. Row tiny midline thorns, fairly stout slender tail with exactly TWO small dorsal fins near tip. NO venomous sting/barb. Separate rectangular leathery dark eggcase four cornerhorns lowerleft.1 translucentsnoutpatch,2 disc,3 midlinethorns,4 pairtaildorsalfins,5 eggcase.",
+    "original": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-e492e8f5-ca90-4433-bba0-71a715f29210.png",
+    "asset": "/assets/rays-extra/clearnoseSkate-diagram-v1.webp"
+  },
+  "bluespottedRibbontail": {
+    "prompt": "Scientific marine biology museum field-guide plate, landscape1536x1024. Accurate watercolor/ink on warm ivory, teal accents. Full animals fit frame. Only text is small numerals1–5 with fine leader lines to specified structures, each once. No titles, names, watermark, people. Dorsal Taeniura lymma bluespotted ribbontail ray. Oval rounded golden olive disc with numerous vivid blue SPOTS notrings, raisedeyes andspiracles, stout longish tail two longitudinal blue stripes and ribbonlike ventralfinfold, small spine onuppertail nearbase, NO dorsalfin or manta headlobes. Separate sideprofiletailinset lowerleft magnifies ventralfold.1 bluespots,2 eye,3 spiracle behindeye,4 tailspine,5 ventralfold inset.",
+    "original": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-1748d78c-84e8-4bde-a195-f852a83aa366.png",
+    "asset": "/assets/rays-extra/bluespottedRibbontail-diagram-v1.webp"
+  },
+  "blueRingedOctopus": {
+    "prompt": "Scientific marine biology museum field-guide plate, landscape1536x1024. Accurate watercolor/ink on warm ivory, teal accents. Full animals fit frame. Only text is small numerals1–5 with fine leader lines to specified structures, each once. No titles, names, watermark, people. Greater blue-ringed octopus Hapalochlaena lunulata threequarter view. Exactly EIGHT plausible arms joined aroundmouth, two rows suckers underneath, small rounded softmantle, sideeye, visible funnel underhead. Yellowtan skin vivid blue RINGS darkborders not solidspots. Separate enlarged skin schematic lowerleft blue-ring section showing reflective parallel iridophoreplates and overlyingmuscle.1 mantle,2 eye,3 armsuckers,4 funnel,5 ringiridophoreinset. No fins, squidtentacles, glowingemissionaura, fangs.",
+    "original": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-73419e98-d993-4814-bbf2-c81e439a8d8e.png",
+    "asset": "/assets/rays-extra/blueRingedOctopus-diagram-v1.webp"
+  }
+}

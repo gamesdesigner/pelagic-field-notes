@@ -83,6 +83,11 @@ test('existing multiple-choice and legacy spelling checks keep their existing ru
 });
 
 const courseVariants={
+ southernStingray:['Cartilage.','Crabs.','Spiracles.','Underneath.','To defend itself.','Live birth.','A seagrass meadow.'],
+ shortTailStingray:['The smooth stingray.','New Zealand.','Its tail barb.','Defence.','No.','Crabs.','They are born alive.'],
+ clearnoseSkate:['Its clear snout patches.','No.','2.','A mermaid’s purse.','The yolk.','Shrimp.','The Atlantic.'],
+ bluespottedRibbontail:['Taeniura lymma.','Blue spots.','A reef crevice.','It can reach shallow feeding grounds.','Crabs.','The ventral fold.','To defend itself.'],
+ blueRingedOctopus:['8.','TTX.','It stops you breathing.','They reflect light.','Iridophores.','No.','Crabs.'],
  upwelling:['Coriolis.','Rightward.','Ekman transport.','Offshore.','Cool deep water rich in nutrients.','Euphotic zone.','Marine snow.','Microbes.','Protein and DNA.','ATP.','Diatoms.','A phytoplankton bloom.','Photosynthetic plankton.','Upwelling.','Plankton.'],
  coriolis:['The Earth spins.','Right.','Left.','The equator.','Anti-clockwise.','Coriolis effect.'],
  sunlight:['The blow hole.','Carapace.','Its bell.','The dorsal fin.','Photosynthetic plankton.','Carapace.'],
@@ -97,7 +102,7 @@ const courseVariants={
  schooling:['A school.','It is harder to track one fish.','A tight ball of fish.','Dark on top and light on the belly.','Vibrations.','Neighbors respond to each other.','Schools attract predators and fish compete for food.'],
 };
 test('all quizzes use written rubrics, retain their totals, and accept existing correct answers',()=>{
- const totals={whales:7,blueWhale:7,spermWhale:7,oarfish:7,giantTubeworm:7,yetiCrab:7,hydrothermalVents:7,anglerfish:7,coelacanth:7,giantPhantom:7,rays:7,mantaRay:7,midnightLife:7,giantIsopod:7,blackDragonfish:7,pelicanEel:7,lanternfish:7,barreleye:7,hatchetfish:7,bioluminescence:7,verticalMigration:7,octopus:7,humboldt:7,nautilus:7,hydroids:7,whaleShark:7,hammerhead:7,leopardShark:7,mako:7,kelp:7,seaIce:7,narwhal:7,beluga:7,walrus:7,sharks:7,corals:7,cnidaria:7,anemones:7,cephalopods:7,upwelling:15,coriolis:6,sunlight:6,turtle:6,conveyor:7,enso:7,shark:7,cuttlefish:7,twilightGeneral:7,twilight:7,plankton:7,schooling:7,penguin:7,orca:7,lionsmane:7};
+ const totals={southernStingray:7,shortTailStingray:7,clearnoseSkate:7,bluespottedRibbontail:7,blueRingedOctopus:7,whales:7,blueWhale:7,spermWhale:7,oarfish:7,giantTubeworm:7,yetiCrab:7,hydrothermalVents:7,anglerfish:7,coelacanth:7,giantPhantom:7,rays:7,mantaRay:7,midnightLife:7,giantIsopod:7,blackDragonfish:7,pelicanEel:7,lanternfish:7,barreleye:7,hatchetfish:7,bioluminescence:7,verticalMigration:7,octopus:7,humboldt:7,nautilus:7,hydroids:7,whaleShark:7,hammerhead:7,leopardShark:7,mako:7,kelp:7,seaIce:7,narwhal:7,beluga:7,walrus:7,sharks:7,corals:7,cnidaria:7,anemones:7,cephalopods:7,upwelling:15,coriolis:6,sunlight:6,turtle:6,conveyor:7,enso:7,shark:7,cuttlefish:7,twilightGeneral:7,twilight:7,plankton:7,schooling:7,penguin:7,orca:7,lionsmane:7};
  assert.deepEqual(Object.keys(quizBank).sort(),Object.keys(totals).sort());
  for(const [id,questions] of Object.entries(quizBank)){
   assert.equal(questions.length,totals[id]);
@@ -116,6 +121,10 @@ test('every converted question accepts an independently worded answer',()=>{
   answers.forEach((answer,i)=>{if(!answerIsCorrect(quizBank[id][i],answer))failures.push(`${id} ${i+1}: ${answer}`);});
  }
  assert.deepEqual(failures,[]);
+});
+test('new ray and octopus rubrics reject reversed anatomy, false reassurance, and light-production claims',()=>{
+ const cases=[['southernStingray',0,'A bony skeleton'],['southernStingray',4,'It spears prey while hunting'],['shortTailStingray',4,'Yes'],['clearnoseSkate',1,'Yes, it has a venomous barb'],['clearnoseSkate',4,'The embryo eats sand'],['bluespottedRibbontail',1,'Hollow rings'],['blueRingedOctopus',0,'Ten'],['blueRingedOctopus',3,'It is bioluminescent and produces its own light'],['blueRingedOctopus',5,'Yes, it is safe']];
+ for(const [id,index,answer] of cases)assert.equal(answerIsCorrect(quizBank[id][index],answer),false,`${id}: ${answer}`);
 });
 test('written grading rejects missing ideas, common wrong concepts and contradicted answers',()=>{
  const cases=[

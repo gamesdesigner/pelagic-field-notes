@@ -1,5 +1,6 @@
 "use client";
 import './ray-labs.css';
+import {rayExtraUnits} from '../shared/rays-extra/units.mjs';
 import './whale-deep.css';
 import {whaleDeepUnits} from '../shared/whales-deep/units.mjs';
 import WhaleFieldGuide from './WhaleFieldGuide';
@@ -13,7 +14,7 @@ import {midnightUnits} from '../shared/midnight/units.mjs';
 import {chapterForLesson,lessonChapterLabel} from '../shared/chapter-structure.mjs';
 import {libraryGroups} from '../shared/library-content.mjs';
 import type {LibrarySelection} from './CourseLibrary';
-const additionalUnits=[...completionUnits,...midnightUnits,...rayUnits,...whaleDeepUnits];
+const additionalUnits=[...completionUnits,...midnightUnits,...rayUnits,...whaleDeepUnits,...rayExtraUnits];
 
 export default function AdditionalUnits({initialUnit,onBack,onOpen}:{initialUnit:number|null;onBack:()=>void;onOpen:(selection:LibrarySelection)=>void}){
  const item=additionalUnits[initialUnit??0];

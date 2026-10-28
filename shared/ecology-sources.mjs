@@ -1,8 +1,10 @@
+import {rayExtraSources} from './rays-extra/sources.mjs';
 import {whaleDeepSources} from './whales-deep/sources.mjs';
 import {raySources} from './rays/sources.mjs';
 import {completionSources} from './completion/sources.mjs';
 import {midnightSources} from './midnight/sources.mjs';
 export const ecologySources={
+ ...rayExtraSources,
  ...completionSources,
  ...midnightSources,
  ...raySources,
