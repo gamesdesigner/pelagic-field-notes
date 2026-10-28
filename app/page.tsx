@@ -1,6 +1,7 @@
 "use client";
 
 import { type CSSProperties, useCallback, useEffect, useRef, useState } from "react";
+import {scrollPageToStart} from '../shared/page-scroll.mjs';
 import * as THREE from "three";
 import ConveyorBeltLab from "./ConveyorBeltLab";
 import ConveyorBeltQuiz from "./ConveyorBeltQuiz";
@@ -774,7 +775,7 @@ export default function Home() {
   const returnToLibrary=useCallback(()=>{setSelected(null);setCurrentTopic(null);setLibraryUnit(null);navigateSite('/');},[]);
   useEffect(()=>{if(page==='sign-in'||page==='sign-up')navigateSite(`/${lessonQuery(search)}`,{replace:true});},[page,search]);
 
-  useEffect(()=>{window.scrollTo({top:0,left:0,behavior:"instant"});},[selected?.id,currentTopic,libraryUnit]);
+  useEffect(()=>{scrollPageToStart();},[selected?.id,currentTopic,libraryUnit]);
 
   useEffect(() => {
     if (!selected) return;

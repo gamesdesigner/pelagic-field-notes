@@ -1,5 +1,6 @@
 "use client";
 import {useEffect,useState} from 'react';
+import {scrollPageToStart} from '../shared/page-scroll.mjs';
 import EcologyLesson,{type EcologyLessonId} from './EcologyLesson';
 import LessonReading from './LessonReading';
 import LessonQuiz from './LessonQuiz';
@@ -10,7 +11,7 @@ import type {LessonId} from './deepDives';
 export default function PolarUnits({onBack,initialUnit=null}:{onBack:()=>void;initialUnit?:number|null}){
  const chapterUnits=chapters.find(chapter=>chapter.id==='polar')!.lessonIds.map(id=>{const index=polarUnits.findIndex(item=>item.id===id);return {...polarUnits[index],index};});
  const [unit,setUnit]=useState<number|null>(initialUnit);
- useEffect(()=>{window.scrollTo({top:0,left:0,behavior:'instant'});},[unit]);
+ useEffect(()=>{scrollPageToStart();},[unit]);
  if(unit!==null){const item=polarUnits[unit];const chapterIndex=chapterUnits.findIndex(entry=>entry.index===unit);const next=chapterIndex>=0?chapterUnits[chapterIndex+1]:undefined;return <section className="polar-lesson">
   <header className="polar-lesson-header"><button type="button" className="back-button" onClick={onBack}>← Main page</button><p className="eyebrow">{lessonChapterLabel(item.id)} · {item.region}</p><h1>{item.title}</h1><p className="scientific">{item.scientific}</p><p className="polar-deck">{item.description}</p></header>
   {item.id==='penguin'&&<aside className="polar-location-note"><strong>Antarctica, at the South Pole.</strong><p>Emperor penguins do not naturally live in the Arctic. This unit is a southern comparison with the northern animals in this collection.</p></aside>}

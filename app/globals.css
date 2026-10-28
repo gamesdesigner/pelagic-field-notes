@@ -56,6 +56,11 @@
 * { box-sizing:border-box; }
 html,body { margin:0; min-height:100%; background:var(--paper); }
 body { color:var(--ink); font-family:Arial,Helvetica,sans-serif; }
+/* Bound the app's paint surface to the viewport. Long lessons and the library
+   must not depend on the embedded browser repainting the entire document. */
+body:has(>.app-scroll-root) { height:100dvh; overflow:hidden; }
+.app-scroll-root { height:100dvh; overflow:auto; overscroll-behavior-y:contain; contain:layout paint; isolation:isolate; background:var(--paper); }
+.app-scroll-root:focus-visible { outline:2px solid var(--coral); outline-offset:-2px; }
 button { color:inherit; font:inherit; }
 button:focus-visible { outline:3px solid var(--coral); outline-offset:3px; }
 /* Keep the page background in normal flow; a viewport-sized SVG noise layer
@@ -912,7 +917,7 @@ body,body * { font-family:"Times New Roman",Times,serif!important; }
  .teaching-abstract,.teaching-terms,.teaching-recap,.teaching-check,.teaching-apply { padding:22px; }
  .schooling-hero>.fish-school-art { min-height:0; height:auto; }
 }
-.reading-level-picker { position:sticky; top:0; z-index:4; padding:14px 0 18px; background:var(--paper,#f1eee5); border-bottom:1px solid var(--line); }
+.reading-level-picker { position:relative; padding:14px 0 18px; background:var(--paper,#f1eee5); border-bottom:1px solid var(--line); }
 .reading-level-picker>p { margin:0 0 10px; color:var(--muted); font:12px/1.4 Arial,sans-serif; letter-spacing:.08em; text-transform:uppercase; }
 .reading-level-picker>div { display:flex; gap:10px; flex-wrap:wrap; }
 .reading-level-picker button { display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 10px; padding:13px 18px; border:1px solid #68868a; background:transparent; color:var(--ink); font:700 16px/1.4 Arial,sans-serif; cursor:pointer; text-align:left; }

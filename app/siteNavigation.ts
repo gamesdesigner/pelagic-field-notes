@@ -1,5 +1,6 @@
 "use client";
 import {useSyncExternalStore} from 'react';
+import {scrollPageToStart} from '../shared/page-scroll.mjs';
 export type SitePage = 'learn'|'about'|'contact'|'sign-in'|'sign-up';
 const eventName='marine-site-navigation';
 function subscribe(notify:()=>void){
@@ -9,7 +10,7 @@ function subscribe(notify:()=>void){
 function snapshot(){return window.location.pathname+window.location.search;}
 export function navigateSite(href:string,{replace=false}:{replace?:boolean}={}){
  if(href!==snapshot()+window.location.hash){window.history[replace?'replaceState':'pushState'](null,'',href);window.dispatchEvent(new Event(eventName));}
- window.scrollTo({top:0,left:0,behavior:'instant'});
+ scrollPageToStart();
 }
 export function useSiteNavigation(){
  const url=useSyncExternalStore(subscribe,snapshot,()=>'/');

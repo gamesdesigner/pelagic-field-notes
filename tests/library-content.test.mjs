@@ -3,6 +3,18 @@ import assert from 'node:assert/strict';
 import {access} from 'node:fs/promises';
 import {libraryGroups,findLibraryLesson,lessonQuery} from '../shared/library-content.mjs';
 import {lessonTitles} from '../shared/learning-content.mjs';
+import {scrollPageToStart} from '../shared/page-scroll.mjs';
+
+test('navigation resets the active page scrollport without scrolling the document behind it',()=>{
+ const calls=[];
+ const page={scrollTo:options=>calls.push(['page',options])};
+ const viewport={scrollTo:options=>calls.push(['window',options])};
+ scrollPageToStart(page,viewport);
+ assert.deepEqual(calls,[['page',{top:0,left:0,behavior:'instant'}]]);
+ calls.length=0;
+ scrollPageToStart(null,viewport);
+ assert.deepEqual(calls,[['window',{top:0,left:0,behavior:'instant'}]]);
+});
 
 test('library reaches every registered lesson exactly once and serves existing images',async()=>{
  const lessons=libraryGroups.flatMap(group=>group.lessons);
