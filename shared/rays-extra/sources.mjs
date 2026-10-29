@@ -5,6 +5,8 @@ export const rayExtraSources={
  clearnoseProfile:{label:'Florida Museum · Clearnose skate, Rostroraja eglanteria',url:'https://www.floridamuseum.ufl.edu/discover-fish/species-profiles/clearnose-skate/'},
  clearnoseFWC:{label:'Florida Fish and Wildlife · Clearnose skate identification',url:'https://myfwc.com/wildlifehabitats/profiles/saltwater/rays/clearnose-skate/'},
  ribbonProfile:{label:'Florida Museum · Bluespotted ribbontail ray, Taeniura lymma',url:'https://www.floridamuseum.ufl.edu/discover-fish/species-profiles/bluespotted-ribbontail-ray/'},
+ ribbonVenom:{label:'California Academy of Sciences · Bluespotted ribbontail ray defensive venom',url:'https://www.calacademy.org/explore-science/bluespotted-ribbontail-ray'},
+ stingrayPainStudy:{label:'Myatt et al. (2018) · A prospective study of stingray injury and envenomation outcomes',url:'https://pubmed.ncbi.nlm.nih.gov/29803633/'},
  blueMuseum:{label:'Natural History Museum · Blue-ringed octopus biology and venom',url:'https://www.nhm.ac.uk/discover/blue-ringed-octopus-small-vibrant-deadly.html'},
  blueAustralian:{label:'Australian Museum · Blue-lined octopus and the Hapalochlaena group',url:'https://australian.museum/learn/animals/molluscs/southern-blue-lined-octopus-hapalochaena-fasciata/'},
  blueRingsStudy:{label:'Mäthger et al. (2012) · How blue-ringed octopuses flash their rings',url:'https://pubmed.ncbi.nlm.nih.gov/23053367/'},
