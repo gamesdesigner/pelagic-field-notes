@@ -43,7 +43,7 @@ test('ten hyphenated chapters classify each lesson once without changing saved I
  const {chapters,chapterForLesson,chapterUnitReference,lessonChapterLabel}=await import('../shared/chapter-structure.mjs');
  const expected=[
   ['Chapter 1- Ocean currents',['currentsIntro','upwelling','conveyor','coriolis','ekman','enso']],
-  ['Chapter 2- The Sunlight Zone',['sunlight','corals','turtle','plankton','schooling','kelp']],
+  ['Chapter 2- The Sunlight Zone',['sunlight','corals','turtle','plankton','schooling','kelp','swordfish']],
   ['Chapter 3- The Arctic',['seaIce','orca','narwhal','beluga','walrus','penguin']],
   ['Chapter 4- Twilight Zone',['twilightGeneral','lanternfish','barreleye','hatchetfish','bioluminescence','verticalMigration']],
   ['Chapter 5- Midnight Zone',['midnightLife','giantIsopod','blackDragonfish','pelicanEel','oarfish','giantTubeworm','yetiCrab','hydrothermalVents','anglerfish','coelacanth']],
@@ -54,9 +54,9 @@ test('ten hyphenated chapters classify each lesson once without changing saved I
   ['Chapter 10- Whales',['whales','blueWhale','spermWhale']],
  ];
  assert.deepEqual(libraryGroups.map(group=>[group.title,group.lessons.map(lesson=>lesson.id)]),expected);
- assert.ok(libraryGroups.filter(group=>!['midnightZone','cnidaria','cephalopods','rays','whales'].includes(group.id)).every(group=>group.lessons.length===6));
+ assert.ok(libraryGroups.filter(group=>!['sunlight','midnightZone','cnidaria','cephalopods','rays','whales'].includes(group.id)).every(group=>group.lessons.length===6));
  assert.equal(libraryGroups.find(group=>group.id==='midnightZone').lessons.length,10);
- assert.equal(libraryGroups.flatMap(group=>group.lessons).length,63);
+ assert.equal(libraryGroups.flatMap(group=>group.lessons).length,64);
  for(const chapter of chapters)for(const [index,id] of chapter.lessonIds.entries()){
   assert.equal(chapterForLesson(id).id,chapter.id);
   assert.equal(chapterUnitReference(id),`Chapter ${chapter.number}, Unit ${index+1}`);

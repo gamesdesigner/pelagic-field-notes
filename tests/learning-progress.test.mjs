@@ -459,3 +459,20 @@ test('nine whale and deep-sea lessons restore separate drafts and report scores 
  for(const {id} of whaleDeepUnits){assert.equal(report.quizzes[id].latestScore,7,id);assert.equal(report.quizzes[id].attempts,1,id);assert.ok(report.lessons[id].completedAt);}
  assert.deepEqual(report.lessons.midnightLife,before.lessons.midnightLife);assert.deepEqual(report.quizzes.mantaRay,before.quizzes.mantaRay);
 });
+
+test('Swordfish quiz drafts resume, finish idempotently, and reach the owner without replacing earlier Sunlight Zone progress',async()=>{
+ const {progress,student,owner,students,store}=await setup();
+ await progress(post('/api/progress',{action:'lesson',lessonId:'turtle',readingLevel:1,completed:true},student));
+ const before=(await (await progress(get('/api/progress',student))).json()).progress;
+ await progress(post('/api/progress',{action:'lesson',lessonId:'swordfish',readingLevel:2},student));
+ const state={attemptId:randomUUID(),revision:1,index:2,selection:answers('swordfish')[2],submitted:false,answers:answers('swordfish').slice(0,2)};
+ assert.equal((await progress(post('/api/progress',{action:'quiz-draft',lessonId:'swordfish',previousAttemptId:null,state},student))).status,200);
+ const fresh=createLearningHandler({store});
+ const restored=(await (await fresh(get('/api/progress',student))).json()).progress;
+ assert.equal(restored.quizSessions.swordfish.index,2);assert.equal(restored.quizSessions.swordfish.selection,answers('swordfish')[2]);
+ const body={action:'quiz-draft',lessonId:'swordfish',previousAttemptId:null,state:{...state,revision:2,index:7,selection:'',answers:answers('swordfish')}};
+ assert.equal((await fresh(post('/api/progress',body,student))).status,200);assert.equal((await fresh(post('/api/progress',body,student))).status,200);
+ await fresh(post('/api/progress',{action:'lesson',lessonId:'swordfish',readingLevel:2,completed:true},student));
+ const report=(await (await students(get('/api/students?student=Student%20Reader',owner))).json()).progress;
+ assert.equal(report.quizzes.swordfish.latestScore,7);assert.equal(report.quizzes.swordfish.attempts,1);assert.ok(report.lessons.swordfish.completedAt);assert.deepEqual(report.lessons.turtle,before.lessons.turtle);
+});

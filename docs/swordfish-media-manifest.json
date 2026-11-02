@@ -1,0 +1,41 @@
+{
+  "date": "2026-11-02",
+  "image": {
+    "tool": "built-in image_gen.imagegen",
+    "mode": "generate",
+    "original": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-08a70950-c8b3-4cf6-bcf8-f619ae5d6041.png",
+    "asset": "/assets/swordfish/swordfish-plate-v1.webp",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "prompt": "Use case: scientific-educational. Create a polished scientific natural history plate for an established marine biology lesson, landscape 1536 by 1024 composition, off-white warm paper, fine ink and watercolor realism, restrained teal accents. Subject ONE adult swordfish Xiphias gladius in an accurate clean left-to-right lateral view (head facing right), entire fish including bill and tail visible with generous margins. Long flattened sword-like UPPER jaw reaching forward, short lower jaw below and a clearly separate mouth, large eye behind bill base, visible operculum, cylindrical streamlined dark blue-gray back and pale silvery underside, tall swept first dorsal fin, tiny separated second dorsal far back, two anal fins with second tiny, prominent paired pectoral fin, no pelvic fins, narrow peduncle, symmetric lunate crescent tail with upper and lower lobes of comparable extent. NO marlin sail fin, NO shark gill slits, NO teeth. Add five small clear arabic numerals with delicate leader lines: 1 to flat bill, 2 to eye, 3 to gill cover, 4 to pectoral fin, 5 to lunate tail. Exactly five numerals, no words. A small scientifically schematic top-view inset of the flat bill in lower right may show its broad flattened profile, but no extra fish or numbering. Fine anatomical detail and believable proportions, composed like a museum illustration, accurate enough to discuss capture, vision, breathing and thrust. No hunting violence, no blood, no diagrams of giant squid.",
+    "inspection": "Five leaders correctly identify bill, eye, gill cover, pectoral fin, and tail. Side and top views kept distinct. No pelvic fins, teeth or marlin sail."
+  },
+  "video": {
+    "asset": "/assets/swordfish/swordfish-hunt-v1.mp4",
+    "method": "Authored animated reconstruction; no generative video tool was available. No source wildlife footage.",
+    "durationSeconds": 14,
+    "fps": 24,
+    "dimensions": [
+      1280,
+      720
+    ],
+    "codec": "H.264 High / yuv420p, no audio, faststart",
+    "sceneSource": "shared/swordfish/hunt-scene.mjs",
+    "renderer": "scripts/render-swordfish-video.mjs",
+    "temporaryAuthoringDependencies": [
+      "@resvg/resvg-js 2.6.2",
+      "imageio-ffmpeg 0.8.0"
+    ],
+    "dependencyLocation": "/private/tmp/ocean-swordfish-video (not deployed)",
+    "stages": [
+      "approach",
+      "lateral bill strike",
+      "return toward slowed prey",
+      "mouth capture",
+      "continue swimming"
+    ],
+    "limits": "Illustrative geometry, timing, prey spacing and successful outcome; not measured kinematics or wildlife footage. No claim of habitual attacks on enormous giant squid."
+  }
+}
