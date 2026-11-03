@@ -36,6 +36,9 @@
       "mouth capture",
       "continue swimming"
     ],
-    "limits": "Illustrative geometry, timing, prey spacing and successful outcome; not measured kinematics or wildlife footage. No claim of habitual attacks on enormous giant squid."
-  }
+    "limits": "Illustrative geometry, timing, prey spacing and successful outcome; not measured kinematics or wildlife footage. No claim of habitual attacks on enormous giant squid.",
+    "supersededBy": "/assets/swordfish/swordfish-hunt-v2.mp4",
+    "historicalVersion": true
+  },
+  "currentHuntingVideoManifest": "docs/swordfish-realistic-v2-manifest.json"
 }

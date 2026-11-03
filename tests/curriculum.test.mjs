@@ -361,7 +361,7 @@ test('Swordfish is a complete seventh Sunlight Zone unit with evidence-aware die
  const {swordfishLesson:lesson}=await import('../shared/swordfish/content.mjs');
  const {swordfishSources}=await import('../shared/swordfish/sources.mjs');
  const {findLibraryLesson,libraryGroups}=await import('../shared/library-content.mjs');
- const {HUNT_DURATION,HUNT_FPS,huntState,renderHuntScene}=await import('../shared/swordfish/hunt-scene.mjs');
+ const {REALISTIC_FRAME_COUNT,REALISTIC_DURATION,REALISTIC_VIDEO_FPS,realisticFramePath}=await import('../shared/swordfish/realistic-hunt.mjs');
  assert.deepEqual(libraryGroups.find(c=>c.id==='sunlight').lessons.map(l=>l.id),['sunlight','corals','turtle','plankton','schooling','kelp','swordfish']);
  assert.equal(findLibraryLesson('swordfish').unit,34);assert.equal(findLibraryLesson('swordfish').subjectId,'extensions');
  assert.ok(words(lesson.intro)>=500);assert.ok(words(lesson.dive)>3*words(lesson.intro));
@@ -372,11 +372,15 @@ test('Swordfish is a complete seventh Sunlight Zone unit with evidence-aware die
  for(const source of lesson.guide.sources)assert.ok(swordfishSources[source],source);
  for(const [,description,source] of lesson.diagram.key){assert.ok(description.length>35);assert.ok(swordfishSources[source]);}
  await access(new URL('../public'+lesson.diagram.image,import.meta.url));
- const video=await readFile(new URL('../public/assets/swordfish/swordfish-hunt-v1.mp4',import.meta.url));
+ const video=await readFile(new URL('../public/assets/swordfish/swordfish-hunt-v2.mp4',import.meta.url));
  assert.ok(video.length>100000);assert.equal(video.subarray(4,8).toString(),'ftyp');assert.ok(video.includes(Buffer.from('moov')));assert.ok(video.includes(Buffer.from('mdat')));
- const captions=await readFile(new URL('../public/assets/swordfish/swordfish-hunt-v1.vtt',import.meta.url),'utf8');assert.match(captions,/WEBVTT/);assert.match(captions,/00:14.000/);
- assert.equal(HUNT_DURATION,14);assert.equal(HUNT_FPS,24);
- assert.equal(huntState(4).stage.title,'02 · Lateral strike');assert.equal(huntState(10).stage.title,'04 · Capture');
- assert.ok(huntState(10.7).capture>0.99);assert.equal(huntState(-10).time,0);assert.equal(huntState(Infinity).time,0);
- const samples=[0,3.5,4.5,6,10,13].map(t=>renderHuntScene(t));assert.equal(new Set(samples).size,6);assert.ok(samples.every(svg=>!svg.includes('NaN')&&!svg.includes('undefined')));
+ const captions=await readFile(new URL('../public/assets/swordfish/swordfish-hunt-v2.vtt',import.meta.url),'utf8');assert.match(captions,/WEBVTT/);assert.match(captions,/00:04.000/);
+ const manifest=JSON.parse(await readFile(new URL('../docs/swordfish-realistic-v2-manifest.json',import.meta.url),'utf8'));
+ assert.equal(manifest.sourceFrameCount,REALISTIC_FRAME_COUNT);assert.equal(manifest.frames.length,32);assert.equal(manifest.durationSeconds,REALISTIC_DURATION);assert.equal(manifest.outputFps,REALISTIC_VIDEO_FPS);
+ assert.equal(manifest.tool,'built-in image_gen.imagegen');assert.match(manifest.method,/interpolation/);
+ assert.equal(new Set(manifest.frames.map(f=>f.sha256)).size,32,'source images must be distinct');
+ for(const [index,frame] of manifest.frames.entries()){
+  assert.equal(frame.frame,index);assert.equal(frame.asset,realisticFramePath(index));assert.ok(frame.prompt.length>100);assert.ok(frame.original.endsWith('.png'));
+  const image=await readFile(new URL('../public'+frame.asset,import.meta.url));assert.equal(image.subarray(0,4).toString(),'RIFF');assert.equal(image.subarray(8,12).toString(),'WEBP');assert.ok(image.length>20000);
+ }
 });

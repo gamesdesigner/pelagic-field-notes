@@ -1,0 +1,434 @@
+{
+  "version": 2,
+  "date": "2026-11-03",
+  "tool": "built-in image_gen.imagegen",
+  "sourceFrameCount": 32,
+  "sourceFps": 8,
+  "outputFps": 24,
+  "durationSeconds": 4,
+  "outputVideoFrames": 96,
+  "method": "32 separately generated photorealistic source images. Optical-flow interpolation creates intermediate frames for 24fps playback. Not generative video or wildlife footage.",
+  "limits": "Illustrative hunt and timing. Independently generated images can vary in anatomy, lighting and prey number. Interpolation may create local distortions. No claim of measured animal kinematics or a guaranteed successful hunt.",
+  "video": "/assets/swordfish/swordfish-hunt-v2.mp4",
+  "poster": "/assets/swordfish/realistic-v2/frame-00.webp",
+  "videoBytes": 1625354,
+  "encoder": "FFmpeg / H.264 High / yuv420p / faststart / no audio",
+  "renderer": "scripts/render-realistic-swordfish.py",
+  "frames": [
+    {
+      "frame": 0,
+      "prompt": "Use case: photorealistic-natural. Asset: first image in a continuous scientific educational swordfish hunting movie. Generate ONE cinematic photorealistic underwater natural history frame, landscape 16:9, ideally 1536x864. Camera stationary at fish eye level, subtle three-quarter side angle, wide open-ocean view looking horizontally through clear deep blue water with softly scattered turquoise sunlight above, realistic suspended tiny particles, distant water fading blue. No seafloor, no divers, no typography, no borders. One anatomically accurate adult swordfish Xiphias gladius swimming to the RIGHT, entire animal fully in frame. The swordfish occupies the left half, tail tip at 4% image width, mouth at 32%, bill tip at 46%, eye at 29%, centered at 52% image height. Its body has believable metallic dark blue-gray dorsal skin and silvery sides and underside with subtle skin texture, a long flattened sword-shaped UPPER jaw, short lower jaw, large dark round eye with silver rim, one normal gill cover, tall swept first dorsal fin and tiny second dorsal fin, prominent pectoral fins, NO pelvic fins, NO marlin sail, NO teeth, symmetrical crescent caudal fin. Main body from tail peduncle to head around 30% image width, bill approximately one-third of total fish length. Exactly 12 small silvery schooling fish loosely clustered to the right at 68% to 86% image width, heights 40% to 64%. ONE nearest prey fish distinctly just below the swordfish's bill line at x65%, y55%. No contact yet. All prey are substantially smaller than predator with physically natural fins, eyes, reflections. Still frame of a documentary-style underwater hunting sequence, realistic photographic proportions, not a painting, not a CGI render. Pose: cruising forward, caudal fin slightly bent away in a tail beat; body never stretches. No blood, no wounds. Preserve plentiful empty blue space around the animals for subsequent consistent movement.",
+      "original": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-7d5012dc-31fa-4c6e-9009-0f0425be2f60.png",
+      "asset": "/assets/swordfish/realistic-v2/frame-00.webp",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "bytes": 94286,
+      "sha256": "7db39a655b376464f18897446565db745d76559b80c52d0d950768ecced21e32"
+    },
+    {
+      "frame": 1,
+      "reference": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-7d5012dc-31fa-4c6e-9009-0f0425be2f60.png",
+      "prompt": "Use case: identity-preserve, photorealistic educational animation frame. The supplied image is the EDIT TARGET and identity/camera reference for ONE underwater movie frame. Preserve precisely the same adult swordfish, its anatomical proportions, metallic skin markings, eye, fin sizes, species, camera, lens, perspective, blue water, underwater sun rays, and image dimensions. This is the SAME stationary camera at a later instant, not a zoom, not a new illustration. Move the entire fish bodily to the specified position without lengthening or shrinking its body or bill. Actual tail and fin articulation changes the swimming pose. The fish still faces RIGHT in a subtle three-quarter side view. No text, labels, blood, extra predators, marlin sail, pelvic fins or teeth. Maintain a broad flat upper-jaw bill and distinct short lower jaw. Keep photographic realistic aquatic light. Approach frame 1 of32. Relative to this starting image, move the entire unchanged-size swordfish RIGHT by 1 percent of image width. Its mouth moves from35% to36% width, its bill tip from56% to57%. Keep body at57% image height. The prey school remains near its original location, with only tiny fin and tail pose changes. No strike, no contact yet. The tail passes through the neutral straight phase. Produce exactly ONE frame, same framing and resolution, not a contact sheet.",
+      "original": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-3cc149ec-9ab0-4473-b47b-cb6bc862ac7b.png",
+      "asset": "/assets/swordfish/realistic-v2/frame-01.webp",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "bytes": 88268,
+      "sha256": "f51d5ba50a50d0a9fd53aff423aad722ee54abc0522d1a6b3f12160ffeeff0b0"
+    },
+    {
+      "frame": 2,
+      "reference": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-7d5012dc-31fa-4c6e-9009-0f0425be2f60.png",
+      "prompt": "Use case: identity-preserve, photorealistic educational animation frame. The supplied image is the EDIT TARGET and identity/camera reference for ONE underwater movie frame. Preserve precisely the same adult swordfish, its anatomical proportions, metallic skin markings, eye, fin sizes, species, camera, lens, perspective, blue water, underwater sun rays, and image dimensions. This is the SAME stationary camera at a later instant, not a zoom, not a new illustration. Move the entire fish bodily to the specified position without lengthening or shrinking its body or bill. Actual tail and fin articulation changes the swimming pose. The fish still faces RIGHT in a subtle three-quarter side view. No text, labels, blood, extra predators, marlin sail, pelvic fins or teeth. Maintain a broad flat upper-jaw bill and distinct short lower jaw. Keep photographic realistic aquatic light. Approach frame 2 of32. Relative to this starting image, move the entire unchanged-size swordfish RIGHT by 2 percent of image width. Its mouth moves from35% to37% width, its bill tip from56% to58%. Keep body at57% image height. The prey school remains near its original location, with only tiny fin and tail pose changes. No strike, no contact yet. The caudal tail bends toward the camera, with a slight rear-body curve. Produce exactly ONE frame, same framing and resolution, not a contact sheet.",
+      "original": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-b5bb64ec-a263-4a48-8099-e889a99baae0.png",
+      "asset": "/assets/swordfish/realistic-v2/frame-02.webp",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "bytes": 95402,
+      "sha256": "04da8072d19594a08352669c7c4cb31a14accb8e9f4b842c785aa03e525f6032"
+    },
+    {
+      "frame": 3,
+      "reference": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-7d5012dc-31fa-4c6e-9009-0f0425be2f60.png",
+      "prompt": "Use case: identity-preserve, photorealistic educational animation frame. The supplied image is the EDIT TARGET and identity/camera reference for ONE underwater movie frame. Preserve precisely the same adult swordfish, its anatomical proportions, metallic skin markings, eye, fin sizes, species, camera, lens, perspective, blue water, underwater sun rays, and image dimensions. This is the SAME stationary camera at a later instant, not a zoom, not a new illustration. Move the entire fish bodily to the specified position without lengthening or shrinking its body or bill. Actual tail and fin articulation changes the swimming pose. The fish still faces RIGHT in a subtle three-quarter side view. No text, labels, blood, extra predators, marlin sail, pelvic fins or teeth. Maintain a broad flat upper-jaw bill and distinct short lower jaw. Keep photographic realistic aquatic light. Approach frame 3 of32. Relative to this starting image, move the entire unchanged-size swordfish RIGHT by 3 percent of image width. Its mouth moves from35% to38% width, its bill tip from56% to59%. Keep body at57% image height. The prey school remains near its original location, with only tiny fin and tail pose changes. No strike, no contact yet. The tail returns through neutral; the pectoral fin tips shift subtly. Produce exactly ONE frame, same framing and resolution, not a contact sheet.",
+      "original": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-e49dac3e-0249-4508-9750-115188ef5ba5.png",
+      "asset": "/assets/swordfish/realistic-v2/frame-03.webp",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "bytes": 84630,
+      "sha256": "efe7e4fe8e4ae69e9bb8c42e5f8bad22c95651046a92c7d9c3b123adf616c6c2"
+    },
+    {
+      "frame": 4,
+      "reference": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-7d5012dc-31fa-4c6e-9009-0f0425be2f60.png",
+      "prompt": "Use case: identity-preserve, photorealistic educational animation frame. The supplied image is the EDIT TARGET and identity/camera reference for ONE underwater movie frame. Preserve precisely the same adult swordfish, its anatomical proportions, metallic skin markings, eye, fin sizes, species, camera, lens, perspective, blue water, underwater sun rays, and image dimensions. This is the SAME stationary camera at a later instant, not a zoom, not a new illustration. Move the entire fish bodily to the specified position without lengthening or shrinking its body or bill. Actual tail and fin articulation changes the swimming pose. The fish still faces RIGHT in a subtle three-quarter side view. No text, labels, blood, extra predators, marlin sail, pelvic fins or teeth. Maintain a broad flat upper-jaw bill and distinct short lower jaw. Keep photographic realistic aquatic light. Approach frame 4 of32. Relative to this starting image, move the entire unchanged-size swordfish RIGHT by 4 percent of image width. Its mouth moves from35% to39% width, its bill tip from56% to60%. Keep body at57% image height. The prey school remains near its original location, with only tiny fin and tail pose changes. No strike, no contact yet. The caudal tail is bending away from the camera. Produce exactly ONE frame, same framing and resolution, not a contact sheet.",
+      "original": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-fdd7d134-f19e-4ecc-b15c-d4bbdc4d2f56.png",
+      "asset": "/assets/swordfish/realistic-v2/frame-04.webp",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "bytes": 88824,
+      "sha256": "b4e4261a93c802faa88459b6b59d60ad1ab8b8dd60f4f35eb75cd6cb2df2e27b"
+    },
+    {
+      "frame": 5,
+      "reference": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-7d5012dc-31fa-4c6e-9009-0f0425be2f60.png",
+      "prompt": "Use case: identity-preserve, photorealistic educational animation frame. The supplied image is the EDIT TARGET and identity/camera reference for ONE underwater movie frame. Preserve precisely the same adult swordfish, its anatomical proportions, metallic skin markings, eye, fin sizes, species, camera, lens, perspective, blue water, underwater sun rays, and image dimensions. This is the SAME stationary camera at a later instant, not a zoom, not a new illustration. Move the entire fish bodily to the specified position without lengthening or shrinking its body or bill. Actual tail and fin articulation changes the swimming pose. The fish still faces RIGHT in a subtle three-quarter side view. No text, labels, blood, extra predators, marlin sail, pelvic fins or teeth. Maintain a broad flat upper-jaw bill and distinct short lower jaw. Keep photographic realistic aquatic light. Approach frame 5 of32. Relative to this starting image, move the entire unchanged-size swordfish RIGHT by 5 percent of image width. Its mouth moves from35% to40% width, its bill tip from56% to61%. Keep body at57% image height. The prey school remains near its original location, with only tiny fin and tail pose changes. No strike, no contact yet. The tail passes through the neutral straight phase. Produce exactly ONE frame, same framing and resolution, not a contact sheet.",
+      "original": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-d1b581da-f48e-4f2c-91af-2aaaca06b854.png",
+      "asset": "/assets/swordfish/realistic-v2/frame-05.webp",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "bytes": 87180,
+      "sha256": "b52cc0edf0063cd006080915c713aecfa923e55a11b3079e243c1b0e9689593e"
+    },
+    {
+      "frame": 6,
+      "reference": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-7d5012dc-31fa-4c6e-9009-0f0425be2f60.png",
+      "prompt": "Use case: identity-preserve, photorealistic educational animation frame. The supplied image is the EDIT TARGET and identity/camera reference for ONE underwater movie frame. Preserve precisely the same adult swordfish, its anatomical proportions, metallic skin markings, eye, fin sizes, species, camera, lens, perspective, blue water, underwater sun rays, and image dimensions. This is the SAME stationary camera at a later instant, not a zoom, not a new illustration. Move the entire fish bodily to the specified position without lengthening or shrinking its body or bill. Actual tail and fin articulation changes the swimming pose. The fish still faces RIGHT in a subtle three-quarter side view. No text, labels, blood, extra predators, marlin sail, pelvic fins or teeth. Maintain a broad flat upper-jaw bill and distinct short lower jaw. Keep photographic realistic aquatic light. Approach frame 6 of32. Relative to this starting image, move the entire unchanged-size swordfish RIGHT by 6 percent of image width. Its mouth moves from35% to41% width, its bill tip from56% to62%. Keep body at57% image height. The prey school remains near its original location, with only tiny fin and tail pose changes. No strike, no contact yet. The caudal tail bends toward the camera, with a slight rear-body curve. Produce exactly ONE frame, same framing and resolution, not a contact sheet.",
+      "original": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-93cd113a-4adb-45cc-b4a8-c99632f84701.png",
+      "asset": "/assets/swordfish/realistic-v2/frame-06.webp",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "bytes": 89648,
+      "sha256": "d9cebe941d14801da2cfd86fcbdf3a8c82087f253d97a4d9382bda9e4929406a"
+    },
+    {
+      "frame": 7,
+      "reference": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-7d5012dc-31fa-4c6e-9009-0f0425be2f60.png",
+      "prompt": "Use case: identity-preserve, photorealistic educational animation frame. The supplied image is the EDIT TARGET and identity/camera reference for ONE underwater movie frame. Preserve precisely the same adult swordfish, its anatomical proportions, metallic skin markings, eye, fin sizes, species, camera, lens, perspective, blue water, underwater sun rays, and image dimensions. This is the SAME stationary camera at a later instant, not a zoom, not a new illustration. Move the entire fish bodily to the specified position without lengthening or shrinking its body or bill. Actual tail and fin articulation changes the swimming pose. The fish still faces RIGHT in a subtle three-quarter side view. No text, labels, blood, extra predators, marlin sail, pelvic fins or teeth. Maintain a broad flat upper-jaw bill and distinct short lower jaw. Keep photographic realistic aquatic light. Approach frame 7 of32. Relative to this starting image, move the entire unchanged-size swordfish RIGHT by 7 percent of image width. Its mouth moves from35% to42% width, its bill tip from56% to63%. Keep body at57% image height. The prey school remains near its original location, with only tiny fin and tail pose changes. No strike, no contact yet. The tail returns through neutral; the pectoral fin tips shift subtly. Produce exactly ONE frame, same framing and resolution, not a contact sheet.",
+      "original": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-6871e171-3480-4436-ba0e-da6082fe4a87.png",
+      "asset": "/assets/swordfish/realistic-v2/frame-07.webp",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "bytes": 87488,
+      "sha256": "e025b73f1510cc1c57a498428bd94b94859447f93bfbecb1c59d2bf71bb2ce06"
+    },
+    {
+      "frame": 8,
+      "prompt": "Use case: identity-preserve, photorealistic educational animation frame. The supplied image is the EDIT TARGET and identity/camera reference for ONE underwater movie frame. Preserve precisely the same adult swordfish, its anatomical proportions, metallic skin markings, eye, fin sizes, species, camera, lens, perspective, blue water, underwater sun rays, and image dimensions. This is the SAME stationary camera at a later instant, not a zoom, not a new illustration. Move the entire fish bodily to the specified position without lengthening or shrinking its body or bill. Actual tail and fin articulation changes the swimming pose. The fish still faces RIGHT in a subtle three-quarter side view. No text, labels, blood, extra predators, marlin sail, pelvic fins or teeth. Maintain a broad flat upper-jaw bill and distinct short lower jaw. Keep photographic realistic aquatic light. Frame 08 of 32, early lateral swipe. Compared with the target, translate the entire swordfish RIGHT by 8 percent of image width: the mouth is now at 43% width, the bill tip at about 64%. Body remains centered around 57% image height. The tail is beating toward the camera, not merely stretching vertically. The head and front body yaw slightly toward the camera so the flat bill sweeps toward the nearest small prey fish, whose center is at 66% width and 59% height. The bill is alongside the prey, not impaling it. The other 11 prey start turning apart in a loose school, still close to their original right-side positions.",
+      "hint": "Generated images are saved to /Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68 as /Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-6d4cb3a2-82a5-45e7-8325-153308275cab.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "original": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-6d4cb3a2-82a5-45e7-8325-153308275cab.png",
+      "asset": "/assets/swordfish/realistic-v2/frame-08.webp",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "bytes": 86534,
+      "sha256": "cb0fcc468e657bd459e3cecf8b83a3e60834c4d96038a1a1c2fdd49dc2e725ac"
+    },
+    {
+      "frame": 9,
+      "reference": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-6d4cb3a2-82a5-45e7-8325-153308275cab.png",
+      "prompt": "Use case: identity-preserve, photorealistic educational animation frame. The supplied image is the EDIT TARGET and identity/camera reference for ONE underwater movie frame. Preserve precisely the same adult swordfish, its anatomical proportions, metallic skin markings, eye, fin sizes, species, camera, lens, perspective, blue water, underwater sun rays, and image dimensions. This is the SAME stationary camera at a later instant, not a zoom, not a new illustration. Move the entire fish bodily to the specified position without lengthening or shrinking its body or bill. Actual tail and fin articulation changes the swimming pose. The fish still faces RIGHT in a subtle three-quarter side view. No text, labels, blood, extra predators, marlin sail, pelvic fins or teeth. Maintain a broad flat upper-jaw bill and distinct short lower jaw. Keep photographic realistic aquatic light. Lateral strike frame 9 of32. This reference is the start of the sideways strike. Move the whole swordfish RIGHT by only 0.38 percent of image width, keeping scale fixed, mouth near43.38% width. Gently yaw the head/front body 5 degrees to show a small sideways sweep of the long flat bill alongside a prey fish near66% width and59% height. The bill does not pierce or carry prey. The nearest fish lists slightly after the swipe; other eleven prey begin spreading rightward and up or down, each fin articulating, gradually more separated than this reference. Preserve water and camera precisely. The tail passes through the neutral straight phase. Produce exactly ONE frame, same framing and resolution, not a contact sheet.",
+      "original": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-5bac388d-3825-4e38-957a-3b88cbc1ea36.png",
+      "asset": "/assets/swordfish/realistic-v2/frame-09.webp",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "bytes": 84128,
+      "sha256": "5ab898d11d44be9f1f6924a3366c9c9a88cd6698f5850047af7c3a98ceeadd92"
+    },
+    {
+      "frame": 10,
+      "reference": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-6d4cb3a2-82a5-45e7-8325-153308275cab.png",
+      "prompt": "Use case: identity-preserve, photorealistic educational animation frame. The supplied image is the EDIT TARGET and identity/camera reference for ONE underwater movie frame. Preserve precisely the same adult swordfish, its anatomical proportions, metallic skin markings, eye, fin sizes, species, camera, lens, perspective, blue water, underwater sun rays, and image dimensions. This is the SAME stationary camera at a later instant, not a zoom, not a new illustration. Move the entire fish bodily to the specified position without lengthening or shrinking its body or bill. Actual tail and fin articulation changes the swimming pose. The fish still faces RIGHT in a subtle three-quarter side view. No text, labels, blood, extra predators, marlin sail, pelvic fins or teeth. Maintain a broad flat upper-jaw bill and distinct short lower jaw. Keep photographic realistic aquatic light. Lateral strike frame 10 of32. This reference is the start of the sideways strike. Move the whole swordfish RIGHT by only 0.75 percent of image width, keeping scale fixed, mouth near43.75% width. Gently yaw the head/front body 7 degrees to show a small sideways sweep of the long flat bill alongside a prey fish near66% width and59% height. The bill does not pierce or carry prey. The nearest fish lists slightly after the swipe; other eleven prey begin spreading rightward and up or down, each fin articulating, gradually more separated than this reference. Preserve water and camera precisely. The caudal tail bends toward the camera, with a slight rear-body curve. Produce exactly ONE frame, same framing and resolution, not a contact sheet.",
+      "original": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-4d1e151e-4f5b-4eb0-9c85-4eb13755ca8a.png",
+      "asset": "/assets/swordfish/realistic-v2/frame-10.webp",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "bytes": 83844,
+      "sha256": "7426d68713502f4d4811e457b84b2d3d65127342f7c47ee821fa5936ce1a0134"
+    },
+    {
+      "frame": 11,
+      "reference": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-6d4cb3a2-82a5-45e7-8325-153308275cab.png",
+      "prompt": "Use case: identity-preserve, photorealistic educational animation frame. The supplied image is the EDIT TARGET and identity/camera reference for ONE underwater movie frame. Preserve precisely the same adult swordfish, its anatomical proportions, metallic skin markings, eye, fin sizes, species, camera, lens, perspective, blue water, underwater sun rays, and image dimensions. This is the SAME stationary camera at a later instant, not a zoom, not a new illustration. Move the entire fish bodily to the specified position without lengthening or shrinking its body or bill. Actual tail and fin articulation changes the swimming pose. The fish still faces RIGHT in a subtle three-quarter side view. No text, labels, blood, extra predators, marlin sail, pelvic fins or teeth. Maintain a broad flat upper-jaw bill and distinct short lower jaw. Keep photographic realistic aquatic light. Lateral strike frame 11 of32. This reference is the start of the sideways strike. Move the whole swordfish RIGHT by only 1.13 percent of image width, keeping scale fixed, mouth near44.13% width. Gently yaw the head/front body 5 degrees to show a small sideways sweep of the long flat bill alongside a prey fish near66% width and59% height. The bill does not pierce or carry prey. The nearest fish lists slightly after the swipe; other eleven prey begin spreading rightward and up or down, each fin articulating, gradually more separated than this reference. Preserve water and camera precisely. The tail returns through neutral; the pectoral fin tips shift subtly. Produce exactly ONE frame, same framing and resolution, not a contact sheet.",
+      "original": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-9894cd9b-9f50-4081-8af6-7e031057ab5f.png",
+      "asset": "/assets/swordfish/realistic-v2/frame-11.webp",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "bytes": 85460,
+      "sha256": "cbbca7ead42e76a42243e847865ad0459ae289a8482de46bcc41c468901ca75e"
+    },
+    {
+      "frame": 12,
+      "reference": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-6d4cb3a2-82a5-45e7-8325-153308275cab.png",
+      "prompt": "Use case: identity-preserve, photorealistic educational animation frame. The supplied image is the EDIT TARGET and identity/camera reference for ONE underwater movie frame. Preserve precisely the same adult swordfish, its anatomical proportions, metallic skin markings, eye, fin sizes, species, camera, lens, perspective, blue water, underwater sun rays, and image dimensions. This is the SAME stationary camera at a later instant, not a zoom, not a new illustration. Move the entire fish bodily to the specified position without lengthening or shrinking its body or bill. Actual tail and fin articulation changes the swimming pose. The fish still faces RIGHT in a subtle three-quarter side view. No text, labels, blood, extra predators, marlin sail, pelvic fins or teeth. Maintain a broad flat upper-jaw bill and distinct short lower jaw. Keep photographic realistic aquatic light. Lateral strike frame 12 of32. This reference is the start of the sideways strike. Move the whole swordfish RIGHT by only 1.50 percent of image width, keeping scale fixed, mouth near44.50% width. Gently yaw the head/front body 0 degrees to show a small sideways sweep of the long flat bill alongside a prey fish near66% width and59% height. The bill does not pierce or carry prey. The nearest fish lists slightly after the swipe; other eleven prey begin spreading rightward and up or down, each fin articulating, gradually more separated than this reference. Preserve water and camera precisely. The caudal tail is bending away from the camera. Produce exactly ONE frame, same framing and resolution, not a contact sheet.",
+      "original": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-4f036861-8ee3-4a81-875b-771c19a5cb44.png",
+      "asset": "/assets/swordfish/realistic-v2/frame-12.webp",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "bytes": 84110,
+      "sha256": "add0bdba6921f396426d0146fedada2ffb8694f18ffd91a7500437801adb6264"
+    },
+    {
+      "frame": 13,
+      "reference": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-6d4cb3a2-82a5-45e7-8325-153308275cab.png",
+      "prompt": "Use case: identity-preserve, photorealistic educational animation frame. The supplied image is the EDIT TARGET and identity/camera reference for ONE underwater movie frame. Preserve precisely the same adult swordfish, its anatomical proportions, metallic skin markings, eye, fin sizes, species, camera, lens, perspective, blue water, underwater sun rays, and image dimensions. This is the SAME stationary camera at a later instant, not a zoom, not a new illustration. Move the entire fish bodily to the specified position without lengthening or shrinking its body or bill. Actual tail and fin articulation changes the swimming pose. The fish still faces RIGHT in a subtle three-quarter side view. No text, labels, blood, extra predators, marlin sail, pelvic fins or teeth. Maintain a broad flat upper-jaw bill and distinct short lower jaw. Keep photographic realistic aquatic light. Lateral strike frame 13 of32. This reference is the start of the sideways strike. Move the whole swordfish RIGHT by only 1.88 percent of image width, keeping scale fixed, mouth near44.88% width. Gently yaw the head/front body -5 degrees to show a small sideways sweep of the long flat bill alongside a prey fish near66% width and59% height. The bill does not pierce or carry prey. The nearest fish lists slightly after the swipe; other eleven prey begin spreading rightward and up or down, each fin articulating, gradually more separated than this reference. Preserve water and camera precisely. The tail passes through the neutral straight phase. Produce exactly ONE frame, same framing and resolution, not a contact sheet.",
+      "original": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-58da258c-9cfe-46a0-aff9-e5cc9f20d6c7.png",
+      "asset": "/assets/swordfish/realistic-v2/frame-13.webp",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "bytes": 81240,
+      "sha256": "9f94a788fc94220f7d69336cd935aad272466cabf253fb0dd5bd271a4f1e958f"
+    },
+    {
+      "frame": 14,
+      "reference": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-6d4cb3a2-82a5-45e7-8325-153308275cab.png",
+      "prompt": "Use case: identity-preserve, photorealistic educational animation frame. The supplied image is the EDIT TARGET and identity/camera reference for ONE underwater movie frame. Preserve precisely the same adult swordfish, its anatomical proportions, metallic skin markings, eye, fin sizes, species, camera, lens, perspective, blue water, underwater sun rays, and image dimensions. This is the SAME stationary camera at a later instant, not a zoom, not a new illustration. Move the entire fish bodily to the specified position without lengthening or shrinking its body or bill. Actual tail and fin articulation changes the swimming pose. The fish still faces RIGHT in a subtle three-quarter side view. No text, labels, blood, extra predators, marlin sail, pelvic fins or teeth. Maintain a broad flat upper-jaw bill and distinct short lower jaw. Keep photographic realistic aquatic light. Lateral strike frame 14 of32. This reference is the start of the sideways strike. Move the whole swordfish RIGHT by only 2.25 percent of image width, keeping scale fixed, mouth near45.25% width. Gently yaw the head/front body -7 degrees to show a small sideways sweep of the long flat bill alongside a prey fish near66% width and59% height. The bill does not pierce or carry prey. The nearest fish lists slightly after the swipe; other eleven prey begin spreading rightward and up or down, each fin articulating, gradually more separated than this reference. Preserve water and camera precisely. The caudal tail bends toward the camera, with a slight rear-body curve. Produce exactly ONE frame, same framing and resolution, not a contact sheet.",
+      "original": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-5f79361b-76a0-406c-8ac5-37a9b3a86d5b.png",
+      "asset": "/assets/swordfish/realistic-v2/frame-14.webp",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "bytes": 86050,
+      "sha256": "017b2777b5a24133af7f72fed6b9ab910b99d2a7d597034971b5b53a23e13ef3"
+    },
+    {
+      "frame": 15,
+      "reference": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-6d4cb3a2-82a5-45e7-8325-153308275cab.png",
+      "prompt": "Use case: identity-preserve, photorealistic educational animation frame. The supplied image is the EDIT TARGET and identity/camera reference for ONE underwater movie frame. Preserve precisely the same adult swordfish, its anatomical proportions, metallic skin markings, eye, fin sizes, species, camera, lens, perspective, blue water, underwater sun rays, and image dimensions. This is the SAME stationary camera at a later instant, not a zoom, not a new illustration. Move the entire fish bodily to the specified position without lengthening or shrinking its body or bill. Actual tail and fin articulation changes the swimming pose. The fish still faces RIGHT in a subtle three-quarter side view. No text, labels, blood, extra predators, marlin sail, pelvic fins or teeth. Maintain a broad flat upper-jaw bill and distinct short lower jaw. Keep photographic realistic aquatic light. Lateral strike frame 15 of32. This reference is the start of the sideways strike. Move the whole swordfish RIGHT by only 2.63 percent of image width, keeping scale fixed, mouth near45.63% width. Gently yaw the head/front body -5 degrees to show a small sideways sweep of the long flat bill alongside a prey fish near66% width and59% height. The bill does not pierce or carry prey. The nearest fish lists slightly after the swipe; other eleven prey begin spreading rightward and up or down, each fin articulating, gradually more separated than this reference. Preserve water and camera precisely. The tail returns through neutral; the pectoral fin tips shift subtly. Produce exactly ONE frame, same framing and resolution, not a contact sheet.",
+      "original": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-bdf014a1-00d9-43ab-8f59-c577f15598e5.png",
+      "asset": "/assets/swordfish/realistic-v2/frame-15.webp",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "bytes": 82124,
+      "sha256": "f1076190a6449349d09c1e617d8332e17d437c98379f3aa895f22965077b0612"
+    },
+    {
+      "frame": 16,
+      "prompt": "Use case: identity-preserve, photorealistic educational animation frame. The supplied image is the EDIT TARGET and identity/camera reference for ONE underwater movie frame. Preserve precisely the same adult swordfish, its anatomical proportions, metallic skin markings, eye, fin sizes, species, camera, lens, perspective, blue water, underwater sun rays, and image dimensions. This is the SAME stationary camera at a later instant, not a zoom, not a new illustration. Move the entire fish bodily to the specified position without lengthening or shrinking its body or bill. Actual tail and fin articulation changes the swimming pose. The fish still faces RIGHT in a subtle three-quarter side view. No text, labels, blood, extra predators, marlin sail, pelvic fins or teeth. Maintain a broad flat upper-jaw bill and distinct short lower jaw. Keep photographic realistic aquatic light. Frame 16 of 32, immediately after the lateral strike. Translate the entire swordfish RIGHT by 11 percent of image width, mouth at 46% width, bill tip around 67%, head at 56% image height. Keep its original body length and scale. The head is returning from a slight side-to-side yaw, bill nearly horizontal. Tail is flexed away from camera, pectoral fin slightly raised. ONE nearest prey fish now appears slowed, listing slightly at x67%, y60%, close below the bill tip, intact and without blood. The other eleven silvery fish scatter realistically farther to the RIGHT and upward/downward, some at x78%-96%. Show curved tails and different headings in fleeing fish.",
+      "hint": "Generated images are saved to /Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68 as /Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-748026f0-9521-4c05-bfe7-9419305ce551.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "original": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-748026f0-9521-4c05-bfe7-9419305ce551.png",
+      "asset": "/assets/swordfish/realistic-v2/frame-16.webp",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "bytes": 93468,
+      "sha256": "81e0c89d0726617c3b0eea737dd76674727e7ec88ad2860829835fe4f8b4a7c2"
+    },
+    {
+      "frame": 17,
+      "reference": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-748026f0-9521-4c05-bfe7-9419305ce551.png",
+      "prompt": "Use case: identity-preserve, photorealistic educational animation frame. The supplied image is the EDIT TARGET and identity/camera reference for ONE underwater movie frame. Preserve precisely the same adult swordfish, its anatomical proportions, metallic skin markings, eye, fin sizes, species, camera, lens, perspective, blue water, underwater sun rays, and image dimensions. This is the SAME stationary camera at a later instant, not a zoom, not a new illustration. Move the entire fish bodily to the specified position without lengthening or shrinking its body or bill. Actual tail and fin articulation changes the swimming pose. The fish still faces RIGHT in a subtle three-quarter side view. No text, labels, blood, extra predators, marlin sail, pelvic fins or teeth. Maintain a broad flat upper-jaw bill and distinct short lower jaw. Keep photographic realistic aquatic light. Return-and-capture-approach frame 17 of32. Reference shows the school after the strike. Translate the whole unchanged-size swordfish RIGHT by 2.38 percent of image width: mouth now around48.38%, bill tip69.38%. Its head stays near57% height. One slowed intact prey fish remains at x67%,y59%, now increasingly close to the short lower jaw as the predator moves forward. The bill extends beyond it: no impalement. Other fish continue scattering toward x80%-98% and heights30%-75%. The swordfish begins opening its mouth very slightly only when it is nearly alongside that slowed prey. The tail passes through the neutral straight phase. Produce exactly ONE frame, same framing and resolution, not a contact sheet.",
+      "original": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-71789016-14c7-4528-8670-c4ce1fb2a7bc.png",
+      "asset": "/assets/swordfish/realistic-v2/frame-17.webp",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "bytes": 87156,
+      "sha256": "d44bac5fe38a7f9261b025752bb7515e20f71f4843ac56f9b4c3bad1780239f9"
+    },
+    {
+      "frame": 18,
+      "reference": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-748026f0-9521-4c05-bfe7-9419305ce551.png",
+      "prompt": "Use case: identity-preserve, photorealistic educational animation frame. The supplied image is the EDIT TARGET and identity/camera reference for ONE underwater movie frame. Preserve precisely the same adult swordfish, its anatomical proportions, metallic skin markings, eye, fin sizes, species, camera, lens, perspective, blue water, underwater sun rays, and image dimensions. This is the SAME stationary camera at a later instant, not a zoom, not a new illustration. Move the entire fish bodily to the specified position without lengthening or shrinking its body or bill. Actual tail and fin articulation changes the swimming pose. The fish still faces RIGHT in a subtle three-quarter side view. No text, labels, blood, extra predators, marlin sail, pelvic fins or teeth. Maintain a broad flat upper-jaw bill and distinct short lower jaw. Keep photographic realistic aquatic light. Return-and-capture-approach frame 18 of32. Reference shows the school after the strike. Translate the whole unchanged-size swordfish RIGHT by 4.75 percent of image width: mouth now around50.75%, bill tip71.75%. Its head stays near57% height. One slowed intact prey fish remains at x67%,y59%, now increasingly close to the short lower jaw as the predator moves forward. The bill extends beyond it: no impalement. Other fish continue scattering toward x80%-98% and heights30%-75%. The swordfish begins opening its mouth very slightly only when it is nearly alongside that slowed prey. The caudal tail bends toward the camera, with a slight rear-body curve. Produce exactly ONE frame, same framing and resolution, not a contact sheet.",
+      "original": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-bc35528c-ed35-434b-9ad6-4b85bbc85402.png",
+      "asset": "/assets/swordfish/realistic-v2/frame-18.webp",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "bytes": 81294,
+      "sha256": "59bf5ffd808d189852302254cccb8dd187e69f24a7312eb5f13ca6a7c1d0f1cd"
+    },
+    {
+      "frame": 19,
+      "reference": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-748026f0-9521-4c05-bfe7-9419305ce551.png",
+      "prompt": "Use case: identity-preserve, photorealistic educational animation frame. The supplied image is the EDIT TARGET and identity/camera reference for ONE underwater movie frame. Preserve precisely the same adult swordfish, its anatomical proportions, metallic skin markings, eye, fin sizes, species, camera, lens, perspective, blue water, underwater sun rays, and image dimensions. This is the SAME stationary camera at a later instant, not a zoom, not a new illustration. Move the entire fish bodily to the specified position without lengthening or shrinking its body or bill. Actual tail and fin articulation changes the swimming pose. The fish still faces RIGHT in a subtle three-quarter side view. No text, labels, blood, extra predators, marlin sail, pelvic fins or teeth. Maintain a broad flat upper-jaw bill and distinct short lower jaw. Keep photographic realistic aquatic light. Return-and-capture-approach frame 19 of32. Reference shows the school after the strike. Translate the whole unchanged-size swordfish RIGHT by 7.13 percent of image width: mouth now around53.13%, bill tip74.13%. Its head stays near57% height. One slowed intact prey fish remains at x67%,y59%, now increasingly close to the short lower jaw as the predator moves forward. The bill extends beyond it: no impalement. Other fish continue scattering toward x80%-98% and heights30%-75%. The swordfish begins opening its mouth very slightly only when it is nearly alongside that slowed prey. The tail returns through neutral; the pectoral fin tips shift subtly. Produce exactly ONE frame, same framing and resolution, not a contact sheet.",
+      "original": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-c2c6e6fb-8798-4adc-a379-d9f1a04c46f3.png",
+      "asset": "/assets/swordfish/realistic-v2/frame-19.webp",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "bytes": 81772,
+      "sha256": "099a20f47fd5e65ab6a6820c2068bf2d845d8370426510085fc40fe0fc2effaf"
+    },
+    {
+      "frame": 20,
+      "reference": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-748026f0-9521-4c05-bfe7-9419305ce551.png",
+      "prompt": "Use case: identity-preserve, photorealistic educational animation frame. The supplied image is the EDIT TARGET and identity/camera reference for ONE underwater movie frame. Preserve precisely the same adult swordfish, its anatomical proportions, metallic skin markings, eye, fin sizes, species, camera, lens, perspective, blue water, underwater sun rays, and image dimensions. This is the SAME stationary camera at a later instant, not a zoom, not a new illustration. Move the entire fish bodily to the specified position without lengthening or shrinking its body or bill. Actual tail and fin articulation changes the swimming pose. The fish still faces RIGHT in a subtle three-quarter side view. No text, labels, blood, extra predators, marlin sail, pelvic fins or teeth. Maintain a broad flat upper-jaw bill and distinct short lower jaw. Keep photographic realistic aquatic light. Return-and-capture-approach frame 20 of32. Reference shows the school after the strike. Translate the whole unchanged-size swordfish RIGHT by 9.50 percent of image width: mouth now around55.50%, bill tip76.50%. Its head stays near57% height. One slowed intact prey fish remains at x67%,y59%, now increasingly close to the short lower jaw as the predator moves forward. The bill extends beyond it: no impalement. Other fish continue scattering toward x80%-98% and heights30%-75%. The swordfish begins opening its mouth very slightly only when it is nearly alongside that slowed prey. The caudal tail is bending away from the camera. Produce exactly ONE frame, same framing and resolution, not a contact sheet.",
+      "original": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-772aa916-17c9-4eee-bd4a-c80459279109.png",
+      "asset": "/assets/swordfish/realistic-v2/frame-20.webp",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "bytes": 87754,
+      "sha256": "abdc38341fe40e532ed5a7787add423de7d69b5d143f508b826272fd5b925c94"
+    },
+    {
+      "frame": 21,
+      "reference": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-748026f0-9521-4c05-bfe7-9419305ce551.png",
+      "prompt": "Use case: identity-preserve, photorealistic educational animation frame. The supplied image is the EDIT TARGET and identity/camera reference for ONE underwater movie frame. Preserve precisely the same adult swordfish, its anatomical proportions, metallic skin markings, eye, fin sizes, species, camera, lens, perspective, blue water, underwater sun rays, and image dimensions. This is the SAME stationary camera at a later instant, not a zoom, not a new illustration. Move the entire fish bodily to the specified position without lengthening or shrinking its body or bill. Actual tail and fin articulation changes the swimming pose. The fish still faces RIGHT in a subtle three-quarter side view. No text, labels, blood, extra predators, marlin sail, pelvic fins or teeth. Maintain a broad flat upper-jaw bill and distinct short lower jaw. Keep photographic realistic aquatic light. Return-and-capture-approach frame 21 of32. Reference shows the school after the strike. Translate the whole unchanged-size swordfish RIGHT by 11.88 percent of image width: mouth now around57.88%, bill tip78.88%. Its head stays near57% height. One slowed intact prey fish remains at x67%,y59%, now increasingly close to the short lower jaw as the predator moves forward. The bill extends beyond it: no impalement. Other fish continue scattering toward x80%-98% and heights30%-75%. The swordfish begins opening its mouth very slightly only when it is nearly alongside that slowed prey. The tail passes through the neutral straight phase. Produce exactly ONE frame, same framing and resolution, not a contact sheet.",
+      "original": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-7e00f863-fa96-4d74-864b-85f7e048a445.png",
+      "asset": "/assets/swordfish/realistic-v2/frame-21.webp",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "bytes": 89832,
+      "sha256": "9bfd27f6bac42fbf3ac86adbe45dec84f166d6111e70e5ad9bc63eb1b480f5a7"
+    },
+    {
+      "frame": 22,
+      "reference": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-748026f0-9521-4c05-bfe7-9419305ce551.png",
+      "prompt": "Use case: identity-preserve, photorealistic educational animation frame. The supplied image is the EDIT TARGET and identity/camera reference for ONE underwater movie frame. Preserve precisely the same adult swordfish, its anatomical proportions, metallic skin markings, eye, fin sizes, species, camera, lens, perspective, blue water, underwater sun rays, and image dimensions. This is the SAME stationary camera at a later instant, not a zoom, not a new illustration. Move the entire fish bodily to the specified position without lengthening or shrinking its body or bill. Actual tail and fin articulation changes the swimming pose. The fish still faces RIGHT in a subtle three-quarter side view. No text, labels, blood, extra predators, marlin sail, pelvic fins or teeth. Maintain a broad flat upper-jaw bill and distinct short lower jaw. Keep photographic realistic aquatic light. Return-and-capture-approach frame 22 of32. Reference shows the school after the strike. Translate the whole unchanged-size swordfish RIGHT by 14.25 percent of image width: mouth now around60.25%, bill tip81.25%. Its head stays near57% height. One slowed intact prey fish remains at x67%,y59%, now increasingly close to the short lower jaw as the predator moves forward. The bill extends beyond it: no impalement. Other fish continue scattering toward x80%-98% and heights30%-75%. The swordfish begins opening its mouth very slightly only when it is nearly alongside that slowed prey. The caudal tail bends toward the camera, with a slight rear-body curve. Produce exactly ONE frame, same framing and resolution, not a contact sheet.",
+      "original": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-bcaebef5-7857-4ceb-98ba-b3677d4d82c0.png",
+      "asset": "/assets/swordfish/realistic-v2/frame-22.webp",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "bytes": 89736,
+      "sha256": "7102b6dd13bf73de0b677c6574e635551610e59770d6e0de2bec5751ebbfd301"
+    },
+    {
+      "frame": 23,
+      "reference": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-748026f0-9521-4c05-bfe7-9419305ce551.png",
+      "prompt": "Use case: identity-preserve, photorealistic educational animation frame. The supplied image is the EDIT TARGET and identity/camera reference for ONE underwater movie frame. Preserve precisely the same adult swordfish, its anatomical proportions, metallic skin markings, eye, fin sizes, species, camera, lens, perspective, blue water, underwater sun rays, and image dimensions. This is the SAME stationary camera at a later instant, not a zoom, not a new illustration. Move the entire fish bodily to the specified position without lengthening or shrinking its body or bill. Actual tail and fin articulation changes the swimming pose. The fish still faces RIGHT in a subtle three-quarter side view. No text, labels, blood, extra predators, marlin sail, pelvic fins or teeth. Maintain a broad flat upper-jaw bill and distinct short lower jaw. Keep photographic realistic aquatic light. Return-and-capture-approach frame 23 of32. Reference shows the school after the strike. Translate the whole unchanged-size swordfish RIGHT by 16.63 percent of image width: mouth now around62.63%, bill tip83.63%. Its head stays near57% height. One slowed intact prey fish remains at x67%,y59%, now increasingly close to the short lower jaw as the predator moves forward. The bill extends beyond it: no impalement. Other fish continue scattering toward x80%-98% and heights30%-75%. The swordfish begins opening its mouth very slightly only when it is nearly alongside that slowed prey. The tail returns through neutral; the pectoral fin tips shift subtly. Produce exactly ONE frame, same framing and resolution, not a contact sheet.",
+      "original": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-99ff8b44-f85c-4a2f-adbf-bd59b588c2cd.png",
+      "asset": "/assets/swordfish/realistic-v2/frame-23.webp",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "bytes": 82618,
+      "sha256": "76056140cf52f84f4a58fb65aaff7e49ae4eea14cb7a025b2764cc9fc54a9ddb"
+    },
+    {
+      "frame": 24,
+      "prompt": "Use case: identity-preserve, photorealistic educational animation frame. The supplied image is the EDIT TARGET and identity/camera reference for ONE underwater movie frame. Preserve precisely the same adult swordfish, its anatomical proportions, metallic skin markings, eye, fin sizes, species, camera, lens, perspective, blue water, underwater sun rays, and image dimensions. This is the SAME stationary camera at a later instant, not a zoom, not a new illustration. Move the entire fish bodily to the specified position without lengthening or shrinking its body or bill. Actual tail and fin articulation changes the swimming pose. The fish still faces RIGHT in a subtle three-quarter side view. No text, labels, blood, extra predators, marlin sail, pelvic fins or teeth. Maintain a broad flat upper-jaw bill and distinct short lower jaw. Keep photographic realistic aquatic light. Frame 24 of 32, mouth capture. Translate the entire swordfish RIGHT by 30 percent of image width relative to the target, mouth at approximately65% width, bill tip approximately86%, eye approximately64%, still at 57% image height. Do NOT enlarge or lengthen it: its tail now starts about32% image width. The mouth opens just enough to take ONE small slowed silvery fish at x66%, y58%; half that prey is still visible between the jaws and the other half entering the mouth. The long upper bill extends FORWARD well beyond the prey; do not show a fish speared on its tip. The other eleven prey have scattered to the far right and upper/lower right in realistic escape poses. Tail bent toward camera, skin and body markings unchanged. No graphic injury.",
+      "hint": "Generated images are saved to /Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68 as /Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-d979ee82-6346-46f0-b71b-c0e775a85ea8.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "original": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-d979ee82-6346-46f0-b71b-c0e775a85ea8.png",
+      "asset": "/assets/swordfish/realistic-v2/frame-24.webp",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "bytes": 85558,
+      "sha256": "193d76e69dc0d28530de45894d2b1b39e9768fb3c54fae6d5ef9335274f387ea"
+    },
+    {
+      "frame": 25,
+      "reference": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-d979ee82-6346-46f0-b71b-c0e775a85ea8.png",
+      "prompt": "Use case: identity-preserve, photorealistic educational animation frame. The supplied image is the EDIT TARGET and identity/camera reference for ONE underwater movie frame. Preserve precisely the same adult swordfish, its anatomical proportions, metallic skin markings, eye, fin sizes, species, camera, lens, perspective, blue water, underwater sun rays, and image dimensions. This is the SAME stationary camera at a later instant, not a zoom, not a new illustration. Move the entire fish bodily to the specified position without lengthening or shrinking its body or bill. Actual tail and fin articulation changes the swimming pose. The fish still faces RIGHT in a subtle three-quarter side view. No text, labels, blood, extra predators, marlin sail, pelvic fins or teeth. Maintain a broad flat upper-jaw bill and distinct short lower jaw. Keep photographic realistic aquatic light. Mouth capture and departure frame 25 of32. This reference shows a small fish entering the swordfish mouth. Translate the entire unchanged-size predator RIGHT by 1 percent of image width: mouth66%, bill tip87%, tail about33%. Keep all its anatomy and the fixed camera. Progressively close the mouth around that ONE small fish; now 38 percent of the prey remains visible protruding from the jaws, so less is visible than in the reference. It is not on the bill tip. The other fish flee to the far right, slightly farther from the predator than in the reference. No blood or exposed wounds. The tail passes through the neutral straight phase. Produce exactly ONE frame, same framing and resolution, not a contact sheet.",
+      "original": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-bc3e6617-8b7e-45ba-a1e2-e12bf04f12d3.png",
+      "asset": "/assets/swordfish/realistic-v2/frame-25.webp",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "bytes": 80896,
+      "sha256": "85f602b4822aa3551d8687b0d22dd8b4ae8fb20a37df76321f1a1ad2040e2381"
+    },
+    {
+      "frame": 26,
+      "reference": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-d979ee82-6346-46f0-b71b-c0e775a85ea8.png",
+      "prompt": "Use case: identity-preserve, photorealistic educational animation frame. The supplied image is the EDIT TARGET and identity/camera reference for ONE underwater movie frame. Preserve precisely the same adult swordfish, its anatomical proportions, metallic skin markings, eye, fin sizes, species, camera, lens, perspective, blue water, underwater sun rays, and image dimensions. This is the SAME stationary camera at a later instant, not a zoom, not a new illustration. Move the entire fish bodily to the specified position without lengthening or shrinking its body or bill. Actual tail and fin articulation changes the swimming pose. The fish still faces RIGHT in a subtle three-quarter side view. No text, labels, blood, extra predators, marlin sail, pelvic fins or teeth. Maintain a broad flat upper-jaw bill and distinct short lower jaw. Keep photographic realistic aquatic light. Mouth capture and departure frame 26 of32. This reference shows a small fish entering the swordfish mouth. Translate the entire unchanged-size predator RIGHT by 2 percent of image width: mouth67%, bill tip88%, tail about34%. Keep all its anatomy and the fixed camera. Progressively close the mouth around that ONE small fish; now 25 percent of the prey remains visible protruding from the jaws, so less is visible than in the reference. It is not on the bill tip. The other fish flee to the far right, slightly farther from the predator than in the reference. No blood or exposed wounds. The caudal tail bends toward the camera, with a slight rear-body curve. Produce exactly ONE frame, same framing and resolution, not a contact sheet.",
+      "original": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-d6605138-a99b-4b63-9a55-25e5b2d8b52b.png",
+      "asset": "/assets/swordfish/realistic-v2/frame-26.webp",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "bytes": 84332,
+      "sha256": "ddc6b5837c307ab7fc5202756eacc73db97bfa8e9021735484537d4590ba95a6"
+    },
+    {
+      "frame": 27,
+      "reference": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-d979ee82-6346-46f0-b71b-c0e775a85ea8.png",
+      "prompt": "Use case: identity-preserve, photorealistic educational animation frame. The supplied image is the EDIT TARGET and identity/camera reference for ONE underwater movie frame. Preserve precisely the same adult swordfish, its anatomical proportions, metallic skin markings, eye, fin sizes, species, camera, lens, perspective, blue water, underwater sun rays, and image dimensions. This is the SAME stationary camera at a later instant, not a zoom, not a new illustration. Move the entire fish bodily to the specified position without lengthening or shrinking its body or bill. Actual tail and fin articulation changes the swimming pose. The fish still faces RIGHT in a subtle three-quarter side view. No text, labels, blood, extra predators, marlin sail, pelvic fins or teeth. Maintain a broad flat upper-jaw bill and distinct short lower jaw. Keep photographic realistic aquatic light. Mouth capture and departure frame 27 of32. This reference shows a small fish entering the swordfish mouth. Translate the entire unchanged-size predator RIGHT by 3 percent of image width: mouth68%, bill tip89%, tail about35%. Keep all its anatomy and the fixed camera. Progressively close the mouth around that ONE small fish; now 13 percent of the prey remains visible protruding from the jaws, so less is visible than in the reference. It is not on the bill tip. The other fish flee to the far right, slightly farther from the predator than in the reference. No blood or exposed wounds. The tail returns through neutral; the pectoral fin tips shift subtly. Produce exactly ONE frame, same framing and resolution, not a contact sheet.",
+      "original": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-8d95bc57-1214-45ce-a8f7-6ae0dedf123e.png",
+      "asset": "/assets/swordfish/realistic-v2/frame-27.webp",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "bytes": 81712,
+      "sha256": "90f657e0d8cafa8da054c7a24f11809c6cf84816e0583957578c554908555adf"
+    },
+    {
+      "frame": 28,
+      "reference": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-d979ee82-6346-46f0-b71b-c0e775a85ea8.png",
+      "prompt": "Use case: identity-preserve, photorealistic educational animation frame. The supplied image is the EDIT TARGET and identity/camera reference for ONE underwater movie frame. Preserve precisely the same adult swordfish, its anatomical proportions, metallic skin markings, eye, fin sizes, species, camera, lens, perspective, blue water, underwater sun rays, and image dimensions. This is the SAME stationary camera at a later instant, not a zoom, not a new illustration. Move the entire fish bodily to the specified position without lengthening or shrinking its body or bill. Actual tail and fin articulation changes the swimming pose. The fish still faces RIGHT in a subtle three-quarter side view. No text, labels, blood, extra predators, marlin sail, pelvic fins or teeth. Maintain a broad flat upper-jaw bill and distinct short lower jaw. Keep photographic realistic aquatic light. Mouth capture and departure frame 28 of32. This reference shows a small fish entering the swordfish mouth. Translate the entire unchanged-size predator RIGHT by 4 percent of image width: mouth69%, bill tip90%, tail about36%. Keep all its anatomy and the fixed camera. The prey has now been fully swallowed; the mouth is closed and no fish protrudes from it or sits on the bill. Continue swimming to the right. The other fish flee to the far right, slightly farther from the predator than in the reference. No blood or exposed wounds. The caudal tail is bending away from the camera. Produce exactly ONE frame, same framing and resolution, not a contact sheet.",
+      "original": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-28783604-36f9-4cf8-aa7a-ddfed13f3c02.png",
+      "asset": "/assets/swordfish/realistic-v2/frame-28.webp",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "bytes": 81576,
+      "sha256": "a9b87bbe146f6edeabcb4ff497a7e2ddeeadba7b1e97dd5d66f696071b87ef15"
+    },
+    {
+      "frame": 29,
+      "reference": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-d979ee82-6346-46f0-b71b-c0e775a85ea8.png",
+      "prompt": "Use case: identity-preserve, photorealistic educational animation frame. The supplied image is the EDIT TARGET and identity/camera reference for ONE underwater movie frame. Preserve precisely the same adult swordfish, its anatomical proportions, metallic skin markings, eye, fin sizes, species, camera, lens, perspective, blue water, underwater sun rays, and image dimensions. This is the SAME stationary camera at a later instant, not a zoom, not a new illustration. Move the entire fish bodily to the specified position without lengthening or shrinking its body or bill. Actual tail and fin articulation changes the swimming pose. The fish still faces RIGHT in a subtle three-quarter side view. No text, labels, blood, extra predators, marlin sail, pelvic fins or teeth. Maintain a broad flat upper-jaw bill and distinct short lower jaw. Keep photographic realistic aquatic light. Mouth capture and departure frame 29 of32. This reference shows a small fish entering the swordfish mouth. Translate the entire unchanged-size predator RIGHT by 5 percent of image width: mouth70%, bill tip91%, tail about37%. Keep all its anatomy and the fixed camera. The prey has now been fully swallowed; the mouth is closed and no fish protrudes from it or sits on the bill. Continue swimming to the right. The other fish flee to the far right, slightly farther from the predator than in the reference. No blood or exposed wounds. The tail passes through the neutral straight phase. Produce exactly ONE frame, same framing and resolution, not a contact sheet.",
+      "original": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-1df01c1a-afc7-45c6-af90-6ec290bdfab0.png",
+      "asset": "/assets/swordfish/realistic-v2/frame-29.webp",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "bytes": 77132,
+      "sha256": "e16eaf8e8ffd20df666874ed45b144eeeeb7684065296f9ab9094826331b63b7"
+    },
+    {
+      "frame": 30,
+      "reference": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-d979ee82-6346-46f0-b71b-c0e775a85ea8.png",
+      "prompt": "Use case: identity-preserve, photorealistic educational animation frame. The supplied image is the EDIT TARGET and identity/camera reference for ONE underwater movie frame. Preserve precisely the same adult swordfish, its anatomical proportions, metallic skin markings, eye, fin sizes, species, camera, lens, perspective, blue water, underwater sun rays, and image dimensions. This is the SAME stationary camera at a later instant, not a zoom, not a new illustration. Move the entire fish bodily to the specified position without lengthening or shrinking its body or bill. Actual tail and fin articulation changes the swimming pose. The fish still faces RIGHT in a subtle three-quarter side view. No text, labels, blood, extra predators, marlin sail, pelvic fins or teeth. Maintain a broad flat upper-jaw bill and distinct short lower jaw. Keep photographic realistic aquatic light. Mouth capture and departure frame 30 of32. This reference shows a small fish entering the swordfish mouth. Translate the entire unchanged-size predator RIGHT by 6 percent of image width: mouth71%, bill tip92%, tail about38%. Keep all its anatomy and the fixed camera. The prey has now been fully swallowed; the mouth is closed and no fish protrudes from it or sits on the bill. Continue swimming to the right. The other fish flee to the far right, slightly farther from the predator than in the reference. No blood or exposed wounds. The caudal tail bends toward the camera, with a slight rear-body curve. Produce exactly ONE frame, same framing and resolution, not a contact sheet.",
+      "original": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-ec722f44-d6dc-426c-bd01-010c00829b67.png",
+      "asset": "/assets/swordfish/realistic-v2/frame-30.webp",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "bytes": 80784,
+      "sha256": "15875ccbb904628645f1f8100c237b6e733704d7a81add9627028f82d4cdae6d"
+    },
+    {
+      "frame": 31,
+      "reference": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-d979ee82-6346-46f0-b71b-c0e775a85ea8.png",
+      "prompt": "Use case: identity-preserve, photorealistic educational animation frame. The supplied image is the EDIT TARGET and identity/camera reference for ONE underwater movie frame. Preserve precisely the same adult swordfish, its anatomical proportions, metallic skin markings, eye, fin sizes, species, camera, lens, perspective, blue water, underwater sun rays, and image dimensions. This is the SAME stationary camera at a later instant, not a zoom, not a new illustration. Move the entire fish bodily to the specified position without lengthening or shrinking its body or bill. Actual tail and fin articulation changes the swimming pose. The fish still faces RIGHT in a subtle three-quarter side view. No text, labels, blood, extra predators, marlin sail, pelvic fins or teeth. Maintain a broad flat upper-jaw bill and distinct short lower jaw. Keep photographic realistic aquatic light. Mouth capture and departure frame 31 of32. This reference shows a small fish entering the swordfish mouth. Translate the entire unchanged-size predator RIGHT by 7 percent of image width: mouth72%, bill tip93%, tail about39%. Keep all its anatomy and the fixed camera. The prey has now been fully swallowed; the mouth is closed and no fish protrudes from it or sits on the bill. Continue swimming to the right. The other fish flee to the far right, slightly farther from the predator than in the reference. No blood or exposed wounds. The tail returns through neutral; the pectoral fin tips shift subtly. Produce exactly ONE frame, same framing and resolution, not a contact sheet.",
+      "original": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-caf9696b-3b26-413f-98f6-1a4cfc24f3ab.png",
+      "asset": "/assets/swordfish/realistic-v2/frame-31.webp",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "bytes": 78458,
+      "sha256": "a92e48870f0441aba1b297479f099d3b1cc9f15f0b18994b77fdf8ef1f31b16e"
+    }
+  ]
+}
