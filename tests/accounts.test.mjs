@@ -21,6 +21,6 @@ test('account availability diagnostics expose only a fixed operation and allowli
  const diagnostics=[];
  const handler=createAuthHandler({store:{read(){throw Error('private account credential detail');}},reportError:(...args)=>diagnostics.push(args)});
  const response=await handler(new Request('https://marinebiology-learn.vercel.app/api/auth',{headers:{Cookie:'mb_session='+'a'.repeat(64)}}));
- assert.equal(response.status,503);assert.deepEqual(diagnostics,[['Account operation unavailable',{phase:'session-read',errorType:'Error'}]]);
+ assert.equal(response.status,503);assert.equal(response.headers.get('X-Account-Availability'),'account-service');assert.equal(response.headers.get('X-Account-Step'),'session-read');assert.deepEqual(diagnostics,[['Account operation unavailable',{phase:'session-read',errorType:'Error'}]]);
  assert.doesNotMatch(JSON.stringify(diagnostics),/private account credential detail/);
 });

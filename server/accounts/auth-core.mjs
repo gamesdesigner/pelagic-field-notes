@@ -127,9 +127,17 @@ export function createAuthHandler({store,now=()=>Date.now(),clientIP=()=> 'local
   }catch(error){
    // Never log exception messages, paths, usernames, credentials or records.
    // The allowlist prevents a custom error name from carrying private data.
-   const name=error?.constructor?.name;
-   try{reportError('Account operation unavailable',{phase,errorType:diagnosticKinds.has(name)?name:'UnknownError'});}catch{/* Diagnostics must not change the safe response. */}
-   return response({error:'Accounts are temporarily unavailable. Please try again shortly.'},503);
+   const name=diagnosticKinds.has(error?.name)?error.name:error?.constructor?.name;
+   const errorType=diagnosticKinds.has(name)?name:'UnknownError';
+   try{reportError('Account operation unavailable',{phase,errorType});}catch{/* Diagnostics must not change the safe response. */}
+   const unavailable=response({error:'Accounts are temporarily unavailable. Please try again shortly.'},503);
+   // Fixed operational codes let support diagnose availability even if the
+   // platform log stream is delayed. No exception text or user data is sent.
+   const codes={BlobStoreSuspendedError:'storage-suspended',BlobAccessError:'storage-access',BlobStoreNotFoundError:'storage-missing',BlobServiceRateLimited:'storage-busy',BlobServiceNotAvailable:'storage-service',BlobPreconditionFailedError:'storage-conflict',SyntaxError:'storage-format'};
+   const knownVersion=typeof error?.message==='string'&&/^Storage (did not return|changed while reading)/.test(error.message);
+   unavailable.headers.set('X-Account-Availability',codes[errorType]||(knownVersion?'storage-version':'account-service'));
+   unavailable.headers.set('X-Account-Step',phase);
+   return unavailable;
   }
  };
 }
