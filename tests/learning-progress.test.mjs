@@ -88,7 +88,9 @@ test('all lessons persist completion and reading level without losing earlier co
 test('all quiz banks are graded server-side; fake score fields are ignored',async()=>{
  const {progress,student}=await setup();
  for(const [lessonId,questions] of Object.entries(quizBank)){
-  const r=await progress(post('/api/progress',{action:'quiz',lessonId,attemptId:randomUUID(),answers:answers(lessonId),score:0,bestScore:900},student));assert.equal(r.status,200);
+  const submitted=answers(lessonId);
+  if(lessonId==='swordfish')submitted[1]='it will cut its prey';
+  const r=await progress(post('/api/progress',{action:'quiz',lessonId,attemptId:randomUUID(),answers:submitted,score:0,bestScore:900},student));assert.equal(r.status,200);
   const saved=(await r.json()).progress.quizzes[lessonId];assert.equal(saved.latestScore,questions.length);assert.equal(saved.bestScore,questions.length);assert.equal(saved.total,questions.length);
  }
  const r=await progress(post('/api/progress',{action:'quiz',lessonId:'shark',attemptId:randomUUID(),answers:quizBank.shark.map(()=> 'wrong answer'),score:7},student));const quiz=(await r.json()).progress.quizzes.shark;

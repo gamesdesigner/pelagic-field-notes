@@ -263,3 +263,10 @@ test('Stromatolite answers accept brief concepts without confusing organisms, ag
  for(const [index,answers] of examples.entries())for(const answer of answers)assert.equal(answerIsCorrect(quizBank.stromatolites[index],answer),true,answer);
  for(const [index,answer] of [[0,'One animal.'],[1,'3.5 million years.'],[2,'Fish.'],[3,'Teeth.'],[4,'Plastic.'],[5,'Yes.'],[6,'Greenland.']])assert.equal(answerIsCorrect(quizBank.stromatolites[index],answer),false,answer);
 });
+
+
+test('Swordfish bill question accepts cutting and everyday injury words without requiring sideways or model-answer wording',()=>{
+ const question=quizBank.swordfish[1];
+ for(const answer of ['it will cut its prey','It cuts fish.','Cut.','Cutting.','Slicing its prey.','It slashed the fish.','It hurts its prey.','It wounds the fish.','It injures fish.','It does not spear every fish; it cuts prey.'])assert.equal(answerIsCorrect(question,answer),true,answer);
+ for(const answer of ['It does not cut its prey.','It never cuts fish.','It only spears them.','It always spears prey, then cuts it.','It sucks food through the bill.','It swims.'])assert.equal(answerIsCorrect(question,answer),false,answer);
+});
