@@ -11,3 +11,11 @@ export function restoreQuizSession(saved,cached,total){
  if(cached.state.attemptId===saved.attemptId)return cached.state.revision>saved.revision?cached:null;
  return cached.previousAttemptId===saved.attemptId?cached:null;
 }
+
+// Only checked answers belong in an account save. A local draft may already
+// be on the next question; retry the last checked question without its text.
+export function quizCheckpoint(state,total){
+ if(!validQuizSession(state,total)||!state.answers.length)return null;
+ if(state.submitted||state.index===total)return state;
+ return {...state,index:state.index-1,selection:state.answers.at(-1),submitted:true};
+}

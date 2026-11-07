@@ -6,11 +6,48 @@ import {createStudentHandler} from '../server/accounts/student-core.mjs';
 import {provisionOwner} from '../server/accounts/provision-owner.mjs';
 import {createLearningHandler,learningKey} from '../server/accounts/learning-core.mjs';
 import {lessonTitles,quizBank} from '../shared/learning-content.mjs';
+import {quizCheckpoint,restoreQuizSession} from '../shared/quiz-attempts.mjs';
 const origin='https://marinebiology-learn.vercel.app';
 const get=(path,cookie)=>new Request(origin+path,{headers:cookie?{Cookie:cookie}:{}});
 const post=(path,body,cookie,site=origin)=>new Request(origin+path,{method:'POST',headers:{Origin:site,'Content-Type':'application/json',...(cookie?{Cookie:cookie}:{})},body:JSON.stringify(body)});
 const cookie=r=>r.headers.get('set-cookie').split(';')[0];
 const answers=id=>quizBank[id].map(question=>typeof question.answer==='number'?question.options[question.answer]:question.answer);
+
+test('retry checkpoints include checked answers and exclude the next unfinished answer',()=>{
+ const attemptId=randomUUID();
+ const draft={attemptId,revision:20,index:0,selection:'still typing',submitted:false,answers:[]};
+ assert.equal(quizCheckpoint(draft,7),null);
+ assert.equal(quizCheckpoint(null,7),null);
+ const checked={...draft,revision:21,selection:'Pacific',submitted:true,answers:['Pacific']};
+ assert.deepEqual(quizCheckpoint(checked,7),checked);
+ const nextDraft={...checked,index:1,revision:50,selection:'private unfinished draft',submitted:false};
+ const checkpoint=quizCheckpoint(nextDraft,7);
+ assert.equal(checkpoint.index,0);assert.equal(checkpoint.selection,'Pacific');assert.equal(checkpoint.submitted,true);
+ assert.doesNotMatch(JSON.stringify(checkpoint),/private unfinished draft/);
+ assert.equal(restoreQuizSession(checked,{state:nextDraft,previousAttemptId:null},7).state.selection,'private unfinished draft');
+ const finished={...draft,index:7,selection:'',answers:answers('enso')};
+ assert.deepEqual(quizCheckpoint(finished,7),finished);
+});
+
+test('question-only checkpoints resume and finish with one saved write per checked question',async()=>{
+ const {progress,student,store}=await setup();
+ const account=await (await import('../server/accounts/auth-core.mjs')).readSessionUser(get('/api/progress',student),store);
+ const key=learningKey(account.key);let writes=0;
+ const write=store.write.bind(store);store.write=async(...args)=>{if(args[0]===key)writes++;return write(...args);};
+ const attemptId=randomUUID();const written=answers('enso');let revision=1;let checked=[];let remote;
+ for(const [index,answer] of written.entries()){
+  const draft={attemptId,revision:revision+=100,index,selection:answer,submitted:false,answers:[...checked]};
+  // Local editing/navigation may skip many revisions. Account state remains at the last check.
+  assert.equal((await store.read(key))?.value.quizSessions?.enso?.answers.length||0,index);
+  checked.push(answer);
+  const state={...draft,revision:++revision,index:index===written.length-1?written.length:index,selection:index===written.length-1?'':answer,submitted:index<written.length-1,answers:[...checked]};
+  const response=await progress(post('/api/progress',{action:'quiz-draft',lessonId:'enso',previousAttemptId:null,state},student));
+  assert.equal(response.status,200);remote=(await response.json()).progress;
+  assert.equal(writes,index+1);assert.deepEqual(remote.quizSessions.enso.answers,checked);
+ }
+ assert.equal(remote.quizzes.enso.latestScore,7);assert.equal(remote.quizzes.enso.attempts,1);
+ assert.equal(writes,7);
+});
 test('Midnight Zone saves independent drafts and scores without replacing moved chapters or the old midnight lesson',async()=>{
  const {midnightUnits}=await import('../shared/midnight/units.mjs');
  const {progress,student,owner,students,store}=await setup();
