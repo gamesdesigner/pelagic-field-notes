@@ -133,7 +133,7 @@ test('written grading rejects missing ideas, common wrong concepts and contradic
   ['turtle',0,'Only algae.'],['turtle',1,'It uses gills to get oxygen.'],
   ['conveyor',0,'Salinity.'],['conveyor',3,'The Pacific only.'],['conveyor',6,'It becomes less dense.'],
   ['enso',4,'Stronger trade winds.'],['enso',1,'They become stronger rather than weaker.'],
-  ['shark',3,'Signals from satellites.'],['shark',6,'They have few offspring.'],
+  ['shark',3,'Signals from satellites.'],
   ['cuttlefish',1,'Eight arms.'],['cuttlefish',2,'The pigment does not expand.'],
   ['twilightGeneral',0,'200 metres.'],['twilightGeneral',3,'They rise at night.'],
   ['twilight',0,'Blood.'],['twilight',4,'Black ink.'],
@@ -269,4 +269,40 @@ test('Swordfish bill question accepts cutting and everyday injury words without 
  const question=quizBank.swordfish[1];
  for(const answer of ['it will cut its prey','It cuts fish.','Cut.','Cutting.','Slicing its prey.','It slashed the fish.','It hurts its prey.','It wounds the fish.','It injures fish.','It does not spear every fish; it cuts prey.'])assert.equal(answerIsCorrect(question,answer),true,answer);
  for(const answer of ['It does not cut its prey.','It never cuts fish.','It only spears them.','It always spears prey, then cuts it.','It sucks food through the bill.','It swims.'])assert.equal(answerIsCorrect(question,answer),false,answer);
+});
+
+
+test('all 61 quizzes have reviewed short-answer equivalents for every one of their 432 questions',async()=>{
+ const {shortAnswerRubrics}=await import('../shared/short-answer-rubrics.mjs');
+ assert.deepEqual(Object.keys(shortAnswerRubrics).sort(),Object.keys(quizBank).sort());
+ let count=0;
+ for(const [id,rules] of Object.entries(shortAnswerRubrics)){
+  assert.equal(rules.length,quizBank[id].length,id);
+  for(const [i,rule] of rules.entries())for(const phrase of rule.split('|'))assert.equal(answerIsCorrect(quizBank[id][i],phrase),true,`${id} ${i+1}: ${phrase}`);
+  count+=rules.length;
+ }
+ assert.equal(count,432);
+});
+
+test('brief answers across chapters can use context, synonyms, grammar variations and number words',()=>{
+ const cases=[['coriolis',0,'Rotation.'],['enso',0,'Pacific.'],['enso',4,'Stronger and colder.'],['conveyor',4,'Mixing.'],['conveyor',6,'It sinks less.'],['turtle',0,'Algae.'],['turtle',1,'Lungs.'],['plankton',0,'Phytoplankton.'],['plankton',4,'Fish are eating the cells.'],['shark',6,'They have few offspring.'],['cuttlefish',2,'It expands.'],['cuttlefish',4,'Scattering.'],['twilightGeneral',4,'Counterillumination.'],['twilightGeneral',5,'Food.'],['kelp',2,'Making food with sunlight.'],['beluga',1,'Echoes.'],['lanternfish',5,'Daily migration.'],['giantIsopod',1,'Fourteen legs.'],['blueWhale',4,'Two.'],['bioluminescence',0,'Biological light.'],['verticalMigration',6,'One hundred and fifty metres per hour.'],['sunlight',4,'Phytoplankotn.'],['cephalopods',0,'Molluscs.'],['rays',5,'Accidental catch.'],['whales',4,'Birthing grounds.'],['swordfish',1,'It will cut its prey.']];
+ for(const [id,index,answer] of cases)assert.equal(answerIsCorrect(quizBank[id][index],answer),true,`${id}: ${answer}`);
+});
+
+test('lenient language keeps opposites, anatomy, numbers, negation and explicit multi-part questions distinct',()=>{
+ const cases=[['coriolis',0,'The Moon spins.'],['coriolis',1,'Left.'],['turtle',0,'Only algae.'],['cuttlefish',2,'The muscles expand.'],['twilightGeneral',0,'200 metres.'],['cuttlefish',1,'Eight arms.'],['penguin',6,'Depth.'],['enso',4,'Stronger winds.'],['plankton',4,'Fish grow faster.'],['schooling',6,'Groups attract predators.'],['lionsmane',1,'Cnidocytes.'],['lionsmane',3,'Only swimming.'],['verticalMigration',6,'One thousand five hundred.'],['stromatolites',1,'3.5 million years.'],['sunlight',0,'No blowhole.'],['mantaRay',5,'It cannot.'],['blueWhale',3,'They do not.']];
+ for(const [id,index,answer] of cases)assert.equal(answerIsCorrect(quizBank[id][index],answer),false,`${id}: ${answer}`);
+});
+
+
+test('common process definitions accept meaning expressed with a different word order',()=>{
+ const cases=[['kelp',2,'It uses sunlight to make food.'],['midnightLife',5,'Building food from chemicals.'],['giantTubeworm',2,'They use chemicals for making food.'],['hydrothermalVents',3,'Making organic matter with chemical energy.'],['narwhal',3,'Finding prey with sounds that bounce back.'],['orca',1,'It detects prey from reflected sounds.'],['spermWhale',1,'Locate food with returning echoes.'],['whaleShark',1,'It strains food from the water.'],['lanternfish',1,'It matches the light.'],['twilightGeneral',4,'The light matches the surroundings.'],['midnightLife',4,'Higher.']];
+ for(const [id,index,answer] of cases)assert.equal(answerIsCorrect(quizBank[id][index],answer),true,`${id}: ${answer}`);
+ for(const [id,index,answer] of [['kelp',2,'Food made using chemicals.'],['midnightLife',5,'They make food using only sunlight.'],['orca',1,'It finds prey by smell.'],['lanternfish',1,'It absorbs light.']])assert.equal(answerIsCorrect(quizBank[id][index],answer),false,`${id}: ${answer}`);
+});
+
+
+test('grammar normalization preserves spelling tolerance and relational distinctions',()=>{
+ for(const [id,index,answer] of [['anglerfish',2,'Bactria.'],['kelp',2,'Photosyntheis.'],['orca',4,'Learning from the other orcas.'],['sunlight',0,'Its blow hole.'],['cephalopods',1,'Eight.']])assert.equal(answerIsCorrect(quizBank[id][index],answer),true,`${id}: ${answer}`);
+ for(const [id,index,answer] of [['schooling',3,'Light on top and dark on the belly.'],['cuttlefish',1,'Two arms and eight tentacles.'],['shark',1,'Fins.'],['lionsmane',2,'Orcas.']])assert.equal(answerIsCorrect(quizBank[id][index],answer),false,`${id}: ${answer}`);
 });

@@ -1,23 +1,24 @@
 // A transparent short-answer rubric, shared by the browser and server. This is
 // concept/phrase matching, not an unrestricted essay or AI grading service.
 export const isWrittenQuestion=question=>question?.kind==='written';
-function tokens(text){
- return text.toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/[’]/g,"'").replace(/(?<=\d),(?=\d)/g,'').replace(/(?<=\d)\.(?=\d)/g,' ')
-  .replace(/\b(can't|cannot)\b/g,'can not').replace(/\bwon't\b/g,'will not').replace(/n't\b/g,' not')
-  .replace(/[.!?;,]/g,' | ').match(/[a-z0-9]+|\|/g)||[];
-}
+import {answerTokens as tokens,wordSpellingForms} from './answer-language.mjs';
 // One edit is tolerated in longer scientific terms. Short terms stay exact so
 // distinct concepts such as fish/fins and oral/orca cannot become equivalents.
 function sameWord(actual,expected){
  if(actual===expected)return true;
+ if(/^\d/.test(actual)||/^\d/.test(expected))return false;
  // Magnitudes carry numerical meaning; million and billion are not typos
  // for each other even though they differ by only one letter.
  if(['million','billion','trillion'].includes(actual)||['million','billion','trillion'].includes(expected))return false;
+ return wordSpellingForms(expected).some(form=>oneSpellingSlip(actual,form));
+}
+function oneSpellingSlip(actual,expected){
  if(expected.length<6||actual.length<5||Math.abs(actual.length-expected.length)>1)return false;
  let i=0,j=0,edits=0;
  while(i<actual.length&&j<expected.length){
   if(actual[i]===expected[j]){i++;j++;continue;}
   if(++edits>1)return false;
+  if(actual.length===expected.length&&actual[i]===expected[j+1]&&actual[i+1]===expected[j]){i+=2;j+=2;continue;}
   if(actual.length>=expected.length)i++;
   if(expected.length>=actual.length)j++;
  }
@@ -34,6 +35,7 @@ function positivePhrase(answer,phrase){
   if(context.some(word=>['no','not','never','without'].includes(word)))continue;
   if(context.join(' ').endsWith('rather than')||context.join(' ').endsWith('rather than the')||context.join(' ').endsWith('instead of')||context.join(' ').endsWith('instead of the'))continue;
   const after=answer.slice(i+wanted.length,i+wanted.length+3);
+  if(['is','are','was','were','does','do','can','could','will','would'].includes(wanted.at(-1))&&['not','never'].includes(after[0]))continue;
   if(['is','are','was','were','does','do','can','should'].includes(after[0])&&['not','never'].includes(after[1]))continue;
   return true;
  }
@@ -44,5 +46,6 @@ export function writtenAnswerIsCorrect(question,answer){
  const words=tokens(answer);
  if((question.rejectConcepts||[]).some(phrase=>positivePhrase(words,phrase)))return false;
  if((question.acceptedPhrases||[]).some(phrase=>positivePhrase(words,phrase)))return true;
- return !!question.concepts?.length&&question.concepts.every(group=>group.some(phrase=>positivePhrase(words,phrase)));
+ const matches=groups=>!!groups?.length&&groups.every(group=>group.some(phrase=>positivePhrase(words,phrase)));
+ return matches(question.concepts)||(question.alternativeConcepts||[]).some(matches);
 }

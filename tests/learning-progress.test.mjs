@@ -495,3 +495,32 @@ test('Stromatolites quiz drafts resume, finish idempotently, and reach the owner
  const report=(await (await students(get('/api/students?student=Student%20Reader',owner))).json()).progress;
  assert.equal(report.quizzes.stromatolites.latestScore,7);assert.equal(report.quizzes.stromatolites.attempts,1);assert.ok(report.lessons.stromatolites.completedAt);assert.deepEqual(report.lessons.turtle,before.lessons.turtle);
 });
+
+
+test('all quiz banks grade reviewed short answers on the server and preserve them in owner reports',async()=>{
+ const {shortAnswerRubrics}=await import('../shared/short-answer-rubrics.mjs');
+ const {progress,student,owner,students,store}=await setup();
+ for(const [lessonId,rules] of Object.entries(shortAnswerRubrics)){
+  const written=rules.map(rule=>rule.split('|')[0]);
+  const response=await progress(post('/api/progress',{action:'quiz',lessonId,attemptId:randomUUID(),answers:written,score:0},student));
+  assert.equal(response.status,200,lessonId);const saved=(await response.json()).progress.quizzes[lessonId];
+  assert.equal(saved.latestScore,written.length,lessonId);assert.equal(saved.attempts,1,lessonId);
+ }
+ const restored=(await (await createLearningHandler({store})(get('/api/progress',student))).json()).progress;
+ const report=(await (await students(get('/api/students?student=Student%20Reader',owner))).json()).progress;
+ assert.equal(Object.keys(restored.quizzes).length,61);
+ for(const [id,qs] of Object.entries(quizBank)){assert.equal(report.quizzes[id].latestScore,qs.length,id);assert.equal(restored.quizzes[id].bestScore,qs.length,id);}
+});
+
+test('a brief in-progress answer resumes and completes with the same server grading as the lesson',async()=>{
+ const {progress,student,store}=await setup();
+ const state={attemptId:randomUUID(),revision:1,index:0,selection:'Pacific.',submitted:false,answers:[]};
+ assert.equal((await progress(post('/api/progress',{action:'quiz-draft',lessonId:'enso',previousAttemptId:null,state},student))).status,200);
+ const fresh=createLearningHandler({store}),restored=(await (await fresh(get('/api/progress',student))).json()).progress;
+ assert.equal(restored.quizSessions.enso.selection,'Pacific.');
+ const written=['Pacific.','Weaker.','East.','Fewer nutrients.','Stronger and colder.','More likely to rain.','Irregular.'];
+ const body={action:'quiz-draft',lessonId:'enso',previousAttemptId:null,state:{...state,revision:2,index:7,selection:'',answers:written}};
+ for(let i=0;i<2;i++)assert.equal((await fresh(post('/api/progress',body,student))).status,200);
+ const result=(await (await fresh(get('/api/progress',student))).json()).progress.quizzes.enso;
+ assert.equal(result.latestScore,7);assert.equal(result.attempts,1);
+});

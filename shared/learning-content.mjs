@@ -1,3 +1,4 @@
+import {addShortAnswerRubrics} from './short-answer-rubrics.mjs';
 import {ecologyQuizzes} from './ecology-content.mjs';
 import {sharkOverviewQuestions} from './sharks-content.mjs';
 import {coralQuestions} from './coral-content.mjs';
@@ -297,7 +298,7 @@ export const lessonTitles = {
  penguin:"Emperor Penguins",orca:"Orcas",lionsmane:"Lion’s Mane Jellyfish",
  schooling:'Fish defences',plankton:'Planktons & Diatoms',upwelling:'Upwelling',conveyor:'Thermohaline Circulation',coriolis:'Coriolis Effect',ekman:'Ekman transport',enso:'El Niño & La Niña',sunlight:'Marine Life in Sunlight',turtle:'Green Sea Turtle',shark:'Great White Shark',cuttlefish:'Common Cuttlefish',twilightGeneral:'General Marine Life in Twilight',twilight:'Vampire Squid',midnight:'Marine Life in Midnight',general:'The General Ocean',
 };
-export const quizBank = {
+export const quizBank = addShortAnswerRubrics({
  ...ecologyQuizzes,
  sharks:sharkOverviewQuestions,
  corals:coralQuestions,
@@ -306,7 +307,7 @@ export const quizBank = {
  penguin:makeWrittenQuiz('penguin',penguinQuestions),orca:makeWrittenQuiz('orca',orcaQuestions),lionsmane:makeWrittenQuiz('lionsmane',lionsmaneQuestions),
  schooling:makeWrittenQuiz('schooling',schoolingQuestions),plankton:makeWrittenQuiz('plankton',planktonQuestions),
  upwelling:makeWrittenQuiz('upwelling',upwellingQuestions),conveyor:makeWrittenQuiz('conveyor',conveyorQuestions),coriolis:makeWrittenQuiz('coriolis',coriolisQuestions),enso:makeWrittenQuiz('enso',ensoQuestions),sunlight:makeWrittenQuiz('sunlight',sunlightQuestions),turtle:makeWrittenQuiz('turtle',turtleQuestions),shark:makeWrittenQuiz('shark',sharkQuestions),cuttlefish:makeWrittenQuiz('cuttlefish',cuttlefishQuestions),twilightGeneral:makeWrittenQuiz('twilightGeneral',twilightQuestions),twilight:makeWrittenQuiz('twilight',vampireQuestions),
-};
+});
 export const normalizeAnswer = answer=>answer.trim().toLowerCase().replace(/[^a-z0-9]/g,'');
 export function spellingDistance(entered,expected){
  const row=Array.from({length:expected.length+1},(_,i)=>i);
