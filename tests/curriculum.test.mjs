@@ -372,10 +372,10 @@ test('Swordfish is a complete seventh Sunlight Zone unit with evidence-aware die
  for(const source of lesson.guide.sources)assert.ok(swordfishSources[source],source);
  for(const [,description,source] of lesson.diagram.key){assert.ok(description.length>35);assert.ok(swordfishSources[source]);}
  await access(new URL('../public'+lesson.diagram.image,import.meta.url));
- const video=await readFile(new URL('../public/assets/swordfish/swordfish-hunt-v3.mp4',import.meta.url));
+ const video=await readFile(new URL('../public/assets/swordfish/swordfish-hunt-v4.mp4',import.meta.url));
  assert.ok(video.length>100000);assert.equal(video.subarray(4,8).toString(),'ftyp');assert.ok(video.includes(Buffer.from('moov')));assert.ok(video.includes(Buffer.from('mdat')));
- const captions=await readFile(new URL('../public/assets/swordfish/swordfish-hunt-v3.vtt',import.meta.url),'utf8');assert.match(captions,/WEBVTT/);assert.match(captions,/00:14.000/);
- const manifest=JSON.parse(await readFile(new URL('../docs/swordfish-continuous-v3-manifest.json',import.meta.url),'utf8'));
+ const captions=await readFile(new URL('../public/assets/swordfish/swordfish-hunt-v4.vtt',import.meta.url),'utf8');assert.match(captions,/WEBVTT/);assert.match(captions,/00:14.000/);
+ const manifest=JSON.parse(await readFile(new URL('../docs/swordfish-continuous-v4-manifest.json',import.meta.url),'utf8'));
  assert.equal(manifest.frameCount,420);assert.equal(manifest.previewCount,HUNT_PREVIEW_COUNT);assert.equal(manifest.durationSeconds,HUNT_DURATION);assert.equal(manifest.outputFps,HUNT_FPS);
  assert.equal(manifest.tool,'built-in image_gen.imagegen');assert.match(manifest.method,/continuous trajectory/);
  assert.equal(manifest.validation.frames,420);assert.equal(manifest.previewTimes.length,32);
@@ -395,7 +395,7 @@ test('continuous hunting motion spans fourteen seconds with bounded per-frame ch
   assert.ok(b.scatter>=a.scatter&&b.capture>=a.capture);
  }
  assert.equal(huntFrameTime(0),0);assert.equal(huntFrameTime(31),419/30);
- assert.equal(huntStage(5),'Side-to-side bill sweep');assert.equal(huntStage(10.8),'Mouth capture');assert.equal(state(14).capture,1);
+ assert.equal(huntStage(5),'Side-to-side bill sweep');assert.equal(huntStage(12),'Mouth capture');assert.equal(state(14).capture,1);
 });
 
 test('Stromatolites adds an eighth Sunlight unit with deep paired readings, four sourced stages and seven written questions',async()=>{
@@ -413,4 +413,14 @@ test('Stromatolites adds an eighth Sunlight unit with deep paired readings, four
  const text=lesson.dive.sections.flatMap(s=>s.paragraphs).join(' ');
  for(const concept of ['3.5 billion','living fossils','EPS','precipitation','cooperation','compete','Hamelin Pool'])assert.ok(text.includes(concept),concept);
  await access(new URL('../public'+lesson.diagram.image,import.meta.url));
+});
+
+
+test('the dramatized prey stays on the bill, releases continuously, then reaches the mouth before fading',async()=>{
+ const {continuousHuntState:state,capturedPreyState:prey}=await import('../shared/swordfish/continuous-hunt.mjs');
+ for(let t=6.5;t<10.4;t+=1/30){const s=state(t),q=prey(t);assert.ok(q.onBill);assert.ok(Math.abs(q.x-s.x-Math.sin(s.yaw)*92)<1e-8);assert.ok(Math.abs(q.y-s.y+Math.cos(s.yaw)*92)<1e-8);assert.equal(q.alpha,1);}
+ for(let i=1;i<=420;i++){const a=prey((i-1)/30),b=prey(i/30);assert.ok(Math.hypot(b.x-a.x,b.y-a.y)<14,'continuous prey path');assert.ok(Math.abs(b.angle-a.angle)<.3,'no prey rotation jump');}
+ assert.equal(prey(10.8).phase,'released');assert.equal(prey(12).phase,'mouth');assert.equal(prey(13).alpha,0);
+ assert.equal(prey(12.4).x,state(12.4).x);assert.equal(prey(12.4).y,state(12.4).y);
+ const component=await readFile(new URL('../app/SwordfishHunt.tsx',import.meta.url),'utf8');assert.match(component,/Inspect caught fish/);assert.match(component,/does not establish impaling as their usual feeding method/);
 });
