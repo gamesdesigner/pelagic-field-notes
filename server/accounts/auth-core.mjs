@@ -58,7 +58,8 @@ export async function reserveName(store,name,key){
  if(await store.write('names/'+normalized,{accountKey:key}))return true;
  return (await store.read('names/'+normalized))?.value.accountKey===key;
 }
-export function createAuthHandler({store,now=()=>Date.now(),clientIP=()=> 'local'}){
+const diagnosticKinds=new Set(['Error','TypeError','SyntaxError','AbortError','TimeoutError','BlobError','BlobAccessError','BlobStoreNotFoundError','BlobStoreSuspendedError','BlobNotFoundError','BlobServiceNotAvailable','BlobServiceRateLimited','BlobRequestAbortedError','BlobPreconditionFailedError','BlobUnknownError']);
+export function createAuthHandler({store,now=()=>Date.now(),clientIP=()=> 'local',reportError=(label,details)=>console.warn(label,details)}){
  async function rateLimit(req){
   const key='limits/'+digest(clientIP(req));
   for(let attempt=0;attempt<8;attempt++){
@@ -73,8 +74,9 @@ export function createAuthHandler({store,now=()=>Date.now(),clientIP=()=> 'local
   return response({user:publicUser(user,await isOwner(store,key,user))},200,sessionCookie(req,token,SESSION_AGE));
  }
  return async function handler(req){
+  let phase='request';
   try {
-   if(req.method==='GET'){const current=await readSessionUser(req,store,now);return response({user:current?.user||null},200,!current&&cookieValue(req)?sessionCookie(req,'',0):undefined);}
+   if(req.method==='GET'){phase='session-read';const current=await readSessionUser(req,store,now);return response({user:current?.user||null},200,!current&&cookieValue(req)?sessionCookie(req,'',0):undefined);}
    if(req.method!=='POST')return response({error:'Method not allowed.'},405);
    if(req.headers.get('origin')!==new URL(req.url).origin)return response({error:'Please use the form on this website.'},403);
    if(!req.headers.get('content-type')?.startsWith('application/json'))return response({error:'Please send the account form again.'},415);
@@ -84,8 +86,10 @@ export function createAuthHandler({store,now=()=>Date.now(),clientIP=()=> 'local
    if(!body||typeof body!=='object')return response({error:'Please check the form.'},400);
    if(body.action==='sign-out'){const token=cookieValue(req);if(token&&/^[a-f0-9]{64}$/.test(token))await store.remove('sessions/'+digest(token));return response({user:null},200,sessionCookie(req,'',0));}
    if(!['sign-in','sign-up','update-account'].includes(body.action))return response({error:'Unknown account action.'},400);
+   phase='rate-limit';
    if(!await rateLimit(req))return response({error:'Too many attempts. Please try again in 15 minutes.'},429);
    if(body.action==='update-account'){
+    phase='account-update';
     const account=await readSessionUser(req,store,now);if(!account)return response({error:'Please sign in again.'},401);
     if(!validPassword(body.currentPassword)||!await passwordMatches(body.currentPassword,account.record))return response({error:'Your current password is incorrect.'},401);
     const changingName=body.newUsername!==undefined;const changingPassword=body.newPassword!==undefined;
@@ -103,6 +107,7 @@ export function createAuthHandler({store,now=()=>Date.now(),clientIP=()=> 'local
    }
    if(!validUsername(body.username))return response({error:'Use 3–24 letters, numbers, underscores, or spaces between words.'},400);
    if(!validPassword(body.password))return response({error:'Enter a password (up to 128 characters).'},400);
+   phase='account-lookup';
    const normalized=normalizeUsername(body.username);const found=await findSignInAccount(store,normalized);
    if(body.action==='sign-up'){
     const email=typeof body.email==='string'?body.email.trim():'';
@@ -114,10 +119,18 @@ export function createAuthHandler({store,now=()=>Date.now(),clientIP=()=> 'local
     if(!await store.write(key,user))return response({error:'That username is already in use. Please choose another.'},409);
     return await startSession(req,key,user);
    }
+   phase='password-check';
    if(!await passwordMatches(body.password,found?.value))return response({error:'Username or password is incorrect.'},401);
    if(found.value.disabled)return response({error:'This account is paused. Please contact the website owner.'},403);
+   phase='session-write';
    return await startSession(req,found.key,found.value);
-  }catch{return response({error:'Accounts are temporarily unavailable. Please try again shortly.'},503);}
+  }catch(error){
+   // Never log exception messages, paths, usernames, credentials or records.
+   // The allowlist prevents a custom error name from carrying private data.
+   const name=error?.constructor?.name;
+   try{reportError('Account operation unavailable',{phase,errorType:diagnosticKinds.has(name)?name:'UnknownError'});}catch{/* Diagnostics must not change the safe response. */}
+   return response({error:'Accounts are temporarily unavailable. Please try again shortly.'},503);
+  }
  };
 }
 export function createMemoryStore(){const entries=new Map();let revision=0;return{

@@ -15,3 +15,12 @@ test('persistent attempt limits apply and recover after their window',async()=>{
 test('storage failures return a safe service error',async()=>{const handler=createAuthHandler({store:{read(){throw Error('private storage detail');}}});const r=await handler(new Request('https://marinebiology-learn.netlify.app/api/auth',{headers:{Cookie:'mb_session='+'a'.repeat(64)}}));assert.equal(r.status,503);assert.doesNotMatch(await r.text(),/private storage detail/);});
 
 test('single-character and Unicode passwords can register and sign in',async()=>{const {handler}=setup();for(const [username,shortPassword] of [['short_reader','a'],['unicode_reader','🌊']]){const signup=await handler(request({action:'sign-up',username,password:shortPassword}));assert.equal(signup.status,200);const login=await handler(request({action:'sign-in',username,password:shortPassword}));assert.equal(login.status,200);assert.deepEqual(await login.json(),{user:{username}});assert.equal((await handler(request({action:'sign-in',username,password:'b'}))).status,401);}});
+
+
+test('account availability diagnostics expose only a fixed operation and allowlisted error type',async()=>{
+ const diagnostics=[];
+ const handler=createAuthHandler({store:{read(){throw Error('private account credential detail');}},reportError:(...args)=>diagnostics.push(args)});
+ const response=await handler(new Request('https://marinebiology-learn.vercel.app/api/auth',{headers:{Cookie:'mb_session='+'a'.repeat(64)}}));
+ assert.equal(response.status,503);assert.deepEqual(diagnostics,[['Account operation unavailable',{phase:'session-read',errorType:'Error'}]]);
+ assert.doesNotMatch(JSON.stringify(diagnostics),/private account credential detail/);
+});
