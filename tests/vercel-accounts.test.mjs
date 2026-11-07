@@ -2,8 +2,8 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {randomUUID} from 'node:crypto';
-import {BlobPreconditionFailedError} from '@vercel/blob';
-import {vercelAccountStore} from '../server/accounts/vercel-store.mjs';
+import {BlobPreconditionFailedError,BlobStoreSuspendedError,BlobError} from '@vercel/blob';
+import {vercelAccountStore,configuredBlobAuth} from '../server/accounts/vercel-store.mjs';
 import {createAuthHandler} from '../server/accounts/auth-core.mjs';
 import {provisionOwner} from '../server/accounts/provision-owner.mjs';
 import {createStudentHandler} from '../server/accounts/student-core.mjs';
@@ -131,4 +131,31 @@ test('live private Vercel Blob integration: races, fresh reads, owner controls a
  const store=vercelAccountStore({prefix:'marine-accounts/integration/'+randomUUID()+'/'});
  try {await exerciseStore(store);await exerciseAccounts(store);}
  finally {for(const key of await store.list(''))await store.remove(key);}
+});
+
+
+test('configured Blob token takes precedence over automatically supplied OIDC for every account-store operation',async()=>{
+ const auth=configuredBlobAuth({BLOB_READ_WRITE_TOKEN:'fixture-existing-token',BLOB_STORE_ID:'store_fixture',VERCEL_OIDC_TOKEN:'fixture-oidc'});
+ assert.deepEqual(auth,{token:'fixture-existing-token'});
+ assert.deepEqual(configuredBlobAuth({BLOB_STORE_ID:'store_fixture',VERCEL_OIDC_TOKEN:'fixture-oidc'}),{storeId:'store_fixture'});
+ const calls=[];
+ const store=vercelAccountStore({auth,prefix:'test/',client:{
+  async get(key,options){calls.push(options);return{stream:new Response('{}').body,blob:{etag:'W/"v1"'}};},
+  async head(key,options){calls.push(options);return{etag:'"v1"'};},
+  async put(key,value,options){calls.push(options);},
+  async del(key,options){calls.push(options);},
+  async list(options){calls.push(options);return{blobs:[],hasMore:false};},
+ }});
+ await store.read('fixture');await store.write('fixture',{},'"v1"');await store.list('fixture');await store.remove('fixture');
+ assert.equal(calls.length,5);for(const options of calls){assert.equal(options.token,'fixture-existing-token');assert.equal(options.oidcToken,undefined);}
+});
+
+
+test('private download access failures remain failures and preserve precise metadata diagnostics',async()=>{
+ let lookedUp=false;
+ const store=vercelAccountStore({auth:{token:'fixture-existing-token'},client:{
+  async get(){throw new BlobError('Failed to fetch blob: 403 Forbidden');},
+  async head(key,options){lookedUp=true;assert.equal(options.token,'fixture-existing-token');throw new BlobStoreSuspendedError();},
+ }});
+ await assert.rejects(store.read('fixture'),BlobStoreSuspendedError);assert.equal(lookedUp,true);
 });

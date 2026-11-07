@@ -2,12 +2,27 @@ import * as vercelBlob from '@vercel/blob';
 
 // All account data is private. Bypass CDN caches so pauses and session revocation
 // take effect immediately. Conditional writes protect usernames and sole ownership.
-export function vercelAccountStore({client=vercelBlob,prefix='marine-accounts/v1/'+(process.env.VERCEL_ENV==='production'?'production':'preview')+'/'}={}) {
+export function configuredBlobAuth(environment=process.env){
+ // Preserve the existing store credential when the platform also supplies OIDC.
+ // Otherwise the SDK can silently select a different authentication mode.
+ if(environment.BLOB_READ_WRITE_TOKEN)return {token:environment.BLOB_READ_WRITE_TOKEN};
+ return environment.BLOB_STORE_ID?{storeId:environment.BLOB_STORE_ID}:{};
+}
+export function vercelAccountStore({client=vercelBlob,auth=configuredBlobAuth(),prefix='marine-accounts/v1/'+(process.env.VERCEL_ENV==='production'?'production':'preview')+'/'}={}) {
   const path=key=>prefix+key+'.json';
   return {
     async read(key) {
       for(let attempt=0;attempt<3;attempt++){
-        const blob=await client.get(path(key),{access:'private',useCache:false,headers:{'Accept-Encoding':'identity'}});
+        let blob;
+        try{blob=await client.get(path(key),{...auth,access:'private',useCache:false,headers:{'Accept-Encoding':'identity'}});}catch(error){
+          // The download endpoint flattens access failures into a generic 403.
+          // Metadata can distinguish a denied/suspended store without reading
+          // or changing account contents. Never treat a failed read as absent.
+          if(/^Vercel Blob: Failed to fetch blob: 403\b/.test(error?.message||'')&&client.head){
+            await client.head(path(key),auth);
+          }
+          throw error;
+        }
         if(!blob)return null;
         const value=await new Response(blob.stream).json();let etag=blob.blob.etag;
         // A delivery proxy may weaken the HTTP validator. Never pass that weak
@@ -15,7 +30,7 @@ export function vercelAccountStore({client=vercelBlob,prefix='marine-accounts/v1
         // Confirm the same version through Blob's metadata API. If an overwrite
         // happened between the two reads, fetch the new body and try again.
         if(etag?.startsWith('W/')){
-          const metadata=await client.head(path(key));
+          const metadata=await client.head(path(key),auth);
           if(!metadata.etag||metadata.etag.startsWith('W/'))throw Error('Storage did not return a strong version');
           if(etag!==`W/${metadata.etag}`)continue;
           etag=metadata.etag;
@@ -27,7 +42,7 @@ export function vercelAccountStore({client=vercelBlob,prefix='marine-accounts/v1
     },
     async write(key,value,etag) {
       try {
-        await client.put(path(key),JSON.stringify(value),{access:'private',addRandomSuffix:false,allowOverwrite:!!etag,...(etag?{ifMatch:etag}:{}),contentType:'application/json',cacheControlMaxAge:60});
+        await client.put(path(key),JSON.stringify(value),{...auth,access:'private',addRandomSuffix:false,allowOverwrite:!!etag,...(etag?{ifMatch:etag}:{}),contentType:'application/json',cacheControlMaxAge:60});
         return true;
       } catch(error) {
         if(error instanceof vercelBlob.BlobPreconditionFailedError)return false;
@@ -37,16 +52,16 @@ export function vercelAccountStore({client=vercelBlob,prefix='marine-accounts/v1
         throw error;
       }
     },
-    async remove(key) {await client.del(path(key));},
+    async remove(key) {await client.del(path(key),auth);},
     async list(keyPrefix) {
       let cursor;const keys=[];
-      do {
-        const page=await client.list({prefix:prefix+keyPrefix,cursor,limit:1000});
+      for (;;) {
+        const page=await client.list({...auth,prefix:prefix+keyPrefix,cursor,limit:1000});
         keys.push(...page.blobs.filter(blob=>blob.pathname.endsWith('.json')).map(blob=>blob.pathname.slice(prefix.length,-5)));
         if(!page.hasMore)break;
         if(!page.cursor||page.cursor===cursor)throw Error('Account listing did not advance');
         cursor=page.cursor;
-      } while(true);
+      }
       return keys.sort();
     },
   };
@@ -54,5 +69,5 @@ export function vercelAccountStore({client=vercelBlob,prefix='marine-accounts/v1
 
 export function accountStore(environment=process.env) {
   if(!environment.BLOB_READ_WRITE_TOKEN&&!(environment.BLOB_STORE_ID&&environment.VERCEL_OIDC_TOKEN))throw Error('Private account storage is not configured');
-  return vercelAccountStore();
+  return vercelAccountStore({auth:configuredBlobAuth(environment)});
 }

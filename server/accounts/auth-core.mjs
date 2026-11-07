@@ -127,7 +127,7 @@ export function createAuthHandler({store,now=()=>Date.now(),clientIP=()=> 'local
   }catch(error){
    // Never log exception messages, paths, usernames, credentials or records.
    // The allowlist prevents a custom error name from carrying private data.
-   const name=diagnosticKinds.has(error?.name)?error.name:error?.constructor?.name;
+   const name=diagnosticKinds.has(error?.constructor?.name)?error.constructor.name:error?.name;
    const errorType=diagnosticKinds.has(name)?name:'UnknownError';
    try{reportError('Account operation unavailable',{phase,errorType});}catch{/* Diagnostics must not change the safe response. */}
    const unavailable=response({error:'Accounts are temporarily unavailable. Please try again shortly.'},503);
@@ -135,7 +135,9 @@ export function createAuthHandler({store,now=()=>Date.now(),clientIP=()=> 'local
    // platform log stream is delayed. No exception text or user data is sent.
    const codes={BlobStoreSuspendedError:'storage-suspended',BlobAccessError:'storage-access',BlobStoreNotFoundError:'storage-missing',BlobServiceRateLimited:'storage-busy',BlobServiceNotAvailable:'storage-service',BlobPreconditionFailedError:'storage-conflict',SyntaxError:'storage-format'};
    const knownVersion=typeof error?.message==='string'&&/^Storage (did not return|changed while reading)/.test(error.message);
-   unavailable.headers.set('X-Account-Availability',codes[errorType]||(knownVersion?'storage-version':'account-service'));
+   const status=typeof error?.message==='string'?/^Vercel Blob: Failed to fetch blob: (\d{3})\b/.exec(error.message)?.[1]:undefined;
+   const statusCodes={'401':'storage-access','403':'storage-access','429':'storage-busy','500':'storage-service','502':'storage-service','503':'storage-service'};
+   unavailable.headers.set('X-Account-Availability',codes[errorType]||statusCodes[status]||(knownVersion?'storage-version':'account-service'));
    unavailable.headers.set('X-Account-Step',phase);
    return unavailable;
   }
