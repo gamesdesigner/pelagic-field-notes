@@ -1,0 +1,73 @@
+{
+  "version": 5,
+  "date": "2026-11-07",
+  "tool": "built-in image_gen.imagegen",
+  "method": "Existing generated artwork animated with a continuous trajectory: independently swimming fish accelerate along escape routes with visible posterior tail beats; predator intercepts the target at6.5s and later pursues released drifting prey. No prey homing onto bill or mouth. Requested dramatized impalement inset retained.",
+  "sourceArtwork": {
+    "predator": {
+      "key": "predator-fixed",
+      "original": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-69616129-ced5-4f2b-ada7-617c862e8fa8.png",
+      "prompt": "Precise anatomical edit of this transparent overhead swordfish artwork. Preserve the SAME bill, head, eyes, skin texture, straight body and pectoral fins exactly. Correct ONLY the tail at the bottom: swordfish caudal fins are vertical, not horizontal like a whale fluke. In this direct overhead camera the caudal fin must therefore appear strongly foreshortened and NARROW, with the lobes projecting mainly in depth rather than spreading broadly left and right. Replace the broad horizontal crescent at the bottom with a realistic narrow foreshortened caudal fin in its VERTICAL plane, seen almost edge-on, perhaps a slight oblique angle to reveal a small part of its thin curved outline. Keep the slender tail peduncle and whole fish length. Keep genuine transparency, no background, no shadow or halo. No new elements."
+    },
+    "prey": {
+      "key": "prey-fixed",
+      "original": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-216205e0-ed2a-4623-bcc3-00b3e123ee38.png",
+      "prompt": "Remove ALL the white-gray halo/glow and every background pixel from this fish. Preserve the fish itself and its photographic texture, directly overhead head-up body pose, and fin detail. Outside fish and fins must be fully genuinely transparent, crisp clean cutout edges with only normal antialiasing, NO soft cast shadow, NO glow, NO vignette. This is a small schooling bony fish; its caudal fin is in a vertical plane and is naturally foreshortened from an overhead view, not a horizontal dolphin fluke. Keep the body length and straight swimming position. Exactly one fish."
+    },
+    "water": {
+      "key": "water",
+      "prompt": "Use case: photorealistic-natural. A single continuous background plate for a marine science animation, wide landscape16:9 underwater view from ABOVE looking down into deep clear blue open water. No seabed, no coral, no animals, no surface horizon, no boats, no text or labels. Photographic turquoise illumination fading to deep navy around the lower edges, very soft subtle scattered underwater shafts of sunlight, extremely sparse tiny suspended particles. Relatively smooth even photographic gradients so foreground animals remain clear. Camera stable nearly orthographic overhead water-column view. Calm professional natural history cinematography, no dramatic bubbles or distinct objects. Entire image opaque.",
+      "original": "/Users/leima/.codex/generated_images/01a1085f-9e1d-72a0-bc8e-30c72725bc68/exec-0faddea1-2aee-45bd-8c2b-6b38f3da7b83.png"
+    }
+  },
+  "frameCount": 420,
+  "previewCount": 32,
+  "durationSeconds": 14,
+  "outputFps": 30,
+  "view": "overhead",
+  "limits": "Requested dramatized impalement, not evidence of typical swordfish feeding. NOAA and bill biomechanics research describe lateral slashing. One highlighted prey is shown held crosswise on the bill, sliding free, then taken by the mouth. No blood or exposed injury. Timing, size, and capture mechanics are illustrative.",
+  "video": "/assets/swordfish/swordfish-hunt-v5.mp4",
+  "poster": "/assets/swordfish/continuous-v5/frame-00.webp",
+  "renderer": "scripts/render-continuous-swordfish.mjs",
+  "previewTimes": [
+    0,
+    0.4666666666666667,
+    0.9,
+    1.3666666666666667,
+    1.8,
+    2.2666666666666666,
+    2.7,
+    3.1666666666666665,
+    3.6,
+    4.066666666666666,
+    4.5,
+    4.966666666666667,
+    5.4,
+    5.866666666666666,
+    6.3,
+    6.766666666666667,
+    7.2,
+    7.666666666666667,
+    8.1,
+    8.566666666666666,
+    9,
+    9.466666666666667,
+    9.9,
+    10.366666666666667,
+    10.8,
+    11.266666666666667,
+    11.7,
+    12.166666666666666,
+    12.6,
+    13.066666666666666,
+    13.5,
+    13.966666666666667
+  ],
+  "artworkReusedFrom": "docs/swordfish-continuous-v3-manifest.json",
+  "validation": {
+    "frames": 420,
+    "duration": 14,
+    "fps": 30,
+    "rig": "Independent continuously swimming school with acceleration and visible tail beats. Predator intercepts fleeing target at6.5s, withdraws bill at9.7s, then pursues independently drifting prey until mouth contact12.6s."
+  }
+}
