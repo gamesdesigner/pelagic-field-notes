@@ -8,7 +8,7 @@ import {HUNT_DURATION,HUNT_FPS,HUNT_PREVIEW_COUNT,continuousHuntState,capturedPr
 const [canvasModule,ffmpeg]=process.argv.slice(2);
 if(!canvasModule||!ffmpeg)throw Error('Provide the temporary canvas module and FFmpeg paths.');
 const require=createRequire(import.meta.url),{createCanvas,loadImage}=require(canvasModule);
-const root=new URL('../',import.meta.url),art=new URL('public/assets/swordfish/continuous-v3/',root),out=new URL('public/assets/swordfish/continuous-v5/',root);
+const root=new URL('../',import.meta.url),art=new URL('public/assets/swordfish/continuous-v3/',root),out=new URL('public/assets/swordfish/continuous-v6/',root);
 await mkdir(out,{recursive:true});
 const [predator,prey,water]=await Promise.all(['predator','prey','water'].map(name=>loadImage(new URL(name+'.webp',art).pathname)));
 const canvas=createCanvas(1280,720),ctx=canvas.getContext('2d');
@@ -57,20 +57,20 @@ function draw(t){
  ctx.fillStyle='#f3eee0';ctx.font='28px serif';ctx.fillText('A clear side-to-side swipe',36,67);
  ctx.textAlign='right';ctx.font='13px sans-serif';ctx.fillStyle='#bed5d6';ctx.fillText('AI RECONSTRUCTION',1244,31);ctx.fillText('Fixed camera · continuous motion',1244,59);ctx.textAlign='left';
  ctx.fillStyle='#eacd97';ctx.font='18px sans-serif';ctx.fillText(s.stage,36,659);
- const caption=t<3.8?'The swordfish advances while the small fish swim continuously.':t<6.5?'Fish accelerate away. The predator closes the gap and sweeps its bill into their path.':t<9.7?'One fleeing fish is intercepted and held on the bill. Impalement is dramatized.':t<10.5?'The predator draws its bill back, releasing the stunned fish.':t<12.6?'The released fish drifts; the swordfish changes course and catches up to it.':t<12.9?'The mouth reaches the fish before it disappears.':'The remaining school continues to flee out of view.';
+ const caption=t<3.8?'The swordfish turns into its path and swims head-first toward the fleeing school.':t<6.5?'Fish accelerate away. The predator closes the gap and sweeps its bill into their path.':t<9.7?'One fleeing fish is intercepted and held on the bill. Impalement is dramatized.':t<10.5?'The predator draws its bill back, releasing the stunned fish.':t<12.6?'The swordfish turns its head and body along its path toward the drifting prey.':t<12.9?'The mouth reaches the fish before it disappears.':'The remaining school continues to flee out of view.';
  ctx.font='17px sans-serif';ctx.fillStyle='#e3ece8';ctx.fillText(caption,36,689);
  ctx.fillStyle='#32566b';ctx.fillRect(36,708,1208,3);ctx.fillStyle='#ddbc82';ctx.fillRect(36,708,1208*t/HUNT_DURATION,3);
 }
-const encoder=spawn(ffmpeg,['-hide_banner','-loglevel','error','-y','-f','image2pipe','-vcodec','png','-framerate',String(HUNT_FPS),'-i','pipe:0','-an','-c:v','libx264','-preset','slow','-crf','19','-pix_fmt','yuv420p','-movflags','+faststart',new URL('public/assets/swordfish/swordfish-hunt-v5.mp4',root).pathname],{stdio:['pipe','ignore','pipe']});
+const encoder=spawn(ffmpeg,['-hide_banner','-loglevel','error','-y','-f','image2pipe','-vcodec','png','-framerate',String(HUNT_FPS),'-i','pipe:0','-an','-c:v','libx264','-preset','slow','-crf','19','-pix_fmt','yuv420p','-movflags','+faststart',new URL('public/assets/swordfish/swordfish-hunt-v6.mp4',root).pathname],{stdio:['pipe','ignore','pipe']});
 let errors='';encoder.stderr.on('data',data=>{errors+=data;});const done=once(encoder,'close');
 for(let f=0;f<HUNT_DURATION*HUNT_FPS;f++){
  draw(f/HUNT_FPS);
  if(previewFrames.has(f))await writeFile(new URL(`frame-${String(previewFrames.get(f)).padStart(2,'0')}.webp`,out),canvas.encodeSync('webp',88));
- if([60,120,165,195,240,330,372,384].includes(f))await writeFile(`/private/tmp/swordfish-v5-${f}.png`,canvas.toBuffer('image/png'));
+ if([60,120,195,240,330,348,372,384].includes(f))await writeFile(`/private/tmp/swordfish-v6-${f}.png`,canvas.toBuffer('image/png'));
  if(!encoder.stdin.write(canvas.toBuffer('image/png')))await once(encoder.stdin,'drain');
 }
 encoder.stdin.end();const [code]=await done;if(code!==0)throw Error(errors);
-const path=new URL('docs/swordfish-continuous-v5-manifest.json',root),manifest=JSON.parse(await readFile(path,'utf8'));
-manifest.previewTimes=Array.from({length:32},(_,i)=>huntFrameTime(i));manifest.validation={frames:420,duration:14,fps:30,rig:'Independent continuously swimming school with acceleration and visible tail beats. Predator intercepts fleeing target at6.5s, withdraws bill at9.7s, then pursues independently drifting prey until mouth contact12.6s.'};
+const path=new URL('docs/swordfish-continuous-v6-manifest.json',root),manifest=JSON.parse(await readFile(path,'utf8'));
+manifest.previewTimes=Array.from({length:32},(_,i)=>huntFrameTime(i));manifest.validation={frames:420,duration:14,fps:30,rig:'Chase heading follows the path tangent; post-strike carrying integrates forward speed along heading. Deliberate lateral bill swipe and backward withdrawal remain separate actions. Final pursuit uses a smooth forward catch-up path, without sideways orbital translation.'};
 await writeFile(path,JSON.stringify(manifest,null,2)+'\n');
 console.log('Rendered 420 continuous frames: 14seconds at30fps.');
