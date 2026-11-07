@@ -9,9 +9,40 @@ import {provisionOwner} from '../server/accounts/provision-owner.mjs';
 import {createStudentHandler} from '../server/accounts/student-core.mjs';
 import authEndpoint from '../api/auth.js';
 import studentsEndpoint from '../api/students.js';
+import {ACCOUNT_CHECK_INTERVAL,createDailyAccountCheck} from '../shared/account-check.mjs';
+
+test('background account checks run on open and once per day despite repeated tab returns',async()=>{
+ let time=0;let reads=0;
+ const refresh=createDailyAccountCheck(async()=>{reads++;},()=>time);
+ assert.equal(await refresh(),true);assert.equal(reads,1);
+ for(let minute=1;minute<24*60;minute++){
+  time=minute*60*1000;
+  assert.equal(await refresh(),false);
+ }
+ assert.equal(reads,1);
+ time=ACCOUNT_CHECK_INTERVAL;
+ assert.equal(await refresh(),true);assert.equal(await refresh(),false);
+ time=3*ACCOUNT_CHECK_INTERVAL; // Returning after sleeping checks once, without catch-up requests.
+ assert.equal(await refresh(),true);assert.equal(await refresh(),false);
+ assert.equal(reads,3);
+});
+
+test('in-flight and failed account checks cannot produce retry bursts',async()=>{
+ let time=0;let calls=0;let finish;
+ const refresh=createDailyAccountCheck(()=>{calls++;return new Promise(resolve=>{finish=resolve;});},()=>time);
+ const first=refresh();time=ACCOUNT_CHECK_INTERVAL;
+ assert.equal(await refresh(),false);assert.equal(calls,1);finish();await first;
+ const second=refresh();assert.equal(calls,2);finish();await second;
+ assert.equal(await refresh(),false);
+ let attempts=0;
+ const failing=createDailyAccountCheck(async()=>{attempts++;throw Error('Store suspended');},()=>time);
+ await assert.rejects(failing(),/Store suspended/);
+ assert.equal(await failing(),false);assert.equal(attempts,1);
+ time+=ACCOUNT_CHECK_INTERVAL;
+ await assert.rejects(failing(),/Store suspended/);assert.equal(attempts,2);
+});
 
 const origin='https://marinebiology-learn.vercel.app';
-const code='test-only-owner-bootstrap-code';
 const get=(path,session)=>new Request(origin+path,{headers:session?{Cookie:session}:{}});
 const post=(path,body,session)=>new Request(origin+path,{method:'POST',headers:{Origin:origin,'Content-Type':'application/json',...(session?{Cookie:session}:{})},body:JSON.stringify(body)});
 const cookie=response=>response.headers.get('set-cookie').split(';')[0];

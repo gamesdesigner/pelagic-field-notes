@@ -8,6 +8,7 @@ import SiteInformation from './SiteInformation';
 import {SiteHeader,SiteFooter} from './SiteChrome';
 import {navigateSite,useSiteNavigation} from './siteNavigation';
 import {lessonQuery} from '../shared/library-content.mjs';
+import {ACCOUNT_CHECK_INTERVAL,createDailyAccountCheck} from '../shared/account-check.mjs';
 
 type Account={username:string;role?:'owner'};
 type AccountUpdate={currentPassword:string;newUsername?:string;newPassword?:string};
@@ -23,8 +24,8 @@ export default function AccountGate({children}:{children:ReactNode}){
  const formRef=useRef<HTMLFormElement>(null);const requestVersion=useRef(0);
  useEffect(()=>{
   const controller=new AbortController();
-  const refresh=async()=>{const version=requestVersion.current;try{const r=await fetch('/api/auth',{signal:controller.signal});if(!r.ok)return;const data=await r.json();if(version===requestVersion.current&&!controller.signal.aborted)setUser(data.user);}catch{/* A failed session check leaves public pages available. */}finally{if(!controller.signal.aborted)setChecking(false);}};
-  void refresh();const timer=window.setInterval(()=>{if(document.visibilityState==='visible')void refresh();},60000);
+  const refresh=createDailyAccountCheck(async()=>{const version=requestVersion.current;try{const r=await fetch('/api/auth',{signal:controller.signal});if(!r.ok)return;const data=await r.json();if(version===requestVersion.current&&!controller.signal.aborted)setUser(data.user);}catch{/* A failed session check leaves public pages available. */}finally{if(!controller.signal.aborted)setChecking(false);}});
+  void refresh();const timer=window.setInterval(()=>{if(document.visibilityState==='visible')void refresh();},ACCOUNT_CHECK_INTERVAL);
   const onVisible=()=>{if(document.visibilityState==='visible')void refresh();};document.addEventListener('visibilitychange',onVisible);
   return()=>{controller.abort();window.clearInterval(timer);document.removeEventListener('visibilitychange',onVisible);};
  },[]);
