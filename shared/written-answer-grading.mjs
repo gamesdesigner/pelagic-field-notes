@@ -2,7 +2,7 @@
 // concept/phrase matching, not an unrestricted essay or AI grading service.
 export const isWrittenQuestion=question=>question?.kind==='written';
 function tokens(text){
- return text.toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/[’]/g,"'").replace(/(?<=\d),(?=\d)/g,'')
+ return text.toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/[’]/g,"'").replace(/(?<=\d),(?=\d)/g,'').replace(/(?<=\d)\.(?=\d)/g,' ')
   .replace(/\b(can't|cannot)\b/g,'can not').replace(/\bwon't\b/g,'will not').replace(/n't\b/g,' not')
   .replace(/[.!?;,]/g,' | ').match(/[a-z0-9]+|\|/g)||[];
 }
@@ -10,6 +10,9 @@ function tokens(text){
 // distinct concepts such as fish/fins and oral/orca cannot become equivalents.
 function sameWord(actual,expected){
  if(actual===expected)return true;
+ // Magnitudes carry numerical meaning; million and billion are not typos
+ // for each other even though they differ by only one letter.
+ if(['million','billion','trillion'].includes(actual)||['million','billion','trillion'].includes(expected))return false;
  if(expected.length<6||actual.length<5||Math.abs(actual.length-expected.length)>1)return false;
  let i=0,j=0,edits=0;
  while(i<actual.length&&j<expected.length){

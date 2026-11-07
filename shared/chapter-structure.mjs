@@ -2,7 +2,7 @@
 // destinations remain stable when a lesson moves between chapters.
 export const chapters=[
  {id:'currents',number:1,name:'Ocean currents',lessonIds:['currentsIntro','upwelling','conveyor','coriolis','ekman','enso']},
- {id:'sunlight',number:2,name:'The Sunlight Zone',lessonIds:['sunlight','corals','turtle','plankton','schooling','kelp','swordfish']},
+ {id:'sunlight',number:2,name:'The Sunlight Zone',lessonIds:['sunlight','corals','turtle','plankton','schooling','kelp','swordfish','stromatolites']},
  {id:'polar',number:3,name:'The Arctic',lessonIds:['seaIce','orca','narwhal','beluga','walrus','penguin']},
  {id:'depths',number:4,name:'Twilight Zone',lessonIds:['twilightGeneral','lanternfish','barreleye','hatchetfish','bioluminescence','verticalMigration']},
  {id:'midnightZone',number:5,name:'Midnight Zone',lessonIds:['midnightLife','giantIsopod','blackDragonfish','pelicanEel','oarfish','giantTubeworm','yetiCrab','hydrothermalVents','anglerfish','coelacanth']},

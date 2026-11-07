@@ -46,7 +46,7 @@ test('original Midnight Zone additions retain four complete units while later ch
  const {midnightUnits}=await import('../shared/midnight/units.mjs');
  const {chapters,chapterForLesson,cephalopodsChapterTitle,sharksChapterTitle}=await import('../shared/chapter-structure.mjs');
  const {findLibraryLesson,libraryGroups}=await import('../shared/library-content.mjs');
- assert.equal(chapters.length,10);assert.equal(libraryGroups.flatMap(c=>c.lessons).length,64);
+ assert.equal(chapters.length,10);assert.equal(libraryGroups.flatMap(c=>c.lessons).length,65);
  assert.equal(chapters[4].title,'Chapter 5- Midnight Zone');
  assert.deepEqual(chapters[4].lessonIds.slice(0,4),['midnightLife','giantIsopod','blackDragonfish','pelicanEel']);
  assert.equal(cephalopodsChapterTitle,'Chapter 6- Cephalopods');assert.equal(sharksChapterTitle,'Chapter 8- Sharks');
@@ -72,7 +72,7 @@ test('original Midnight Zone additions retain four complete units while later ch
 test('thirteen earlier additions retain distinct readings, diagrams, and stable destinations',async()=>{
  assert.equal(completionUnits.length,13);assert.equal(Object.keys(completionLessons).length,13);
  const {libraryGroups,findLibraryLesson}=await import('../shared/library-content.mjs');
- assert.equal(Object.keys(lessonTitles).length,63);assert.equal(Object.keys(quizBank).length,60);
+ assert.equal(Object.keys(lessonTitles).length,64);assert.equal(Object.keys(quizBank).length,61);
  assert.ok(libraryGroups.filter(chapter=>!['sunlight','midnightZone','cnidaria','cephalopods','rays','whales'].includes(chapter.id)).every(chapter=>chapter.lessons.length===6));
  const images=new Set(),headings=new Set();
  for(const [index,unit] of completionUnits.entries()){
@@ -259,7 +259,7 @@ test('kelp and four Arctic units have substantial levels, sourced numbered diagr
  const {ecologyLessons,ecologySources}=await import('../shared/ecology-content.mjs');
  const {libraryGroups,findLibraryLesson}=await import('../shared/library-content.mjs');
  const {lessonChapterLabel}=await import('../shared/chapter-structure.mjs');
- assert.equal(libraryGroups[1].lessons.length,7);assert.equal(libraryGroups[2].lessons.length,6);
+ assert.equal(libraryGroups[1].lessons.length,8);assert.equal(libraryGroups[2].lessons.length,6);
  assert.deepEqual(libraryGroups[2].lessons.map(l=>l.id),['seaIce','orca','narwhal','beluga','walrus','penguin']);
  assert.equal(findLibraryLesson('kelp').topic,10);
  assert.equal(lessonChapterLabel('kelp'),'Chapter 2- The Sunlight Zone · Unit 6');
@@ -317,8 +317,8 @@ test('Whales chapter and six Midnight additions have substantial sourced reading
  const {ecologySources}=await import('../shared/ecology-sources.mjs');
  const {chapters,chapterForLesson}=await import('../shared/chapter-structure.mjs');
  const {libraryGroups,findLibraryLesson}=await import('../shared/library-content.mjs');
- assert.equal(chapters.length,10);assert.equal(libraryGroups.flatMap(c=>c.lessons).length,64);
- assert.equal(Object.keys(lessonTitles).length,63);assert.equal(Object.keys(quizBank).length,60);
+ assert.equal(chapters.length,10);assert.equal(libraryGroups.flatMap(c=>c.lessons).length,65);
+ assert.equal(Object.keys(lessonTitles).length,64);assert.equal(Object.keys(quizBank).length,61);
  assert.equal(chapters.at(-1).title,'Chapter 10- Whales');assert.deepEqual(chapters.at(-1).lessonIds,['whales','blueWhale','spermWhale']);
  assert.deepEqual(chapters[4].lessonIds,['midnightLife','giantIsopod','blackDragonfish','pelicanEel','oarfish','giantTubeworm','yetiCrab','hydrothermalVents','anglerfish','coelacanth']);
  for(const [index,unit] of whaleDeepUnits.entries()){
@@ -361,8 +361,8 @@ test('Swordfish is a complete seventh Sunlight Zone unit with evidence-aware die
  const {swordfishLesson:lesson}=await import('../shared/swordfish/content.mjs');
  const {swordfishSources}=await import('../shared/swordfish/sources.mjs');
  const {findLibraryLesson,libraryGroups}=await import('../shared/library-content.mjs');
- const {REALISTIC_FRAME_COUNT,REALISTIC_DURATION,REALISTIC_VIDEO_FPS,realisticFramePath}=await import('../shared/swordfish/realistic-hunt.mjs');
- assert.deepEqual(libraryGroups.find(c=>c.id==='sunlight').lessons.map(l=>l.id),['sunlight','corals','turtle','plankton','schooling','kelp','swordfish']);
+ const {HUNT_PREVIEW_COUNT,HUNT_DURATION,HUNT_FPS,huntFramePath}=await import('../shared/swordfish/continuous-hunt.mjs');
+ assert.deepEqual(libraryGroups.find(c=>c.id==='sunlight').lessons.map(l=>l.id),['sunlight','corals','turtle','plankton','schooling','kelp','swordfish','stromatolites']);
  assert.equal(findLibraryLesson('swordfish').unit,34);assert.equal(findLibraryLesson('swordfish').subjectId,'extensions');
  assert.ok(words(lesson.intro)>=500);assert.ok(words(lesson.dive)>3*words(lesson.intro));
  assert.equal(quizBank.swordfish.length,7);assert.ok(quizBank.swordfish.every(q=>q.kind==='written'&&!q.options));
@@ -372,15 +372,45 @@ test('Swordfish is a complete seventh Sunlight Zone unit with evidence-aware die
  for(const source of lesson.guide.sources)assert.ok(swordfishSources[source],source);
  for(const [,description,source] of lesson.diagram.key){assert.ok(description.length>35);assert.ok(swordfishSources[source]);}
  await access(new URL('../public'+lesson.diagram.image,import.meta.url));
- const video=await readFile(new URL('../public/assets/swordfish/swordfish-hunt-v2.mp4',import.meta.url));
+ const video=await readFile(new URL('../public/assets/swordfish/swordfish-hunt-v3.mp4',import.meta.url));
  assert.ok(video.length>100000);assert.equal(video.subarray(4,8).toString(),'ftyp');assert.ok(video.includes(Buffer.from('moov')));assert.ok(video.includes(Buffer.from('mdat')));
- const captions=await readFile(new URL('../public/assets/swordfish/swordfish-hunt-v2.vtt',import.meta.url),'utf8');assert.match(captions,/WEBVTT/);assert.match(captions,/00:04.000/);
- const manifest=JSON.parse(await readFile(new URL('../docs/swordfish-realistic-v2-manifest.json',import.meta.url),'utf8'));
- assert.equal(manifest.sourceFrameCount,REALISTIC_FRAME_COUNT);assert.equal(manifest.frames.length,32);assert.equal(manifest.durationSeconds,REALISTIC_DURATION);assert.equal(manifest.outputFps,REALISTIC_VIDEO_FPS);
- assert.equal(manifest.tool,'built-in image_gen.imagegen');assert.match(manifest.method,/interpolation/);
- assert.equal(new Set(manifest.frames.map(f=>f.sha256)).size,32,'source images must be distinct');
- for(const [index,frame] of manifest.frames.entries()){
-  assert.equal(frame.frame,index);assert.equal(frame.asset,realisticFramePath(index));assert.ok(frame.prompt.length>100);assert.ok(frame.original.endsWith('.png'));
-  const image=await readFile(new URL('../public'+frame.asset,import.meta.url));assert.equal(image.subarray(0,4).toString(),'RIFF');assert.equal(image.subarray(8,12).toString(),'WEBP');assert.ok(image.length>20000);
+ const captions=await readFile(new URL('../public/assets/swordfish/swordfish-hunt-v3.vtt',import.meta.url),'utf8');assert.match(captions,/WEBVTT/);assert.match(captions,/00:14.000/);
+ const manifest=JSON.parse(await readFile(new URL('../docs/swordfish-continuous-v3-manifest.json',import.meta.url),'utf8'));
+ assert.equal(manifest.frameCount,420);assert.equal(manifest.previewCount,HUNT_PREVIEW_COUNT);assert.equal(manifest.durationSeconds,HUNT_DURATION);assert.equal(manifest.outputFps,HUNT_FPS);
+ assert.equal(manifest.tool,'built-in image_gen.imagegen');assert.match(manifest.method,/continuous trajectory/);
+ assert.equal(manifest.validation.frames,420);assert.equal(manifest.previewTimes.length,32);
+ for(const art of Object.values(manifest.sourceArtwork)){assert.ok(art.prompt.length>100);assert.ok(art.original.endsWith('.png'));}
+ for(let index=0;index<HUNT_PREVIEW_COUNT;index++){
+  const image=await readFile(new URL('../public'+huntFramePath(index),import.meta.url));assert.equal(image.subarray(0,4).toString(),'RIFF');assert.equal(image.subarray(8,12).toString(),'WEBP');assert.ok(image.length>20000);
  }
+});
+
+test('continuous hunting motion spans fourteen seconds with bounded per-frame changes and opposite swipe extremes',async()=>{
+ const {continuousHuntState:state,HUNT_DURATION,HUNT_FPS,huntFrameTime,huntStage}=await import('../shared/swordfish/continuous-hunt.mjs');
+ assert.equal(HUNT_DURATION,14);assert.equal(HUNT_FPS,30);
+ assert.equal(state(5).yaw,-.62);assert.equal(state(6.5).yaw,.62);assert.equal(state(7.8).yaw,0);
+ for(let frame=1;frame<=420;frame++){
+  const a=state((frame-1)/30),b=state(frame/30);
+  assert.ok(Math.hypot(b.x-a.x,b.y-a.y)<2,'no position jumps');assert.ok(Math.abs(b.yaw-a.yaw)<.05,'no angle jumps');
+  assert.ok(b.scatter>=a.scatter&&b.capture>=a.capture);
+ }
+ assert.equal(huntFrameTime(0),0);assert.equal(huntFrameTime(31),419/30);
+ assert.equal(huntStage(5),'Side-to-side bill sweep');assert.equal(huntStage(10.8),'Mouth capture');assert.equal(state(14).capture,1);
+});
+
+test('Stromatolites adds an eighth Sunlight unit with deep paired readings, four sourced stages and seven written questions',async()=>{
+ const {stromatoliteLesson:lesson,stromatoliteSteps,stromatoliteSources}=await import('../shared/stromatolites-content.mjs');
+ const {findLibraryLesson}=await import('../shared/library-content.mjs');
+ const {lessonChapterLabel}=await import('../shared/chapter-structure.mjs');
+ assert.equal(lessonChapterLabel('stromatolites'),'Chapter 2- The Sunlight Zone · Unit 8');assert.equal(findLibraryLesson('stromatolites').unit,35);
+ assert.equal(findLibraryLesson('swordfish').unit,34);assert.equal(findLibraryLesson('stromatolites').subjectId,'extensions');
+ assert.ok(words(lesson.intro)>=500);assert.ok(words(lesson.dive)>=2000);assert.ok(words(lesson.dive)>3*words(lesson.intro));
+ assert.deepEqual(teachingGuides.stromatolites,lesson.guide);assert.equal(quizBank.stromatolites.length,7);
+ assert.ok(quizBank.stromatolites.every(q=>q.kind==='written'&&!q.options));
+ assert.deepEqual(stromatoliteSteps.map(s=>s.title),['Microbial mat','Sediment trapping','Mineral precipitation','Layered growth']);
+ for(const step of stromatoliteSteps){assert.ok(step.detail.length>100);assert.ok(stromatoliteSources[step.source]);}
+ for(const section of [...lesson.intro.sections,...lesson.dive.sections])for(const source of section.sources)assert.ok(stromatoliteSources[source],source);
+ const text=lesson.dive.sections.flatMap(s=>s.paragraphs).join(' ');
+ for(const concept of ['3.5 billion','living fossils','EPS','precipitation','cooperation','compete','Hamelin Pool'])assert.ok(text.includes(concept),concept);
+ await access(new URL('../public'+lesson.diagram.image,import.meta.url));
 });

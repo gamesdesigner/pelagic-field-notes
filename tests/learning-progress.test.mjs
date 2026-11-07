@@ -476,3 +476,20 @@ test('Swordfish quiz drafts resume, finish idempotently, and reach the owner wit
  const report=(await (await students(get('/api/students?student=Student%20Reader',owner))).json()).progress;
  assert.equal(report.quizzes.swordfish.latestScore,7);assert.equal(report.quizzes.swordfish.attempts,1);assert.ok(report.lessons.swordfish.completedAt);assert.deepEqual(report.lessons.turtle,before.lessons.turtle);
 });
+
+test('Stromatolites quiz drafts resume, finish idempotently, and reach the owner without replacing earlier Sunlight Zone progress',async()=>{
+ const {progress,student,owner,students,store}=await setup();
+ await progress(post('/api/progress',{action:'lesson',lessonId:'turtle',readingLevel:1,completed:true},student));
+ const before=(await (await progress(get('/api/progress',student))).json()).progress;
+ await progress(post('/api/progress',{action:'lesson',lessonId:'stromatolites',readingLevel:2},student));
+ const state={attemptId:randomUUID(),revision:1,index:2,selection:answers('stromatolites')[2],submitted:false,answers:answers('stromatolites').slice(0,2)};
+ assert.equal((await progress(post('/api/progress',{action:'quiz-draft',lessonId:'stromatolites',previousAttemptId:null,state},student))).status,200);
+ const fresh=createLearningHandler({store});
+ const restored=(await (await fresh(get('/api/progress',student))).json()).progress;
+ assert.equal(restored.quizSessions.stromatolites.index,2);assert.equal(restored.quizSessions.stromatolites.selection,answers('stromatolites')[2]);
+ const body={action:'quiz-draft',lessonId:'stromatolites',previousAttemptId:null,state:{...state,revision:2,index:7,selection:'',answers:answers('stromatolites')}};
+ assert.equal((await fresh(post('/api/progress',body,student))).status,200);assert.equal((await fresh(post('/api/progress',body,student))).status,200);
+ await fresh(post('/api/progress',{action:'lesson',lessonId:'stromatolites',readingLevel:2,completed:true},student));
+ const report=(await (await students(get('/api/students?student=Student%20Reader',owner))).json()).progress;
+ assert.equal(report.quizzes.stromatolites.latestScore,7);assert.equal(report.quizzes.stromatolites.attempts,1);assert.ok(report.lessons.stromatolites.completedAt);assert.deepEqual(report.lessons.turtle,before.lessons.turtle);
+});

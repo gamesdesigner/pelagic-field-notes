@@ -1,0 +1,14 @@
+.strom-formation{margin:2.5rem 0;padding:clamp(1.2rem,3vw,2.75rem);border:1px solid #a5bbb5;border-radius:12px;background:#f6f5ec;color:#153e46}
+.strom-formation header{max-width:760px}.strom-formation h2{font-size:clamp(1.75rem,3vw,2.6rem);margin:.4rem 0 1rem}.strom-formation p{line-height:1.7}
+.strom-controls{display:flex;gap:1rem;align-items:center;flex-wrap:wrap;margin:1.5rem 0}.strom-controls button{border:1px solid #2f6467;background:#fffdf7;color:#153e46;border-radius:5px;padding:.65rem 1rem;font:inherit;cursor:pointer}.strom-controls span{font-size:.85rem;color:#506b6e}
+.strom-stages{display:grid;grid-template-columns:1fr 24px 1fr 24px 1fr 24px 1fr;align-items:center;gap:.45rem}
+.strom-stage{align-self:stretch;display:flex;flex-direction:column;padding:0;overflow:hidden;text-align:left;border:2px solid #b7c7bf;border-radius:8px;background:#fffdf7;color:inherit;font:inherit;cursor:pointer}
+.strom-stage[aria-pressed=true]{border-color:#176266;box-shadow:0 0 0 2px #17626622}.strom-stage:focus-visible,.strom-controls button:focus-visible{outline:3px solid #b57837;outline-offset:4px}
+.strom-scene{display:block;background-image:url('/assets/stromatolites/formation-atlas-v1.webp');background-size:200% 200%;background-repeat:no-repeat;aspect-ratio:1.5;width:100%}
+.strom-scene-0{background-position:0 0}.strom-scene-1{background-position:100% 0}.strom-scene-2{background-position:0 100%}.strom-scene-3{background-position:100% 100%}
+.strom-stage-text{display:grid;grid-template-columns:auto 1fr;gap:.3rem .45rem;padding:.8rem}.strom-stage-text>span:last-child{grid-column:1/-1;font-size:.85rem;line-height:1.55}.strom-number{color:#8b632c;font-weight:700}
+.strom-arrow{font-size:1.5rem;text-align:center;color:#537e80}.strom-pulsing .strom-arrow{animation:strom-arrow-color 3.6s ease-in-out infinite}.strom-pulsing .strom-arrow-1{animation-delay:.8s}.strom-pulsing .strom-arrow-2{animation-delay:1.6s}
+@keyframes strom-arrow-color{0%,100%{color:#537e80}50%{color:#bb7836}}
+.strom-detail{display:grid;grid-template-columns:minmax(200px,1fr) 1.3fr;gap:clamp(1rem,3vw,2rem);align-items:center;margin-top:2rem;border-top:1px solid #bdc9c0;padding-top:2rem}.strom-detail-scene{border-radius:8px;border:1px solid #b9c7bd}.strom-detail h3{font-size:1.6rem;margin:.35rem 0}.strom-detail a{font-size:.85rem;line-height:1.6;color:#236468}.strom-note{font-size:.85rem;color:#536b6c;margin:1.7rem 0 0}
+@media(max-width:800px){.strom-stages{grid-template-columns:1fr;gap:.7rem}.strom-stage{display:grid;grid-template-columns:40% 1fr;align-items:center}.strom-arrow{transform:rotate(90deg);font-size:1.7rem;line-height:1}.strom-detail{grid-template-columns:1fr}.strom-detail-scene{max-width:550px}}
+@media(prefers-reduced-motion:reduce){.strom-pulsing .strom-arrow{animation:none}}

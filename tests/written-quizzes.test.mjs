@@ -102,7 +102,7 @@ const courseVariants={
  schooling:['A school.','It is harder to track one fish.','A tight ball of fish.','Dark on top and light on the belly.','Vibrations.','Neighbors respond to each other.','Schools attract predators and fish compete for food.'],
 };
 test('all quizzes use written rubrics, retain their totals, and accept existing correct answers',()=>{
- const totals={swordfish:7,southernStingray:7,shortTailStingray:7,clearnoseSkate:7,bluespottedRibbontail:7,blueRingedOctopus:7,whales:7,blueWhale:7,spermWhale:7,oarfish:7,giantTubeworm:7,yetiCrab:7,hydrothermalVents:7,anglerfish:7,coelacanth:7,giantPhantom:7,rays:7,mantaRay:7,midnightLife:7,giantIsopod:7,blackDragonfish:7,pelicanEel:7,lanternfish:7,barreleye:7,hatchetfish:7,bioluminescence:7,verticalMigration:7,octopus:7,humboldt:7,nautilus:7,hydroids:7,whaleShark:7,hammerhead:7,leopardShark:7,mako:7,kelp:7,seaIce:7,narwhal:7,beluga:7,walrus:7,sharks:7,corals:7,cnidaria:7,anemones:7,cephalopods:7,upwelling:15,coriolis:6,sunlight:6,turtle:6,conveyor:7,enso:7,shark:7,cuttlefish:7,twilightGeneral:7,twilight:7,plankton:7,schooling:7,penguin:7,orca:7,lionsmane:7};
+ const totals={stromatolites:7,swordfish:7,southernStingray:7,shortTailStingray:7,clearnoseSkate:7,bluespottedRibbontail:7,blueRingedOctopus:7,whales:7,blueWhale:7,spermWhale:7,oarfish:7,giantTubeworm:7,yetiCrab:7,hydrothermalVents:7,anglerfish:7,coelacanth:7,giantPhantom:7,rays:7,mantaRay:7,midnightLife:7,giantIsopod:7,blackDragonfish:7,pelicanEel:7,lanternfish:7,barreleye:7,hatchetfish:7,bioluminescence:7,verticalMigration:7,octopus:7,humboldt:7,nautilus:7,hydroids:7,whaleShark:7,hammerhead:7,leopardShark:7,mako:7,kelp:7,seaIce:7,narwhal:7,beluga:7,walrus:7,sharks:7,corals:7,cnidaria:7,anemones:7,cephalopods:7,upwelling:15,coriolis:6,sunlight:6,turtle:6,conveyor:7,enso:7,shark:7,cuttlefish:7,twilightGeneral:7,twilight:7,plankton:7,schooling:7,penguin:7,orca:7,lionsmane:7};
  assert.deepEqual(Object.keys(quizBank).sort(),Object.keys(totals).sort());
  for(const [id,questions] of Object.entries(quizBank)){
   assert.equal(questions.length,totals[id]);
@@ -255,4 +255,11 @@ test('Swordfish quiz accepts concise answers and rejects reversed feeding, light
  const wrong=['A shark.','It always spears them.','Plants only.','Its eyes produce light.','Deeper at night.','An enormous adult.','Lungs.'];
  for(const [i,answer] of correct.entries())assert.equal(answerIsCorrect(quizBank.swordfish[i],answer),true,answer);
  for(const [i,answer] of wrong.entries())assert.equal(answerIsCorrect(quizBank.swordfish[i],answer),false,answer);
+});
+
+
+test('Stromatolite answers accept brief concepts without confusing organisms, age units, or unchanged ancient cells',()=>{
+ const examples=[['Microbes.','Microbial communities.'],['3.5 billion years.','3500 million years.'],['Cyanobacteria.','Blue-green bacteria.'],['Sticky slime.','EPS.'],['Calcium carbonate.','Calcite.'],['No.','No, it describes similar processes.'],['Shark Bay.','Hamelin Pool.']];
+ for(const [index,answers] of examples.entries())for(const answer of answers)assert.equal(answerIsCorrect(quizBank.stromatolites[index],answer),true,answer);
+ for(const [index,answer] of [[0,'One animal.'],[1,'3.5 million years.'],[2,'Fish.'],[3,'Teeth.'],[4,'Plastic.'],[5,'Yes.'],[6,'Greenland.']])assert.equal(answerIsCorrect(quizBank.stromatolites[index],answer),false,answer);
 });
