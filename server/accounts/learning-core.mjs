@@ -2,17 +2,18 @@ import {createHash} from 'node:crypto';
 import {readSessionUser,response} from './auth-core.mjs';
 import {lessonTitles,quizBank,answerIsCorrect} from '../../shared/learning-content.mjs';
 import {validQuizSession} from '../../shared/quiz-attempts.mjs';
+import {lessonChangeNeedsSave} from '../../shared/progress-saving.mjs';
 const owns=(object,key)=>Object.prototype.hasOwnProperty.call(object,key);
 export const learningKey=accountKey=>'learning/'+createHash('sha256').update(accountKey).digest('hex');
 export const emptyLearning=()=>({lessons:{},quizzes:{}});
 export function learningView(value){
- return {...(value?.quizSessions?{quizSessions:value.quizSessions}:{}),lessons:value?.lessons||{},quizzes:Object.fromEntries(Object.entries(value?.quizzes||{}).map(([id,{recentAttemptIds,...quiz}])=>[id,quiz]))};
+ return {...(value?.quizSessions?{quizSessions:value.quizSessions}:{}),lessons:value?.lessons||{},quizzes:Object.fromEntries(Object.entries(value?.quizzes||{}).map(([id,{recentAttemptIds,...quiz}])=>{void recentAttemptIds;return[id,quiz];}))};
 }
-export async function readLearning(store,key){return learningView((await store.read(learningKey(key)))?.value);}
+export async function readLearning(store,key){return learningView((await store.read(learningKey(key),{requireVersion:false}))?.value);}
 export function learningSummary(value){return{started:Object.keys(value.lessons).length,completed:Object.values(value.lessons).filter(lesson=>lesson.completedAt).length,quizCount:Object.keys(value.quizzes).length,totalLessons:Object.keys(lessonTitles).length};}
 export function createLearningHandler({store,now=()=>Date.now()}){return async req=>{
  try{
-  const account=await readSessionUser(req,store,now);if(!account)return response({error:'Please sign in to save your progress.'},401);
+  const account=await readSessionUser(req,store,now,{includeOwner:false});if(!account)return response({error:'Please sign in to save your progress.'},401);
   const key=learningKey(account.key);
   if(req.method==='GET')return response({progress:await readLearning(store,account.key)});
   if(req.method!=='POST')return response({error:'Method not allowed.'},405);
@@ -40,6 +41,7 @@ export function createLearningHandler({store,now=()=>Date.now()}){return async r
   }
   for(let attempt=0;attempt<10;attempt++){
    const current=await store.read(key);const value=current?.value||emptyLearning();const timestamp=now();const lesson=value.lessons[body.lessonId];
+   if(!lessonChangeNeedsSave(lesson,body,timestamp))return response({progress:learningView(value)});
    const updated={...value,lessons:{...value.lessons},quizzes:{...value.quizzes}};
    if(body.action==='lesson')updated.lessons[body.lessonId]={...lesson,startedAt:lesson?.startedAt||timestamp,lastVisitedAt:timestamp,readingLevel:body.readingLevel||lesson?.readingLevel||1,...(body.completed?{completedAt:lesson?.completedAt||timestamp}:{})};
    else{
@@ -58,7 +60,7 @@ export function createLearningHandler({store,now=()=>Date.now()}){return async r
     if(!lesson)updated.lessons[body.lessonId]={startedAt:timestamp,lastVisitedAt:timestamp,readingLevel:1};
    }
    // Recheck the session before committing: paused/revoked accounts cannot save.
-   if(!await readSessionUser(req,store,now))return response({error:'Please sign in again to save progress.'},401);
+   if(!await readSessionUser(req,store,now,{includeOwner:false}))return response({error:'Please sign in again to save progress.'},401);
    if(await store.write(key,updated,current?.etag))return response({progress:learningView(updated)});
   }
   // Metadata only: make persistent storage conflicts diagnosable without logging

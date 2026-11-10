@@ -36,14 +36,14 @@ export async function findSignInAccount(store,name){
  if((reserved&&reserved.value.accountKey!==key)||(legacy&&key!=='users/'+input))return null;
  return {...row,key};
 }
-export async function isOwner(store,key,record){const owner=await store.read('settings/owner');return !!owner&&(owner.value.accountKey?owner.value.accountKey===key:normalizeUsername(owner.value.username)===normalizeUsername(record.username));}
-export async function readSessionUser(req,store,now=()=>Date.now()){
+export async function isOwner(store,key,record){const owner=await store.read('settings/owner',{requireVersion:false});return !!owner&&(owner.value.accountKey?owner.value.accountKey===key:normalizeUsername(owner.value.username)===normalizeUsername(record.username));}
+export async function readSessionUser(req,store,now=()=>Date.now(),{includeOwner=true,requireVersion=false}={}){
  const token=cookieValue(req);if(!token||!/^[a-f0-9]{64}$/.test(token))return null;
- const sessionKey='sessions/'+digest(token);const session=await store.read(sessionKey);if(!session)return null;
+ const sessionKey='sessions/'+digest(token);const session=await store.read(sessionKey,{requireVersion:false});if(!session)return null;
  const key=session.value.accountKey||'users/'+session.value.username;
- const row=await store.read(key);
+ const row=await store.read(key,{requireVersion});
  if(session.value.expires<=now()||!row||row.value.disabled||(row.value.sessionVersion||0)!==(session.value.sessionVersion||0)){await store.remove(sessionKey);return null;}
- return {user:publicUser(row.value,await isOwner(store,key,row.value)),record:row.value,etag:row.etag,key};
+ return {user:publicUser(row.value,includeOwner&&await isOwner(store,key,row.value)),record:row.value,etag:row.etag,key};
 }
 // Names are reserved permanently to the stable account key. An old username can
 // never be used to take over a renamed account or its earlier sessions.
@@ -90,7 +90,7 @@ export function createAuthHandler({store,now=()=>Date.now(),clientIP=()=> 'local
    if(!await rateLimit(req))return response({error:'Too many attempts. Please try again in 15 minutes.'},429);
    if(body.action==='update-account'){
     phase='account-update';
-    const account=await readSessionUser(req,store,now);if(!account)return response({error:'Please sign in again.'},401);
+    const account=await readSessionUser(req,store,now,{requireVersion:true});if(!account)return response({error:'Please sign in again.'},401);
     if(!validPassword(body.currentPassword)||!await passwordMatches(body.currentPassword,account.record))return response({error:'Your current password is incorrect.'},401);
     const changingName=body.newUsername!==undefined;const changingPassword=body.newPassword!==undefined;
     if(!changingName&&!changingPassword)return response({error:'Enter a new username or password.'},400);

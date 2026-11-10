@@ -11,7 +11,7 @@ export function configuredBlobAuth(environment=process.env){
 export function vercelAccountStore({client=vercelBlob,auth=configuredBlobAuth(),prefix='marine-accounts/v1/'+(process.env.VERCEL_ENV==='production'?'production':'preview')+'/'}={}) {
   const path=key=>prefix+key+'.json';
   return {
-    async read(key) {
+    async read(key,{requireVersion=true}={}) {
       for(let attempt=0;attempt<3;attempt++){
         let blob;
         try{blob=await client.get(path(key),{...auth,access:'private',useCache:false,headers:{'Accept-Encoding':'identity'}});}catch(error){
@@ -24,7 +24,11 @@ export function vercelAccountStore({client=vercelBlob,auth=configuredBlobAuth(),
           throw error;
         }
         if(!blob)return null;
-        const value=await new Response(blob.stream).json();let etag=blob.blob.etag;
+        const value=await new Response(blob.stream).json();
+        // Read-only callers need fresh values, but no write validator. Omitting
+        // the validator also prevents accidental writes using a weak ETag.
+        if(!requireVersion)return {value,etag:undefined};
+        let etag=blob.blob.etag;
         // A delivery proxy may weaken the HTTP validator. Never pass that weak
         // tag to ifMatch or strip it and assume it is an authoritative version.
         // Confirm the same version through Blob's metadata API. If an overwrite

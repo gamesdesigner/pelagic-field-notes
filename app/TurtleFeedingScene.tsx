@@ -246,7 +246,7 @@ export default function TurtleFeedingScene({ foodId, seasonId, temperature, noFo
   }, [foodId,seasonId,temperature,noFood]);
 
   return <>
-    {unavailable ? <img className="feeding-3d-fallback" src="/assets/turtles/green-turtle-grazing.png" alt="Green sea turtle grazing in a seagrass meadow" /> : <canvas ref={canvas} className="feeding-animation-canvas" aria-hidden="true" />}
+    {unavailable ? <img className="feeding-3d-fallback" src="/assets/turtles/green-turtle-grazing-v1.webp" alt="Green sea turtle grazing in a seagrass meadow" /> : <canvas ref={canvas} className="feeding-animation-canvas" aria-hidden="true" />}
     {stillFrame && <img className="feeding-frame-preview" src={stillFrame} alt="Still frame of the animated green sea turtle" />}
     <div className="feeding-stage-control"><span ref={stage}>{unavailable ? "Illustration preview" : "Approach & settle"}</span>{!unavailable && !noFood && <button type="button" onClick={()=>{setStillFrame("");setPlaying(value=>!value);}}>{playing?"Pause feeding loop":"Play feeding loop"}</button>}{!unavailable && <button type="button" onClick={()=>{if(stillFrame){setStillFrame("");return;}if(canvas.current){setStillFrame(canvas.current.toDataURL("image/png"));setPlaying(false);}}}>{stillFrame?"Close still frame":"View still frame"}</button>}</div>
     <div className="feeding-timeline"><span>{noFood?"Resting · no food available":unavailable?"Static illustration":"20-second illustrated feeding loop"}</span><i><b ref={timeline} style={{animation:"none",transform:"scaleX(0)"}} /></i></div>

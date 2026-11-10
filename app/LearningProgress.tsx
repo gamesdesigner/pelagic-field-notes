@@ -1,6 +1,7 @@
 "use client";
 import {createContext,useCallback,useContext,useEffect,useRef,useState,type ReactNode} from 'react';
 import {lessonTitles,quizBank} from '../shared/learning-content.mjs';
+import {lessonChangeNeedsSave} from '../shared/progress-saving.mjs';
 import type {LessonId} from './deepDives';
 export type LessonProgress={startedAt:number;lastVisitedAt:number;readingLevel:1|2;completedAt?:number};
 export type QuizProgress={latestScore:number;bestScore:number;total:number;attempts:number;lastAttemptAt:number};
@@ -13,18 +14,22 @@ export const useLearning=()=>useContext(LearningContext);
 export function LearningProvider({identity,children}:{identity:string;children:ReactNode}){
  const [data,setData]=useState<LearningData>(empty);const [ready,setReady]=useState(false);const [error,setError]=useState('');const [reloadIndex,setReloadIndex]=useState(0);
  const epoch=useRef(0);const mutation=useRef(0);const queue=useRef<Promise<unknown>>(Promise.resolve());
+ const confirmed=useRef<LearningData>(empty());
  useEffect(()=>{
-  const generation=++epoch.current;const controller=new AbortController();const version=mutation.current;setReady(false);setError('');
-  fetch('/api/progress',{signal:controller.signal}).then(async r=>{const result=await r.json();if(!r.ok)throw Error(result.error||'Could not load saved progress.');if(epoch.current===generation&&mutation.current===version){setData(result.progress);setReady(true);}}).catch(e=>{if(!controller.signal.aborted&&epoch.current===generation&&mutation.current===version)setError(e instanceof Error?e.message:'Could not load saved progress.');});
+  const generation=++epoch.current;const controller=new AbortController();const version=mutation.current;confirmed.current=empty();
+  fetch('/api/progress',{signal:controller.signal}).then(async r=>{const result=await r.json();if(!r.ok)throw Error(result.error||'Could not load saved progress.');if(epoch.current===generation&&mutation.current===version){confirmed.current=result.progress;setData(result.progress);setReady(true);}}).catch(e=>{if(!controller.signal.aborted&&epoch.current===generation&&mutation.current===version)setError(e instanceof Error?e.message:'Could not load saved progress.');});
   return()=>{controller.abort();epoch.current++;};
  },[identity,reloadIndex]);
- const reload=useCallback(()=>setReloadIndex(value=>value+1),[]);
+ const reload=useCallback(()=>{setReady(false);setError('');setReloadIndex(value=>value+1);},[]);
  const save=useCallback((change:Change)=>{
   const generation=epoch.current;mutation.current++;
   const operation=queue.current.catch(()=>{}).then(async()=>{
    if(epoch.current!==generation)throw Error('Your sign-in changed. Please try again.');
+   // Check inside the queue, after earlier saves have updated confirmed state.
+   // This also suppresses duplicate lesson-open effects without a request.
+   if(!lessonChangeNeedsSave(confirmed.current.lessons[change.lessonId],change))return confirmed.current;
    const r=await fetch('/api/progress',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(change),keepalive:true});const result=await r.json();if(!r.ok)throw Error(result.error||'Progress could not be saved.');
-   if(epoch.current===generation){setData(result.progress);setReady(true);setError('');}
+   if(epoch.current===generation){confirmed.current=result.progress;setData(result.progress);setReady(true);setError('');}
    return result.progress as LearningData;
   });queue.current=operation;return operation;
  },[]);

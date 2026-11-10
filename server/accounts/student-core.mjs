@@ -11,7 +11,7 @@ export function createStudentHandler({store,now=()=>Date.now()}){return async re
    const target=url.searchParams.get('student');
    if(target!==null){const student=await findAccount(store,target);if(!student||student.key===account.key)return response({error:'Student account was not found.'},404);return response({student:studentView(student.value),progress:await readLearning(store,student.key)});}
    const keys=(await store.list('users/')).filter(key=>key!==account.key);
-   const rows=(await Promise.all(keys.map(async key=>{const row=await store.read(key);return row?{...row.value,accountKey:key}:null;}))).filter(Boolean).filter(user=>normalizeUsername(user.username).startsWith(search)&&normalizeUsername(user.username)>after).sort((a,b)=>normalizeUsername(a.username)<normalizeUsername(b.username)?-1:1);
+   const rows=(await Promise.all(keys.map(async key=>{const row=await store.read(key,{requireVersion:false});return row?{...row.value,accountKey:key}:null;}))).filter(Boolean).filter(user=>normalizeUsername(user.username).startsWith(search)&&normalizeUsername(user.username)>after).sort((a,b)=>normalizeUsername(a.username)<normalizeUsername(b.username)?-1:1);
    return response({students:await Promise.all(rows.slice(0,50).map(async user=>({...studentView(user),learning:learningSummary(await readLearning(store,user.accountKey))}))),nextCursor:rows.length>50?normalizeUsername(rows[49].username):null});
   }
   if(req.method!=='POST')return response({error:'Method not allowed.'},405);

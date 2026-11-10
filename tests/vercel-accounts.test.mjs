@@ -116,6 +116,18 @@ test('weak delivery validators use a matching authoritative Blob version for con
  client.put=async(key,value,options)=>basePut(key,value,{...options,...(options.ifMatch?{ifMatch:options.ifMatch.replaceAll('"','')}:{})});
  await exerciseStore(vercelAccountStore({client,prefix:'test/'}));
 });
+
+test('fresh read-only Blob lookups avoid metadata while writes still require authoritative validators',async()=>{
+ let reads=0,heads=0;
+ const store=vercelAccountStore({client:{
+  async get(key,options){assert.equal(options.useCache,false);reads++;return{stream:new Response('{"fresh":true}').body,blob:{etag:'W/"v1"'}};},
+  async head(){heads++;return{etag:'"v1"'};},
+ }});
+ assert.deepEqual(await store.read('sessions/fixture',{requireVersion:false}),{value:{fresh:true},etag:undefined});
+ assert.equal(reads,1);assert.equal(heads,0);
+ assert.deepEqual(await store.read('learning/fixture'),{value:{fresh:true},etag:'"v1"'});
+ assert.equal(reads,2);assert.equal(heads,1);
+});
 test('a version change between weak-body and metadata reads refetches instead of pairing stale data with a new tag',async()=>{
  let reads=0;
  const store=vercelAccountStore({prefix:'test/',client:{

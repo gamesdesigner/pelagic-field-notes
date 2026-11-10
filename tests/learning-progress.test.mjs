@@ -7,11 +7,48 @@ import {provisionOwner} from '../server/accounts/provision-owner.mjs';
 import {createLearningHandler,learningKey} from '../server/accounts/learning-core.mjs';
 import {lessonTitles,quizBank} from '../shared/learning-content.mjs';
 import {quizCheckpoint,restoreQuizSession} from '../shared/quiz-attempts.mjs';
+import {LESSON_VISIT_INTERVAL,lessonChangeNeedsSave} from '../shared/progress-saving.mjs';
+import {readSessionUser} from '../server/accounts/auth-core.mjs';
 const origin='https://marinebiology-learn.vercel.app';
 const get=(path,cookie)=>new Request(origin+path,{headers:cookie?{Cookie:cookie}:{}});
 const post=(path,body,cookie,site=origin)=>new Request(origin+path,{method:'POST',headers:{Origin:site,'Content-Type':'application/json',...(cookie?{Cookie:cookie}:{})},body:JSON.stringify(body)});
 const cookie=r=>r.headers.get('set-cookie').split(';')[0];
 const answers=id=>quizBank[id].map(question=>typeof question.answer==='number'?question.options[question.answer]:question.answer);
+
+test('repeated lesson visits skip writes while reading levels, completion and next-day visits still save',async()=>{
+ const {store,student}=await setup();let time=Date.now();const handler=createLearningHandler({store,now:()=>time});
+ let writes=0;const write=store.write.bind(store);store.write=async(...args)=>{if(args[0].startsWith('learning/'))writes++;return write(...args);};
+ const visit={action:'lesson',lessonId:'shark',readingLevel:1};
+ const send=body=>handler(post('/api/progress',body,student));
+ const first=await send(visit);assert.equal(first.status,200);const initial=(await first.json()).progress;
+ for(let i=0;i<10;i++)assert.deepEqual((await (await send(visit)).json()).progress,initial);
+ assert.equal(writes,1);assert.equal(lessonChangeNeedsSave(initial.lessons.shark,visit,time),false);
+ await send({...visit,readingLevel:2});assert.equal(writes,2);
+ await send({...visit,readingLevel:2,completed:true});assert.equal(writes,3);
+ await send({...visit,readingLevel:2,completed:true});assert.equal(writes,3);
+ time+=LESSON_VISIT_INTERVAL;
+ const next=await send({...visit,readingLevel:2});assert.equal(next.status,200);assert.equal(writes,4);
+ const saved=(await next.json()).progress.lessons.shark;
+ assert.ok(saved.completedAt);assert.equal(saved.startedAt,initial.lessons.shark.startedAt);assert.equal(saved.lastVisitedAt,time);
+ assert.equal(lessonChangeNeedsSave(saved,{action:'quiz-draft'},time),true);
+});
+
+test('lean progress checks use five fresh record reads and still reject a pause during a save',async()=>{
+ const {store,student,progress}=await setup();
+ const account=await readSessionUser(get('/api/progress',student),store);
+ const read=store.read.bind(store);const write=store.write.bind(store);const reads=[];
+ store.read=async(key,options)=>{reads.push(key);return read(key,options);};
+ const result=await progress(post('/api/progress',{action:'quiz',lessonId:'enso',attemptId:randomUUID(),answers:answers('enso')},student));
+ assert.equal(result.status,200);assert.equal(reads.length,5);assert.equal(reads.includes('settings/owner'),false);
+ let paused=false;
+ store.read=async(key,options)=>{
+  if(!paused&&key.startsWith('learning/')){paused=true;const row=await read(account.key);await write(account.key,{...row.value,disabled:true},row.etag);}
+  return read(key,options);
+ };
+ const blocked=await progress(post('/api/progress',{action:'quiz',lessonId:'enso',attemptId:randomUUID(),answers:answers('enso')},student));
+ assert.equal(blocked.status,401);
+ assert.equal((await read(learningKey(account.key))).value.quizzes.enso.attempts,1);
+});
 
 test('retry checkpoints include checked answers and exclude the next unfinished answer',()=>{
  const attemptId=randomUUID();

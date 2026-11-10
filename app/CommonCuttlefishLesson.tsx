@@ -35,7 +35,7 @@ export function CommonCuttlefishArt() {
 export default function CommonCuttlefishLesson() {
   return <>
     <figure className="great-white-hero cuttlefish-hero" aria-label="Illustration of a common cuttlefish above a sandy sea floor">
-      <img className="sunlight-animal-hero-image" src="/assets/sunlight/common-cuttlefish.png" alt="Common cuttlefish with mottled brown camouflage and a W-shaped pupil hovering above a sandy seabed" />
+      <img className="sunlight-animal-hero-image" src="/assets/sunlight/common-cuttlefish-v1.webp" alt="Common cuttlefish with mottled brown camouflage and a W-shaped pupil hovering above a sandy seabed" />
       <figcaption><span>Featured cephalopod</span><strong>Common Cuttlefish</strong><em>Sepia officinalis</em></figcaption>
     </figure>
     <LessonReading lessonId="cuttlefish" />
