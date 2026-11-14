@@ -5,6 +5,8 @@ const no='no|nope|false';
 const uncertain='not necessarily|not always|not proven';
 const yes='yes|yep|true';
 export const shortAnswerRubrics={
+ bobbitWorm:['bristle worm|segmented worm','below the seabed|in a hole','ambush|surprise attack','jaws|mouth','back into its hole|below the seabed','water jets|water','trace fossil'],
+ bigfinSquid:['magnapinna','big fins|fins','ten|10','filaments|threads','elbow',uncertain+'|unknown|not known|not fully known','deep ocean|deep sea|deep water'],
  stromatolites:['microbes|microbial mats','about three point five billion years|3.5 billion years ago','cyanobacteria|blue green microbes','sticky slime|microbial glue','calcium carbonate|carbonate minerals',no,'hamelin pool|shark bay'],
  kelp:['brown seaweed','holdfast|rootlike holdfast','making food with sunlight|photosynthesis','gas bubbles|gas filled floats','coast of california|new zealand','sea urchins','ocean warming|too many urchins'],
  seaIce:['frozen seawater','concentrated saltwater','sun energy','tiny copepods|krill','polar cod','a breathing hole|oxygen from air','a place to rest|shelter from predators'],

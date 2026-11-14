@@ -12,6 +12,33 @@ import {completionSources} from '../shared/completion/sources.mjs';
 import {access,readFile} from 'node:fs/promises';
 
 const words=article=>article.sections.flatMap(section=>section.paragraphs).join(' ').split(/\s+/).length;
+test('Bobbit worm and bigfin squid are distinct complete units with the requested media',async()=>{
+ const {ambushBigfinLessons:lessons}=await import('../shared/ambush-and-bigfin/content.mjs');
+ const {ambushBigfinUnits:units}=await import('../shared/ambush-and-bigfin/units.mjs');
+ const {ambushBigfinSources:sources}=await import('../shared/ambush-and-bigfin/sources.mjs');
+ const {findLibraryLesson}=await import('../shared/library-content.mjs');
+ const {chapterForLesson}=await import('../shared/chapter-structure.mjs');
+ for(const [i,unit] of units.entries()){
+  const lesson=lessons[unit.id];
+  assert.equal(findLibraryLesson(unit.id).unit,36+i);
+  assert.equal(chapterForLesson(unit.id).id,i===0?'sunlight':'cephalopods');
+  assert.ok(words(lesson.intro)>=500);assert.ok(words(lesson.dive)>=2000);
+  assert.ok(words(lesson.dive)>3*words(lesson.intro));
+  assert.deepEqual(teachingGuides[unit.id],lesson.guide);
+  assert.deepEqual(introductoryArticles[unit.id].sections,lesson.intro.sections.map(({heading,paragraphs})=>({heading,paragraphs})));
+  assert.equal(quizBank[unit.id].length,7);
+  for(const section of [...lesson.intro.sections,...lesson.dive.sections])for(const source of section.sources)assert.ok(sources[source]);
+  for(const source of lesson.guide.sources)assert.ok(sources[source]);
+  await access(new URL('../public'+unit.image,import.meta.url));
+ }
+ const media=await readFile(new URL('../app/CreatureStudyMedia.tsx',import.meta.url),'utf8');
+ assert.match(media,/bobbit\?<video/);assert.match(media,/preload="none"/);
+ assert.doesNotMatch(media,/bigfin-squid[^'"\n]*\.(mp4|gif)|autoPlay/);
+ const still=await readFile(new URL('../public'+units[1].image,import.meta.url));
+ assert.equal(still.toString('ascii',0,4),'RIFF');assert.doesNotMatch(still.toString('ascii'),/ANIM/);
+ const captions=await readFile(new URL('../public/assets/ambush-and-bigfin/bobbit-worm-strike-v1.vtt',import.meta.url),'utf8');
+ assert.match(captions,/00:04.000/);
+});
 test('four additional Rays units and a blue-ringed octopus unit retain full readings, diagrams, and precise risk teaching',async()=>{
  const {rayExtraUnits}=await import('../shared/rays-extra/units.mjs');
  const {rayExtraLessons}=await import('../shared/rays-extra/content.mjs');
@@ -46,7 +73,7 @@ test('original Midnight Zone additions retain four complete units while later ch
  const {midnightUnits}=await import('../shared/midnight/units.mjs');
  const {chapters,chapterForLesson,cephalopodsChapterTitle,sharksChapterTitle}=await import('../shared/chapter-structure.mjs');
  const {findLibraryLesson,libraryGroups}=await import('../shared/library-content.mjs');
- assert.equal(chapters.length,10);assert.equal(libraryGroups.flatMap(c=>c.lessons).length,65);
+ assert.equal(chapters.length,10);assert.equal(libraryGroups.flatMap(c=>c.lessons).length,67);
  assert.equal(chapters[4].title,'Chapter 5- Midnight Zone');
  assert.deepEqual(chapters[4].lessonIds.slice(0,4),['midnightLife','giantIsopod','blackDragonfish','pelicanEel']);
  assert.equal(cephalopodsChapterTitle,'Chapter 6- Cephalopods');assert.equal(sharksChapterTitle,'Chapter 8- Sharks');
@@ -72,7 +99,7 @@ test('original Midnight Zone additions retain four complete units while later ch
 test('thirteen earlier additions retain distinct readings, diagrams, and stable destinations',async()=>{
  assert.equal(completionUnits.length,13);assert.equal(Object.keys(completionLessons).length,13);
  const {libraryGroups,findLibraryLesson}=await import('../shared/library-content.mjs');
- assert.equal(Object.keys(lessonTitles).length,64);assert.equal(Object.keys(quizBank).length,61);
+ assert.equal(Object.keys(lessonTitles).length,66);assert.equal(Object.keys(quizBank).length,63);
  assert.ok(libraryGroups.filter(chapter=>!['sunlight','midnightZone','cnidaria','cephalopods','rays','whales'].includes(chapter.id)).every(chapter=>chapter.lessons.length===6));
  const images=new Set(),headings=new Set();
  for(const [index,unit] of completionUnits.entries()){
@@ -159,9 +186,9 @@ test('cephalopods introduces the group before cuttlefish with two substantial le
  assert.equal(chapter.title,'Chapter 6- Cephalopods');
  const cephIndex=chapter.lessons.findIndex(unit=>unit.id==='cephalopods');
  assert.equal(chapter.lessons[cephIndex+1].id,'cuttlefish');
- assert.equal(chapter.lessons.length,7);
+ assert.equal(chapter.lessons.length,8);
  assert.equal(chapter.lessons[cephIndex].topic,6);
- assert.deepEqual(chapter.lessons.map(unit=>unit.id),['cephalopods','cuttlefish','octopus','humboldt','nautilus','twilight','blueRingedOctopus']);
+ assert.deepEqual(chapter.lessons.map(unit=>unit.id),['cephalopods','cuttlefish','octopus','humboldt','nautilus','twilight','blueRingedOctopus','bigfinSquid']);
  assert.ok(words(cephalopodIntro)>=500);
  assert.ok(words(cephalopodDive)>=2000);
  assert.ok(words(cephalopodDive)>3*words(cephalopodIntro));
@@ -259,7 +286,7 @@ test('kelp and four Arctic units have substantial levels, sourced numbered diagr
  const {ecologyLessons,ecologySources}=await import('../shared/ecology-content.mjs');
  const {libraryGroups,findLibraryLesson}=await import('../shared/library-content.mjs');
  const {lessonChapterLabel}=await import('../shared/chapter-structure.mjs');
- assert.equal(libraryGroups[1].lessons.length,8);assert.equal(libraryGroups[2].lessons.length,6);
+ assert.equal(libraryGroups[1].lessons.length,9);assert.equal(libraryGroups[2].lessons.length,6);
  assert.deepEqual(libraryGroups[2].lessons.map(l=>l.id),['seaIce','orca','narwhal','beluga','walrus','penguin']);
  assert.equal(findLibraryLesson('kelp').topic,10);
  assert.equal(lessonChapterLabel('kelp'),'Chapter 2- The Sunlight Zone · Unit 6');
@@ -317,8 +344,8 @@ test('Whales chapter and six Midnight additions have substantial sourced reading
  const {ecologySources}=await import('../shared/ecology-sources.mjs');
  const {chapters,chapterForLesson}=await import('../shared/chapter-structure.mjs');
  const {libraryGroups,findLibraryLesson}=await import('../shared/library-content.mjs');
- assert.equal(chapters.length,10);assert.equal(libraryGroups.flatMap(c=>c.lessons).length,65);
- assert.equal(Object.keys(lessonTitles).length,64);assert.equal(Object.keys(quizBank).length,61);
+ assert.equal(chapters.length,10);assert.equal(libraryGroups.flatMap(c=>c.lessons).length,67);
+ assert.equal(Object.keys(lessonTitles).length,66);assert.equal(Object.keys(quizBank).length,63);
  assert.equal(chapters.at(-1).title,'Chapter 10- Whales');assert.deepEqual(chapters.at(-1).lessonIds,['whales','blueWhale','spermWhale']);
  assert.deepEqual(chapters[4].lessonIds,['midnightLife','giantIsopod','blackDragonfish','pelicanEel','oarfish','giantTubeworm','yetiCrab','hydrothermalVents','anglerfish','coelacanth']);
  for(const [index,unit] of whaleDeepUnits.entries()){
@@ -362,7 +389,7 @@ test('Swordfish is a complete seventh Sunlight Zone unit with evidence-aware die
  const {swordfishSources}=await import('../shared/swordfish/sources.mjs');
  const {findLibraryLesson,libraryGroups}=await import('../shared/library-content.mjs');
  const {HUNT_PREVIEW_COUNT,HUNT_DURATION,HUNT_FPS,huntFramePath}=await import('../shared/swordfish/continuous-hunt.mjs');
- assert.deepEqual(libraryGroups.find(c=>c.id==='sunlight').lessons.map(l=>l.id),['sunlight','corals','turtle','plankton','schooling','kelp','swordfish','stromatolites']);
+ assert.deepEqual(libraryGroups.find(c=>c.id==='sunlight').lessons.map(l=>l.id),['sunlight','corals','turtle','plankton','schooling','kelp','swordfish','stromatolites','bobbitWorm']);
  assert.equal(findLibraryLesson('swordfish').unit,34);assert.equal(findLibraryLesson('swordfish').subjectId,'extensions');
  assert.ok(words(lesson.intro)>=500);assert.ok(words(lesson.dive)>3*words(lesson.intro));
  assert.equal(quizBank.swordfish.length,7);assert.ok(quizBank.swordfish.every(q=>q.kind==='written'&&!q.options));

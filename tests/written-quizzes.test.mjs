@@ -2,6 +2,8 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {quizBank,answerIsCorrect,upwellingQuestions} from '../shared/learning-content.mjs';
 const variants={
+ bobbitWorm:[['An annelid.','Bristle worm.'],['Under the sand.','In a hole.'],['Surprise attack.','Ambushing.'],['Its mouth.','Jaws.'],['Back into its hole.','Under the sand.'],['Water.','Jets.'],['Trace fossils.','A trace fossil.']],
+ bigfinSquid:[['Magnapinna.'],['Fins.','The big fins.'],['10.','Ten.'],['Threads.','Filaments.'],['An elbow.'],['Unknown.','Not fully known.'],['Deep water.','Midnight zone.']],
  penguin:[
   ['The South Pole.','They live in Antarctica, not the Arctic.','Not the Arctic. Antarctica.','ANTÁRCTICA!'],
   ['Their modified wings.','Flippers propel them, while feet help steer.','It uses its flippers.'],
@@ -102,7 +104,7 @@ const courseVariants={
  schooling:['A school.','It is harder to track one fish.','A tight ball of fish.','Dark on top and light on the belly.','Vibrations.','Neighbors respond to each other.','Schools attract predators and fish compete for food.'],
 };
 test('all quizzes use written rubrics, retain their totals, and accept existing correct answers',()=>{
- const totals={stromatolites:7,swordfish:7,southernStingray:7,shortTailStingray:7,clearnoseSkate:7,bluespottedRibbontail:7,blueRingedOctopus:7,whales:7,blueWhale:7,spermWhale:7,oarfish:7,giantTubeworm:7,yetiCrab:7,hydrothermalVents:7,anglerfish:7,coelacanth:7,giantPhantom:7,rays:7,mantaRay:7,midnightLife:7,giantIsopod:7,blackDragonfish:7,pelicanEel:7,lanternfish:7,barreleye:7,hatchetfish:7,bioluminescence:7,verticalMigration:7,octopus:7,humboldt:7,nautilus:7,hydroids:7,whaleShark:7,hammerhead:7,leopardShark:7,mako:7,kelp:7,seaIce:7,narwhal:7,beluga:7,walrus:7,sharks:7,corals:7,cnidaria:7,anemones:7,cephalopods:7,upwelling:15,coriolis:6,sunlight:6,turtle:6,conveyor:7,enso:7,shark:7,cuttlefish:7,twilightGeneral:7,twilight:7,plankton:7,schooling:7,penguin:7,orca:7,lionsmane:7};
+ const totals={bobbitWorm:7,bigfinSquid:7,stromatolites:7,swordfish:7,southernStingray:7,shortTailStingray:7,clearnoseSkate:7,bluespottedRibbontail:7,blueRingedOctopus:7,whales:7,blueWhale:7,spermWhale:7,oarfish:7,giantTubeworm:7,yetiCrab:7,hydrothermalVents:7,anglerfish:7,coelacanth:7,giantPhantom:7,rays:7,mantaRay:7,midnightLife:7,giantIsopod:7,blackDragonfish:7,pelicanEel:7,lanternfish:7,barreleye:7,hatchetfish:7,bioluminescence:7,verticalMigration:7,octopus:7,humboldt:7,nautilus:7,hydroids:7,whaleShark:7,hammerhead:7,leopardShark:7,mako:7,kelp:7,seaIce:7,narwhal:7,beluga:7,walrus:7,sharks:7,corals:7,cnidaria:7,anemones:7,cephalopods:7,upwelling:15,coriolis:6,sunlight:6,turtle:6,conveyor:7,enso:7,shark:7,cuttlefish:7,twilightGeneral:7,twilight:7,plankton:7,schooling:7,penguin:7,orca:7,lionsmane:7};
  assert.deepEqual(Object.keys(quizBank).sort(),Object.keys(totals).sort());
  for(const [id,questions] of Object.entries(quizBank)){
   assert.equal(questions.length,totals[id]);
@@ -272,7 +274,7 @@ test('Swordfish bill question accepts cutting and everyday injury words without 
 });
 
 
-test('all 61 quizzes have reviewed short-answer equivalents for every one of their 432 questions',async()=>{
+test('all 63 quizzes have reviewed short-answer equivalents for every one of their 446 questions',async()=>{
  const {shortAnswerRubrics}=await import('../shared/short-answer-rubrics.mjs');
  assert.deepEqual(Object.keys(shortAnswerRubrics).sort(),Object.keys(quizBank).sort());
  let count=0;
@@ -281,7 +283,7 @@ test('all 61 quizzes have reviewed short-answer equivalents for every one of the
   for(const [i,rule] of rules.entries())for(const phrase of rule.split('|'))assert.equal(answerIsCorrect(quizBank[id][i],phrase),true,`${id} ${i+1}: ${phrase}`);
   count+=rules.length;
  }
- assert.equal(count,432);
+ assert.equal(count,446);
 });
 
 test('brief answers across chapters can use context, synonyms, grammar variations and number words',()=>{

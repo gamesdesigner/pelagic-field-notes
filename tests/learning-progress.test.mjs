@@ -15,6 +15,30 @@ const post=(path,body,cookie,site=origin)=>new Request(origin+path,{method:'POST
 const cookie=r=>r.headers.get('set-cookie').split(';')[0];
 const answers=id=>quizBank[id].map(question=>typeof question.answer==='number'?question.options[question.answer]:question.answer);
 
+test('new worm and bigfin units restore checkpoints and report completions without changing older progress',async()=>{
+ const {progress,student,owner,students,store}=await setup();
+ await progress(post('/api/progress',{action:'lesson',lessonId:'turtle',readingLevel:2,completed:true},student));
+ const before=(await (await progress(get('/api/progress',student))).json()).progress;
+ for(const lessonId of ['bobbitWorm','bigfinSquid']){
+  await progress(post('/api/progress',{action:'lesson',lessonId,readingLevel:2,completed:true},student));
+  const state={attemptId:randomUUID(),revision:1,index:1,selection:'',submitted:false,answers:[answers(lessonId)[0]]};
+  const first=await progress(post('/api/progress',{action:'quiz-draft',lessonId,previousAttemptId:null,state},student));
+  assert.equal(first.status,200);
+  const fresh=createLearningHandler({store});
+  const restored=(await (await fresh(get('/api/progress',student))).json()).progress;
+  assert.equal(restored.quizSessions[lessonId].index,1);
+  assert.equal(restored.quizSessions[lessonId].answers[0],answers(lessonId)[0]);
+  const body={action:'quiz-draft',lessonId,previousAttemptId:null,state:{...state,revision:2,index:7,answers:answers(lessonId)}};
+  for(let i=0;i<2;i++)assert.equal((await fresh(post('/api/progress',body,student))).status,200);
+ }
+ const report=(await (await students(get('/api/students?student=Student%20Reader',owner))).json()).progress;
+ assert.deepEqual(report.lessons.turtle,before.lessons.turtle);
+ for(const id of ['bobbitWorm','bigfinSquid']){
+  assert.equal(report.quizzes[id].latestScore,7);assert.equal(report.quizzes[id].attempts,1);
+  assert.equal(report.lessons[id].readingLevel,2);assert.ok(report.lessons[id].completedAt);
+ }
+});
+
 test('repeated lesson visits skip writes while reading levels, completion and next-day visits still save',async()=>{
  const {store,student}=await setup();let time=Date.now();const handler=createLearningHandler({store,now:()=>time});
  let writes=0;const write=store.write.bind(store);store.write=async(...args)=>{if(args[0].startsWith('learning/'))writes++;return write(...args);};
@@ -582,7 +606,7 @@ test('all quiz banks grade reviewed short answers on the server and preserve the
  }
  const restored=(await (await createLearningHandler({store})(get('/api/progress',student))).json()).progress;
  const report=(await (await students(get('/api/students?student=Student%20Reader',owner))).json()).progress;
- assert.equal(Object.keys(restored.quizzes).length,61);
+ assert.equal(Object.keys(restored.quizzes).length,63);
  for(const [id,qs] of Object.entries(quizBank)){assert.equal(report.quizzes[id].latestScore,qs.length,id);assert.equal(restored.quizzes[id].bestScore,qs.length,id);}
 });
 

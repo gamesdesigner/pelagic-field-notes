@@ -1,3 +1,4 @@
+import {ambushBigfinUnits} from './ambush-and-bigfin/units.mjs';
 import {stromatoliteUnits} from './stromatolites-content.mjs';
 import {swordfishUnits} from './swordfish/content.mjs';
 import {rayExtraUnits} from './rays-extra/units.mjs';
@@ -12,6 +13,7 @@ export {sunlightChapterTitle,polarChapterTitle};
 export const contactEmail = 'anomalocaris.m@gmail.com';
 // Renderer destinations stay stable independently of chapter membership.
 const lessons = [
+    ...ambushBigfinUnits,
     ...completionUnits,
     ...midnightUnits,
     ...rayUnits,
@@ -48,11 +50,11 @@ const chapterDetails={
  rays:{label:'Ray diversity, feeding & defenses',overview:'Compare mantas, southern and short-tail stingrays, clearnose skates, and bluespotted ribbontail rays through feeding, habitats, reproduction, and accurate explanations of defensive spines.'},
  sharks:{label:'Diversity, anatomy & ecology',overview:'Begin with shark biology, then compare great whites, whale sharks, scalloped hammerheads, leopard sharks, and shortfin makos.'},
  currents:{label:'Moving water',overview:'Discover how wind, Earth’s rotation, and water density connect the oceans and influence climate.'},
- sunlight:{label:'0–200 metres',overview:'Explore the bright surface ocean: habitats, coral reefs, grazing turtles, microscopic producers, fish defences, kelp forests, swordfish hunting, and ancient microbial stromatolites.'},
+ sunlight:{label:'0–200 metres',overview:'Explore the bright surface ocean: habitats, coral reefs, grazing turtles, microscopic producers, fish defences, kelp forests, swordfish hunting, ancient microbial stromatolites, and hidden Bobbit worms.'},
  polar:{label:'Sea ice, northern mammals & Antarctic comparison',overview:'Begin beneath Arctic sea ice, then study orcas, narwhals, belugas, and walruses before an Antarctic penguin comparison.'},
  depths:{label:'200–1,000 metres',overview:'Meet lanternfish, barreleyes, and marine hatchetfish, then investigate living light and daily journeys between depths.'},
  midnightZone:{label:'1,000–4,000 metres',overview:'Explore deep-water animals and vent communities: isopods, dragonfish, pelican eels, tubeworms, yeti crabs, vents, and anglerfish. Compare oarfish and coelacanths from mainly shallower habitats.'},
- cephalopods:{label:'Octopuses, squids, cuttlefish & nautiluses',overview:'Compare cuttlefish, giant Pacific octopuses, Humboldt squid, nautiluses, vampire squid, and blue-ringed octopuses through body plans, camouflage, feeding, and venom.'},
+ cephalopods:{label:'Octopuses, squids, cuttlefish & nautiluses',overview:'Compare cuttlefish, giant Pacific octopuses, Humboldt squid, nautiluses, vampire squid, blue-ringed octopuses, and bigfin squid through body plans, camouflage, feeding, and venom.'},
  cnidaria:{label:'Anemones, hydroids & jellyfish',overview:'Connect shared stinging cells with anemones, lion’s mane jellies, giant siphonophores, moon jellies, attached hydroid colonies, and the giant phantom jellyfish.'},
 };
 /** @typedef {{id:string,title:string,summary:string,image:string,tag:string,kind?:string,subjectId:string,topic?:number,unit?:number}} LibraryLesson */

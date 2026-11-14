@@ -283,6 +283,7 @@ export const planktonQuestions = [
 ];
 
 export const lessonTitles = {
+ bobbitWorm:'Bobbit Worm',bigfinSquid:'Bigfin Squid',
  stromatolites:'Stromatolites',
  swordfish:'Swordfish',
  southernStingray:'Southern Stingray',shortTailStingray:'Short-tail Stingray',clearnoseSkate:'Clearnose Skate',bluespottedRibbontail:'Bluespotted Ribbontail Ray',blueRingedOctopus:'Blue-ringed Octopuses',

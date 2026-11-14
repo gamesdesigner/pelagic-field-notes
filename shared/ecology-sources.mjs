@@ -1,3 +1,4 @@
+import {ambushBigfinSources} from './ambush-and-bigfin/sources.mjs';
 import {stromatoliteSources} from './stromatolites-content.mjs';
 import {swordfishSources} from './swordfish/sources.mjs';
 import {rayExtraSources} from './rays-extra/sources.mjs';
@@ -6,6 +7,7 @@ import {raySources} from './rays/sources.mjs';
 import {completionSources} from './completion/sources.mjs';
 import {midnightSources} from './midnight/sources.mjs';
 export const ecologySources={
+ ...ambushBigfinSources,
  ...stromatoliteSources,
  ...swordfishSources,
  ...rayExtraSources,

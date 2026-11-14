@@ -1,0 +1,11 @@
+.creature-study-media{margin:3rem 0;padding:clamp(1rem,3vw,2.5rem);border:1px solid #799496;border-radius:1rem;background:#e5eeea;color:#173f46}
+.creature-study-media header{max-width:54rem;margin-bottom:1.5rem}
+.creature-study-media h2{font-size:clamp(1.7rem,3vw,2.7rem);line-height:1.15;margin:.5rem 0 1rem}
+.creature-study-media p,.creature-study-media li{line-height:1.75}
+.creature-study-media figure{margin:0}
+.creature-study-media video,.creature-study-media img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:contain;background:#071c25;border-radius:.6rem}
+.creature-study-media figcaption{font-size:.9rem;line-height:1.65;margin:.85rem 0 1.5rem;color:#3e6065}
+.creature-study-media a:focus-visible{outline:3px solid #c75d44;outline-offset:5px}
+.creature-study-observations{max-width:58rem;border-top:1px solid #99afad;padding-top:1rem}
+.creature-study-observations h3{margin:.5rem 0}
+.creature-study-observations ol,.creature-study-observations ul{padding-left:1.5rem}

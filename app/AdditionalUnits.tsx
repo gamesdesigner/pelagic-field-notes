@@ -1,4 +1,6 @@
 "use client";
+import {ambushBigfinUnits} from '../shared/ambush-and-bigfin/units.mjs';
+import CreatureStudyMedia from './CreatureStudyMedia';
 import './ray-labs.css';
 import {stromatoliteUnits} from '../shared/stromatolites-content.mjs';
 import StromatoliteFormation from './StromatoliteFormation';
@@ -18,7 +20,7 @@ import {midnightUnits} from '../shared/midnight/units.mjs';
 import {chapterForLesson,lessonChapterLabel} from '../shared/chapter-structure.mjs';
 import {libraryGroups} from '../shared/library-content.mjs';
 import type {LibrarySelection} from './CourseLibrary';
-const additionalUnits=[...completionUnits,...midnightUnits,...rayUnits,...whaleDeepUnits,...rayExtraUnits,...swordfishUnits,...stromatoliteUnits];
+const additionalUnits=[...completionUnits,...midnightUnits,...rayUnits,...whaleDeepUnits,...rayExtraUnits,...swordfishUnits,...stromatoliteUnits,...ambushBigfinUnits];
 
 export default function AdditionalUnits({initialUnit,onBack,onOpen}:{initialUnit:number|null;onBack:()=>void;onOpen:(selection:LibrarySelection)=>void}){
  const item=additionalUnits[initialUnit??0];
@@ -28,7 +30,7 @@ export default function AdditionalUnits({initialUnit,onBack,onOpen}:{initialUnit
  const next=nextId?libraryGroups.flatMap(group=>group.lessons).find(unit=>unit.id===nextId):undefined;
  return <section className="polar-lesson" aria-labelledby="additional-unit-title">
   <header className="polar-lesson-header"><button type="button" className="back-button" onClick={onBack}>← Main page</button><p className="eyebrow">{lessonChapterLabel(item.id)} · {item.tag}</p><h1 id="additional-unit-title">{item.title}</h1><p className="scientific">{item.scientific}</p><p className="polar-deck">{item.summary}</p></header>
-  <EcologyLesson lessonId={item.id as EcologyLessonId} showDiagram={item.id!=='stromatolites'}>{item.id==='stromatolites'&&<StromatoliteFormation/>}{item.id==='swordfish'&&<SwordfishHunt/>}{item.id==='giantPhantom'&&<PhantomSizeComparison/>}{item.id==='mantaRay'&&<MantaMouthLab/>}{item.id==='whales'&&<WhaleFieldGuide/>}{item.id==='hydrothermalVents'&&<VentChemistry/>}</EcologyLesson>
+  <EcologyLesson lessonId={item.id as EcologyLessonId} showDiagram={!['stromatolites','bobbitWorm','bigfinSquid'].includes(item.id)}>{(item.id==='bobbitWorm'||item.id==='bigfinSquid')&&<CreatureStudyMedia lessonId={item.id}/>}{item.id==='stromatolites'&&<StromatoliteFormation/>}{item.id==='swordfish'&&<SwordfishHunt/>}{item.id==='giantPhantom'&&<PhantomSizeComparison/>}{item.id==='mantaRay'&&<MantaMouthLab/>}{item.id==='whales'&&<WhaleFieldGuide/>}{item.id==='hydrothermalVents'&&<VentChemistry/>}</EcologyLesson>
   <nav className="polar-unit-navigation" aria-label={`More ${chapter.name} lessons`}><button type="button" onClick={onBack}>Main page</button>{next&&<button type="button" onClick={()=>onOpen(next)}>Next: {next.title} →</button>}</nav>
  </section>;
 }
